@@ -11,20 +11,14 @@ Capabilities::~Capabilities() {
 	// Empty
 }
 
-core::Version Capabilities::getVersion() {
-	const GLubyte * glVersion = glGetString(GL_VERSION);
-	std::string glVersionStr = std::string((glVersion != NULL ? reinterpret_cast<const char *>(glVersion) : "INVALID"));
+core::Version Capabilities::getGLVersion() const {
+	const GLubyte * version = glGetString(GL_VERSION);
+	std::string versionStr = std::string((version != NULL ? reinterpret_cast<const char *>(version) : "INVALID"));
 
-	auto majorVersion = 0;
-	auto minorVersion = 0;
+	auto majorVersion = 0, minorVersion = 0;
+	sscanf(versionStr.c_str(), "%i.%i", &majorVersion, &minorVersion);
 
-	sscanf(glVersionStr.c_str(), "%d.%d", &majorVersion, &minorVersion);
-
-	const auto version = core::Version(
-		static_cast<u8_t>(majorVersion & 255), 
-		static_cast<u8_t>(minorVersion & 255));
-
-	return version;
+	return core::Version(majorVersion, minorVersion);
 }
 
 NAMESPACE_END(gapi)

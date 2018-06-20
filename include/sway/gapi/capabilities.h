@@ -33,7 +33,7 @@ public:
 	 * \brief
 	 *    Получает GL версию.
 	 */
-	core::Version getVersion();
+	core::Version getGLVersion() const;
 };
 
 NAMESPACE_END(gapi)
