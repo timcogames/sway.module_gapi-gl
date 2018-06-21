@@ -1,5 +1,4 @@
 #include <sway/gapi/extensions.h>
-#include <string.h> // strstr
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

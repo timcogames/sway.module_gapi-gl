@@ -1,12 +1,7 @@
 #ifndef SWAY_GAPI_CAPABILITIES_H
 #define SWAY_GAPI_CAPABILITIES_H
 
-#include <sway/core.h>
-
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
-#include <GL/glext.h>
+#include <sway/gapi/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -15,19 +10,17 @@ class Capabilities {
 public:
 	/*!
 	 * \brief
-	 *   Конструктор класса.
+	 *    Конструктор класса.
 	 *
-	 *   Выполняет инициализацию нового экземпляра класса.
+	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Capabilities();
+	Capabilities() = default;
 
 	/*!
 	 * \brief
-	 *   Деструктор класса.
-	 *
-	 *   Освобождает захваченные ресурсы.
+	 *    Деструктор класса.
 	 */
-	~Capabilities();
+	~Capabilities() = default;
 
 	/*!
 	 * \brief

@@ -2,12 +2,7 @@
 #define SWAY_GAPI_EXTENSIONS_H
 
 #include <sway/gapi/extensionsupport.h>
-#include <sway/core.h>
-
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
-#include <GL/glext.h>
+#include <sway/gapi/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

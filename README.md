@@ -1,4 +1,4 @@
-# sway.module_gapi-gl [![Discord](https://discordapp.com/api/guilds/402238411639095297/widget.png)](https://discord.gg/vCMcgwQ)
+# sway.module_gapi-gl
 
 [![Build Status](https://travis-ci.com/timcogames/sway.module_gapi-gl.svg?branch=master)](https://travis-ci.com/timcogames/sway.module_gapi-gl)
 [![codecov](https://codecov.io/gh/timcogames/sway.module_gapi-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/timcogames/sway.module_gapi-gl)
