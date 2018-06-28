@@ -7,8 +7,11 @@
 #include <string.h> // std::string, strstr
 #include <set> // std::set
 
+#include <boost/core/ignore_unused.hpp> // boost::ignore_unused
 #include <boost/make_unique.hpp> // boost::make_unique
 #include <boost/unordered_map.hpp> // boost::unordered_map
+#include <boost/function.hpp> // boost::function
+#include <boost/bind.hpp> // boost::bind
 
 #include <GL/gl.h>
 #include <GL/glx.h>

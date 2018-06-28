@@ -1,16 +1,14 @@
 # sway.module_gapi-gl
 
-[![Build Status](https://travis-ci.com/timcogames/sway.module_gapi-gl.svg?branch=master)](https://travis-ci.com/timcogames/sway.module_gapi-gl)
-[![codecov](https://codecov.io/gh/timcogames/sway.module_gapi-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/timcogames/sway.module_gapi-gl)
-[![Documentation](https://codedocs.xyz/timcogames/sway.module_gapi-gl.svg)](https://codedocs.xyz/timcogames/sway.module_gapi-gl/)
+[![Build Status][travis-svg]][travis-url] [![codecov][codecov-svg]][codecov-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
 
-### Клонирование проекта
+## Клонирование проекта
 
 ```console
 git clone --recursive https://github.com/timcogames/sway.module_gapi-gl.git
 ```
 
-### Сборка проекта
+## Сборка проекта
 
 Создаем директорию build и переходим в неё
 
@@ -35,3 +33,12 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 ```console
 cmake --build .
 ```
+
+[travis-svg]: https://travis-ci.com/timcogames/sway.module_gapi-gl.svg?branch=master
+[travis-url]: https://travis-ci.com/timcogames/sway.module_gapi-gl
+[codecov-svg]: https://codecov.io/gh/timcogames/sway.module_gapi-gl/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/timcogames/sway.module_gapi-gl
+[codedocs-svg]: https://codedocs.xyz/timcogames/sway.module_gapi-gl.svg
+[codedocs-url]: https://codedocs.xyz/timcogames/sway.module_gapi-gl/
+[license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg
+[license-url]: LICENSE
