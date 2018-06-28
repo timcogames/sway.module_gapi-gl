@@ -34,6 +34,10 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 cmake --build .
 ```
 
+## Contributing
+
+См. [CONTRIBUTING](./github/CONTRIBUTING.md)
+
 [travis-svg]: https://travis-ci.com/timcogames/sway.module_gapi-gl.svg?branch=master
 [travis-url]: https://travis-ci.com/timcogames/sway.module_gapi-gl
 [codecov-svg]: https://codecov.io/gh/timcogames/sway.module_gapi-gl/branch/master/graph/badge.svg
