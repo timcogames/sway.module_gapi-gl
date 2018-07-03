@@ -122,7 +122,7 @@ u32_t BufferObject::getTarget() const {
 	case GL_ARRAY_BUFFER_ARB: return kBufferTarget_Array;
 	case GL_ELEMENT_ARRAY_BUFFER_ARB: return kBufferTarget_ElementArray;
 	default:
-		return 0;
+		return kBufferTarget_None;
 	}
 }
 
@@ -136,7 +136,7 @@ u32_t BufferObject::getUsage() const {
 	case GL_DYNAMIC_DRAW_ARB: return kBufferUsage_Dynamic;
 	case GL_STREAM_DRAW_ARB: return kBufferUsage_Stream;
 	default:
-		return 0;
+		return kBufferUsage_None;
 	}
 }
 

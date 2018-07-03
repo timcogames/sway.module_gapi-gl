@@ -7,6 +7,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 enum BufferAccesses {
+	kBufferAccess_None,
 	kBufferAccess_Read,
 	kBufferAccess_Write,
 	kBufferAccess_ReadWrite

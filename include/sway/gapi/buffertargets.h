@@ -7,10 +7,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 enum BufferTargets {
-	kBufferTarget_Array        = 0x2CA1,
-	kBufferTarget_ElementArray = 0xE70D,
-	kBufferTarget_Uniform      = 0x6986,
-	kBufferTarget_Texture      = 0xC14B
+	kBufferTarget_None,
+	kBufferTarget_Array,
+	kBufferTarget_ElementArray,
+	kBufferTarget_Uniform,
+	kBufferTarget_Texture
 };
 
 NAMESPACE_END(gapi)

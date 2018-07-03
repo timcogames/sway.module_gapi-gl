@@ -7,9 +7,10 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 enum BufferUsages {
-	kBufferUsage_Static  = 0xA0E7,
-	kBufferUsage_Dynamic = 0xF1D8,
-	kBufferUsage_Stream  = 0x7F94
+	kBufferUsage_None,
+	kBufferUsage_Static,
+	kBufferUsage_Dynamic,
+	kBufferUsage_Stream
 };
 
 NAMESPACE_END(gapi)

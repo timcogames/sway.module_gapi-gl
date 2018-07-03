@@ -10,8 +10,8 @@ struct BufferDescription {
 	u32_t target;
 	u32_t usage;
 	s32_t byteStride;
-	s32_t capacity;   /*!< Количество элементов в массиве. */
-	u32_t datatype;   /*!< Тип данных. */
+	s32_t capacity; /*!< Количество элементов в массиве. */
+	u32_t datatype; /*!< Тип данных. */
 };
 
 struct BufferCreateInfo {

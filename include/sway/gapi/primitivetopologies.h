@@ -11,12 +11,13 @@ NAMESPACE_BEGIN(gapi)
  *    Перечисление базовых топологий примитивов (или типов примитивов).
  */
 enum PrimitiveTopologies {
-	kPrimitiveTopology_PointList     = 0xFE12,
-	kPrimitiveTopology_LineList      = 0xFDBE,
-	kPrimitiveTopology_LineStrip     = 0x6B83,
-	kPrimitiveTopology_TriangleList  = 0x7DD0, /*!< Список треугольников. */
-	kPrimitiveTopology_TriangleStrip = 0x9FAE,
-	kPrimitiveTopology_TriangleFan   = 0x3EAC
+	kPrimitiveTopology_None,
+	kPrimitiveTopology_PointList,
+	kPrimitiveTopology_LineList,
+	kPrimitiveTopology_LineStrip,
+	kPrimitiveTopology_TriangleList, /*!< Список треугольников. */
+	kPrimitiveTopology_TriangleStrip,
+	kPrimitiveTopology_TriangleFan
 };
 
 NAMESPACE_END(gapi)

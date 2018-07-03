@@ -1,9 +1,9 @@
-#include "bufferdrawcall.h"
-#include "primitivetopology.h"
-#include "typeutils.h"
+#include <sway/gapi/bufferdrawcall.h>
+#include <sway/gapi/primitivetopologies.h>
+#include <sway/gapi/typeutils.h>
 
 NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gl)
+NAMESPACE_BEGIN(gapi)
 
 GLenum BufferDrawCall::topologyToGLenum(u32_t topology) {
 	switch (topology) {
@@ -18,21 +18,13 @@ GLenum BufferDrawCall::topologyToGLenum(u32_t topology) {
 	}
 }
 
-BufferDrawCall::BufferDrawCall() {
-	// Empty
-}
-
-BufferDrawCall::~BufferDrawCall() {
-	// Empty
-}
-
 void BufferDrawCall::update(u32_t topology, s32_t count, u32_t dataType, bool indexed) {
 	if (indexed) {
 		_drawCallFunc = boost::bind(&BufferDrawCall::_drawIndexed, this, _1);
 
 		_drawElements.mode = BufferDrawCall::topologyToGLenum(topology);
 		_drawElements.count = count;
-		_drawElements.type = gl::TypeUtils::toGL(dataType);
+		_drawElements.type = TypeUtils::toGL(dataType);
 	}
 	else {
 		_drawCallFunc = boost::bind(&BufferDrawCall::_draw, this, _1);
@@ -43,22 +35,22 @@ void BufferDrawCall::update(u32_t topology, s32_t count, u32_t dataType, bool in
 	}
 }
 
-void BufferDrawCall::execute(BufferObject * indexBuffer) {
+void BufferDrawCall::execute(BufferObject * idxBuffer) {
 	if (_drawCallFunc)
-		_drawCallFunc(indexBuffer);
+		_drawCallFunc(idxBuffer);
 }
 
-void BufferDrawCall::_draw(BufferObject * indexBuffer) {
-	boost::ignore_unused(indexBuffer);
+void BufferDrawCall::_draw(BufferObject * idxBuffer) {
+	boost::ignore_unused(idxBuffer);
 	glDrawArrays(_drawArrays.mode, _drawArrays.first, _drawArrays.count);
 }
 
-void BufferDrawCall::_drawIndexed(BufferObject * indexBuffer) {
-	BOOST_ASSERT(indexBuffer);
+void BufferDrawCall::_drawIndexed(BufferObject * idxBuffer) {
+	BOOST_ASSERT(idxBuffer);
 
-	indexBuffer->bind();
+	idxBuffer->bind();
 	glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, NULL);
-	indexBuffer->unbind();
+	idxBuffer->unbind();
 }
 
 NAMESPACE_END(gapi)

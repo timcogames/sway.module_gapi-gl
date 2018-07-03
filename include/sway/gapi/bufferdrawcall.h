@@ -37,19 +37,17 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	BufferDrawCall();
+	BufferDrawCall() = default;
 
 	/*!
 	 * \brief
 	 *    Деструктор класса.
-	 *
-	 *    Освобождает захваченные ресурсы.
 	 */
-	~BufferDrawCall();
+	~BufferDrawCall() = default;
 
 	void update(u32_t topology, s32_t count, u32_t dataType, bool indexed);
 
-	void execute(BufferObject * indexBuffer);
+	void execute(BufferObject * idxBuffer);
 
 private:
 	/*!
@@ -59,7 +57,7 @@ private:
 	 * \sa
 	 *    _drawIndexed(BufferObject *)
 	 */
-	void _draw(BufferObject * indexBuffer);
+	void _draw(BufferObject * idxBuffer);
 
 	/*!
 	 * \brief
@@ -68,7 +66,7 @@ private:
 	 * \sa
 	 *    _draw(BufferObject *)
 	 */
-	void _drawIndexed(BufferObject * indexBuffer);
+	void _drawIndexed(BufferObject * idxBuffer);
 
 private:
 	boost::function<void (BufferObject *)> _drawCallFunc;
