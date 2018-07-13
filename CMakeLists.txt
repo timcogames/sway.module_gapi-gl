@@ -13,6 +13,7 @@ set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATC
 option(BUILD_SHARED "Build shared library" OFF)
 option(ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(ENABLE_TESTS "Enable test builds" OFF)
+option(ENABLE_EXAMPLES "Enable example builds" OFF)
 
 project(${META_PROJECT_NAME} C CXX)
 
@@ -76,4 +77,27 @@ else()
 	set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
 endif()
 
-target_link_libraries(${META_LIB_NAME} GL X11 Boost::system Boost::filesystem Boost::thread)
+target_link_libraries(${META_LIB_NAME} GL X11 ${Boost_LIBRARIES})
+
+if(ENABLE_EXAMPLES OR ENABLE_TESTS)
+	add_subdirectory(modules/sway.module_core)
+endif()
+
+# Добавляем построение примеров
+if(ENABLE_EXAMPLES)
+	message(STATUS "Examples have been enabled")
+
+	# Добавляем пути для поиска хедеров
+	include_directories(${CMAKE_SOURCE_DIR}/modules/sway.module_platform-glx11/include)
+	
+	add_subdirectory(modules/sway.module_platform-glx11)
+	add_subdirectory(examples)
+endif()
+
+# Добавляем построение тестов
+if(ENABLE_TESTS)
+	message(STATUS "Tests have been enabled")
+	
+	add_subdirectory(tests)
+endif()
+

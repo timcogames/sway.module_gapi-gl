@@ -12,7 +12,7 @@ GLenum ShaderObject::typeToGLenum(u32_t type) {
 	case kShaderType_Vertex: return GL_VERTEX_SHADER_ARB;
 	case kShaderType_Fragment: return GL_FRAGMENT_SHADER_ARB;
 	default:
-		return 0;
+		return GL_INVALID_INDEX;
 	}
 }
 

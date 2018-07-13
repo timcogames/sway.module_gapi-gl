@@ -10,9 +10,9 @@ NAMESPACE_BEGIN(gapi)
 
 /*!
  * \brief
- *   Представление аппаратного буфера.
+ *    Представление аппаратного буфера.
  */
-class BufferObject : public Resource {
+class BufferObject final : public Resource {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 

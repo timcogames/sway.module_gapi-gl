@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление шейдерной программы.
  */
-class ShaderProgram : public Resource {
+class ShaderProgram final : public Resource {
 public:
 	/*!
 	 * \brief

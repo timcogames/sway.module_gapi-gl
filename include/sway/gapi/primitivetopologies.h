@@ -1,7 +1,7 @@
 #ifndef SWAY_GAPI_PRIMITIVETOPOLOGIES_H
 #define SWAY_GAPI_PRIMITIVETOPOLOGIES_H
 
-#include <sway/core.h>
+#include <sway/namespacemacros.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

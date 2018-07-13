@@ -1,7 +1,7 @@
 #ifndef SWAY_GAPI_BUFFERACCESSES_H
 #define SWAY_GAPI_BUFFERACCESSES_H
 
-#include <sway/gapi/prereqs.h>
+#include <sway/namespacemacros.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

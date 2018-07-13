@@ -27,6 +27,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 `BUILD_SHARED_LIBS` | Сборка библиотеки общего пользования | `OFF`
 `ENABLE_COVERAGE` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
 `ENABLE_TESTS` | Включает построение тестов | `OFF`
+`ENABLE_EXAMPLES` | Включает построение примеров | `OFF`
 
 Запускаем сборку
 

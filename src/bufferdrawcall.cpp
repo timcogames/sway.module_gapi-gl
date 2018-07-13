@@ -18,13 +18,13 @@ GLenum BufferDrawCall::topologyToGLenum(u32_t topology) {
 	}
 }
 
-void BufferDrawCall::update(u32_t topology, s32_t count, u32_t dataType, bool indexed) {
+void BufferDrawCall::update(u32_t topology, s32_t count, Type_t type, bool indexed) {
 	if (indexed) {
 		_drawCallFunc = boost::bind(&BufferDrawCall::_drawIndexed, this, _1);
 
 		_drawElements.mode = BufferDrawCall::topologyToGLenum(topology);
 		_drawElements.count = count;
-		_drawElements.type = TypeUtils::toGL(dataType);
+		_drawElements.type = TypeUtils::toGL(type);
 	}
 	else {
 		_drawCallFunc = boost::bind(&BufferDrawCall::_draw, this, _1);
@@ -35,22 +35,22 @@ void BufferDrawCall::update(u32_t topology, s32_t count, u32_t dataType, bool in
 	}
 }
 
-void BufferDrawCall::execute(BufferObject * idxBuffer) {
+void BufferDrawCall::execute(BufferObject * ibo) {
 	if (_drawCallFunc)
-		_drawCallFunc(idxBuffer);
+		_drawCallFunc(ibo);
 }
 
-void BufferDrawCall::_draw(BufferObject * idxBuffer) {
-	boost::ignore_unused(idxBuffer);
+void BufferDrawCall::_draw(BufferObject * ibo) {
+	boost::ignore_unused(ibo);
 	glDrawArrays(_drawArrays.mode, _drawArrays.first, _drawArrays.count);
 }
 
-void BufferDrawCall::_drawIndexed(BufferObject * idxBuffer) {
-	BOOST_ASSERT(idxBuffer);
+void BufferDrawCall::_drawIndexed(BufferObject * ibo) {
+	BOOST_ASSERT(ibo);
 
-	idxBuffer->bind();
+	ibo->bind();
 	glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, NULL);
-	idxBuffer->unbind();
+	ibo->unbind();
 }
 
 NAMESPACE_END(gapi)

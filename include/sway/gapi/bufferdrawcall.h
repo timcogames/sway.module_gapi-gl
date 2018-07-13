@@ -45,9 +45,9 @@ public:
 	 */
 	~BufferDrawCall() = default;
 
-	void update(u32_t topology, s32_t count, u32_t dataType, bool indexed);
+	void update(u32_t topology, s32_t count, Type_t type, bool indexed);
 
-	void execute(BufferObject * idxBuffer);
+	void execute(BufferObject * ibo);
 
 private:
 	/*!
@@ -57,7 +57,7 @@ private:
 	 * \sa
 	 *    _drawIndexed(BufferObject *)
 	 */
-	void _draw(BufferObject * idxBuffer);
+	void _draw(BufferObject * ibo);
 
 	/*!
 	 * \brief
@@ -66,7 +66,7 @@ private:
 	 * \sa
 	 *    _draw(BufferObject *)
 	 */
-	void _drawIndexed(BufferObject * idxBuffer);
+	void _drawIndexed(BufferObject * ibo);
 
 private:
 	boost::function<void (BufferObject *)> _drawCallFunc;

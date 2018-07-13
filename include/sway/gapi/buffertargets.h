@@ -1,7 +1,7 @@
 #ifndef SWAY_GAPI_BUFFERTARGETS_H
 #define SWAY_GAPI_BUFFERTARGETS_H
 
-#include <sway/gapi/prereqs.h>
+#include <sway/namespacemacros.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

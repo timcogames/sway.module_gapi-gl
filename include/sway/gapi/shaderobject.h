@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление шейдерного объекта.
  */
-class ShaderObject : public Resource {
+class ShaderObject final : public Resource {
 public:
 #pragma region "Преобразование внутренних типов к GLenum или строке"
 

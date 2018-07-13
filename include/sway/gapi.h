@@ -12,10 +12,14 @@
 
 #include <sway/gapi/primitivetopologies.h>
 #include <sway/gapi/buffertargets.h>
-#include <sway/gapi/buffertaccesses.h>
+#include <sway/gapi/bufferaccesses.h>
 #include <sway/gapi/bufferusages.h>
 #include <sway/gapi/bufferdescription.h>
 #include <sway/gapi/bufferobject.h>
 #include <sway/gapi/bufferdrawcall.h>
+
+#include <sway/gapi/vertexsemantics.h>
+#include <sway/gapi/vertexattribute.h>
+#include <sway/gapi/vertexlayout.h>
 
 #endif // SWAY_GAPI_H
