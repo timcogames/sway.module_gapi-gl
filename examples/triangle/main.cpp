@@ -54,16 +54,16 @@ int main(int argc, char * argv[]) {
 	vboCreateInfo.description.usage = gapi::kBufferUsage_Static;
 	vboCreateInfo.description.byteStride = sizeof(math::VertexPosition);
 	vboCreateInfo.description.capacity = 3;
-	float verts[] = {
+	float vertices[] = {
 		-0.5f,-0.5f, 0.0f,
 		 0.5f,-0.5f, 0.0f,
 		 0.0f, 0.5f, 0.0f
 	};
-	vboCreateInfo.data = verts;
+	vboCreateInfo.data = vertices;
 
 	auto vbo = gapi::BufferObject::create(vboCreateInfo);
 	auto vlayout = boost::make_shared<gapi::VertexLayout>(shaderProgram.get());
-	vlayout->addAttribute(gapi::VertexSemantic_t::kPosition, Type_t::kFloat, 3);
+	vlayout->addAttribute<math::vec3f_t>(gapi::VertexSemantic_t::kPosition);
 
 	gapi::BufferDrawCall drawCall;
 

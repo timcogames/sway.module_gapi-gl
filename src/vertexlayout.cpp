@@ -15,26 +15,6 @@ VertexLayout::~VertexLayout() {
 	_attributes.clear();
 }
 
-void VertexLayout::addAttribute(VertexSemantic_t semantic, Type_t format, s32_t numComponents) {
-	std::string name = stringize(semantic);
-	s32_t location = Extensions::glGetAttribLocationARB(_program->getId(), name.c_str());
-
-	if (location >= 0 && location <= _maxVertexAttributes) {
-		VertexAttribute attrib;
-		attrib.location = location;
-		attrib.semantic = semantic;
-		attrib.format = format;
-		attrib.numComponents = numComponents;
-		attrib.stride = sizeof(f32_t) * numComponents;
-		attrib.offset = BUFFER_OFFSET(_attributeOffset);
-		attrib.normalized = false;
-		attrib.enabled = true;
-
-		_attributes.insert(std::make_pair(name, attrib));
-		_attributeOffset += attrib.stride;
-	}
-}
-
 void VertexLayout::enable() {
 	BOOST_FOREACH(VertexAttribute & attrib, _attributes | boost::adaptors::map_values) {
 		if (attrib.enabled) {

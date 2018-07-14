@@ -31,7 +31,8 @@ public:
 	 */
 	~VertexLayout();
 
-	void addAttribute(VertexSemantic_t semantic, Type_t format, s32_t numComponents);
+	template<typename TYPE>
+	void addAttribute(VertexSemantic_t semantic);
 
 	void enable();
 
@@ -58,5 +59,7 @@ private:
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
+
+#include <sway/gapi/vertexlayout.inl>
 
 #endif // SWAY_GAPI_VERTEXLAYOUT_H

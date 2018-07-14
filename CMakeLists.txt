@@ -6,7 +6,7 @@ set(META_PROJECT_NAME module_gapi_gl)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
 set(META_VERSION_MINOR 6)
-set(META_VERSION_PATCH 16)
+set(META_VERSION_PATCH 18)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -93,7 +93,7 @@ if(ENABLE_EXAMPLES)
 	include_directories(${CMAKE_SOURCE_DIR}/modules/sway.module_platform-glx11/include)
 	
 	add_subdirectory(modules/sway.module_platform-glx11)
-	add_subdirectory(examples)
+	add_subdirectory(examples/triangle)
 endif()
 
 # Добавляем построение тестов
