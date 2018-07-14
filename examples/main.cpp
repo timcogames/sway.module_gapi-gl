@@ -75,7 +75,7 @@ int main(int argc, char * argv[]) {
 		vbo->bind();
 		vlayout->enable();
 
-		drawCall.update(gapi::kPrimitiveTopology_TriangleList, 3, Type_t::kChar/*0*/, false);
+		drawCall.update(gapi::kPrimitiveTopology_TriangleList, 3, Type_t::kNone, false);
 		drawCall.execute(NULL);
 
 		vlayout->disable();

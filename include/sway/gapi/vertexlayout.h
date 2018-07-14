@@ -17,6 +17,9 @@ public:
 	 *    Конструктор класса.
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
+	 * 
+	 * \param[in] type
+	 *    Указатель на шейдерную программу.
 	 */
 	VertexLayout(ShaderProgram * program);
 
@@ -38,15 +41,19 @@ public:
 
 	VertexAttributeUmap_t getAttributes();
 
-	void setMaxVertexAttributes(int maxVertexAttributes);
+	void setMaxVertexAttributes(int value);
 
+	/*!
+	 * \brief
+	 *    Возвращает максимальное количество допустимых атрибутов.
+	 */
 	int getMaxVertexAttributes();
 
 private:
-	ShaderProgram * _program;
+	ShaderProgram * _program; /*!> Шейдерная программа. */
 	VertexAttributeUmap_t _attributes;
 	u32_t _attributeOffset;
-	int _maxVertexAttributes;
+	int _maxVertexAttributes; /*!< Максимальное количество атрибутов. */
 };
 
 NAMESPACE_END(gapi)

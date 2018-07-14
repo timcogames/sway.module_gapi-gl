@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_gapi_gl)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 4)
-set(META_VERSION_PATCH 13)
+set(META_VERSION_MINOR 6)
+set(META_VERSION_PATCH 16)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 
 # Опции сборки
@@ -80,7 +80,9 @@ endif()
 target_link_libraries(${META_LIB_NAME} GL X11 ${Boost_LIBRARIES})
 
 if(ENABLE_EXAMPLES OR ENABLE_TESTS)
-	add_subdirectory(modules/sway.module_core)
+	if(NOT TARGET libmodule_core)
+		add_subdirectory(modules/sway.module_core)
+	endif()
 endif()
 
 # Добавляем построение примеров
