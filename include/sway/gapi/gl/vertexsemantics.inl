@@ -1,4 +1,4 @@
-#include <sway/gapi/vertexsemantics.h>
+#include <sway/gapi/gl/vertexsemantics.h>
 
 template<typename Type = char, typename Traits = std::char_traits<Type>>
 inline std::basic_ostream<Type, Traits> & operator<<(std::basic_ostream<Type, Traits> & stream, sway::gapi::VertexSemantic_t value) {

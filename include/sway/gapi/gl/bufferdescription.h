@@ -1,7 +1,7 @@
-#ifndef SWAY_GAPI_BUFFERDESCRIPTION_H
-#define SWAY_GAPI_BUFFERDESCRIPTION_H
+#ifndef SWAY_GAPI_GL_BUFFERDESCRIPTION_H
+#define SWAY_GAPI_GL_BUFFERDESCRIPTION_H
 
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -22,4 +22,4 @@ struct BufferCreateInfo {
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_BUFFERDESCRIPTION_H
+#endif // SWAY_GAPI_GL_BUFFERDESCRIPTION_H

@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_VERTEXSEMANTICS_H
-#define SWAY_GAPI_VERTEXSEMANTICS_H
+#ifndef SWAY_GAPI_GL_VERTEXSEMANTICS_H
+#define SWAY_GAPI_GL_VERTEXSEMANTICS_H
 
 #include <sway/namespacemacros.h>
 
@@ -27,6 +27,6 @@ enum class VertexSemantic_t : u8_t {
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#include <sway/gapi/vertexsemantics.inl>
+#include <sway/gapi/gl/vertexsemantics.inl>
 
-#endif // SWAY_GAPI_VERTEXSEMANTICS_H
+#endif // SWAY_GAPI_GL_VERTEXSEMANTICS_H

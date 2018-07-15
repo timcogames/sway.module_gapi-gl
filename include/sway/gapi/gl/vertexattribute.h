@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_VERTEXATTRIBUTE_H
-#define SWAY_GAPI_VERTEXATTRIBUTE_H
+#ifndef SWAY_GAPI_GL_VERTEXATTRIBUTE_H
+#define SWAY_GAPI_GL_VERTEXATTRIBUTE_H
 
-#include <sway/gapi/vertexsemantics.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/vertexsemantics.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -21,4 +21,4 @@ struct VertexAttribute {
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_VERTEXATTRIBUTE_H
+#endif // SWAY_GAPI_GL_VERTEXATTRIBUTE_H

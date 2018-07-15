@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_BUFFERDRAWCALL_H
-#define SWAY_GAPI_BUFFERDRAWCALL_H
+#ifndef SWAY_GAPI_GL_BUFFERDRAWCALL_H
+#define SWAY_GAPI_GL_BUFFERDRAWCALL_H
 
-#include <sway/gapi/bufferobject.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/bufferobject.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -80,4 +80,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_BUFFERDRAWCALL_H
+#endif // SWAY_GAPI_GL_BUFFERDRAWCALL_H

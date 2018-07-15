@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_BUFFERTARGETS_H
-#define SWAY_GAPI_BUFFERTARGETS_H
+#ifndef SWAY_GAPI_GL_BUFFERTARGETS_H
+#define SWAY_GAPI_GL_BUFFERTARGETS_H
 
 #include <sway/namespacemacros.h>
 
@@ -17,4 +17,4 @@ enum BufferTargets {
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_BUFFERTARGETS_H
+#endif // SWAY_GAPI_GL_BUFFERTARGETS_H

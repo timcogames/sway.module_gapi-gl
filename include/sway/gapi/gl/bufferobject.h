@@ -1,9 +1,9 @@
-#ifndef SWAY_GAPI_BUFFEROBJECT_H
-#define SWAY_GAPI_BUFFEROBJECT_H
+#ifndef SWAY_GAPI_GL_BUFFEROBJECT_H
+#define SWAY_GAPI_GL_BUFFEROBJECT_H
 
-#include <sway/gapi/resource.h>
-#include <sway/gapi/bufferdescription.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/resource.h>
+#include <sway/gapi/gl/bufferdescription.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -199,4 +199,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_BUFFEROBJECT_H
+#endif // SWAY_GAPI_GL_BUFFEROBJECT_H

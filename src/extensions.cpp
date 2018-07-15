@@ -1,4 +1,4 @@
-#include <sway/gapi/extensions.h>
+#include <sway/gapi/gl/extensions.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

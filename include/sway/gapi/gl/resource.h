@@ -1,7 +1,7 @@
-#ifndef SWAY_GAPI_RESOURCE_H
-#define SWAY_GAPI_RESOURCE_H
+#ifndef SWAY_GAPI_GL_RESOURCE_H
+#define SWAY_GAPI_GL_RESOURCE_H
 
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -38,4 +38,4 @@ protected:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GL_RESOURCE_H
+#endif // SWAY_GAPI_GL_RESOURCE_H

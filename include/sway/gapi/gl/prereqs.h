@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_PREREQS_H
-#define SWAY_GAPI_PREREQS_H
+#ifndef SWAY_GAPI_GL_PREREQS_H
+#define SWAY_GAPI_GL_PREREQS_H
 
 #include <sway/core.h>
 #include <sway/math.h>
@@ -39,4 +39,4 @@ typedef boost::unordered_map<std::string, VertexAttribute> VertexAttributeUmap_t
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_PREREQS_H
+#endif // SWAY_GAPI_GL_PREREQS_H

@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_EXTENSIONS_H
-#define SWAY_GAPI_EXTENSIONS_H
+#ifndef SWAY_GAPI_GL_EXTENSIONS_H
+#define SWAY_GAPI_GL_EXTENSIONS_H
 
-#include <sway/gapi/extensionsupport.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/extensionsupport.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -51,4 +51,4 @@ public:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_EXTENSIONS_H
+#endif // SWAY_GAPI_GL_EXTENSIONS_H

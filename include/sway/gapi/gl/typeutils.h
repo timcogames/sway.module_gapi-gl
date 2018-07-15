@@ -1,7 +1,7 @@
-#ifndef SWAY_GAPI_TYPEUTILS_H
-#define SWAY_GAPI_TYPEUTILS_H
+#ifndef SWAY_GAPI_GL_TYPEUTILS_H
+#define SWAY_GAPI_GL_TYPEUTILS_H
 
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -27,4 +27,4 @@ public:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_TYPEUTILS_H
+#endif // SWAY_GAPI_GL_TYPEUTILS_H

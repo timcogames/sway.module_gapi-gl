@@ -2,8 +2,8 @@
 #include <sway/glx11/canvas.h>
 #include <sway/core.h>
 #include <sway/math.h>
-#include <sway/gapi/extensions.h>
-#include <sway/gapi.h>
+#include <sway/gapi/gl/extensions.h>
+#include <sway/gapi/gl.h>
 
 #include <boost/shared_ptr.hpp> // boost::shared_ptr
 #include <boost/make_shared.hpp> // boost::make_shared

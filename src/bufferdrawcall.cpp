@@ -1,6 +1,6 @@
-#include <sway/gapi/bufferdrawcall.h>
-#include <sway/gapi/primitivetopologies.h>
-#include <sway/gapi/typeutils.h>
+#include <sway/gapi/gl/bufferdrawcall.h>
+#include <sway/gapi/gl/primitivetopologies.h>
+#include <sway/gapi/gl/typeutils.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

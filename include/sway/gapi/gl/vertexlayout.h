@@ -1,11 +1,11 @@
-#ifndef SWAY_GAPI_VERTEXLAYOUT_H
-#define SWAY_GAPI_VERTEXLAYOUT_H
+#ifndef SWAY_GAPI_GL_VERTEXLAYOUT_H
+#define SWAY_GAPI_GL_VERTEXLAYOUT_H
 
-#include <sway/gapi/shaderprogram.h>
-#include <sway/gapi/vertexsemantics.h>
-#include <sway/gapi/vertexattribute.h>
-#include <sway/gapi/typeutils.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/shaderprogram.h>
+#include <sway/gapi/gl/vertexsemantics.h>
+#include <sway/gapi/gl/vertexattribute.h>
+#include <sway/gapi/gl/typeutils.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -60,6 +60,6 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#include <sway/gapi/vertexlayout.inl>
+#include <sway/gapi/gl/vertexlayout.inl>
 
-#endif // SWAY_GAPI_VERTEXLAYOUT_H
+#endif // SWAY_GAPI_GL_VERTEXLAYOUT_H

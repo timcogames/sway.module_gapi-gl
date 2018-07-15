@@ -1,8 +1,8 @@
-#include <sway/gapi/bufferobject.h>
-#include <sway/gapi/buffertargets.h>
-#include <sway/gapi/bufferusages.h>
-#include <sway/gapi/bufferaccesses.h>
-#include <sway/gapi/extensions.h>
+#include <sway/gapi/gl/bufferobject.h>
+#include <sway/gapi/gl/buffertargets.h>
+#include <sway/gapi/gl/bufferusages.h>
+#include <sway/gapi/gl/bufferaccesses.h>
+#include <sway/gapi/gl/extensions.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_SHADERUTILS_H
-#define SWAY_GAPI_SHADERUTILS_H
+#ifndef SWAY_GAPI_GL_SHADERUTILS_H
+#define SWAY_GAPI_GL_SHADERUTILS_H
 
-#include <sway/gapi/extensions.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/extensions.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -28,4 +28,4 @@ public:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_SHADERUTILS_H
+#endif // SWAY_GAPI_GL_SHADERUTILS_H

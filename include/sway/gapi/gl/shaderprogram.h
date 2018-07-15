@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_SHADERPROGRAM_H
-#define SWAY_GAPI_SHADERPROGRAM_H
+#ifndef SWAY_GAPI_GL_SHADERPROGRAM_H
+#define SWAY_GAPI_GL_SHADERPROGRAM_H
 
-#include <sway/gapi/shaderobject.h>
-#include <sway/gapi/prereqs.h>
+#include <sway/gapi/gl/shaderobject.h>
+#include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -96,4 +96,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_SHADERPROGRAM_H
+#endif // SWAY_GAPI_GL_SHADERPROGRAM_H

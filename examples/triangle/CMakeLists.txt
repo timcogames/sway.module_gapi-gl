@@ -1,5 +1,5 @@
 # Мета-информация о проекте
-set(META_PROJECT_NAME_EXAMPLES module_gapi_examples)
+set(META_PROJECT_NAME_EXAMPLES module_gapi_examples_triangle)
 set(META_LIB_NAME_EXAMPLES lib${META_PROJECT_NAME_EXAMPLES})
 
 project(${META_PROJECT_NAME_EXAMPLES} C CXX)

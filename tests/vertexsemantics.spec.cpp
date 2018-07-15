@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 #include <sway/core.h>
-#include <sway/gapi.h>
+#include <sway/gapi/gl.h>
 
 using namespace sway;
 

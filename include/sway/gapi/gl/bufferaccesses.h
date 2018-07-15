@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_BUFFERACCESSES_H
-#define SWAY_GAPI_BUFFERACCESSES_H
+#ifndef SWAY_GAPI_GL_BUFFERACCESSES_H
+#define SWAY_GAPI_GL_BUFFERACCESSES_H
 
 #include <sway/namespacemacros.h>
 
@@ -16,4 +16,4 @@ enum BufferAccesses {
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_BUFFERACCESSES_H
+#endif // SWAY_GAPI_GL_BUFFERACCESSES_H

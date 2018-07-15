@@ -1,4 +1,4 @@
-#include <sway/gapi/viewport.h>
+#include <sway/gapi/gl/viewport.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
