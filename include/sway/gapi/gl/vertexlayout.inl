@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 template<typename TYPE>
-inline void VertexLayout::addAttribute(VertexSemantic_t semantic) {
+inline void VertexLayout::addAttribute(VertexSemantic_t semantic, bool normalized, bool enabled) {
 	std::string name = stringize(semantic);
 	s32_t location = Extensions::glGetAttribLocationARB(_program->getId(), name.c_str());
 	
@@ -17,8 +17,8 @@ inline void VertexLayout::addAttribute(VertexSemantic_t semantic) {
 		attrib.numComponents = TYPE::size();
 		attrib.stride = sizeof(typename TYPE::rawtype_t) * TYPE::size();
 		attrib.offset = BUFFER_OFFSET(_attributeOffset);
-		attrib.normalized = false;
-		attrib.enabled = true;
+		attrib.normalized = normalized;
+		attrib.enabled = enabled;
 
 		_attributes.insert(std::make_pair(name, attrib));
 		_attributeOffset += attrib.stride;

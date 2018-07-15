@@ -63,7 +63,7 @@ int main(int argc, char * argv[]) {
 
 	auto vbo = gapi::BufferObject::create(vboCreateInfo);
 	auto vlayout = boost::make_shared<gapi::VertexLayout>(shaderProgram.get());
-	vlayout->addAttribute<math::vec3f_t>(gapi::VertexSemantic_t::kPosition);
+	vlayout->addAttribute<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true);
 
 	gapi::BufferDrawCall drawCall;
 

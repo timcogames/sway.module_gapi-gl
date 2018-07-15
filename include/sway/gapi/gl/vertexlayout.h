@@ -31,8 +31,12 @@ public:
 	 */
 	~VertexLayout();
 
+	/*!
+	 * \brief
+	 *    Добавляет вершинный атрибут.
+	 */
 	template<typename TYPE>
-	void addAttribute(VertexSemantic_t semantic);
+	void addAttribute(VertexSemantic_t semantic, bool normalized = false, bool enabled = true);
 
 	void enable();
 
