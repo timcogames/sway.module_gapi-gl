@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_GL_BUFFERDRAWCALL_H
-#define SWAY_GAPI_GL_BUFFERDRAWCALL_H
+#ifndef SWAY_GAPI_GL_DRAWCALL_H
+#define SWAY_GAPI_GL_DRAWCALL_H
 
 #include <sway/gapi/gl/bufferobject.h>
 #include <sway/gapi/gl/prereqs.h>
@@ -19,7 +19,7 @@ struct DrawArrays {
 	s32_t count;
 };
 
-class BufferDrawCall {
+class DrawCall : public IDrawCallBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -27,7 +27,7 @@ public:
 	 * \brief
 	 *    Переводит тип топологии (режим отображение примитива) в GL.
 	 */
-	static GLenum topologyToGLenum(u32_t topology);
+	static GLenum topologyToGLenum(PrimitiveType_t topology);
 
 #pragma endregion
 
@@ -37,17 +37,35 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	BufferDrawCall() = default;
+	DrawCall() {
+		// Empty
+	}
 
 	/*!
 	 * \brief
 	 *    Деструктор класса.
 	 */
-	~BufferDrawCall() = default;
+	virtual ~DrawCall() {
+		// Empty
+	}
 
-	void update(u32_t topology, s32_t count, Type_t type, bool indexed);
-
-	void execute(BufferObject * ibo);
+	/*!
+	 * \brief
+	 *    Выполняет отрисовку примитива.
+	 * 
+	 * \param[in] topology
+	 *    Топология примитива.
+	 * 
+	 * \param[in] count
+	 *    Количество отображаемых элементов.
+	 * 
+	 * \param[in] ibo
+	 *    Указатель на буфер индексов.
+	 * 
+	 * \param[in] type
+	 *    Тип значений в индексах.
+	 */
+	virtual void execute(PrimitiveType_t topology, s32_t count, IBufferBase * ibo, Type_t type);
 
 private:
 	/*!
@@ -80,4 +98,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_GL_BUFFERDRAWCALL_H
+#endif // SWAY_GAPI_GL_DRAWCALL_H

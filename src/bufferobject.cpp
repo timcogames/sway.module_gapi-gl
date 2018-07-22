@@ -1,69 +1,64 @@
 #include <sway/gapi/gl/bufferobject.h>
-#include <sway/gapi/gl/buffertargets.h>
-#include <sway/gapi/gl/bufferusages.h>
-#include <sway/gapi/gl/bufferaccesses.h>
 #include <sway/gapi/gl/extensions.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-GLenum BufferObject::targetToGLenum(u32_t target) {
+GLenum BufferObject::targetToGLenum(BufferTarget_t target) {
 	switch (target) {
-	case kBufferTarget_Array: return GL_ARRAY_BUFFER_ARB;
-	case kBufferTarget_ElementArray: return GL_ELEMENT_ARRAY_BUFFER_ARB;
+	case BufferTarget_t::kArray: return GL_ARRAY_BUFFER_ARB;
+	case BufferTarget_t::kElementArray: return GL_ELEMENT_ARRAY_BUFFER_ARB;
 	default:
 		return 0;
 	}
 }
 
-GLenum BufferObject::usageToGLenum(u32_t usage) {
+GLenum BufferObject::usageToGLenum(BufferUsage_t usage) {
 	switch (usage) {
-	case kBufferUsage_Static: return GL_STATIC_DRAW_ARB;
-	case kBufferUsage_Dynamic: return GL_DYNAMIC_DRAW_ARB;
-	case kBufferUsage_Stream: return GL_STREAM_DRAW_ARB;
+	case BufferUsage_t::kStatic: return GL_STATIC_DRAW_ARB;
+	case BufferUsage_t::kDynamic: return GL_DYNAMIC_DRAW_ARB;
+	case BufferUsage_t::kStream: return GL_STREAM_DRAW_ARB;
 	default:
 		return 0;
 	}
 }
 
-GLenum BufferObject::accessToGLenum(u32_t access) {
+GLenum BufferObject::accessToGLenum(BufferAccess_t access) {
 	switch (access) {
-	case kBufferAccess_Read: return GL_READ_ONLY_ARB;
-	case kBufferAccess_Write: return GL_WRITE_ONLY_ARB;
-	case kBufferAccess_ReadWrite: return GL_READ_WRITE_ARB;
+	case BufferAccess_t::kRead: return GL_READ_ONLY_ARB;
+	case BufferAccess_t::kWrite: return GL_WRITE_ONLY_ARB;
+	case BufferAccess_t::kReadWrite: return GL_READ_WRITE_ARB;
 	default:
 		return 0;
 	}
 }
 
-BufferObject * BufferObject::create(const BufferCreateInfo & info) {
-	BufferObject * instance = new BufferObject(info.description);
+IBufferBase * BufferObject::create(const BufferCreateInfo & info) {
+	auto instance = new BufferObject(info.desc);
 	if (instance->allocate(info.data)) return instance;
-	SAFE_DELETE(instance);
 	return 0;
 }
 
-BufferObject::BufferObject(const BufferDescription & desc)
-	: _allocedSize(0) {
+BufferObject::BufferObject(const BufferDescriptor & desc) : IBufferBase(desc)
+	, _allocedSize(0) {
 	setTarget(desc.target);
 	setUsage(desc.usage);
 	setByteStride(desc.byteStride);
 	setCapacity(desc.capacity);
-	setDataType(desc.datatype);
 
 	/* Создает аппаратный буфер. */
-	Extensions::glGenBuffersARB(1, &_resourceId);
+	Extensions::glGenBuffersARB(1, &_objectId);
 }
 
 BufferObject::~BufferObject() {
 	/* Удаляет аппаратный буфер. */
-	Extensions::glDeleteBuffersARB(1, &_resourceId);
+	Extensions::glDeleteBuffersARB(1, &_objectId);
 }
 
 bool BufferObject::allocate(const void * data) {
 	s32_t dataSize = _capacity * _byteStride;
 
-	Extensions::glBindBufferARB(_target, _resourceId);
+	Extensions::glBindBufferARB(_target, _objectId);
 	Extensions::glBufferDataARB(_target, dataSize, data, _usage);
 
 	Extensions::glGetBufferParameterivARB(_target, GL_BUFFER_SIZE_ARB, &_allocedSize);
@@ -74,8 +69,8 @@ bool BufferObject::allocate(const void * data) {
 }
 
 void BufferObject::updateSubdata(u32_t offset, u32_t size, const void * source) {
-	if (Extensions::glIsBufferARB(_resourceId)) {
-		Extensions::glBindBufferARB(_target, _resourceId);
+	if (Extensions::glIsBufferARB(_objectId)) {
+		Extensions::glBindBufferARB(_target, _objectId);
 		Extensions::glBufferSubDataARB(_target, offset, size, source);
 		Extensions::glBindBufferARB(_target, 0);
 	}
@@ -86,7 +81,7 @@ void BufferObject::updateSubdata(const void * source) {
 }
 
 void * BufferObject::map() {
-	Extensions::glBindBufferARB(_target, _resourceId);
+	Extensions::glBindBufferARB(_target, _objectId);
 	GLvoid * mapped = Extensions::glMapBufferARB(_target, GL_WRITE_ONLY_ARB);
 	if (!mapped)
 		return NULL;
@@ -96,13 +91,13 @@ void * BufferObject::map() {
 }
 
 void BufferObject::unmap() {
-	Extensions::glBindBufferARB(_target, _resourceId);
+	Extensions::glBindBufferARB(_target, _objectId);
 	Extensions::glUnmapBufferARB(_target);
 	Extensions::glBindBufferARB(_target, 0);
 }
 
 void BufferObject::bind() {
-	Extensions::glBindBufferARB(_target, _resourceId);
+	Extensions::glBindBufferARB(_target, _objectId);
 }
 
 void BufferObject::unbind() {
@@ -113,30 +108,30 @@ u32_t BufferObject::getAllocedSize() const {
 	return _allocedSize;
 }
 
-void BufferObject::setTarget(u32_t target) {
+void BufferObject::setTarget(BufferTarget_t target) {
 	_target = BufferObject::targetToGLenum(target);
 }
 
-u32_t BufferObject::getTarget() const {
+BufferTarget_t BufferObject::getTarget() const {
 	switch (_target) {
-	case GL_ARRAY_BUFFER_ARB: return kBufferTarget_Array;
-	case GL_ELEMENT_ARRAY_BUFFER_ARB: return kBufferTarget_ElementArray;
+	case GL_ARRAY_BUFFER_ARB: return BufferTarget_t::kArray;
+	case GL_ELEMENT_ARRAY_BUFFER_ARB: return BufferTarget_t::kElementArray;
 	default:
-		return kBufferTarget_None;
+		return BufferTarget_t::kNone;
 	}
 }
 
-void BufferObject::setUsage(u32_t usage) {
+void BufferObject::setUsage(BufferUsage_t usage) {
 	_usage = BufferObject::usageToGLenum(usage);
 }
 
-u32_t BufferObject::getUsage() const {
+BufferUsage_t BufferObject::getUsage() const {
 	switch (_usage) {
-	case GL_STATIC_DRAW_ARB: return kBufferUsage_Static;
-	case GL_DYNAMIC_DRAW_ARB: return kBufferUsage_Dynamic;
-	case GL_STREAM_DRAW_ARB: return kBufferUsage_Stream;
+	case GL_STATIC_DRAW_ARB: return BufferUsage_t::kStatic;
+	case GL_DYNAMIC_DRAW_ARB: return BufferUsage_t::kDynamic;
+	case GL_STREAM_DRAW_ARB: return BufferUsage_t::kStream;
 	default:
-		return kBufferUsage_None;
+		return BufferUsage_t::kNone;
 	}
 }
 
@@ -148,20 +143,16 @@ s32_t BufferObject::getCapacity() const {
 	return _capacity;
 }
 
-void BufferObject::setByteStride(s32_t byteStride) {
-	_byteStride = byteStride;
+void BufferObject::setByteStride(s32_t stride) {
+	_byteStride = stride;
 }
 
 s32_t BufferObject::getByteStride() const {
 	return _byteStride;
 }
 
-void BufferObject::setDataType(u32_t type) {
-	_datatype = type;
-}
-
-u32_t BufferObject::getDataType() const {
-	return _datatype;
+u32_t BufferObject::getObjectId() const {
+	return _objectId;
 }
 
 NAMESPACE_END(gapi)

@@ -9,32 +9,32 @@ NAMESPACE_BEGIN(gapi)
 ShaderProgram::ShaderProgram()
 	: _linked(false)
 	, _validated(false) {
-	_resourceId = Extensions::glCreateProgramObjectARB();
+	_objectId = Extensions::glCreateProgramObjectARB();
 }
 
 ShaderProgram::~ShaderProgram() {
-	std::for_each(_shaderSet.begin(), _shaderSet.end(), std::bind(&ShaderProgram::detach, this, std::placeholders::_1));
-	Extensions::glDeleteProgramsARB(1, &_resourceId);
+	std::for_each(_shaderIdSet.begin(), _shaderIdSet.end(), std::bind(&ShaderProgram::detach, this, std::placeholders::_1));
+	Extensions::glDeleteProgramsARB(1, &_objectId);
 }
 
-void ShaderProgram::attach(ShaderObject * shader) {
-	auto result = _shaderSet.insert(shader->getId());
+void ShaderProgram::attach(IShaderBase * shader) {
+	auto result = _shaderIdSet.insert(shader->getObjectId());
 	if (result.second)
-		Extensions::glAttachObjectARB(_resourceId, *(result.first));
+		Extensions::glAttachObjectARB(_objectId, *(result.first));
 }
 
-void ShaderProgram::detach(ResourceId_t shaderId) {
-	Extensions::glDetachObjectARB(_resourceId, shaderId);
-	_shaderSet.erase(shaderId);
+void ShaderProgram::detach(u32_t shaderId) {
+	Extensions::glDetachObjectARB(_objectId, shaderId);
+	_shaderIdSet.erase(shaderId);
 }
 
 void ShaderProgram::link() {
 	int linkStatus;
-	Extensions::glLinkProgramARB(_resourceId);
-	Extensions::glGetObjectParameterivARB(_resourceId, GL_OBJECT_LINK_STATUS_ARB, &linkStatus);
+	Extensions::glLinkProgramARB(_objectId);
+	Extensions::glGetObjectParameterivARB(_objectId, GL_OBJECT_LINK_STATUS_ARB, &linkStatus);
 	_linked = (linkStatus == GL_TRUE);
 	if (!_linked)
-		throw ShaderLinkageException(ShaderUtils::getErrorInfo(_resourceId));
+		throw ShaderLinkageException(ShaderUtils::getErrorInfo(_objectId));
 }
 
 bool ShaderProgram::isLinked() const {
@@ -43,11 +43,11 @@ bool ShaderProgram::isLinked() const {
 
 void ShaderProgram::validate() {
 	int validateStatus;
-	Extensions::glValidateProgramARB(_resourceId);
-	Extensions::glGetObjectParameterivARB(_resourceId, GL_OBJECT_VALIDATE_STATUS_ARB, &validateStatus);
+	Extensions::glValidateProgramARB(_objectId);
+	Extensions::glGetObjectParameterivARB(_objectId, GL_OBJECT_VALIDATE_STATUS_ARB, &validateStatus);
 	_validated = (validateStatus == GL_TRUE);
 	if (!_validated)
-		throw ShaderValidationException(ShaderUtils::getErrorInfo(_resourceId));
+		throw ShaderValidationException(ShaderUtils::getErrorInfo(_objectId));
 }
 
 bool ShaderProgram::isValidated() const {
@@ -55,11 +55,11 @@ bool ShaderProgram::isValidated() const {
 }
 
 void ShaderProgram::use() {
-	if (_resourceId > 0 && !isUsed()) {
-		Extensions::glUseProgramObjectARB(_resourceId);
+	if (_objectId > 0 && !isUsed()) {
+		Extensions::glUseProgramObjectARB(_objectId);
 
 		for (auto iter : _uniformVec4fSet) {
-			s32_t location = Extensions::glGetUniformLocationARB(_resourceId, iter.first.c_str());
+			s32_t location = Extensions::glGetUniformLocationARB(_objectId, iter.first.c_str());
 			if (location != -1)
 				Extensions::glUniform4fARB(location, iter.second.getX(), iter.second.getY(), iter.second.getZ(), iter.second.getW());
 		}
@@ -67,7 +67,7 @@ void ShaderProgram::use() {
 }
 
 void ShaderProgram::unuse() {
-	if (_resourceId > 0 && isUsed())
+	if (_objectId > 0 && isUsed())
 		Extensions::glUseProgramObjectARB(0);
 }
 
@@ -75,7 +75,7 @@ bool ShaderProgram::isUsed() const {
 	s32_t current = 0;
 	glGetIntegerv(GL_CURRENT_PROGRAM, &current);
 
-	return (current == (s32_t)_resourceId);
+	return (current == (s32_t)_objectId);
 }
 
 void ShaderProgram::setUniformVec4f(const std::string & uniform, const math::vec4f_t & vec) {
@@ -84,6 +84,10 @@ void ShaderProgram::setUniformVec4f(const std::string & uniform, const math::vec
 
 void ShaderProgram::setUniformCol4f(const std::string & uniform, const math::col4f_t & col) {
 	_uniformVec4fSet[uniform] = col.toVec4();
+}
+
+u32_t ShaderProgram::getObjectId() const {
+	return _objectId;
 }
 
 NAMESPACE_END(gapi)

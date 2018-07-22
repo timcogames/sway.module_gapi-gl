@@ -3,6 +3,11 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+Viewport::Viewport()
+	: _mode(ViewportMode_t::kEnabled) {
+	// Empty
+}
+
 void Viewport::set(s32_t x, s32_t y, s32_t w, s32_t h) {
 	glViewport(x, y, w, h);
 }

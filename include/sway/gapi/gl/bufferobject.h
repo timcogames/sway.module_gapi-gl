@@ -1,8 +1,6 @@
 #ifndef SWAY_GAPI_GL_BUFFEROBJECT_H
 #define SWAY_GAPI_GL_BUFFEROBJECT_H
 
-#include <sway/gapi/gl/resource.h>
-#include <sway/gapi/gl/bufferdescription.h>
 #include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -12,19 +10,19 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление аппаратного буфера.
  */
-class BufferObject final : public Resource {
+class BufferObject final : public IBufferBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-	static GLenum targetToGLenum(u32_t target);
+	static GLenum targetToGLenum(BufferTarget_t target);
 
-	static GLenum usageToGLenum(u32_t usage);
+	static GLenum usageToGLenum(BufferUsage_t usage);
 
-	static GLenum accessToGLenum(u32_t access);
+	static GLenum accessToGLenum(BufferAccess_t access);
 
 #pragma endregion
 
-	static BufferObject * create(const BufferCreateInfo & info);
+	static IBufferBase * create(const BufferCreateInfo & info);
 
 	/*!
 	 * \brief
@@ -32,7 +30,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	BufferObject(const BufferDescription & desc);
+	BufferObject(const BufferDescriptor & desc);
 
 	/*!
 	 * \brief
@@ -49,7 +47,7 @@ public:
 	 * \param[in] data
 	 *    Первоначальный данные.
 	 */
-	bool allocate(const void * data);
+	virtual bool allocate(const void * data);
 
 	/*!
 	 * \brief
@@ -67,7 +65,7 @@ public:
 	 * \sa
 	 *    updateSubdata(const void *)
 	 */
-	void updateSubdata(u32_t offset, u32_t size, const void * source);
+	virtual void updateSubdata(u32_t offset, u32_t size, const void * source);
 
 	/*!
 	 * \brief
@@ -79,11 +77,25 @@ public:
 	 * \sa
 	 *    updateSubdata(u32_t, u32_t, const void *)
 	 */
-	void updateSubdata(const void * source);
+	virtual void updateSubdata(const void * source);
 
-	void * map();
+	/*!
+	 * \brief
+	 *    Получает указатель на область памяти, в которой находятся данные буфера.
+	 * 
+	 * \sa
+	 *    unmap()
+	 */
+	virtual void * map();
 
-	void unmap();
+	/*!
+	 * \brief
+	 *    Возвращает данные буфера в память.
+	 * 
+	 * \sa
+	 *    map()
+	 */
+	virtual void unmap();
 
 	/*!
 	 * \brief
@@ -92,7 +104,7 @@ public:
 	 * \sa
 	 *    unbind()
 	 */
-	void bind();
+	virtual void bind();
 
 	/*!
 	 * \brief
@@ -101,13 +113,13 @@ public:
 	 * \sa
 	 *    bind()
 	 */
-	void unbind();
+	virtual void unbind();
 
 	/*!
 	 * \brief
 	 *    Получает выделенный размер данных.
 	 */
-	u32_t getAllocedSize() const;
+	virtual u32_t getAllocedSize() const;
 
 	/*!
 	 * \brief
@@ -116,13 +128,13 @@ public:
 	 * \param[in] target
 	 *    Целевой тип буфера.
 	 */
-	void setTarget(u32_t target);
+	virtual void setTarget(BufferTarget_t target);
 
 	/*!
 	 * \brief
 	 *    Получает целевой тип буфера.
 	 */
-	u32_t getTarget() const;
+	virtual BufferTarget_t getTarget() const;
 
 	/*!
 	 * \brief
@@ -131,13 +143,13 @@ public:
 	 * \param[in] usage
 	 *    Режим работы.
 	 */
-	void setUsage(u32_t usage);
+	virtual void setUsage(BufferUsage_t usage);
 	
 	/*!
 	* \brief
 	*    Получает режим работы с данными.
 	*/
-	u32_t getUsage() const;
+	virtual BufferUsage_t getUsage() const;
 
 	/*!
 	 * \brief
@@ -146,46 +158,34 @@ public:
 	 * \param[in] capacity
 	 *    Количество элементов в массиве.
 	 */
-	void setCapacity(s32_t capacity);
+	virtual void setCapacity(s32_t capacity);
 
 	/*!
 	 * \brief
 	 *    Получает количество элементов в массиве.
 	 */
-	s32_t getCapacity() const;
+	virtual s32_t getCapacity() const;
 
 	/*!
 	 * \brief
 	 *    Устанавливает размер структуры данных.
 	 * 
-	 * \param[in] byteStride
+	 * \param[in] stride
 	 *    Размер структуры.
 	 */
-	void setByteStride(s32_t byteStride);
+	virtual void setByteStride(s32_t stride);
 	
 	/*!
 	 * \brief
 	 *    Получает размер структуры данных.
 	 */
-	s32_t getByteStride() const;
+	virtual s32_t getByteStride() const;
 
 	/*!
 	 * \brief
-	 *    Устанавливает тип данных.
-	 * 
-	 * \param[in] type
-	 *    Тип данных.
+	 *    Получает идентификатор ресурса.
 	 */
-	void setDataType(u32_t type);
-	
-	/*!
-	 * \brief
-	 *    Получает тип данных.
-	 * 
-	 * \return
-	 *    Тип данных.
-	 */
-	u32_t getDataType() const;
+	virtual u32_t getObjectId() const;
 
 private:
 	s32_t _allocedSize;
@@ -193,7 +193,7 @@ private:
 	u32_t _usage;
 	s32_t _capacity;
 	s32_t _byteStride;
-	u32_t _datatype;
+	u32_t _objectId;
 };
 
 NAMESPACE_END(gapi)

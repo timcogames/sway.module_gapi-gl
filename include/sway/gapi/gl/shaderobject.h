@@ -1,8 +1,6 @@
 #ifndef SWAY_GAPI_GL_SHADEROBJECT_H
 #define SWAY_GAPI_GL_SHADEROBJECT_H
 
-#include <sway/gapi/gl/resource.h>
-#include <sway/gapi/gl/shaderobjectcreateinfo.h>
 #include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -12,17 +10,17 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление шейдерного объекта.
  */
-class ShaderObject final : public Resource {
+class ShaderObject final : public IShaderBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum или строке"
 
-	static GLenum typeToGLenum(u32_t type);
+	static GLenum typeToGLenum(ShaderType_t type);
 
-	static std::string typeToStr(u32_t type);
+	static std::string typeToStr(ShaderType_t type);
 
 #pragma endregion
 
-	static ShaderObject * create(const ShaderObjectCreateInfo & createInfo);
+	static ShaderObject * create(const ShaderCreateInfo & createInfo);
 
 	/*!
 	 * \brief
@@ -33,7 +31,7 @@ public:
 	 * \param[in] type
 	 *    Тип создаваемого шейдера.
 	 */
-	ShaderObject(u32_t type);
+	ShaderObject(ShaderType_t type);
 
 	/*!
 	 * \brief
@@ -50,7 +48,7 @@ public:
 	 * \param[in] source
 	 *    Исходный код шейдера.
 	 */
-	void compile(lpcstr_t source);
+	virtual void compile(lpcstr_t source);
 
 	/*!
 	 * \brief
@@ -59,7 +57,7 @@ public:
 	 * \return
 	 *    Если компиляция прошла успешно 'true', иначе 'false'.
 	 */
-	bool isCompiled() const;
+	virtual bool isCompiled() const;
 
 	/*!
 	 * \brief
@@ -68,11 +66,18 @@ public:
 	 * \return
 	 *    Тип шейдера.
 	 */
-	u32_t getType() const;
+	virtual ShaderType_t getType() const;
+
+	/*!
+	 * \brief
+	 *    Получает идентификатор объекта.
+	 */
+	virtual u32_t getObjectId() const;
 
 private:
-	u32_t _type; /*!< Тип шейдера. */
+	ShaderType_t _type; /*!< Тип шейдера. */
 	bool _compiled;
+	u32_t _objectId;
 };
 
 NAMESPACE_END(gapi)

@@ -1,7 +1,6 @@
 #ifndef SWAY_GAPI_GL_SHADERPROGRAM_H
 #define SWAY_GAPI_GL_SHADERPROGRAM_H
 
-#include <sway/gapi/gl/shaderobject.h>
 #include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -11,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление шейдерной программы.
  */
-class ShaderProgram final : public Resource {
+class ShaderProgram final : public IShaderProgramBase {
 public:
 	/*!
 	 * \brief
@@ -37,60 +36,125 @@ public:
 	 *    Указатель на связываемый шейдерный объект.
 	 * 
 	 * \sa
-	 *    detach(ResourceId_t)
+	 *    detach(u32_t)
 	 */
-	void attach(ShaderObject * shader);
+	virtual void attach(IShaderBase * shader);
 
 	/*!
 	 * \brief
 	 *    Отсоединяет шейдерный объект от программного объекта.
 	 * 
-	 * \param[in] handle
+	 * \param[in] objectId
 	 *    Отвязываемый шейдерный объект.
 	 * 
 	 * \sa
-	 *    attach(ShaderObject *)
+	 *    attach(IShaderBase *)
 	 */
-	void detach(ResourceId_t handle);
+	virtual void detach(u32_t objectId);
 	
 	/*!
 	 * \brief
-	 *    Компоновка шей­дерных объектов.
+	 *    Компонует программный объект.
+	 * 
+	 * \sa
+	 *    isLinked() const
 	 */
-	void link();
+	virtual void link();
 
 	/*!
 	 * \brief
 	 *    Возвращает статус компоновки.
 	 * 
-	 * \return
-	 *    Если компоновка прошла успешно 'true', иначе 'false'.
+	 * \sa
+	 *    link()
 	 */
-	bool isLinked() const;
+	virtual bool isLinked() const;
 	
 	/*!
 	 * \brief
-	 *    Проверяет программный объект.
+	 *    Проверяет скомпоновонный объект на корректность.
+	 * 
+	 * \sa
+	 *    isValidated() const
 	 */
-	void validate();
+	virtual void validate();
 
-	bool isValidated() const;
+	/*!
+	 * \brief
+	 *    Возвращает статус корректности скомпоновоного объекта.
+	 * 
+	 * \sa
+	 *    validate()
+	 */
+	virtual bool isValidated() const;
 
-	void use();
+	/*!
+	 * \brief
+	 *    Делает шейдерную программу активной.
+	 * 
+	 * \sa
+	 *    unuse()
+	 *    isUsed() const
+	 */
+	virtual void use();
 
-	void unuse();
+	/*!
+	 * \brief
+	 *    Деактивирует шейдерную программу.
+	 * 
+	 * \sa
+	 *    use()
+	 *    isUsed() const
+	 */
+	virtual void unuse();
 
-	bool isUsed() const;
+	/*!
+	 * \brief
+	 *    Возвращает логическое значение, которое определяет,
+	 *    является ли шейдерная программа активной в текущем состоянии рендеринга.
+	 * 
+	 * \sa
+	 *    use()
+	 *    unuse()
+	 */
+	virtual bool isUsed() const;
 
-	void setUniformVec4f(const std::string & uniform, const math::vec4f_t & vec);
+	/*!
+	 * \brief
+	 *    Передает значение uniform-переменной в шейдер.
+	 * 
+	 * \param[in] uniform
+	 *    Имя uniform-переменной.
+	 * 
+	 * \param[in] vec
+	 *    Значение uniform-переменной.
+	 */
+	virtual void setUniformVec4f(const std::string & uniform, const math::vec4f_t & vec);
 	
-	void setUniformCol4f(const std::string & uniform, const math::col4f_t & col);
+	/*!
+	 * \brief
+	 *    Передает значение uniform-переменной в шейдер.
+	 * 
+	 * \param[in] uniform
+	 *    Имя uniform-переменной.
+	 * 
+	 * \param[in] col
+	 *    Значение uniform-переменной.
+	 */
+	virtual void setUniformCol4f(const std::string & uniform, const math::col4f_t & col);
+
+	/*!
+	 * \brief
+	 *    Получает идентификатор объекта.
+	 */
+	virtual u32_t getObjectId() const;
 
 private:
-	ResourceIdSet_t _shaderSet;
+	std::set<u32_t> _shaderIdSet;
 	UniformVec4fUmap_t _uniformVec4fSet;
 	bool _linked;
 	bool _validated;
+	u32_t _objectId;
 };
 
 NAMESPACE_END(gapi)

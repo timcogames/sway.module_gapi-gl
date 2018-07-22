@@ -5,9 +5,10 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_gapi_gl)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 7)
-set(META_VERSION_PATCH 20)
+set(META_VERSION_MINOR 8)
+set(META_VERSION_PATCH 21)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
+set(META_LANGUAGES C CXX)
 
 # Опции сборки
 option(BUILD_SHARED "Build shared library" OFF)
@@ -15,7 +16,7 @@ option(ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(ENABLE_TESTS "Enable test builds" OFF)
 option(ENABLE_EXAMPLES "Enable example builds" OFF)
 
-project(${META_PROJECT_NAME} C CXX)
+project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES})
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -43,6 +44,7 @@ set(MODULE_GAPI_DIR ${CMAKE_CURRENT_LIST_DIR})
 include_directories(${MODULE_GAPI_DIR}/include)
 include_directories(${MODULE_GAPI_DIR}/modules/sway.module_core/include)
 include_directories(${MODULE_GAPI_DIR}/modules/sway.module_math/include)
+include_directories(${MODULE_GAPI_DIR}/modules/sway.module_gapi/include)
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
 file(GLOB_RECURSE MODULE_GAPI_HEADERS ${MODULE_GAPI_DIR}/include/*.*)

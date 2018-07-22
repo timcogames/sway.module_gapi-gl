@@ -3,10 +3,12 @@
 
 #include <sway/core.h>
 #include <sway/math.h>
+#include <sway/gapi.h>
 
 #include <string.h> // std::string, strstr
 #include <set> // std::set
 
+#include <boost/any.hpp>
 #include <boost/core/ignore_unused.hpp> // boost::ignore_unused
 #include <boost/make_unique.hpp> // boost::make_unique
 #include <boost/shared_ptr.hpp> // boost::shared_ptr
@@ -28,13 +30,13 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-struct VertexAttribute;
+struct VertexAttributeDescriptor;
 
-using ResourceId_t = u32_t;
-using ResourceIdSet_t = std::set<ResourceId_t>;
+// using ResourceId_t = u32_t;
+// using ResourceIdSet_t = std::set<ResourceId_t>;
 
 typedef boost::unordered_map<std::string, math::vec4f_t> UniformVec4fUmap_t;
-typedef boost::unordered_map<std::string, VertexAttribute> VertexAttributeUmap_t;
+typedef boost::unordered_map<std::string, VertexAttributeDescriptor> VertexAttribDescUmap_t;
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

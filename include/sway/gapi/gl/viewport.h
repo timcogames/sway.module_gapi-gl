@@ -14,7 +14,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Viewport() = default;
+	Viewport();
 
 	/*!
 	 * \brief
@@ -63,6 +63,9 @@ public:
 	 *    Получает соотношение сторон.
 	 */
 	f32_t aspect() const;
+
+private:
+	ViewportMode_t _mode;
 };
 
 NAMESPACE_END(gapi)

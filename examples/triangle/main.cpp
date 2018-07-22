@@ -27,8 +27,8 @@ int main(int argc, char * argv[]) {
 
 	auto shaderProgram = boost::make_shared<gapi::ShaderProgram>();
 
-	gapi::ShaderObjectCreateInfo vsoCreateInfo;
-	vsoCreateInfo.type = gapi::kShaderType_Vertex;
+	gapi::ShaderCreateInfo vsoCreateInfo;
+	vsoCreateInfo.type = gapi::ShaderType_t::kVertex;
 	vsoCreateInfo.source = 
 		"attribute vec3 attr_position; \
 		void main() { \
@@ -37,8 +37,8 @@ int main(int argc, char * argv[]) {
 
 	shaderProgram->attach(gapi::ShaderObject::create(vsoCreateInfo));
 
-	gapi::ShaderObjectCreateInfo fsoCreateInfo;
-	fsoCreateInfo.type = gapi::kShaderType_Fragment;
+	gapi::ShaderCreateInfo fsoCreateInfo;
+	fsoCreateInfo.type = gapi::ShaderType_t::kFragment;
 	fsoCreateInfo.source = 
 		"void main() { \
 			gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \
@@ -50,10 +50,10 @@ int main(int argc, char * argv[]) {
 	shaderProgram->validate();
 
 	gapi::BufferCreateInfo vboCreateInfo;
-	vboCreateInfo.description.target = gapi::kBufferTarget_Array;
-	vboCreateInfo.description.usage = gapi::kBufferUsage_Static;
-	vboCreateInfo.description.byteStride = sizeof(math::VertexPosition);
-	vboCreateInfo.description.capacity = 3;
+	vboCreateInfo.desc.target = gapi::BufferTarget_t::kArray;
+	vboCreateInfo.desc.usage = gapi::BufferUsage_t::kStatic;
+	vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
+	vboCreateInfo.desc.capacity = 3;
 	float vertices[] = {
 		-0.5f,-0.5f, 0.0f,
 		 0.5f,-0.5f, 0.0f,
@@ -63,9 +63,9 @@ int main(int argc, char * argv[]) {
 
 	auto vbo = gapi::BufferObject::create(vboCreateInfo);
 	auto vlayout = boost::make_shared<gapi::VertexLayout>(shaderProgram.get());
-	vlayout->addAttribute<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true);
+	vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
 
-	gapi::BufferDrawCall drawCall;
+	gapi::DrawCall drawCall;
 
 	while (canvas->eventLoop(true)) {
 		canvas->getContext()->makeCurrent();
@@ -75,8 +75,7 @@ int main(int argc, char * argv[]) {
 		vbo->bind();
 		vlayout->enable();
 
-		drawCall.update(gapi::kPrimitiveTopology_TriangleList, 3, Type_t::kNone, false);
-		drawCall.execute(NULL);
+		drawCall.execute(gapi::PrimitiveType_t::kTriangleList, 3, NULL, Type_t::kNone);
 
 		vlayout->disable();
 		vbo->unbind();
