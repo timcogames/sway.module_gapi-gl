@@ -4,6 +4,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+EXTERN_C_BEGIN
+
+IVertexLayoutBase * createVertexLayout(IShaderProgramBase * shaderProgram) {
+	return new VertexLayout(shaderProgram);
+}
+
+EXTERN_C_END
+
 VertexLayout::VertexLayout(IShaderProgramBase * shader) : IVertexLayoutBase(shader)
 	, _attributeOffset(0)
 	, _shaderProgram(shader) {
@@ -15,16 +23,16 @@ VertexLayout::~VertexLayout() {
 	_attributes.clear();
 }
 
-void VertexLayout::addAttribute(VertexAttributeDescriptor attributeDesc) {
-	std::string alias = stringize(attributeDesc.semantic);
+void VertexLayout::addAttribute(VertexAttributeDescriptor desc) {
+	std::string alias = stringize(desc.semantic);
 	s32_t location = Extensions::glGetAttribLocationARB(_shaderProgram->getObjectId(), alias.c_str());
 	
-	attributeDesc.location = location;
-	attributeDesc.offset = BUFFER_OFFSET(_attributeOffset);
+	desc.location = location;
+	desc.offset = BUFFER_OFFSET(_attributeOffset);
 
 	if (location >= 0 && location <= _maxVertexAttributes) {
-		_attributes.insert(std::make_pair(alias, attributeDesc));
-		_attributeOffset += attributeDesc.stride;
+		_attributes.insert(std::make_pair(alias, desc));
+		_attributeOffset += desc.stride;
 	}
 }
 

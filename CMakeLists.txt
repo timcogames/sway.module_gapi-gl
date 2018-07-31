@@ -5,13 +5,13 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 set(META_PROJECT_NAME module_gapi_gl)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 8)
-set(META_VERSION_PATCH 21)
+set(META_VERSION_MINOR 10)
+set(META_VERSION_PATCH 28)
 set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
 set(META_LANGUAGES C CXX)
 
 # Опции сборки
-option(BUILD_SHARED "Build shared library" OFF)
+option(MODULE_GAPI_BUILD_SHARED "Build shared library" OFF)
 option(ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(ENABLE_TESTS "Enable test builds" OFF)
 option(ENABLE_EXAMPLES "Enable example builds" OFF)
@@ -20,6 +20,10 @@ project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES}
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+#set(WARNINGS "-Wstrict-prototypes -Wall -Wno-sign-compare -Wpointer-arith -Wdeclaration-after-statement -Wformat-security -Wswitch-enum -Wunused-parameter -Wstrict-aliasing -Wbad-function-cast -Wcast-align -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-field-initializers -Wno-override-init")
+#set(WARNINGS "-Wall -W -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wstrict-prototypes -Wwrite-strings")
+#set(CMAKE_C_FLAGS "${WARNINGS}")
 
 if(ENABLE_COVERAGE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
@@ -51,6 +55,7 @@ file(GLOB_RECURSE MODULE_GAPI_HEADERS ${MODULE_GAPI_DIR}/include/*.*)
 file(GLOB_RECURSE MODULE_GAPI_SOURCE ${MODULE_GAPI_DIR}/src/*.*)
 
 find_package(OpenGL REQUIRED)
+#add_definitions(${OPENGL_DEFINITIONS})
 find_package(X11 REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON)
@@ -65,7 +70,9 @@ else()
 	include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-if(BUILD_SHARED)
+if(MODULE_GAPI_BUILD_SHARED)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+
 	# Добавляем в проект цель для сборки динамической библиотеки
 	add_library(${META_LIB_NAME} SHARED ${MODULE_GAPI_SOURCE})
 	set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME})
@@ -104,4 +111,3 @@ if(ENABLE_TESTS)
 	
 	add_subdirectory(tests)
 endif()
-

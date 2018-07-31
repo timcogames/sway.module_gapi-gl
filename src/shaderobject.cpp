@@ -6,6 +6,21 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+EXTERN_C_BEGIN
+
+IShaderBase * createShader(const ShaderCreateInfo & createInfo) {
+	try {
+		IShaderBase * instance = new ShaderObject(createInfo.type);
+		instance->compile(createInfo.source.c_str());
+		return instance;
+	} catch (std::exception & exception) {
+		fprintf(stderr, "ERROR: %s shader object creation failed.\n", ShaderObject::typeToStr(createInfo.type).c_str());
+		throw;
+	}
+}
+
+EXTERN_C_END
+
 GLenum ShaderObject::typeToGLenum(ShaderType_t type) {
 	switch (type) {
 	case ShaderType_t::kVertex: return GL_VERTEX_SHADER_ARB;
@@ -21,17 +36,6 @@ std::string ShaderObject::typeToStr(ShaderType_t type) {
 	case ShaderType_t::kFragment: return "Fragment"; 
 	default:
 		return "Undefined";
-	}
-}
-
-ShaderObject * ShaderObject::create(const ShaderCreateInfo & createInfo) {
-	try {
-		ShaderObject * instance = new ShaderObject(createInfo.type);
-		instance->compile(createInfo.source.c_str());
-		return instance;
-	} catch (std::exception & exception) {
-		fprintf(stderr, "ERROR: %s shader object creation failed.\n", ShaderObject::typeToStr(createInfo.type).c_str());
-		throw;
 	}
 }
 

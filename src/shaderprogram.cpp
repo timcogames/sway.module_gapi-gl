@@ -6,9 +6,19 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+EXTERN_C_BEGIN
+
+IShaderProgramBase * createShaderProgram() {
+	return new ShaderProgram();
+}
+
+EXTERN_C_END
+
 ShaderProgram::ShaderProgram()
 	: _linked(false)
 	, _validated(false) {
+	gapi::Extensions::define();
+
 	_objectId = Extensions::glCreateProgramObjectARB();
 }
 

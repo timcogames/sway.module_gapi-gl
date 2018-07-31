@@ -4,6 +4,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+EXTERN_C_BEGIN
+
+IBufferBase * createBuffer(const BufferCreateInfo & createInfo) {
+	auto instance = new BufferObject(createInfo.desc);
+	if (instance->allocate(createInfo.data)) return instance;
+	return 0;
+}
+
+EXTERN_C_END
+
 GLenum BufferObject::targetToGLenum(BufferTarget_t target) {
 	switch (target) {
 	case BufferTarget_t::kArray: return GL_ARRAY_BUFFER_ARB;
@@ -31,12 +41,6 @@ GLenum BufferObject::accessToGLenum(BufferAccess_t access) {
 	default:
 		return 0;
 	}
-}
-
-IBufferBase * BufferObject::create(const BufferCreateInfo & info) {
-	auto instance = new BufferObject(info.desc);
-	if (instance->allocate(info.data)) return instance;
-	return 0;
 }
 
 BufferObject::BufferObject(const BufferDescriptor & desc) : IBufferBase(desc)

@@ -8,13 +8,13 @@ NAMESPACE_BEGIN(gapi)
 
 struct ExtensionSupport {
 	struct {
-		bool bVertexBufferObject;
-		bool bMapBufferRange;
-		bool bShaderObjects;
-		bool bFragmentProgram;
-		bool bVertexProgram;
-		bool bVertexShader;
-		bool bMultitexture;
+		bool vertexBufferObject;
+		bool mapBufferRange;
+		bool shaderObjects;
+		bool fragmentProgram;
+		bool vertexProgram;
+		bool vertexShader;
+		bool multitexture;
 	} arb;
 };
 

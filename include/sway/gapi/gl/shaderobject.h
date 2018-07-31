@@ -20,8 +20,6 @@ public:
 
 #pragma endregion
 
-	static ShaderObject * create(const ShaderCreateInfo & createInfo);
-
 	/*!
 	 * \brief
 	 *    Конструктор класса.

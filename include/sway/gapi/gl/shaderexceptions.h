@@ -14,7 +14,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	ShaderCompilationException(const std::string &message)
+	ShaderCompilationException(const std::string & message)
 		: Exception(message) {
 		// Empty
 	}
@@ -28,7 +28,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	ShaderLinkageException(const std::string &message)
+	ShaderLinkageException(const std::string & message)
 		: Exception(message) {
 		// Empty
 	}
@@ -42,7 +42,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	ShaderValidationException(const std::string &message)
+	ShaderValidationException(const std::string & message)
 		: Exception(message) {
 		// Empty
 	}

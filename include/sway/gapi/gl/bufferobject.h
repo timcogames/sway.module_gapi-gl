@@ -22,8 +22,6 @@ public:
 
 #pragma endregion
 
-	static IBufferBase * create(const BufferCreateInfo & info);
-
 	/*!
 	 * \brief
 	 *    Конструктор класса.

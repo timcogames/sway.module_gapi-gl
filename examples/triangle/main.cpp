@@ -2,6 +2,7 @@
 #include <sway/glx11/canvas.h>
 #include <sway/core.h>
 #include <sway/math.h>
+#include <sway/gapi.h>
 #include <sway/gapi/gl/extensions.h>
 #include <sway/gapi/gl.h>
 
@@ -13,7 +14,7 @@ using namespace sway;
 int main(int argc, char * argv[]) {
 	glx11::WindowInitialParams params;
 	params.title = "examples";
-	params.sizes[glx11::kWindowSize] = math::size2i_t(800, 600);
+	params.sizes[core::detail::toUnderlying(glx11::WindowSize_t::kOrigin)] = math::size2i_t(800, 600);
 	params.fullscreen = false;
 	params.resizable = false;
 
@@ -22,8 +23,6 @@ int main(int argc, char * argv[]) {
 
 	canvas->show();
 	canvas->getContext()->makeCurrent();
-
-	gapi::Extensions::define();
 
 	auto shaderProgram = boost::make_shared<gapi::ShaderProgram>();
 
@@ -35,7 +34,7 @@ int main(int argc, char * argv[]) {
 			gl_Position = vec4(attr_position, 1.0); \
 		}";
 
-	shaderProgram->attach(gapi::ShaderObject::create(vsoCreateInfo));
+	shaderProgram->attach(gapi::createShader(vsoCreateInfo));
 
 	gapi::ShaderCreateInfo fsoCreateInfo;
 	fsoCreateInfo.type = gapi::ShaderType_t::kFragment;
@@ -44,7 +43,7 @@ int main(int argc, char * argv[]) {
 			gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \
 		}";
 
-	shaderProgram->attach(gapi::ShaderObject::create(fsoCreateInfo));
+	shaderProgram->attach(gapi::createShader(fsoCreateInfo));
 	
 	shaderProgram->link();
 	shaderProgram->validate();
@@ -61,11 +60,11 @@ int main(int argc, char * argv[]) {
 	};
 	vboCreateInfo.data = vertices;
 
-	auto vbo = gapi::BufferObject::create(vboCreateInfo);
+	auto vbo = gapi::createBuffer(vboCreateInfo);
 	auto vlayout = boost::make_shared<gapi::VertexLayout>(shaderProgram.get());
 	vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
 
-	gapi::DrawCall drawCall;
+	auto drawCall = new gapi::DrawCall();
 
 	while (canvas->eventLoop(true)) {
 		canvas->getContext()->makeCurrent();
@@ -75,7 +74,7 @@ int main(int argc, char * argv[]) {
 		vbo->bind();
 		vlayout->enable();
 
-		drawCall.execute(gapi::PrimitiveType_t::kTriangleList, 3, NULL, Type_t::kNone);
+		drawCall->execute(gapi::PrimitiveType_t::kTriangleList, 3, NULL, Type_t::kNone);
 
 		vlayout->disable();
 		vbo->unbind();
@@ -85,6 +84,9 @@ int main(int argc, char * argv[]) {
 		canvas->getContext()->present();
 		canvas->getContext()->doneCurrent();
 	}
+
+	delete vbo;
+	delete drawCall;
 
 	return 0;
 }

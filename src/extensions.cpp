@@ -48,8 +48,8 @@ ExtensionSupport Extensions::define() {
 	ExtensionSupport support;
 	lpcstr_t extensions = (lpcstr_t) glGetString(GL_EXTENSIONS);
 
-	support.arb.bVertexBufferObject = checkSupport(extensions, "GL_ARB_vertex_buffer_object");
-	if (support.arb.bVertexBufferObject) {
+	support.arb.vertexBufferObject = checkSupport(extensions, "GL_ARB_vertex_buffer_object");
+	if (support.arb.vertexBufferObject) {
 		LOAD_EXTENSION(PFNGLGENBUFFERSARBPROC, glGenBuffersARB);
 		LOAD_EXTENSION(PFNGLBINDBUFFERARBPROC, glBindBufferARB);
 		LOAD_EXTENSION(PFNGLBUFFERDATAARBPROC, glBufferDataARB);
@@ -61,13 +61,13 @@ ExtensionSupport Extensions::define() {
 		LOAD_EXTENSION(PFNGLUNMAPBUFFERARBPROC, glUnmapBufferARB);
 	}
 
-	support.arb.bMapBufferRange = checkSupport(extensions, "GL_ARB_map_buffer_range");
-	if (support.arb.bMapBufferRange) {
+	support.arb.mapBufferRange = checkSupport(extensions, "GL_ARB_map_buffer_range");
+	if (support.arb.mapBufferRange) {
 		LOAD_EXTENSION(PFNGLMAPBUFFERRANGEPROC, glMapBufferRange);
 	}
 
-	support.arb.bShaderObjects = checkSupport(extensions, "GL_ARB_shader_objects");
-	if (support.arb.bShaderObjects) {
+	support.arb.shaderObjects = checkSupport(extensions, "GL_ARB_shader_objects");
+	if (support.arb.shaderObjects) {
 		LOAD_EXTENSION(PFNGLCREATEPROGRAMOBJECTARBPROC, glCreateProgramObjectARB);
 		LOAD_EXTENSION(PFNGLCREATESHADEROBJECTARBPROC, glCreateShaderObjectARB);
 		LOAD_EXTENSION(PFNGLSHADERSOURCEARBPROC, glShaderSourceARB);
@@ -84,26 +84,26 @@ ExtensionSupport Extensions::define() {
 		LOAD_EXTENSION(PFNGLGETINFOLOGARBPROC, glGetInfoLogARB);
 	}
 
-	support.arb.bFragmentProgram = checkSupport(extensions, "GL_ARB_fragment_program");
-	if (support.arb.bFragmentProgram) {
+	support.arb.fragmentProgram = checkSupport(extensions, "GL_ARB_fragment_program");
+	if (support.arb.fragmentProgram) {
 		LOAD_EXTENSION(PFNGLDELETEPROGRAMSARBPROC, glDeleteProgramsARB);
 		LOAD_EXTENSION(PFNGLGETPROGRAMIVARBPROC, glGetProgramivARB);
 	}
 
-	support.arb.bVertexProgram = checkSupport(extensions, "GL_ARB_vertex_program");
-	if (support.arb.bVertexProgram) {
+	support.arb.vertexProgram = checkSupport(extensions, "GL_ARB_vertex_program");
+	if (support.arb.vertexProgram) {
 		LOAD_EXTENSION(PFNGLENABLEVERTEXATTRIBARRAYARBPROC, glEnableVertexAttribArrayARB);
 		LOAD_EXTENSION(PFNGLDISABLEVERTEXATTRIBARRAYARBPROC, glDisableVertexAttribArrayARB);
 		LOAD_EXTENSION(PFNGLVERTEXATTRIBPOINTERARBPROC, glVertexAttribPointerARB);
 	}
 
-	support.arb.bVertexShader = checkSupport(extensions, "GL_ARB_vertex_shader");
-	if (support.arb.bVertexShader) {
+	support.arb.vertexShader = checkSupport(extensions, "GL_ARB_vertex_shader");
+	if (support.arb.vertexShader) {
 		LOAD_EXTENSION(PFNGLGETATTRIBLOCATIONARBPROC, glGetAttribLocationARB);
 	}
 
-	support.arb.bMultitexture = checkSupport(extensions, "GL_ARB_multitexture");
-	if (support.arb.bMultitexture) {
+	support.arb.multitexture = checkSupport(extensions, "GL_ARB_multitexture");
+	if (support.arb.multitexture) {
 		LOAD_EXTENSION(PFNGLACTIVETEXTUREARBPROC, glActiveTextureARB);
 	}
 

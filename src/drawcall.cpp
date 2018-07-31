@@ -5,6 +5,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+EXTERN_C_BEGIN
+
+IDrawCallBase * createDrawCall() {
+	return new DrawCall();
+}
+
+EXTERN_C_END
+
 GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	switch (topology) {
 	case PrimitiveType_t::kPointList: return GL_POINTS;
