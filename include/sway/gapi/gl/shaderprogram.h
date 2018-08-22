@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление шейдерной программы.
  */
-class ShaderProgram final : public IShaderProgramBase {
+class ShaderProgram final : public AShaderProgramBase {
 public:
 	/*!
 	 * \brief
@@ -38,19 +38,19 @@ public:
 	 * \sa
 	 *    detach(u32_t)
 	 */
-	virtual void attach(IShaderBase * shader);
+	virtual void attach(ShaderRef_t shader);
 
 	/*!
 	 * \brief
 	 *    Отсоединяет шейдерный объект от программного объекта.
 	 * 
-	 * \param[in] objectId
+	 * \param[in] attachedId
 	 *    Отвязываемый шейдерный объект.
 	 * 
 	 * \sa
-	 *    attach(IShaderBase *)
+	 *    attach(ShaderRef_t)
 	 */
-	virtual void detach(u32_t objectId);
+	virtual void detach(u32_t attachedId);
 	
 	/*!
 	 * \brief
@@ -143,18 +143,11 @@ public:
 	 */
 	virtual void setUniformCol4f(const std::string & uniform, const math::col4f_t & col);
 
-	/*!
-	 * \brief
-	 *    Получает идентификатор объекта.
-	 */
-	virtual u32_t getObjectId() const;
-
 private:
-	std::set<u32_t> _shaderIdSet;
+	ShaderObjectIdSet_t _objectIdSet;
 	UniformVec4fUmap_t _uniformVec4fSet;
 	bool _linked;
 	bool _validated;
-	u32_t _objectId;
 };
 
 NAMESPACE_END(gapi)

@@ -6,7 +6,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class Viewport {
+class Viewport : public IViewportBase {
 public:
 	/*!
 	 * \brief
@@ -38,7 +38,7 @@ public:
 	 * \param[in] h
 	 *    Значение высоты.
 	 */
-	void set(s32_t x, s32_t y, s32_t w, s32_t h);
+	virtual void set(s32_t x, s32_t y, s32_t w, s32_t h);
 
 	/*!
 	 * \brief
@@ -50,19 +50,19 @@ public:
 	 * \param[in] h
 	 *    Значение высоты.
 	 */
-	void set(s32_t w, s32_t h);
+	virtual void set(s32_t w, s32_t h);
 
 	/*!
 	 * \brief
 	 *    Получает размер прямоугольной области.
 	 */
-	math::rect4i_t get() const;
+	virtual math::rect4i_t get() const;
 
 	/*!
 	 * \brief
 	 *    Получает соотношение сторон.
 	 */
-	f32_t aspect() const;
+	virtual f32_t aspect() const;
 
 private:
 	ViewportMode_t _mode;

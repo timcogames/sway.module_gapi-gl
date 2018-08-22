@@ -9,9 +9,10 @@
 #include <set> // std::set
 
 #include <boost/any.hpp>
+#include <boost/algorithm/string.hpp> // boost::to_upper
 #include <boost/core/ignore_unused.hpp> // boost::ignore_unused
-#include <boost/make_unique.hpp> // boost::make_unique
 #include <boost/shared_ptr.hpp> // boost::shared_ptr
+#include <boost/make_unique.hpp> // boost::make_unique
 #include <boost/make_shared.hpp> // boost::make_shared
 #include <boost/unordered_map.hpp> // boost::unordered_map
 #include <boost/function.hpp> // boost::function
@@ -30,13 +31,11 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-struct VertexAttributeDescriptor;
+class Shader;
+class ShaderProgram;
+class Buffer;
 
-// using ResourceId_t = u32_t;
-// using ResourceIdSet_t = std::set<ResourceId_t>;
-
-typedef boost::unordered_map<std::string, math::vec4f_t> UniformVec4fUmap_t;
-typedef boost::unordered_map<std::string, VertexAttributeDescriptor> VertexAttribDescUmap_t;
+typedef boost::function<void (ABufferBase *)> BufferDrawCallFunc_t;
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

@@ -1,7 +1,6 @@
 #ifndef SWAY_GAPI_GL_DRAWCALL_H
 #define SWAY_GAPI_GL_DRAWCALL_H
 
-#include <sway/gapi/gl/bufferobject.h>
 #include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -65,7 +64,7 @@ public:
 	 * \param[in] type
 	 *    Тип значений в индексах.
 	 */
-	virtual void execute(PrimitiveType_t topology, s32_t count, IBufferBase * ibo, Type_t type);
+	virtual void execute(PrimitiveType_t topology, s32_t count, ABufferBase * ibo, Type_t type);
 
 private:
 	/*!
@@ -73,22 +72,21 @@ private:
 	 *    Выводит примитивы по данным в массивах.
 	 * 
 	 * \sa
-	 *    _drawIndexed(BufferObject *)
+	 *    _drawIndexed(ABufferBase *)
 	 */
-	void _draw(BufferObject * ibo);
+	void _draw(ABufferBase * ibo);
 
 	/*!
 	 * \brief
 	 *    Выводит индексные примитивы по данным в массивах.
 	 * 
 	 * \sa
-	 *    _draw(BufferObject *)
+	 *    _draw(ABufferBase *)
 	 */
-	void _drawIndexed(BufferObject * ibo);
+	void _drawIndexed(ABufferBase * ibo);
 
 private:
-	boost::function<void (BufferObject *)> _drawCallFunc;
-
+	BufferDrawCallFunc_t _drawCallFunc;
 	union {
 		DrawElements _drawElements;
 		DrawArrays _drawArrays;

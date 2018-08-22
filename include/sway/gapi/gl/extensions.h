@@ -1,51 +1,45 @@
 #ifndef SWAY_GAPI_GL_EXTENSIONS_H
 #define SWAY_GAPI_GL_EXTENSIONS_H
 
-#include <sway/gapi/gl/extensionsupport.h>
 #include <sway/gapi/gl/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-#define LOAD_EXTENSION(proc, name) \
-	name = (proc) glXGetProcAddressARB((const u8_t *) #name);
-
-class Extensions {
+class Extension {
 public:
-	static PFNGLGENBUFFERSARBPROC glGenBuffersARB;
-	static PFNGLBINDBUFFERARBPROC glBindBufferARB;
-	static PFNGLBUFFERDATAARBPROC glBufferDataARB;
-	static PFNGLGETBUFFERPARAMETERIVARBPROC glGetBufferParameterivARB;
-	static PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB;
-	static PFNGLISBUFFERARBPROC glIsBufferARB;
-	static PFNGLBUFFERSUBDATAARBPROC glBufferSubDataARB;
-	static PFNGLMAPBUFFERARBPROC glMapBufferARB;
-	static PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB;
-	static PFNGLMAPBUFFERRANGEPROC glMapBufferRange;
-	static PFNGLCREATEPROGRAMOBJECTARBPROC glCreateProgramObjectARB;
-	static PFNGLCREATESHADEROBJECTARBPROC glCreateShaderObjectARB;
-	static PFNGLSHADERSOURCEARBPROC glShaderSourceARB;
-	static PFNGLCOMPILESHADERARBPROC glCompileShaderARB;
-	static PFNGLATTACHOBJECTARBPROC glAttachObjectARB;
-	static PFNGLLINKPROGRAMARBPROC glLinkProgramARB;
-	static PFNGLUSEPROGRAMOBJECTARBPROC glUseProgramObjectARB;
-	static PFNGLGETUNIFORMLOCATIONARBPROC glGetUniformLocationARB;
-	static PFNGLDETACHOBJECTARBPROC glDetachObjectARB;
-	static PFNGLDELETEOBJECTARBPROC glDeleteObjectARB;
-	static PFNGLVALIDATEPROGRAMARBPROC glValidateProgramARB;
-	static PFNGLUNIFORM4FARBPROC glUniform4fARB;
-	static PFNGLGETOBJECTPARAMETERIVARBPROC glGetObjectParameterivARB;
-	static PFNGLGETINFOLOGARBPROC glGetInfoLogARB;
-	static PFNGLDELETEPROGRAMSARBPROC glDeleteProgramsARB;
-	static PFNGLGETPROGRAMIVARBPROC glGetProgramivARB;
-	static PFNGLENABLEVERTEXATTRIBARRAYARBPROC glEnableVertexAttribArrayARB;
-	static PFNGLDISABLEVERTEXATTRIBARRAYARBPROC glDisableVertexAttribArrayARB;
-	static PFNGLVERTEXATTRIBPOINTERARBPROC glVertexAttribPointerARB;
-	static PFNGLGETATTRIBLOCATIONARBPROC glGetAttribLocationARB;
-	static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB;
+	static void define(const boost::function<core::binding::ProcAddress_t (ExtensionInitList_t)> &);
 
-	static bool checkSupport(lpcstr_t extensions, lpcstr_t name);
-	static ExtensionSupport define();
+	static core::binding::TFunction<u32_t ()> glCreateProgramObject;
+	static core::binding::TFunction<void (s32_t num, const u32_t * programs)> glDeletePrograms;
+	static core::binding::TFunction<void (u32_t containerObj, u32_t obj)> glAttachObject;
+	static core::binding::TFunction<void (u32_t containerObj, u32_t attachedObj)> glDetachObject;
+	static core::binding::TFunction<void (u32_t programObj)> glLinkProgram;
+	static core::binding::TFunction<void (u32_t programObj)> glValidateProgram;
+	static core::binding::TFunction<void (u32_t programObj)> glUseProgramObject;
+	static core::binding::TFunction<s32_t (u32_t programObj, lpcstr_t name)> glGetUniformLocation;
+	static core::binding::TFunction<void (s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3)> glUniform4f;
+	static core::binding::TFunction<u32_t (u32_t shaderType)> glCreateShaderObject;
+	static core::binding::TFunction<void (u32_t obj)> glDeleteShaderObject;
+	static core::binding::TFunction<void (u32_t shaderObj, s32_t count, lpcstr_t * string, const s32_t * length)> glShaderSource;
+	static core::binding::TFunction<void (u32_t shaderObj)> glCompileShader;
+	static core::binding::TFunction<void (u32_t obj, u32_t pname, s32_t * params)> glGetObjectParameteriv;
+	static core::binding::TFunction<void (u32_t obj, s32_t maxLength, s32_t * length, lpstr_t infoLog)> glGetInfoLog;
+
+	static core::binding::TFunction<void (s32_t num, u32_t * buffers)> glGenBuffers;
+	static core::binding::TFunction<void (s32_t num, const u32_t * buffers)> glDeleteBuffers;
+	static core::binding::TFunction<void (u32_t target, u32_t buffer)> glBindBuffer;
+	static core::binding::TFunction<void (u32_t target, ptrdiff_t size, const void * data, u32_t usage)> glBufferData;
+	static core::binding::TFunction<void (u32_t target, ptrdiff_t offset, ptrdiff_t size, const void * data)> glBufferSubData;
+	static core::binding::TFunction<void * (u32_t target, u32_t access)> glMapBuffer;
+	static core::binding::TFunction<u8_t (u32_t target)> glUnmapBuffer;
+	static core::binding::TFunction<u8_t (u32_t buffer)> glIsBuffer;
+	static core::binding::TFunction<void (u32_t target, u32_t pname, s32_t * params)> glGetBufferParameteriv;
+
+	static core::binding::TFunction<s32_t (u32_t programObj, lpcstr_t name)> glGetAttribLocation;
+	static core::binding::TFunction<void (u32_t index)> glEnableVertexAttribArray;
+	static core::binding::TFunction<void (u32_t index)> glDisableVertexAttribArray;
+	static core::binding::TFunction<void (u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void * pointer)> glVertexAttribPointer;
 };
 
 NAMESPACE_END(gapi)

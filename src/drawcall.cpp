@@ -1,17 +1,15 @@
 #include <sway/gapi/gl/drawcall.h>
+#include <sway/gapi/gl/buffer.h>
 #include <sway/gapi/gl/extensions.h>
 #include <sway/gapi/gl/typeutils.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-EXTERN_C_BEGIN
-
-IDrawCallBase * createDrawCall() {
-	return new DrawCall();
+DLLAPI_EXPORT DrawCallRef_t createDrawCall() {
+	auto instance = boost::make_shared<DrawCall>();
+	return instance;
 }
-
-EXTERN_C_END
 
 GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	switch (topology) {
@@ -26,7 +24,7 @@ GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	}
 }
 
-void DrawCall::execute(PrimitiveType_t topology, s32_t count, IBufferBase * ibo, Type_t type) {
+void DrawCall::execute(PrimitiveType_t topology, s32_t count, ABufferBase * ibo, Type_t type) {
 	if (ibo) {
 		_drawCallFunc = boost::bind(&DrawCall::_drawIndexed, this, _1);
 		_drawElements.mode = DrawCall::topologyToGLenum(topology);
@@ -41,16 +39,16 @@ void DrawCall::execute(PrimitiveType_t topology, s32_t count, IBufferBase * ibo,
 	}
 
 	if (_drawCallFunc)
-		_drawCallFunc(static_cast<BufferObject *>(ibo));
+		_drawCallFunc(static_cast<Buffer *>(ibo));
 }
 
-void DrawCall::_draw(BufferObject * ibo) {
+void DrawCall::_draw(ABufferBase * ibo) {
 	boost::ignore_unused(ibo);
 	glDrawArrays(_drawArrays.mode, _drawArrays.first, _drawArrays.count);
 }
 
-void DrawCall::_drawIndexed(BufferObject * ibo) {
-	if (Extensions::glIsBufferARB(ibo->getObjectId())) {
+void DrawCall::_drawIndexed(ABufferBase * ibo) {
+	if (Extension::glIsBuffer(ibo->getObjectId())) {
 		// Empty
 	}
 

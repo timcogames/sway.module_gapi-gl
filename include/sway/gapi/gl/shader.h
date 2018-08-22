@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_GL_SHADEROBJECT_H
-#define SWAY_GAPI_GL_SHADEROBJECT_H
+#ifndef SWAY_GAPI_GL_SHADER_H
+#define SWAY_GAPI_GL_SHADER_H
 
 #include <sway/gapi/gl/prereqs.h>
 
@@ -10,13 +10,11 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление шейдерного объекта.
  */
-class ShaderObject final : public IShaderBase {
+class Shader final : public AShaderBase {
 public:
-#pragma region "Преобразование внутренних типов к GLenum или строке"
+#pragma region "Преобразование внутренних типов к GLenum"
 
 	static GLenum typeToGLenum(ShaderType_t type);
-
-	static std::string typeToStr(ShaderType_t type);
 
 #pragma endregion
 
@@ -29,7 +27,7 @@ public:
 	 * \param[in] type
 	 *    Тип создаваемого шейдера.
 	 */
-	ShaderObject(ShaderType_t type);
+	Shader(ShaderType_t type);
 
 	/*!
 	 * \brief
@@ -37,7 +35,7 @@ public:
 	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
-	virtual ~ShaderObject();
+	virtual ~Shader();
 
 	/*!
 	 * \brief
@@ -66,19 +64,12 @@ public:
 	 */
 	virtual ShaderType_t getType() const;
 
-	/*!
-	 * \brief
-	 *    Получает идентификатор объекта.
-	 */
-	virtual u32_t getObjectId() const;
-
 private:
 	ShaderType_t _type; /*!< Тип шейдера. */
 	bool _compiled;
-	u32_t _objectId;
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_GL_SHADEROBJECT_H
+#endif // SWAY_GAPI_GL_SHADER_H

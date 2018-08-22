@@ -35,6 +35,12 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 cmake --build .
 ```
 
+Таблица символов
+
+```console
+readelf -Ws ./../bin/module_gapi_gl.so.*
+```
+
 ## Contributing
 
 См. [CONTRIBUTING](./github/CONTRIBUTING.md)

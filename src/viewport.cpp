@@ -3,6 +3,11 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+DLLAPI_EXPORT ViewportRef_t createViewport() {
+	auto instance = boost::make_shared<Viewport>();
+	return instance;
+}
+
 Viewport::Viewport()
 	: _mode(ViewportMode_t::kEnabled) {
 	// Empty

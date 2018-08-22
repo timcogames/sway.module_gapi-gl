@@ -1,8 +1,6 @@
 #ifndef SWAY_GAPI_GL_VERTEXLAYOUT_H
 #define SWAY_GAPI_GL_VERTEXLAYOUT_H
 
-#include <sway/gapi/vertexlayoutbase.h>
-
 #include <sway/gapi/gl/shaderprogram.h>
 #include <sway/gapi/gl/typeutils.h>
 #include <sway/gapi/gl/prereqs.h>
@@ -18,10 +16,10 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 * 
-	 * \param[in] shader
+	 * \param[in] program
 	 *    Указатель на шейдерную программу.
 	 */
-	VertexLayout(IShaderProgramBase * shader);
+	VertexLayout(ShaderProgramRef_t program);
 
 	/*!
 	 * \brief
@@ -53,7 +51,7 @@ public:
 	virtual void disable();
 
 private:
-	IShaderProgramBase * _shaderProgram; /*!> Шейдерная программа. */
+	ShaderProgramRef_t _shaderProgram; /*!> Шейдерная программа. */
 	VertexAttribDescUmap_t _attributes;
 	u32_t _attributeOffset;
 	int _maxVertexAttributes; /*!< Максимальное количество атрибутов. */

@@ -4,17 +4,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-EXTERN_C_BEGIN
-
-IVertexLayoutBase * createVertexLayout(IShaderProgramBase * shaderProgram) {
-	return new VertexLayout(shaderProgram);
+DLLAPI_EXPORT VertexLayoutRef_t createVertexLayout(ShaderProgramRef_t program) {
+	auto instance = boost::make_shared<VertexLayout>(program);
+	return instance;
 }
 
-EXTERN_C_END
-
-VertexLayout::VertexLayout(IShaderProgramBase * shader) : IVertexLayoutBase(shader)
+VertexLayout::VertexLayout(ShaderProgramRef_t program) : IVertexLayoutBase(program)
 	, _attributeOffset(0)
-	, _shaderProgram(shader) {
+	, _shaderProgram(program) {
 	/* Получаем максимальный номер для положения вершинного атрибута. */
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &_maxVertexAttributes);
 }
@@ -25,7 +22,7 @@ VertexLayout::~VertexLayout() {
 
 void VertexLayout::addAttribute(VertexAttributeDescriptor desc) {
 	std::string alias = stringize(desc.semantic);
-	s32_t location = Extensions::glGetAttribLocationARB(_shaderProgram->getObjectId(), alias.c_str());
+	s32_t location = Extension::glGetAttribLocation(_shaderProgram->getObjectId(), alias.c_str());
 	
 	desc.location = location;
 	desc.offset = BUFFER_OFFSET(_attributeOffset);
@@ -39,8 +36,8 @@ void VertexLayout::addAttribute(VertexAttributeDescriptor desc) {
 void VertexLayout::enable() {
 	BOOST_FOREACH(VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
 		if (attrib.enabled) {
-			Extensions::glEnableVertexAttribArrayARB(attrib.location);
-			Extensions::glVertexAttribPointerARB(attrib.location, attrib.numComponents, TypeUtils::toGL(attrib.format), attrib.normalized, attrib.stride, attrib.offset);
+			Extension::glEnableVertexAttribArray(attrib.location);
+			Extension::glVertexAttribPointer(attrib.location, attrib.numComponents, TypeUtils::toGL(attrib.format), attrib.normalized, attrib.stride, attrib.offset);
 		}
 	}
 }
@@ -48,7 +45,7 @@ void VertexLayout::enable() {
 void VertexLayout::disable() {
 	BOOST_FOREACH(VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
 		if (attrib.enabled)
-			Extensions::glDisableVertexAttribArrayARB(attrib.location);
+			Extension::glDisableVertexAttribArray(attrib.location);
 	}
 }
 

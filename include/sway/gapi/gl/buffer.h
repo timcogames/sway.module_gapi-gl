@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_GL_BUFFEROBJECT_H
-#define SWAY_GAPI_GL_BUFFEROBJECT_H
+#ifndef SWAY_GAPI_GL_BUFFER_H
+#define SWAY_GAPI_GL_BUFFER_H
 
 #include <sway/gapi/gl/prereqs.h>
 
@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
  * \brief
  *    Представление аппаратного буфера.
  */
-class BufferObject final : public IBufferBase {
+class Buffer final : public ABufferBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -28,7 +28,7 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	BufferObject(const BufferDescriptor & desc);
+	Buffer(const BufferDescriptor & desc);
 
 	/*!
 	 * \brief
@@ -36,7 +36,7 @@ public:
 	 *
 	 *    Освобождает захваченные ресурсы.
 	 */
-	virtual ~BufferObject();
+	virtual ~Buffer();
 
 	/*!
 	 * \brief
@@ -179,22 +179,15 @@ public:
 	 */
 	virtual s32_t getByteStride() const;
 
-	/*!
-	 * \brief
-	 *    Получает идентификатор ресурса.
-	 */
-	virtual u32_t getObjectId() const;
-
 private:
 	s32_t _allocedSize;
 	u32_t _target;
 	u32_t _usage;
 	s32_t _capacity;
 	s32_t _byteStride;
-	u32_t _objectId;
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif // SWAY_GAPI_GL_BUFFEROBJECT_H
+#endif // SWAY_GAPI_GL_BUFFER_H

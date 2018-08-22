@@ -3,7 +3,6 @@
 #include <sway/core.h>
 #include <sway/math.h>
 #include <sway/gapi.h>
-#include <sway/gapi/gl/extensions.h>
 #include <sway/gapi/gl.h>
 
 #include <boost/shared_ptr.hpp> // boost::shared_ptr
@@ -24,29 +23,34 @@ int main(int argc, char * argv[]) {
 	canvas->show();
 	canvas->getContext()->makeCurrent();
 
-	auto shaderProgram = boost::make_shared<gapi::ShaderProgram>();
+	auto capability = gapi::createCapability();
 
 	gapi::ShaderCreateInfo vsoCreateInfo;
 	vsoCreateInfo.type = gapi::ShaderType_t::kVertex;
-	vsoCreateInfo.source = 
+	vsoCreateInfo.code =
 		"attribute vec3 attr_position; \
 		void main() { \
 			gl_Position = vec4(attr_position, 1.0); \
-		}";
-
-	shaderProgram->attach(gapi::createShader(vsoCreateInfo));
+	 	}";
 
 	gapi::ShaderCreateInfo fsoCreateInfo;
 	fsoCreateInfo.type = gapi::ShaderType_t::kFragment;
-	fsoCreateInfo.source = 
+	fsoCreateInfo.code =
 		"void main() { \
 			gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \
 		}";
 
-	shaderProgram->attach(gapi::createShader(fsoCreateInfo));
-	
-	shaderProgram->link();
-	shaderProgram->validate();
+	auto program = gapi::createShaderProgram();
+	program->attach(gapi::createShader(vsoCreateInfo));
+	program->attach(gapi::createShader(fsoCreateInfo));
+
+	try {
+		program->link();
+		program->validate();
+	}
+	catch (std::exception & exception) {
+		throw;
+	}
 
 	gapi::BufferCreateInfo vboCreateInfo;
 	vboCreateInfo.desc.target = gapi::BufferTarget_t::kArray;
@@ -61,15 +65,15 @@ int main(int argc, char * argv[]) {
 	vboCreateInfo.data = vertices;
 
 	auto vbo = gapi::createBuffer(vboCreateInfo);
-	auto vlayout = boost::make_shared<gapi::VertexLayout>(shaderProgram.get());
+	auto vlayout = gapi::createVertexLayout(program);
 	vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
 
-	auto drawCall = new gapi::DrawCall();
+	auto drawCall = gapi::createDrawCall();
 
 	while (canvas->eventLoop(true)) {
 		canvas->getContext()->makeCurrent();
 
-		shaderProgram->use();
+		program->use();
 
 		vbo->bind();
 		vlayout->enable();
@@ -79,14 +83,11 @@ int main(int argc, char * argv[]) {
 		vlayout->disable();
 		vbo->unbind();
 
-		shaderProgram->unuse();
+		program->unuse();
 
 		canvas->getContext()->present();
 		canvas->getContext()->doneCurrent();
 	}
-
-	delete vbo;
-	delete drawCall;
 
 	return 0;
 }
