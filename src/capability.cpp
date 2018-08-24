@@ -22,10 +22,6 @@ Capability::Capability() {
 	printf("OpenGL extensions:\n");
 }
 
-Capability::~Capability() {
-	// Empty
-}
-
 core::Version Capability::getVersion() const {
 	return core::Version(_majorVersion, _minorVersion);
 }

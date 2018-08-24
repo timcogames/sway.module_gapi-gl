@@ -36,17 +36,13 @@ public:
 	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	DrawCall() {
-		// Empty
-	}
+	DrawCall() = default;
 
 	/*!
 	 * \brief
 	 *    Деструктор класса.
 	 */
-	virtual ~DrawCall() {
-		// Empty
-	}
+	virtual ~DrawCall() = default;
 
 	/*!
 	 * \brief
@@ -64,7 +60,7 @@ public:
 	 * \param[in] type
 	 *    Тип значений в индексах.
 	 */
-	virtual void execute(PrimitiveType_t topology, s32_t count, ABufferBase * ibo, Type_t type);
+	virtual void execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, Type_t type);
 
 private:
 	/*!
@@ -72,21 +68,21 @@ private:
 	 *    Выводит примитивы по данным в массивах.
 	 * 
 	 * \sa
-	 *    _drawIndexed(ABufferBase *)
+	 *    _drawIndexed(BufferRef_t)
 	 */
-	void _draw(ABufferBase * ibo);
+	void _draw(BufferRef_t ibo);
 
 	/*!
 	 * \brief
 	 *    Выводит индексные примитивы по данным в массивах.
 	 * 
 	 * \sa
-	 *    _draw(ABufferBase *)
+	 *    _draw(BufferRef_t)
 	 */
-	void _drawIndexed(ABufferBase * ibo);
+	void _drawIndexed(BufferRef_t ibo);
 
 private:
-	BufferDrawCallFunc_t _drawCallFunc;
+	DrawCbFunc_t _drawCbFunc;
 	union {
 		DrawElements _drawElements;
 		DrawArrays _drawArrays;

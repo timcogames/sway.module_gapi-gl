@@ -2,7 +2,6 @@
 #include <sway/gapi/gl/shader.h>
 #include <sway/gapi/gl/extensions.h>
 #include <sway/gapi/gl/exceptions.h>
-#include <type_traits>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

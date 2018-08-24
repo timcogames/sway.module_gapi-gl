@@ -20,7 +20,7 @@ public:
 	 * \brief
 	 *    Деструктор класса.
 	 */
-	virtual ~Capability();
+	virtual ~Capability() = default;
 
 	/*!
 	 * \brief

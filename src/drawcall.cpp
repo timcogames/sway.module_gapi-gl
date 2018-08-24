@@ -24,30 +24,30 @@ GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	}
 }
 
-void DrawCall::execute(PrimitiveType_t topology, s32_t count, ABufferBase * ibo, Type_t type) {
+void DrawCall::execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, Type_t type) {
 	if (ibo) {
-		_drawCallFunc = boost::bind(&DrawCall::_drawIndexed, this, _1);
+		_drawCbFunc = boost::bind(&DrawCall::_drawIndexed, this, _1);
 		_drawElements.mode = DrawCall::topologyToGLenum(topology);
 		_drawElements.count = count;
 		_drawElements.type = TypeUtils::toGL(type);
 	}
 	else {
-		_drawCallFunc = boost::bind(&DrawCall::_draw, this, _1);
+		_drawCbFunc = boost::bind(&DrawCall::_draw, this, _1);
 		_drawArrays.mode = DrawCall::topologyToGLenum(topology);
 		_drawArrays.first = 0;
 		_drawArrays.count = count;
 	}
 
-	if (_drawCallFunc)
-		_drawCallFunc(static_cast<Buffer *>(ibo));
+	if (_drawCbFunc)
+		_drawCbFunc(ibo);
 }
 
-void DrawCall::_draw(ABufferBase * ibo) {
+void DrawCall::_draw(BufferRef_t ibo) {
 	boost::ignore_unused(ibo);
 	glDrawArrays(_drawArrays.mode, _drawArrays.first, _drawArrays.count);
 }
 
-void DrawCall::_drawIndexed(ABufferBase * ibo) {
+void DrawCall::_drawIndexed(BufferRef_t ibo) {
 	if (Extension::glIsBuffer(ibo->getObjectId())) {
 		// Empty
 	}

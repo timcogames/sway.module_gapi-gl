@@ -28,16 +28,4 @@
 
 #define BUFFER_OFFSET(x) ((lpstr_t) NULL + (x))
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
-
-class Shader;
-class ShaderProgram;
-class Buffer;
-
-typedef boost::function<void (ABufferBase *)> BufferDrawCallFunc_t;
-
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
-
 #endif // SWAY_GAPI_GL_PREREQS_H

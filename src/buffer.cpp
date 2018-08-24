@@ -40,12 +40,10 @@ GLenum Buffer::accessToGLenum(BufferAccess_t access) {
 }
 
 Buffer::Buffer(const BufferDescriptor & desc) : ABufferBase(desc)
-	, _allocedSize(0) {
-	setTarget(desc.target);
-	setUsage(desc.usage);
-	setByteStride(desc.byteStride);
-	setCapacity(desc.capacity);
-
+	, _target(desc.target)
+	, _usage(desc.usage)
+	, _byteStride(desc.byteStride)
+	, _capacity(desc.capacity) {
 	Extension::glGenBuffers(1, &_objectId);
 }
 
@@ -54,23 +52,27 @@ Buffer::~Buffer() {
 }
 
 bool Buffer::allocate(const void * data) {
+	u32_t target = Buffer::targetToGLenum(_target);
 	s32_t dataSize = _capacity * _byteStride;
+	s32_t allocedSize = 0;
 
-	Extension::glBindBuffer(_target, _objectId);
-	Extension::glBufferData(_target, dataSize, data, _usage);
+	Extension::glBindBuffer(target, _objectId);
+	Extension::glBufferData(target, dataSize, data, Buffer::usageToGLenum(_usage));
 
-	Extension::glGetBufferParameteriv(_target, GL_BUFFER_SIZE_ARB, &_allocedSize);
-	if (_allocedSize != dataSize)
+	Extension::glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
+	if (allocedSize != dataSize)
 		return false;
 
 	return true;
 }
 
 void Buffer::updateSubdata(u32_t offset, u32_t size, const void * source) {
+	u32_t target = Buffer::targetToGLenum(_target);
+
 	if (Extension::glIsBuffer(_objectId)) {
-		Extension::glBindBuffer(_target, _objectId);
-		Extension::glBufferSubData(_target, offset, size, source);
-		Extension::glBindBuffer(_target, 0);
+		Extension::glBindBuffer(target, _objectId);
+		Extension::glBufferSubData(target, offset, size, source);
+		Extension::glBindBuffer(target, 0);
 	}
 }
 
@@ -79,70 +81,43 @@ void Buffer::updateSubdata(const void * source) {
 }
 
 void * Buffer::map() {
-	Extension::glBindBuffer(_target, _objectId);
-	GLvoid * mapped = Extension::glMapBuffer(_target, GL_WRITE_ONLY_ARB);
+	u32_t target = Buffer::targetToGLenum(_target);
+
+	Extension::glBindBuffer(target, _objectId);
+	GLvoid * mapped = Extension::glMapBuffer(target, GL_WRITE_ONLY_ARB);
 	if (!mapped)
 		return NULL;
-	Extension::glBindBuffer(_target, 0);
+	Extension::glBindBuffer(target, 0);
 
 	return mapped;
 }
 
 void Buffer::unmap() {
-	Extension::glBindBuffer(_target, _objectId);
-	Extension::glUnmapBuffer(_target);
-	Extension::glBindBuffer(_target, 0);
+	u32_t target = Buffer::targetToGLenum(_target);
+
+	Extension::glBindBuffer(target, _objectId);
+	Extension::glUnmapBuffer(target);
+	Extension::glBindBuffer(target, 0);
 }
 
 void Buffer::bind() {
-	Extension::glBindBuffer(_target, _objectId);
+	Extension::glBindBuffer(Buffer::targetToGLenum(_target), _objectId);
 }
 
 void Buffer::unbind() {
-	Extension::glBindBuffer(_target, 0);
-}
-
-u32_t Buffer::getAllocedSize() const {
-	return _allocedSize;
-}
-
-void Buffer::setTarget(BufferTarget_t target) {
-	_target = Buffer::targetToGLenum(target);
+	Extension::glBindBuffer(Buffer::targetToGLenum(_target), 0);
 }
 
 BufferTarget_t Buffer::getTarget() const {
-	switch (_target) {
-	case GL_ARRAY_BUFFER_ARB: return BufferTarget_t::kArray;
-	case GL_ELEMENT_ARRAY_BUFFER_ARB: return BufferTarget_t::kElementArray;
-	default:
-		return BufferTarget_t::kNone;
-	}
-}
-
-void Buffer::setUsage(BufferUsage_t usage) {
-	_usage = Buffer::usageToGLenum(usage);
+	return _target;
 }
 
 BufferUsage_t Buffer::getUsage() const {
-	switch (_usage) {
-	case GL_STATIC_DRAW_ARB: return BufferUsage_t::kStatic;
-	case GL_DYNAMIC_DRAW_ARB: return BufferUsage_t::kDynamic;
-	case GL_STREAM_DRAW_ARB: return BufferUsage_t::kStream;
-	default:
-		return BufferUsage_t::kNone;
-	}
-}
-
-void Buffer::setCapacity(s32_t capacity) {
-	_capacity = capacity;
+	return _usage;
 }
 
 s32_t Buffer::getCapacity() const {
 	return _capacity;
-}
-
-void Buffer::setByteStride(s32_t stride) {
-	_byteStride = stride;
 }
 
 s32_t Buffer::getByteStride() const {

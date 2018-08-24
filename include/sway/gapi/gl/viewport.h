@@ -20,7 +20,7 @@ public:
 	 * \brief
 	 *    Деструктор класса.
 	 */
-	~Viewport() = default;
+	virtual ~Viewport() = default;
 
 	/*!
 	 * \brief
