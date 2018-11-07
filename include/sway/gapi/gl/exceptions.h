@@ -12,7 +12,6 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
 	ShaderException(u32_t objectId)
@@ -39,7 +38,6 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
 	ShaderCompilationException(u32_t objectId)
@@ -53,7 +51,6 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
 	ShaderProgramLinkageException(u32_t objectId)
@@ -67,7 +64,6 @@ public:
 	/*!
 	 * \brief
 	 *    Конструктор класса.
-	 *
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
 	ShaderProgramValidationException(u32_t objectId)
