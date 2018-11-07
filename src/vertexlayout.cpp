@@ -34,7 +34,7 @@ void VertexLayout::addAttribute(VertexAttributeDescriptor desc) {
 }
 
 void VertexLayout::enable() {
-	BOOST_FOREACH(VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
+	BOOST_FOREACH (VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
 		if (attrib.enabled) {
 			Extension::glEnableVertexAttribArray(attrib.location);
 			Extension::glVertexAttribPointer(attrib.location, attrib.numComponents, TypeUtils::toGL(attrib.format), attrib.normalized, attrib.stride, attrib.offset);
@@ -43,7 +43,7 @@ void VertexLayout::enable() {
 }
 
 void VertexLayout::disable() {
-	BOOST_FOREACH(VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
+	BOOST_FOREACH (VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
 		if (attrib.enabled)
 			Extension::glDisableVertexAttribArray(attrib.location);
 	}
