@@ -24,7 +24,7 @@ GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	}
 }
 
-void DrawCall::execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, Type_t type) {
+void DrawCall::execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type) {
 	if (ibo) {
 		_drawCbFunc = boost::bind(&DrawCall::_drawIndexed, this, _1);
 		_drawElements.mode = DrawCall::topologyToGLenum(topology);

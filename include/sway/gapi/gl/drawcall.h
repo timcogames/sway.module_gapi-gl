@@ -59,7 +59,7 @@ public:
 	 * \param[in] type
 	 *    Тип значений в индексах.
 	 */
-	virtual void execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, Type_t type);
+	virtual void execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type);
 
 private:
 	/*!

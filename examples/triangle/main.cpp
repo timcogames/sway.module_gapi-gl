@@ -11,14 +11,14 @@
 using namespace sway;
 
 int main(int argc, char * argv[]) {
-	glx11::WindowInitialParams params;
-	params.title = "examples";
-	params.sizes[core::detail::toUnderlying(glx11::WindowSize_t::kOrigin)] = math::size2i_t(800, 600);
-	params.fullscreen = false;
-	params.resizable = false;
+	glx11::WindowInitialInfo windowInitialInfo;
+	windowInitialInfo.title = "examples";
+	windowInitialInfo.size.normal = math::size2i_t(800, 600);
+	windowInitialInfo.fullscreen = false;
+	windowInitialInfo.resizable = false;
 
 	auto connection = boost::make_shared<glx11::XScreenConnection>();
-	auto canvas = boost::make_shared<glx11::Canvas>(connection, params);
+	auto canvas = boost::make_shared<glx11::Canvas>(connection, windowInitialInfo);
 
 	canvas->show();
 	canvas->getContext()->makeCurrent();
@@ -78,7 +78,7 @@ int main(int argc, char * argv[]) {
 		vbo->bind();
 		vlayout->enable();
 
-		drawCall->execute(gapi::PrimitiveType_t::kTriangleList, 3, NULL, Type_t::kNone);
+		drawCall->execute(gapi::PrimitiveType_t::kTriangleList, 3, NULL, core::detail::DataType_t::kChar);
 
 		vlayout->disable();
 		vbo->unbind();

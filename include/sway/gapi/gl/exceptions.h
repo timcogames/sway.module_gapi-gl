@@ -7,7 +7,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class ShaderException : public Exception {
+class ShaderException : public core::runtime::Exception {
 public:
 	/*!
 	 * \brief
@@ -15,7 +15,7 @@ public:
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
 	ShaderException(u32_t objectId)
-		: Exception([objectId]() -> std::string {
+		: core::runtime::Exception([objectId]() -> std::string {
 			std::string result;
 			s32_t logLength;
 			
