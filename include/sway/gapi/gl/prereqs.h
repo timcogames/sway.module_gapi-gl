@@ -5,15 +5,13 @@
 #include <sway/math.h>
 #include <sway/gapi.h>
 
+#include <memory> // std::shared_ptr, std::make_shared
 #include <string.h> // std::string, strstr
 #include <set> // std::set
 
-#include <boost/any.hpp>
 #include <boost/algorithm/string.hpp> // boost::to_upper
 #include <boost/core/ignore_unused.hpp> // boost::ignore_unused
-#include <boost/shared_ptr.hpp> // boost::shared_ptr
 #include <boost/make_unique.hpp> // boost::make_unique
-#include <boost/make_shared.hpp> // boost::make_shared
 #include <boost/unordered_map.hpp> // boost::unordered_map
 #include <boost/function.hpp> // boost::function
 #include <boost/bind.hpp> // boost::bind

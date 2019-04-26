@@ -5,8 +5,7 @@
 #include <sway/gapi.h>
 #include <sway/gapi/gl.h>
 
-#include <boost/shared_ptr.hpp> // boost::shared_ptr
-#include <boost/make_shared.hpp> // boost::make_shared
+#include <memory> // std::shared_ptr, std::make_shared
 
 using namespace sway;
 
@@ -17,8 +16,8 @@ int main(int argc, char * argv[]) {
 	windowInitialInfo.fullscreen = false;
 	windowInitialInfo.resizable = false;
 
-	auto connection = boost::make_shared<glx11::XScreenConnection>();
-	auto canvas = boost::make_shared<glx11::Canvas>(connection, windowInitialInfo);
+	auto connection = std::make_shared<glx11::XScreenConnection>();
+	auto canvas = std::make_shared<glx11::Canvas>(connection, windowInitialInfo);
 
 	canvas->show();
 	canvas->getContext()->makeCurrent();

@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(gapi)
 
 DLLAPI_EXPORT ShaderRef_t createShader(const ShaderCreateInfo & createInfo) {
 	try {
-		auto instance = boost::make_shared<Shader>(createInfo.type);
+		auto instance = std::make_shared<Shader>(createInfo.type);
 		instance->compile(createInfo.code.c_str());
 		return instance;
 	}

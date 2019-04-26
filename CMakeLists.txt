@@ -1,5 +1,5 @@
 # Проверяем версию CMake
-cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
 # Мета-информация о проекте
 set(META_PROJECT_NAME module_gapi_gl)
@@ -59,15 +59,19 @@ find_package(OpenGL REQUIRED)
 find_package(X11 REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON)
-set(BOOST_COMPONENTS system filesystem thread)
-find_package(Boost 1.58 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-if(NOT Boost_FOUND)
-	message(FATAL_ERROR "Fatal error: Boost (version >= 1.58) required.")
-else()
-	message(STATUS "Boost includes: ${Boost_INCLUDE_DIRS}")
-	message(STATUS "Boost libs: ${Boost_LIBRARIES}")
+set(Boost_NO_SYSTEM_PATHS TRUE)
+set(BOOST_COMPONENTS filesystem)
+set(BOOST_INCLUDEDIR "${BOOST_ROOT}/")
+set(BOOST_LIBRARYDIR "${BOOST_ROOT}/lib")
 
-	include_directories(${Boost_INCLUDE_DIRS})
+find_package(Boost 1.69.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+if(NOT Boost_FOUND)
+	message(FATAL_ERROR "Fatal error: Boost (version >= 1.69.0) required.")
+else()
+	message(STATUS "Boost includes: ${BOOST_INCLUDEDIR}")
+	message(STATUS "Boost libs: ${BOOST_LIBRARYDIR}")
+
+	include_directories(${BOOST_INCLUDEDIR})
 endif()
 
 if(MODULE_GAPI_BUILD_SHARED)
@@ -87,7 +91,7 @@ else()
 	set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
 endif()
 
-target_link_libraries(${META_LIB_NAME} GL X11 ${Boost_LIBRARIES})
+target_link_libraries(${META_LIB_NAME} GL X11 ${BOOST_LIBRARIES})
 
 if(ENABLE_EXAMPLES OR ENABLE_TESTS)
 	if(NOT TARGET libmodule_core)

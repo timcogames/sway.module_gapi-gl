@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 DLLAPI_EXPORT DrawCallRef_t createDrawCall() {
-	auto instance = boost::make_shared<DrawCall>();
+	auto instance = std::make_shared<DrawCall>();
 	return instance;
 }
 
