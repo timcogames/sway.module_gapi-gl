@@ -12,6 +12,8 @@ NAMESPACE_BEGIN(gapi)
  */
 class ShaderProgram final : public AShaderProgramBase {
 public:
+	static ShaderProgramRef_t createInstance();
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

@@ -18,6 +18,8 @@ public:
 
 #pragma endregion
 
+	static ShaderRef_t createInstance(const ShaderCreateInfo & createInfo);
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

@@ -10,6 +10,8 @@ NAMESPACE_BEGIN(gapi)
 
 class VertexLayout : public IVertexLayoutBase {
 public:
+	static VertexLayoutRef_t createInstance(ShaderProgramRef_t program);
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

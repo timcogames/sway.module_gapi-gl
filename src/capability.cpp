@@ -4,7 +4,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-DLLAPI_EXPORT CapabilityRef_t createCapability() {
+CapabilityRef_t Capability::createInstance() {
 	auto instance = std::make_shared<Capability>();
 	return instance;
 }

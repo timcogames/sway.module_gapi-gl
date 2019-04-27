@@ -22,7 +22,9 @@ int main(int argc, char * argv[]) {
 	canvas->show();
 	canvas->getContext()->makeCurrent();
 
-	auto capability = gapi::createCapability();
+	auto functions = new gapi::ConcreatePluginFunctionSet();
+	gapi::pluginInitialize(functions);
+	auto capability = functions->createCapability();
 
 	gapi::ShaderCreateInfo vsoCreateInfo;
 	vsoCreateInfo.type = gapi::ShaderType_t::kVertex;
@@ -39,9 +41,9 @@ int main(int argc, char * argv[]) {
 			gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \
 		}";
 
-	auto program = gapi::createShaderProgram();
-	program->attach(gapi::createShader(vsoCreateInfo));
-	program->attach(gapi::createShader(fsoCreateInfo));
+	auto program = functions->createShaderProgram();
+	program->attach(functions->createShader(vsoCreateInfo));
+	program->attach(functions->createShader(fsoCreateInfo));
 
 	try {
 		program->link();
@@ -63,11 +65,11 @@ int main(int argc, char * argv[]) {
 	};
 	vboCreateInfo.data = vertices;
 
-	auto vbo = gapi::createBuffer(vboCreateInfo);
-	auto vlayout = gapi::createVertexLayout(program);
+	auto vbo = functions->createBuffer(vboCreateInfo);
+	auto vlayout = functions->createVertexLayout(program);
 	vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
 
-	auto drawCall = gapi::createDrawCall();
+	auto drawCall = functions->createDrawCall();
 
 	while (canvas->eventLoop(true)) {
 		canvas->getContext()->makeCurrent();

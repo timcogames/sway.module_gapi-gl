@@ -8,6 +8,8 @@ NAMESPACE_BEGIN(gapi)
 
 class Viewport : public IViewportBase {
 public:
+	static ViewportRef_t createInstance();
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

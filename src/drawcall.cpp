@@ -6,11 +6,6 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-DLLAPI_EXPORT DrawCallRef_t createDrawCall() {
-	auto instance = std::make_shared<DrawCall>();
-	return instance;
-}
-
 GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	switch (topology) {
 	case PrimitiveType_t::kPointList: return GL_POINTS;
@@ -22,6 +17,11 @@ GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
 	default:
 		return 0;
 	}
+}
+
+DrawCallRef_t DrawCall::createInstance() {
+	auto instance = std::make_shared<DrawCall>();
+	return instance;
 }
 
 void DrawCall::execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type) {

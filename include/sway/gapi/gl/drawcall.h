@@ -30,6 +30,8 @@ public:
 
 #pragma endregion
 
+	static DrawCallRef_t createInstance();
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

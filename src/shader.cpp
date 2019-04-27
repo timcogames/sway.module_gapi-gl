@@ -5,7 +5,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-DLLAPI_EXPORT ShaderRef_t createShader(const ShaderCreateInfo & createInfo) {
+GLenum Shader::typeToGLenum(ShaderType_t type) {
+	switch (type) {
+	case ShaderType_t::kVertex: return GL_VERTEX_SHADER_ARB;
+	case ShaderType_t::kFragment: return GL_FRAGMENT_SHADER_ARB;
+	default:
+		return GL_INVALID_INDEX;
+	}
+}
+
+ShaderRef_t Shader::createInstance(const ShaderCreateInfo & createInfo) {
 	try {
 		auto instance = std::make_shared<Shader>(createInfo.type);
 		instance->compile(createInfo.code.c_str());
@@ -14,15 +23,6 @@ DLLAPI_EXPORT ShaderRef_t createShader(const ShaderCreateInfo & createInfo) {
 	catch (std::exception & exception) {
 		fprintf(stderr, "ERROR: %s shader object creation failed.\n", stringize(createInfo.type).c_str());
 		throw;
-	}
-}
-
-GLenum Shader::typeToGLenum(ShaderType_t type) {
-	switch (type) {
-	case ShaderType_t::kVertex: return GL_VERTEX_SHADER_ARB;
-	case ShaderType_t::kFragment: return GL_FRAGMENT_SHADER_ARB;
-	default:
-		return GL_INVALID_INDEX;
 	}
 }
 

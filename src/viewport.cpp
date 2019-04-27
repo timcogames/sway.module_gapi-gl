@@ -3,7 +3,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-DLLAPI_EXPORT ViewportRef_t createViewport() {
+ViewportRef_t Viewport::createInstance() {
 	auto instance = std::make_shared<Viewport>();
 	return instance;
 }

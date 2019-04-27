@@ -22,6 +22,8 @@ public:
 
 #pragma endregion
 
+	static BufferRef_t createInstance(const BufferCreateInfo & createInfo);
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

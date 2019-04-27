@@ -8,6 +8,8 @@ NAMESPACE_BEGIN(gapi)
 
 class Capability : public ICapabilityBase {
 public:
+	static CapabilityRef_t createInstance();
+
 	/*!
 	 * \brief
 	 *    Конструктор класса.

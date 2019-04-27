@@ -4,12 +4,6 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-DLLAPI_EXPORT BufferRef_t createBuffer(const BufferCreateInfo & createInfo) {
-	auto instance = std::make_shared<Buffer>(createInfo.desc);
-	if (instance->allocate(createInfo.data)) return instance;
-	return nullptr;
-}
-
 GLenum Buffer::targetToGLenum(BufferTarget_t target) {
 	switch (target) {
 	case BufferTarget_t::kArray: return GL_ARRAY_BUFFER_ARB;
@@ -37,6 +31,14 @@ GLenum Buffer::accessToGLenum(BufferAccess_t access) {
 	default:
 		return 0;
 	}
+}
+
+BufferRef_t Buffer::createInstance(const BufferCreateInfo & createInfo) {
+	auto instance = std::make_shared<Buffer>(createInfo.desc);
+	if (instance->allocate(createInfo.data))
+		return instance;
+
+	return nullptr;
 }
 
 Buffer::Buffer(const BufferDescriptor & desc) : ABufferBase(desc)
