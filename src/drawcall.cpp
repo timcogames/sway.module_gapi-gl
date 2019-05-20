@@ -6,14 +6,14 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-GLenum DrawCall::topologyToGLenum(PrimitiveType_t topology) {
+GLenum DrawCall::topologyToGLenum(TopologyType_t topology) {
 	switch (topology) {
-	case PrimitiveType_t::kPointList: return GL_POINTS;
-	case PrimitiveType_t::kLineList: return GL_LINES;
-	case PrimitiveType_t::kLineStrip: return GL_LINE_STRIP;
-	case PrimitiveType_t::kTriangleList: return GL_TRIANGLES;
-	case PrimitiveType_t::kTriangleStrip: return GL_TRIANGLE_STRIP;
-	case PrimitiveType_t::kTriangleFan: return GL_TRIANGLE_FAN;
+	case TopologyType_t::kPointList: return GL_POINTS;
+	case TopologyType_t::kLineList: return GL_LINES;
+	case TopologyType_t::kLineStrip: return GL_LINE_STRIP;
+	case TopologyType_t::kTriangleList: return GL_TRIANGLES;
+	case TopologyType_t::kTriangleStrip: return GL_TRIANGLE_STRIP;
+	case TopologyType_t::kTriangleFan: return GL_TRIANGLE_FAN;
 	default:
 		return 0;
 	}
@@ -24,7 +24,7 @@ DrawCallRef_t DrawCall::createInstance() {
 	return instance;
 }
 
-void DrawCall::execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type) {
+void DrawCall::execute(TopologyType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type) {
 	if (ibo) {
 		_drawCbFunc = boost::bind(&DrawCall::_drawIndexed, this, _1);
 		_drawElements.mode = DrawCall::topologyToGLenum(topology);

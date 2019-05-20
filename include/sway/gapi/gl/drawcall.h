@@ -26,7 +26,7 @@ public:
 	 * \brief
 	 *    Переводит тип топологии (режим отображение примитива) в GL.
 	 */
-	static GLenum topologyToGLenum(PrimitiveType_t topology);
+	static GLenum topologyToGLenum(TopologyType_t topology);
 
 #pragma endregion
 
@@ -61,7 +61,7 @@ public:
 	 * \param[in] type
 	 *    Тип значений в индексах.
 	 */
-	virtual void execute(PrimitiveType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type);
+	virtual void execute(TopologyType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type);
 
 private:
 	/*!

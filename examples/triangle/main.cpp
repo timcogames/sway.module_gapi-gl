@@ -79,7 +79,7 @@ int main(int argc, char * argv[]) {
 		vbo->bind();
 		vlayout->enable();
 
-		drawCall->execute(gapi::PrimitiveType_t::kTriangleList, 3, NULL, core::detail::DataType_t::kChar);
+		drawCall->execute(gapi::TopologyType_t::kTriangleList, 3, NULL, core::detail::DataType_t::kChar);
 
 		vlayout->disable();
 		vbo->unbind();
