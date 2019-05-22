@@ -24,22 +24,22 @@ DrawCallRef_t DrawCall::createInstance() {
 	return instance;
 }
 
-void DrawCall::execute(TopologyType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type) {
-	if (ibo) {
+void DrawCall::execute(TopologyType_t topology, BufferSet bufset, core::detail::DataType_t type) {
+	if (bufset.ibo) {
 		_drawCbFunc = boost::bind(&DrawCall::_drawIndexed, this, _1);
 		_drawElements.mode = DrawCall::topologyToGLenum(topology);
-		_drawElements.count = count;
+		_drawElements.count = bufset.ibo->getCapacity();
 		_drawElements.type = TypeUtils::toGL(type);
 	}
 	else {
 		_drawCbFunc = boost::bind(&DrawCall::_draw, this, _1);
 		_drawArrays.mode = DrawCall::topologyToGLenum(topology);
 		_drawArrays.first = 0;
-		_drawArrays.count = count;
+		_drawArrays.count = bufset.vbo->getCapacity();
 	}
 
 	if (_drawCbFunc)
-		_drawCbFunc(ibo);
+		_drawCbFunc(bufset.ibo);
 }
 
 void DrawCall::_draw(BufferRef_t ibo) {
@@ -53,7 +53,7 @@ void DrawCall::_drawIndexed(BufferRef_t ibo) {
 	}
 
 	ibo->bind();
-	glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, NULL);
+	glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, nullptr);
 	ibo->unbind();
 }
 

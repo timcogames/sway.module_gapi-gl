@@ -19,7 +19,7 @@ mkdir build && cd ./build
 Конфигурируем проект для сборки
 
 ```console
-cmake -DBOOST_ROOT=/usr/local -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_BUILD_SHARED=ON -DENABLE_TESTS=ON ../
+cmake -DBOOST_ROOT=/usr/local -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_BUILD_SHARED=ON -DENABLE_TESTS=ON -DENABLE_EXAMPLES=ON ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию

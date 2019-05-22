@@ -23,9 +23,9 @@ VertexLayout::~VertexLayout() {
 void VertexLayout::addAttribute(VertexAttributeDescriptor desc) {
 	std::string alias = stringize(desc.semantic);
 	s32_t location = Extension::glGetAttribLocation(_shaderProgram->getObjectId(), alias.c_str());
-	
+
 	desc.location = location;
-	desc.offset = BUFFER_OFFSET(_attributeOffset);
+	desc.pointer = BUFFER_OFFSET(_attributeOffset);
 
 	if (location >= 0 && location <= _maxVertexAttributes) {
 		_attributes.insert(std::make_pair(alias, desc));
@@ -37,7 +37,7 @@ void VertexLayout::enable() {
 	BOOST_FOREACH (VertexAttributeDescriptor & attrib, _attributes | boost::adaptors::map_values) {
 		if (attrib.enabled) {
 			Extension::glEnableVertexAttribArray(attrib.location);
-			Extension::glVertexAttribPointer(attrib.location, attrib.numComponents, TypeUtils::toGL(attrib.format), attrib.normalized, attrib.stride, attrib.offset);
+			Extension::glVertexAttribPointer(attrib.location, attrib.numComponents, TypeUtils::toGL(attrib.format), attrib.normalized, _attributeOffset, attrib.pointer);
 		}
 	}
 }

@@ -52,16 +52,13 @@ public:
 	 * \param[in] topology
 	 *    Топология примитива.
 	 * 
-	 * \param[in] count
-	 *    Количество отображаемых элементов.
-	 * 
-	 * \param[in] ibo
-	 *    Указатель на буфер индексов.
+	 * \param[in] bufset
+	 *    Набор буферных объектов.
 	 * 
 	 * \param[in] type
 	 *    Тип значений в индексах.
 	 */
-	virtual void execute(TopologyType_t topology, s32_t count, BufferRef_t ibo, core::detail::DataType_t type);
+	virtual void execute(TopologyType_t topology, BufferSet bufset, core::detail::DataType_t type);
 
 private:
 	/*!
