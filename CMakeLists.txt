@@ -1,118 +1,141 @@
 # Проверяем версию CMake
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
+include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_enable_cxx17.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_add_subdirectory.cmake")
+
 # Мета-информация о проекте
-set(META_PROJECT_NAME module_gapi_gl)
-set(META_LIB_NAME lib${META_PROJECT_NAME})
-set(META_VERSION_MAJOR 0)
-set(META_VERSION_MINOR 16)
-set(META_VERSION_PATCH 34)
-set(META_VERSION ${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH})
-set(META_LANGUAGES C CXX)
+set(META_GAPI_GL_PRJNAME "module_gapi_gl")
+set(META_GAPI_GL_LIBNAME "lib${META_GAPI_GL_PRJNAME}")
+set(META_GAPI_GL_VERSION_MAJOR 0)
+set(META_GAPI_GL_VERSION_MINOR 16)
+set(META_GAPI_GL_VERSION_PATCH 34)
+set(META_GAPI_GL_VERSION ${META_GAPI_GL_VERSION_MAJOR}.${META_GAPI_GL_VERSION_MINOR}.${META_GAPI_GL_VERSION_PATCH})
 
 # Опции сборки
-option(MODULE_GAPI_BUILD_SHARED "Build shared library" OFF)
-option(ENABLE_COVERAGE "Enable coverage builds" OFF)
-option(ENABLE_TESTS "Enable test builds" OFF)
-option(ENABLE_EXAMPLES "Enable example builds" OFF)
+option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
+option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
+option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
+option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
+option(MODULE_USE_EMSCRIPTEN "Using emscripten compiler" OFF)
+option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
+option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
+option(CUSTOM_GTEST_ROOT_DIR "GTest root directory" OFF)
 
-project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES})
+if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND MODULE_USE_EMSCRIPTEN)
+  set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
+  include(${CMAKE_TOOLCHAIN_FILE})
+endif ()
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if (NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
+endif ()
 
-#set(WARNINGS "-Wstrict-prototypes -Wall -Wno-sign-compare -Wpointer-arith -Wdeclaration-after-statement -Wformat-security -Wswitch-enum -Wunused-parameter -Wstrict-aliasing -Wbad-function-cast -Wcast-align -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-field-initializers -Wno-override-init")
-#set(WARNINGS "-Wall -W -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wstrict-prototypes -Wwrite-strings")
-#set(CMAKE_C_FLAGS "${WARNINGS}")
+project(${META_GAPI_GL_PRJNAME} VERSION ${META_GAPI_GL_VERSION} LANGUAGES CXX)
 
-if(ENABLE_COVERAGE)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-endif()
+# Подмодули
+custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
+
+if (MODULE_USE_EMSCRIPTEN)
+  set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind -Os")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_EMSCRIPTEN -s FULL_ES3=1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-unicode-whitespace \
+      -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s MODULARIZE=1")
+endif ()
+
+message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
+         compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+       build type | ${CMAKE_BUILD_TYPE}
+       shared lib | ${MODULE_CORE_SHARED_LIB}
+         cxxflags | ${CMAKE_CXX_FLAGS} ${EXTRA_FLAGS}
+ build type flags | ${BUILD_TYPE_CXX_FLAGS}
+        build dir | ${CMAKE_BINARY_DIR}
+   install prefix | ${CMAKE_INSTALL_PREFIX}
+
+   emscripten dir | ${CUSTOM_EMSCRIPTEN_ROOT_DIR}
+        boost dir | ${CUSTOM_BOOST_ROOT_DIR}
+        gtest dir | ${CUSTOM_GTEST_ROOT_DIR}
+
+       emscripten | ${MODULE_USE_EMSCRIPTEN}
+         coverage | ${MODULE_GAPI_GL_ENABLE_COVERAGE}
+            tests | ${MODULE_GAPI_GL_ENABLE_TESTS}
+         examples | ${MODULE_GAPI_GL_ENABLE_EXAMPLES}
+")
 
 # Определяем каталог вывода по умолчанию
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-	set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/dbg)
-	set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/dbg)
-else()
-	set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-	set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-endif()
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
+  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
+else ()
+  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+endif ()
 
-set(MODULE_GAPI_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(GLUT_INCLUDE_DIRS "/opt/X11/include")
+set(GLUT_LIBRARY_DIRS "/opt/X11/lib")
+set(MODULE_GAPI_GL_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
-include_directories(${MODULE_GAPI_DIR}/include)
-include_directories(${MODULE_GAPI_DIR}/modules/sway.module_core/include)
-include_directories(${MODULE_GAPI_DIR}/modules/sway.module_math/include)
-include_directories(${MODULE_GAPI_DIR}/modules/sway.module_gapi/include)
+include_directories("${GLUT_INCLUDE_DIRS}")
+include_directories("${MODULE_GAPI_GL_DIR}/lib/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_gapi/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_GAPI_HEADERS ${MODULE_GAPI_DIR}/include/*.*)
-file(GLOB_RECURSE MODULE_GAPI_SOURCE ${MODULE_GAPI_DIR}/src/*.*)
+file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_DIR}/lib/include/*.*")
+file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/lib/src/*.*")
+#file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/src/*.*")
 
 find_package(OpenGL REQUIRED)
-#add_definitions(${OPENGL_DEFINITIONS})
-find_package(X11 REQUIRED)
+find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_NO_SYSTEM_PATHS TRUE)
-set(BOOST_COMPONENTS filesystem)
-set(BOOST_INCLUDEDIR "${BOOST_ROOT}/")
-set(BOOST_LIBRARYDIR "${BOOST_ROOT}/lib")
+link_directories("${GLUT_LIBRARY_DIRS}")
 
-find_package(Boost 1.69.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-if(NOT Boost_FOUND)
-	message(FATAL_ERROR "Fatal error: Boost (version >= 1.69.0) required.")
-else()
-	message(STATUS "Boost includes: ${BOOST_INCLUDEDIR}")
-	message(STATUS "Boost libs: ${BOOST_LIBRARYDIR}")
+if (MODULE_GAPI_GL_SHARED_LIB)
+  set(CMAKE_CXX_COMPILER "g++")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
-	include_directories(${BOOST_INCLUDEDIR})
-endif()
+  # Добавляем в проект цель для сборки динамической библиотеки
+  add_library(${META_GAPI_GL_LIBNAME} SHARED ${MODULE_GAPI_GL_SOURCES})
+  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES OUTPUT_NAME ${META_GAPI_GL_PRJNAME})
+  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES PREFIX "")
+  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".so.${META_GAPI_GL_VERSION}")
+  target_compile_definitions(${META_GAPI_GL_LIBNAME} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
+else ()
+  # Добавляем в проект цель для сборки статической библиотеки
+  add_library(${META_GAPI_GL_LIBNAME} STATIC ${MODULE_GAPI_GL_SOURCES})
+  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES OUTPUT_NAME ${META_GAPI_GL_PRJNAME})
+  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES PREFIX "")
+  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".a.${META_GAPI_GL_VERSION}")
+endif ()
 
-if(MODULE_GAPI_BUILD_SHARED)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+custom_enable_cxx17(${META_GAPI_GL_LIBNAME})
+target_link_libraries(${META_GAPI_GL_LIBNAME} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
-	# Добавляем в проект цель для сборки динамической библиотеки
-	add_library(${META_LIB_NAME} SHARED ${MODULE_GAPI_SOURCE})
-	set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME})
-	set_target_properties(${META_LIB_NAME} PROPERTIES PREFIX "")
-	set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".so.${META_VERSION}")
-	target_compile_definitions(${META_LIB_NAME} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
-else()
-	# Добавляем в проект цель для сборки статической библиотеки
-	add_library(${META_LIB_NAME} STATIC ${MODULE_GAPI_SOURCE})
-	set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME})
-	set_target_properties(${META_LIB_NAME} PROPERTIES PREFIX "")
-	set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
-endif()
-
-target_link_libraries(${META_LIB_NAME} GL X11 ${BOOST_LIBRARIES})
-
-if(ENABLE_EXAMPLES OR ENABLE_TESTS)
-	if(NOT TARGET libmodule_core)
-		add_subdirectory(modules/sway.module_core)
-	endif()
-endif()
+# if (MODULE_GAPI_GL_ENABLE_EXAMPLES OR MODULE_GAPI_GL_ENABLE_TESTS)
+#   if (NOT TARGET libmodule_core)
+#     add_subdirectory(submodules/sway.module_core)
+#   endif ()
+# endif ()
 
 # Добавляем построение примеров
-if(ENABLE_EXAMPLES)
-	message(STATUS "Examples have been enabled")
+if(MODULE_GAPI_GL_ENABLE_EXAMPLES)
+  message(STATUS "Examples have been enabled")
 
-	# Добавляем пути для поиска хедеров
-	include_directories(${CMAKE_SOURCE_DIR}/modules/sway.module_platform-glx11/include)
-	
-	add_subdirectory(modules/sway.module_platform-glx11)
-	add_subdirectory(examples/triangle)
+  add_subdirectory(examples/triangle-webgl)
 endif()
 
 # Добавляем построение тестов
-if(ENABLE_TESTS)
-	message(STATUS "Tests have been enabled")
-	
-	add_subdirectory(tests)
-endif()
+if (MODULE_GAPI_GL_ENABLE_TESTS)
+  if (MODULE_GAPI_GL_SHARED_LIB)
+    message(STATUS "[${META_GAPI_GL_PRJNAME}]: Tests are only allowed with a static lib")
+  else ()
+    message(STATUS "[${META_GAPI_GL_PRJNAME}]:Tests have been enabled")
+    add_subdirectory(lib/tests/google)
+  endif ()
+endif ()

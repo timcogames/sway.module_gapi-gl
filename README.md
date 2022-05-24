@@ -19,7 +19,13 @@ mkdir build && cd ./build
 Конфигурируем проект для сборки
 
 ```console
-cmake -DBOOST_ROOT=/usr/local -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_BUILD_SHARED=ON -DENABLE_TESTS=ON -DENABLE_EXAMPLES=ON ../
+cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten  -DMODULE_USE_EMSCRIPTEN=ON -DMODULE_GAPI_GL_ENABLE_EXAMPLES=ON  ../
+```
+
+#### для Google тестов
+
+```console
+cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest -DMODULE_CORE_ENABLE_TESTS=ON ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию
