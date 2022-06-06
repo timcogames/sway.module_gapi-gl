@@ -48,6 +48,13 @@ cmake --build .
 readelf -Ws ./../bin/module_gapi_gl.so.*
 ```
 
+Запуск osx desktop версии
+<HOSTNAME> = System Preferences -> Sharing -> Local Hostname
+
+```console
+ssh -X root@<HOSTNAME>
+```
+
 ## Contributing
 
 См. [CONTRIBUTING](./github/CONTRIBUTING.md)

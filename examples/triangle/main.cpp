@@ -1,11 +1,11 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
+#include <sway/glx11/canvas.hpp>
+#include <sway/glx11/xscreenconnection.hpp>
 #include <sway/math.hpp>
 
 #include <memory>  // std::shared_ptr, std::make_shared
-#include <sway/glx11/canvas.h>
-#include <sway/glx11/xscreenconnection.h>
 
 using namespace sway;
 
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   canvas->show();
   canvas->getContext()->makeCurrent();
 
-  auto functions = new gapi::ConcreatePluginFunctionSet();
+  auto *functions = new gapi::ConcreatePluginFunctionSet();
   gapi::pluginInitialize(functions);
   auto capability = functions->createCapability();
 
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
   gapi::ShaderCreateInfo fsoCreateInfo;
   fsoCreateInfo.type = gapi::ShaderType_t::kFragment;
   fsoCreateInfo.code = "void main() { \
-      gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \
+      gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
     }";
 
   auto program = functions->createShaderProgram();

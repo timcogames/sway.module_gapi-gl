@@ -84,10 +84,11 @@ include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/inclu
 include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/include")
 include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_gapi/include")
 
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11/include")
+
 # Получаем пути ко всем хедерам и исходникам библиотеки
 file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_DIR}/lib/include/*.*")
 file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/lib/src/*.*")
-#file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/src/*.*")
 
 find_package(OpenGL REQUIRED)
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
@@ -117,18 +118,19 @@ endif ()
 custom_enable_cxx17(${META_GAPI_GL_LIBNAME})
 target_link_libraries(${META_GAPI_GL_LIBNAME} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
-# if (MODULE_GAPI_GL_ENABLE_EXAMPLES OR MODULE_GAPI_GL_ENABLE_TESTS)
-#   if (NOT TARGET libmodule_core)
-#     add_subdirectory(submodules/sway.module_core)
-#   endif ()
-# endif ()
-
 # Добавляем построение примеров
-if(MODULE_GAPI_GL_ENABLE_EXAMPLES)
+if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT MODULE_USE_EMSCRIPTEN)
+  message(STATUS "Examples have been enabled")
+
+  custom_add_subdirectory("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
+  add_subdirectory(examples/triangle)
+endif ()
+
+if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND MODULE_USE_EMSCRIPTEN)
   message(STATUS "Examples have been enabled")
 
   add_subdirectory(examples/triangle-webgl)
-endif()
+endif ()
 
 # Добавляем построение тестов
 if (MODULE_GAPI_GL_ENABLE_TESTS)

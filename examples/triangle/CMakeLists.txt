@@ -13,5 +13,4 @@ file(GLOB MODULE_GAPI_SOURCE_EXAMPLES "${PROJECT_SOURCE_DIR}/*.cpp")
 
 add_executable(${META_LIBNAME_EXAMPLES} ${MODULE_GAPI_SOURCE_EXAMPLES})
 
-target_include_directories(${META_LIBNAME_EXAMPLES} PRIVATE ${BOOST_INCLUDEDIR})
-target_link_libraries(${META_LIBNAME_EXAMPLES} GLU libmodule_platform_glx11 libmodule_gapi_gl libmodule_core ${BOOST_LIBRARIES})
+target_link_libraries(${META_LIBNAME_EXAMPLES} GLU libmodule_platform_glx11 libmodule_gapi_gl libmodule_core)
