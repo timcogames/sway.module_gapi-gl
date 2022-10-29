@@ -1,6 +1,3 @@
-[submodule "submodules/sway.module_core"]
-  path = submodules/sway.module_core
-  url = https://github.com/timcogames/sway.module_core.git
 [submodule "submodules/sway.module_gapi"]
   path = submodules/sway.module_gapi
   url = https://github.com/timcogames/sway.module_gapi.git
@@ -10,3 +7,6 @@
 [submodule "submodules/sway.module_platform-glx11"]
 	path = submodules/sway.module_platform-glx11
 	url = https://github.com/timcogames/sway.module_platform-glx11
+[submodule "submodules/sway.module_core"]
+	path = submodules/sway.module_core
+	url = https://github.com/timcogames/sway.module_core.git
