@@ -19,7 +19,10 @@ mkdir build && cd ./build
 Конфигурируем проект для сборки
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten  -DMODULE_USE_EMSCRIPTEN=ON -DMODULE_GAPI_GL_ENABLE_EXAMPLES=ON  ../
+cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten -DMODULE_USE_EMSCRIPTEN=ON -DMODULE_GAPI_GL_ENABLE_EXAMPLES=ON ../
+
+# Только динимическая библиотека
+cmake -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_GL_SHARED_LIB=ON ../
 ```
 
 #### для Google тестов
@@ -39,7 +42,7 @@ cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest 
 Запускаем сборку
 
 ```console
-cmake --build .
+cmake --build ./
 ```
 
 Таблица символов

@@ -116,7 +116,7 @@ else ()
 endif ()
 
 custom_enable_cxx17(${META_GAPI_GL_LIBNAME})
-target_link_libraries(${META_GAPI_GL_LIBNAME} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+target_link_libraries(${META_GAPI_GL_LIBNAME} libmodule_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
 # Добавляем построение примеров
 if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT MODULE_USE_EMSCRIPTEN)
