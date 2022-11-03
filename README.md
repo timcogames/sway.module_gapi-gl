@@ -49,6 +49,12 @@ cmake --build ./
 
 ```console
 readelf -Ws ./../bin/module_gapi_gl.so.*
+
+# macos
+nm -g ./../bin/module_gapi_gl.dylib.*
+# or
+/opt/homebrew/Cellar/binutils/2.39_1/bin/gobjdump -t ./../bin/module_gapi_gl.dylib.*
+nm ./../bin/module_gapi_gl.dylib.* | grep ' T '
 ```
 
 Запуск osx desktop версии
