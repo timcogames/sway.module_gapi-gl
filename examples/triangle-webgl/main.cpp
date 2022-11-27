@@ -25,7 +25,7 @@ void update() {
   vbo->bind();
   vlayout->enable();
 
-  drawCall->execute(gapi::TopologyType_t::kTriangleList, {vbo, nullptr}, core::detail::DataType_t::kChar);
+  drawCall->execute(gapi::TopologyType_t::kTriangleList, {vbo, nullptr}, core::ValueDataType::Char);
 
   vlayout->disable();
   vbo->unbind();

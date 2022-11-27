@@ -30,7 +30,7 @@ DrawCallRef_t DrawCall::createInstance() {
   return instance;
 }
 
-void DrawCall::execute(TopologyType_t topology, BufferSet bufset, core::detail::DataType_t type) {
+void DrawCall::execute(TopologyType_t topology, BufferSet bufset, core::ValueDataType type) {
   if (bufset.ibo) {
     _drawCbFunc = std::bind(&DrawCall::_drawIndexed, this, std::placeholders::_1);
     _drawElements.mode = DrawCall::topologyToGLenum(topology);

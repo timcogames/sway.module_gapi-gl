@@ -22,9 +22,9 @@ class DrawCall : public IDrawCallBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-  /*!
-   * \brief
-   *    Переводит тип топологии (режим отображение примитива) в GL.
+  /**
+   * @brief Переводит тип топологии (режим отображение примитива) в GL.
+   *
    */
   static GLenum topologyToGLenum(TopologyType_t topology);
 
@@ -35,37 +35,30 @@ public:
   DrawCall() = default;
   virtual ~DrawCall() = default;
 
-  /*!
-   * \brief
-   *    Выполняет отрисовку примитива.
+  /**
+   * @brief Выполняет отрисовку примитива.
    *
-   * \param[in] topology
-   *    Топология примитива.
+   * @param[in] topology Топология примитива.
+   * @param[in] bufset Набор буферных объектов.
+   * @param[in] type Тип значений в индексах.
    *
-   * \param[in] bufset
-   *    Набор буферных объектов.
-   *
-   * \param[in] type
-   *    Тип значений в индексах.
    */
-  virtual void execute(TopologyType_t topology, BufferSet bufset, core::detail::DataType_t type);
+  virtual void execute(TopologyType_t topology, BufferSet bufset, core::ValueDataType type);
 
 private:
-  /*!
-   * \brief
-   *    Выводит примитивы по данным в массивах.
+  /**
+   * @brief Выводит примитивы по данным в массивах.
    *
-   * \sa
-   *    _drawIndexed(BufferRef_t)
+   * @sa _drawIndexed(BufferRef_t)
+   *
    */
   void _draw(BufferRef_t ibo);
 
-  /*!
-   * \brief
-   *    Выводит индексные примитивы по данным в массивах.
+  /**
+   * @brief Выводит индексные примитивы по данным в массивах.
    *
-   * \sa
-   *    _draw(BufferRef_t)
+   * @sa _draw(BufferRef_t)
+   *
    */
   void _drawIndexed(BufferRef_t ibo);
 
@@ -80,4 +73,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_DRAWCALL_HPP
