@@ -33,6 +33,7 @@ public:
   static DrawCallRef_t createInstance();
 
   DrawCall() = default;
+
   virtual ~DrawCall() = default;
 
   /**

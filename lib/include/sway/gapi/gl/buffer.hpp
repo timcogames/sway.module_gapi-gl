@@ -6,145 +6,137 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-/*!
- * \brief
- *    Представление аппаратного буфера.
+/**
+ * @brief Представление аппаратного буфера.
+ *
  */
 class Buffer final : public ABufferBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-  static GLenum targetToGLenum(BufferTarget_t target);
+  static auto targetToGLenum(BufferTarget_t target) -> GLenum;
 
-  static GLenum usageToGLenum(BufferUsage_t usage);
+  static auto usageToGLenum(BufferUsage_t usage) -> GLenum;
 
-  static GLenum accessToGLenum(BufferAccess_t access);
+  static auto accessToGLenum(BufferAccess_t access) -> GLenum;
 
 #pragma endregion
 
-  static BufferRef_t createInstance(const BufferCreateInfo &createInfo);
+  static auto createInstance(const BufferCreateInfo &createInfo) -> BufferRef_t;
 
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   * Выполняет инициализацию нового экземпляра класса.
+   *
    */
   Buffer(const BufferDescriptor &desc);
 
-  /*!
-   * \brief
-   *    Деструктор класса.
-   *    Освобождает захваченные ресурсы.
+  /**
+   * @brief Деструктор класса.
+   * Освобождает захваченные ресурсы.
+   *
    */
   virtual ~Buffer();
 
-  /*!
-   * \brief
-   *    Устанавливает данные в аппаратный буфер.
+  /**
+   * @brief Устанавливает данные в аппаратный буфер.
    *
-   * \param[in] data
-   *    Первоначальный данные.
+   * @param[in] data Первоначальный данные.
+   *
    */
-  virtual bool allocate(const void *data);
+  MTHD_OVERRIDE(bool allocate(const void *data));
 
-  /*!
-   * \brief
-   *    Изменяет данные в уже существующем буфере.
+  /**
+   * @brief Изменяет данные в уже существующем буфере.
    *
-   * \param[in] offset
-   *    Начало изменяемого блока данных.
+   * @param[in] offset Начало изменяемого блока данных.
+   * @param[in] size Размер изменяемого блока данных.
+   * @param[in] source Область памяти, содержащая новые значения.
    *
-   * \param[in] size
-   *    Размер изменяемого блока данных.
+   * @sa updateSubdata(const void *)
    *
-   * \param[in] source
-   *    Область памяти, содержащая новые значения.
-   *
-   * \sa
-   *    updateSubdata(const void *)
    */
-  virtual void updateSubdata(u32_t offset, u32_t size, const void *source);
+  MTHD_OVERRIDE(void updateSubdata(u32_t offset, u32_t size, const void *source));
 
-  /*!
-   * \brief
-   *    Изменяет данные в уже существующем буфере.
+  /**
+   * @brief Изменяет данные в уже существующем буфере.
    *
-   * \param[in] source
-   *    Область памяти, содержащая новые значения.
+   * @param[in] source Область памяти, содержащая новые значения.
    *
-   * \sa
-   *    updateSubdata(u32_t, u32_t, const void *)
-   */
-  virtual void updateSubdata(const void *source);
-
-  /*!
-   * \brief
-   *    Получает указатель на область памяти, в которой находятся данные буфера.
+   * @sa updateSubdata(u32_t, u32_t, const void *)
    *
-   * \sa
-   *    unmap()
    */
-  virtual void *map();
+  MTHD_OVERRIDE(void updateSubdata(const void *source));
 
-  /*!
-   * \brief
-   *    Возвращает данные буфера в память.
+  /**
+   * @brief Получает указатель на область памяти, в которой находятся данные буфера.
    *
-   * \sa
-   *    map()
-   */
-  virtual void unmap();
-
-  /*!
-   * \brief
-   *    Делает буфер текущим.
+   * @sa unmap()
    *
-   * \sa
-   *    unbind()
    */
-  virtual void bind();
+  // clang-format off
+  MTHD_OVERRIDE(auto map() -> void *);  // clang-format on
 
-  /*!
-   * \brief
-   *    Делает текущим пустой буфер.
+  /**
+   * @brief Возвращает данные буфера в память.
    *
-   * \sa
-   *    bind()
+   * @sa map()
+   *
    */
-  virtual void unbind();
+  MTHD_OVERRIDE(void unmap());
 
-  /*!
-   * \brief
-   *    Получает целевой тип буфера.
+  /**
+   * @brief Делает буфер текущим.
+   *
+   * @sa unbind()
+   *
    */
-  virtual BufferTarget_t getTarget() const;
+  MTHD_OVERRIDE(void bind());
 
-  /*!
-   * \brief
-   *    Получает режим работы с данными.
+  /**
+   * @brief Делает текущим пустой буфер.
+   *
+   * @sa bind()
+   *
    */
-  virtual BufferUsage_t getUsage() const;
+  MTHD_OVERRIDE(void unbind());
 
-  /*!
-   * \brief
-   *    Получает количество элементов в массиве.
+  /**
+   * @brief Получает целевой тип буфера.
+   *
    */
-  virtual s32_t getCapacity() const;
+  // clang-format off
+  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget_t);  // clang-format on
 
-  /*!
-   * \brief
-   *    Получает размер структуры данных.
+  /**
+   * @brief Получает режим работы с данными.
+   *
    */
-  virtual s32_t getByteStride() const;
+  // clang-format off
+  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage_t);  // clang-format on
+
+  /**
+   * @brief Получает количество элементов в массиве.
+   *
+   */
+  // clang-format off
+  MTHD_OVERRIDE(auto getCapacity() const -> s32_t);  // clang-format on
+
+  /**
+   * @brief Получает размер структуры данных.
+   *
+   */
+  // clang-format off
+  MTHD_OVERRIDE(auto getByteStride() const -> s32_t);  // clang-format on
 
 private:
-  BufferTarget_t _target;
-  BufferUsage_t _usage;
-  s32_t _capacity;
-  s32_t _byteStride;
+  BufferTarget_t target_;
+  BufferUsage_t usage_;
+  s32_t capacity_;
+  s32_t byteStride_;
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_BUFFER_HPP

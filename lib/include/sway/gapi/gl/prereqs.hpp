@@ -15,4 +15,4 @@
 
 #define BUFFER_OFFSET(x) ((lpstr_t)NULL + (x))
 
-#endif
+#endif  // SWAY_GAPI_GL_PREREQS_HPP

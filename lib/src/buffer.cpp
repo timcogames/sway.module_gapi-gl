@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/buffer.hpp>
 #include <sway/gapi/gl/extensions.hpp>
 
-//#define GL_GLEXT_PROTOTYPES
+// #define GL_GLEXT_PROTOTYPES
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
@@ -93,10 +93,10 @@ BufferRef_t Buffer::createInstance(const BufferCreateInfo &createInfo) {
 
 Buffer::Buffer(const BufferDescriptor &desc)
     : ABufferBase(desc)
-    , _target(desc.target)
-    , _usage(desc.usage)
-    , _capacity(desc.capacity)
-    , _byteStride(desc.byteStride) {
+    , target_(desc.target)
+    , usage_(desc.usage)
+    , capacity_(desc.capacity)
+    , byteStride_(desc.byteStride) {
 #ifdef _EMSCRIPTEN
   glGenBuffers(1, &_objectId);
 #else
@@ -113,18 +113,18 @@ Buffer::~Buffer() {
 }
 
 bool Buffer::allocate(const void *data) {
-  u32_t target = Buffer::targetToGLenum(_target);
-  s32_t dataSize = _capacity * _byteStride;
+  u32_t target = Buffer::targetToGLenum(target_);
+  s32_t dataSize = capacity_ * byteStride_;
   s32_t allocedSize = 0;
 
 #ifdef _EMSCRIPTEN
   glBindBuffer(target, _objectId);
-  glBufferData(target, dataSize, data, Buffer::usageToGLenum(_usage));
+  glBufferData(target, dataSize, data, Buffer::usageToGLenum(usage_));
 
   glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
 #else
   Extension::glBindBuffer(target, _objectId);
-  Extension::glBufferData(target, dataSize, data, Buffer::usageToGLenum(_usage));
+  Extension::glBufferData(target, dataSize, data, Buffer::usageToGLenum(usage_));
 
   Extension::glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
 #endif
@@ -137,7 +137,7 @@ bool Buffer::allocate(const void *data) {
 }
 
 void Buffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
-  u32_t target = Buffer::targetToGLenum(_target);
+  u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
   if (glIsBuffer(_objectId)) {
@@ -154,11 +154,11 @@ void Buffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
 #endif
 }
 
-void Buffer::updateSubdata(const void *source) { updateSubdata(0, _capacity * _byteStride, source); }
+void Buffer::updateSubdata(const void *source) { updateSubdata(0, capacity_ * byteStride_, source); }
 
 void *Buffer::map() {
   GLvoid *mapped = nullptr;
-  [[maybe_unused]] u32_t target = Buffer::targetToGLenum(_target);
+  [[maybe_unused]] u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
   // glBindBuffer(target, _objectId);
@@ -182,7 +182,7 @@ void *Buffer::map() {
 }
 
 void Buffer::unmap() {
-  [[maybe_unused]] u32_t target = Buffer::targetToGLenum(_target);
+  [[maybe_unused]] u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
   // glBindBuffer(target, _objectId);
@@ -197,27 +197,27 @@ void Buffer::unmap() {
 
 void Buffer::bind() {
 #ifdef _EMSCRIPTEN
-  glBindBuffer(Buffer::targetToGLenum(_target), _objectId);
+  glBindBuffer(Buffer::targetToGLenum(target_), _objectId);
 #else
-  Extension::glBindBuffer(Buffer::targetToGLenum(_target), _objectId);
+  Extension::glBindBuffer(Buffer::targetToGLenum(target_), _objectId);
 #endif
 }
 
 void Buffer::unbind() {
 #ifdef _EMSCRIPTEN
-  glBindBuffer(Buffer::targetToGLenum(_target), 0);
+  glBindBuffer(Buffer::targetToGLenum(target_), 0);
 #else
-  Extension::glBindBuffer(Buffer::targetToGLenum(_target), 0);
+  Extension::glBindBuffer(Buffer::targetToGLenum(target_), 0);
 #endif
 }
 
-BufferTarget_t Buffer::getTarget() const { return _target; }
+BufferTarget_t Buffer::getTarget() const { return target_; }
 
-BufferUsage_t Buffer::getUsage() const { return _usage; }
+BufferUsage_t Buffer::getUsage() const { return usage_; }
 
-s32_t Buffer::getCapacity() const { return _capacity; }
+s32_t Buffer::getCapacity() const { return capacity_; }
 
-s32_t Buffer::getByteStride() const { return _byteStride; }
+s32_t Buffer::getByteStride() const { return byteStride_; }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
