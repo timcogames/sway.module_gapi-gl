@@ -8,7 +8,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-GLenum Shader::typeToGLenum(ShaderType_t type) {
+auto Shader::typeToGLenum(ShaderType_t type) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (type) {
     case ShaderType_t::kVertex:
@@ -30,7 +30,7 @@ GLenum Shader::typeToGLenum(ShaderType_t type) {
 #endif
 }
 
-ShaderRef_t Shader::createInstance(const ShaderCreateInfo &createInfo) {
+auto Shader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderRef_t {
   // try {
   auto instance = std::make_shared<Shader>(createInfo.type);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());
@@ -80,9 +80,9 @@ void Shader::compile(lpcstr_t source) {
   }
 }
 
-bool Shader::isCompiled() const { return _compiled; }
+auto Shader::isCompiled() const -> bool { return _compiled; }
 
-ShaderType_t Shader::getType() const { return _type; }
+auto Shader::getType() const -> ShaderType_t { return _type; }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

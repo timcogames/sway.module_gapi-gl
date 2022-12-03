@@ -9,7 +9,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-ShaderProgramRef_t ShaderProgram::createInstance() {
+auto ShaderProgram::createInstance() -> ShaderProgramRef_t {
   auto instance = std::make_shared<ShaderProgram>();
   return instance;
 }
@@ -79,7 +79,7 @@ void ShaderProgram::link() {
   }
 }
 
-bool ShaderProgram::isLinked() const { return _linked; }
+auto ShaderProgram::isLinked() const -> bool { return _linked; }
 
 void ShaderProgram::validate() {
   int validateStatus;
@@ -98,7 +98,7 @@ void ShaderProgram::validate() {
   }
 }
 
-bool ShaderProgram::isValidated() const { return _validated; }
+auto ShaderProgram::isValidated() const -> bool { return _validated; }
 
 void ShaderProgram::use() {
   if (_objectId > 0 && !isUsed()) {
@@ -134,7 +134,7 @@ void ShaderProgram::unuse() {
   }
 }
 
-bool ShaderProgram::isUsed() const {
+auto ShaderProgram::isUsed() const -> bool {
   s32_t current = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &current);
 

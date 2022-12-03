@@ -25,7 +25,7 @@ GLenum DrawCall::topologyToGLenum(TopologyType_t topology) {
   }
 }
 
-DrawCallRef_t DrawCall::createInstance() {
+auto DrawCall::createInstance() -> DrawCallRef_t {
   auto instance = std::make_shared<DrawCall>();
   return instance;
 }

@@ -8,7 +8,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-GLenum Buffer::targetToGLenum(BufferTarget_t target) {
+// SWAY_USE_EMSCRIPTEN
+
+auto Buffer::targetToGLenum(BufferTarget_t target) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (target) {
     case BufferTarget_t::kArray:
@@ -30,7 +32,7 @@ GLenum Buffer::targetToGLenum(BufferTarget_t target) {
 #endif
 }
 
-GLenum Buffer::usageToGLenum(BufferUsage_t usage) {
+auto Buffer::usageToGLenum(BufferUsage_t usage) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (usage) {
     case BufferUsage_t::kStatic:
@@ -56,7 +58,7 @@ GLenum Buffer::usageToGLenum(BufferUsage_t usage) {
 #endif
 }
 
-GLenum Buffer::accessToGLenum(BufferAccess_t access) {
+auto Buffer::accessToGLenum(BufferAccess_t access) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (access) {
     case BufferAccess_t::kRead:
@@ -82,7 +84,7 @@ GLenum Buffer::accessToGLenum(BufferAccess_t access) {
 #endif
 }
 
-BufferRef_t Buffer::createInstance(const BufferCreateInfo &createInfo) {
+auto Buffer::createInstance(const BufferCreateInfo &createInfo) -> BufferRef_t {
   auto instance = std::make_shared<Buffer>(createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
@@ -112,7 +114,7 @@ Buffer::~Buffer() {
 #endif
 }
 
-bool Buffer::allocate(const void *data) {
+auto Buffer::allocate(const void *data) -> bool {
   u32_t target = Buffer::targetToGLenum(target_);
   s32_t dataSize = capacity_ * byteStride_;
   s32_t allocedSize = 0;
@@ -156,7 +158,7 @@ void Buffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
 
 void Buffer::updateSubdata(const void *source) { updateSubdata(0, capacity_ * byteStride_, source); }
 
-void *Buffer::map() {
+auto Buffer::map() -> void * {
   GLvoid *mapped = nullptr;
   [[maybe_unused]] u32_t target = Buffer::targetToGLenum(target_);
 
@@ -210,14 +212,6 @@ void Buffer::unbind() {
   Extension::glBindBuffer(Buffer::targetToGLenum(target_), 0);
 #endif
 }
-
-BufferTarget_t Buffer::getTarget() const { return target_; }
-
-BufferUsage_t Buffer::getUsage() const { return usage_; }
-
-s32_t Buffer::getCapacity() const { return capacity_; }
-
-s32_t Buffer::getByteStride() const { return byteStride_; }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

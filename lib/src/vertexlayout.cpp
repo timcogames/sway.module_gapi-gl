@@ -7,7 +7,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-VertexLayoutRef_t VertexLayout::createInstance(ShaderProgramRef_t program) {
+auto VertexLayout::createInstance(ShaderProgramRef_t program) -> VertexLayoutRef_t {
   auto instance = std::make_shared<VertexLayout>(program);
   return instance;
 }

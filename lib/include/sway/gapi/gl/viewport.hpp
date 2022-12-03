@@ -8,62 +8,46 @@ NAMESPACE_BEGIN(gapi)
 
 class Viewport : public IViewportBase {
 public:
-  static ViewportRef_t createInstance();
+  static auto createInstance() -> ViewportRef_t;
 
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   Viewport();
 
-  /*!
-   * \brief
-   *    Деструктор класса.
+  /**
+   * @brief Деструктор класса.
    */
   virtual ~Viewport() = default;
 
-  /*!
-   * \brief
-   *    Устанавливает новые значения прямоугольной области.
-   *
-   * \param[in] x
-   *    Значение координаты по оси X.
-   *
-   * \param[in] y
-   *    Значение координаты по оси Y.
-   *
-   * \param[in] w
-   *    Значение ширины.
-   *
-   * \param[in] h
-   *    Значение высоты.
+  /**
+   * @brief Устанавливает новые значения прямоугольной области.
+   * @param[in] x Значение координаты по оси X.
+   * @param[in] y Значение координаты по оси Y.
+   * @param[in] w Значение ширины.
+   * @param[in] h Значение высоты.
    */
-  virtual void set(s32_t x, s32_t y, s32_t w, s32_t h);
+  MTHD_OVERRIDE(void set(s32_t x, s32_t y, s32_t w, s32_t h));
 
-  /*!
-   * \brief
-   *    Устанавливает размер прямоугольной области.
-   *
-   * \param[in] w
-   *    Значение ширины.
-   *
-   * \param[in] h
-   *    Значение высоты.
+  /**
+   * @brief Устанавливает размер прямоугольной области.
+   * @param[in] w Значение ширины.
+   * @param[in] h Значение высоты.
    */
-  virtual void set(s32_t w, s32_t h);
+  MTHD_OVERRIDE(void set(s32_t w, s32_t h));
 
-  /*!
-   * \brief
-   *    Получает размер прямоугольной области.
+  /**
+   * @brief Получает размер прямоугольной области.
    */
-  virtual math::rect4i_t get() const;
+  // clang-format off
+  MTHD_OVERRIDE(auto get() const -> math::rect4i_t);  // clang-format on
 
-  /*!
-   * \brief
-   *    Получает соотношение сторон.
+  /**
+   * @brief Получает соотношение сторон.
    */
-  virtual f32_t aspect() const;
+  // clang-format off
+  MTHD_OVERRIDE(auto aspect() const -> f32_t);  // clang-format on
 
 private:
   // ViewportMode_t mode_;

@@ -24,13 +24,12 @@ public:
 
   /**
    * @brief Переводит тип топологии (режим отображение примитива) в GL.
-   *
    */
   static GLenum topologyToGLenum(TopologyType_t topology);
 
 #pragma endregion
 
-  static DrawCallRef_t createInstance();
+  static auto createInstance() -> DrawCallRef_t;
 
   DrawCall() = default;
 
@@ -38,28 +37,22 @@ public:
 
   /**
    * @brief Выполняет отрисовку примитива.
-   *
    * @param[in] topology Топология примитива.
    * @param[in] bufset Набор буферных объектов.
    * @param[in] type Тип значений в индексах.
-   *
    */
-  virtual void execute(TopologyType_t topology, BufferSet bufset, core::ValueDataType type);
+  MTHD_OVERRIDE(void execute(TopologyType_t topology, BufferSet bufset, core::ValueDataType type));
 
 private:
   /**
    * @brief Выводит примитивы по данным в массивах.
-   *
    * @sa _drawIndexed(BufferRef_t)
-   *
    */
   void _draw(BufferRef_t ibo);
 
   /**
    * @brief Выводит индексные примитивы по данным в массивах.
-   *
    * @sa _draw(BufferRef_t)
-   *
    */
   void _drawIndexed(BufferRef_t ibo);
 

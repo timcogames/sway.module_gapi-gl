@@ -9,4 +9,4 @@
 #include <sway/gapi/gl/vertexlayout.hpp>
 #include <sway/gapi/gl/viewport.hpp>
 
-#endif
+#endif  // SWAY_GAPI_GL_HPP

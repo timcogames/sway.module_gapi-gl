@@ -25,7 +25,7 @@ void *dlGetProcAddress(const char *name) {
   }
 }
 
-CapabilityRef_t Capability::createInstance() {
+auto Capability::createInstance() -> CapabilityRef_t {
   auto instance = std::make_shared<Capability>();
   return instance;
 }
@@ -41,7 +41,7 @@ Capability::Capability() {
   printf("\tOpenGL shading language version: %s\n", _shadingLanguageVersion.c_str());
 }
 
-core::Version Capability::getVersion() const { return core::Version(_majorVersion, _minorVersion); }
+auto Capability::getVersion() const -> core::Version { return core::Version(_majorVersion, _minorVersion); }
 
 void Capability::_initializeVersion() {
   _renderer = reinterpret_cast<lpcstr_t>(glGetString(GL_RENDERER));

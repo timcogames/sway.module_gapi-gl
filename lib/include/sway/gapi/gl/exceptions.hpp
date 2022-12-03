@@ -12,10 +12,9 @@ NAMESPACE_BEGIN(gapi)
 
 class ShaderException : public core::runtime::Exception {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   ShaderException(u32_t objectId)
       : core::runtime::Exception([objectId]() -> std::string {
@@ -48,10 +47,9 @@ public:
 
 class ShaderCompilationException : public ShaderException {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   ShaderCompilationException(u32_t objectId)
       : ShaderException(objectId) {
@@ -61,10 +59,9 @@ public:
 
 class ShaderProgramLinkageException : public ShaderException {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   ShaderProgramLinkageException(u32_t objectId)
       : ShaderException(objectId) {
@@ -74,10 +71,9 @@ public:
 
 class ShaderProgramValidationException : public ShaderException {
 public:
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   ShaderProgramValidationException(u32_t objectId)
       : ShaderException(objectId) {

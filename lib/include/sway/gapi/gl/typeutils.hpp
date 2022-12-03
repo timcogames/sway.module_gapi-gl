@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(gapi)
 
 class TypeUtils {
 public:
-  static u32_t toGL(core::ValueDataType type) {
+  static auto toGL(core::ValueDataType type) -> u32_t {
     switch (type) {
       case core::ValueDataType::Char:
         return GL_BYTE;

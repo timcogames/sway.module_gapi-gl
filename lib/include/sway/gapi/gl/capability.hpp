@@ -8,37 +8,33 @@ NAMESPACE_BEGIN(gapi)
 
 class Capability : public ICapabilityBase {
 public:
-  static CapabilityRef_t createInstance();
+  static auto createInstance() -> CapabilityRef_t;
 
-  /*!
-   * \brief
-   *    Конструктор класса.
-   *    Выполняет инициализацию нового экземпляра класса.
+  /**
+   * @brief Конструктор класса.
+   *        Выполняет инициализацию нового экземпляра класса.
    */
   Capability();
 
-  /*!
-   * \brief
-   *    Деструктор класса.
+  /**
+   * @brief Деструктор класса.
    */
   virtual ~Capability() = default;
 
-  /*!
-   * \brief
-   *    Возвращает версию OpenGL.
+  /**
+   * @brief Возвращает версию OpenGL.
    */
-  virtual core::Version getVersion() const;
+  // clang-format off
+  MTHD_OVERRIDE(auto getVersion() const -> core::Version);  // clang-format on
 
 private:
-  /*!
-   * \brief
-   *    Инициализирует версию.
+  /**
+   * @brief Инициализирует версию.
    */
   void _initializeVersion();
 
-  /*!
-   * \brief
-   *    Инициализирует расширения.
+  /**
+   * @brief Инициализирует расширения.
    */
   void _initializeExtensions();
 
