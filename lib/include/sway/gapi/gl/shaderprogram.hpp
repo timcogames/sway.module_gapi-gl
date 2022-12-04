@@ -101,10 +101,13 @@ public:
    */
   MTHD_OVERRIDE(void setUniformCol4f(const std::string &uniform, const math::col4f_t &col));
 
+  MTHD_OVERRIDE(void setUniformMat4f(const std::string &uniform, const math::mat4f_t &mat));
+
 private:
   // ShaderObjectIdSet_t objectIdSet_;
   std::set<int> objectIdSet_;
   UniformVec4fUmap_t uniformVec4fSet_;
+  UniformMat4fUmap_t uniformMat4fSet_;
   bool linked_;
   bool validated_;
 };

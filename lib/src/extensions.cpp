@@ -12,6 +12,8 @@ core::binding::TFunction<void(u32_t programObj)> Extension::glValidateProgram = 
 core::binding::TFunction<void(u32_t programObj)> Extension::glUseProgramObject = nullptr;
 core::binding::TFunction<s32_t(u32_t programObj, lpcstr_t name)> Extension::glGetUniformLocation = nullptr;
 core::binding::TFunction<void(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3)> Extension::glUniform4f = nullptr;
+core::binding::TFunction<void(s32_t location, s32_t count, bool transpose, const f32_t *value)>
+    Extension::glUniformMatrix4fv = nullptr;
 core::binding::TFunction<u32_t(u32_t shaderType)> Extension::glCreateShaderObject = nullptr;
 core::binding::TFunction<void(u32_t obj)> Extension::glDeleteShaderObject = nullptr;
 core::binding::TFunction<void(u32_t shaderObj, s32_t count, lpcstr_t *string, const s32_t *length)>
@@ -49,6 +51,7 @@ void Extension::define(const std::function<core::binding::ProcAddress_t(Extensio
   glUseProgramObject = loadExtension({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
   glGetUniformLocation = loadExtension({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
   glUniform4f = loadExtension({{"GL_ARB_shader_objects", "glUniform4fARB"}});
+  glUniformMatrix4fv = loadExtension({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
   glCreateShaderObject = loadExtension({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});
   glDeleteShaderObject = loadExtension({{"GL_ARB_shader_objects", "glDeleteObjectARB"}});
   glShaderSource = loadExtension({{"GL_ARB_shader_objects", "glShaderSourceARB"}});

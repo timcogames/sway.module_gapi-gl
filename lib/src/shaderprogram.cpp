@@ -105,6 +105,7 @@ void ShaderProgram::use() {
 
 #ifdef _EMSCRIPTEN
     glUseProgram(objectId_);
+
     for (auto iter : uniformVec4fSet_) {
       s32_t location = glGetUniformLocation(objectId_, iter.first.c_str());
       if (location != -1) {
@@ -113,11 +114,19 @@ void ShaderProgram::use() {
     }
 #else
     Extension::glUseProgramObject(objectId_);
+
     for (auto iter : uniformVec4fSet_) {
       s32_t location = Extension::glGetUniformLocation(objectId_, iter.first.c_str());
       if (location != -1) {
         Extension::glUniform4f(
             location, iter.second.getX(), iter.second.getY(), iter.second.getZ(), iter.second.getW());
+      }
+    }
+
+    for (auto iter : uniformMat4fSet_) {
+      s32_t location = Extension::glGetUniformLocation(objectId_, iter.first.c_str());
+      if (location != -1) {
+        Extension::glUniformMatrix4fv(location, 1, GL_FALSE, (float *)&iter.second);
       }
     }
 #endif
@@ -147,6 +156,10 @@ void ShaderProgram::setUniformVec4f(const std::string &uniform, const math::vec4
 
 void ShaderProgram::setUniformCol4f(const std::string &uniform, const math::col4f_t &col) {
   uniformVec4fSet_[uniform] = col.toVec4();
+}
+
+void ShaderProgram::setUniformMat4f(const std::string &uniform, const math::mat4f_t &mat) {
+  uniformMat4fSet_[uniform] = mat;
 }
 
 NAMESPACE_END(gapi)
