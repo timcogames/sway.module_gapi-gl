@@ -100,17 +100,17 @@ Buffer::Buffer(const BufferDescriptor &desc)
     , capacity_(desc.capacity)
     , byteStride_(desc.byteStride) {
 #ifdef _EMSCRIPTEN
-  glGenBuffers(1, &_objectId);
+  glGenBuffers(1, &objectId_);
 #else
-  Extension::glGenBuffers(1, &_objectId);
+  Extension::glGenBuffers(1, &objectId_);
 #endif
 }
 
 Buffer::~Buffer() {
 #ifdef _EMSCRIPTEN
-  glDeleteBuffers(1, &_objectId);
+  glDeleteBuffers(1, &objectId_);
 #else
-  Extension::glDeleteBuffers(1, &_objectId);
+  Extension::glDeleteBuffers(1, &objectId_);
 #endif
 }
 
@@ -120,12 +120,12 @@ auto Buffer::allocate(const void *data) -> bool {
   s32_t allocedSize = 0;
 
 #ifdef _EMSCRIPTEN
-  glBindBuffer(target, _objectId);
+  glBindBuffer(target, objectId_);
   glBufferData(target, dataSize, data, Buffer::usageToGLenum(usage_));
 
   glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
 #else
-  Extension::glBindBuffer(target, _objectId);
+  Extension::glBindBuffer(target, objectId_);
   Extension::glBufferData(target, dataSize, data, Buffer::usageToGLenum(usage_));
 
   Extension::glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
@@ -142,14 +142,14 @@ void Buffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
   u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
-  if (glIsBuffer(_objectId)) {
-    glBindBuffer(target, _objectId);
+  if (glIsBuffer(objectId_)) {
+    glBindBuffer(target, objectId_);
     glBufferSubData(target, offset, size, source);
     glBindBuffer(target, 0);
   }
 #else
-  if (Extension::glIsBuffer(_objectId)) {
-    Extension::glBindBuffer(target, _objectId);
+  if (Extension::glIsBuffer(objectId_)) {
+    Extension::glBindBuffer(target, objectId_);
     Extension::glBufferSubData(target, offset, size, source);
     Extension::glBindBuffer(target, 0);
   }
@@ -163,7 +163,7 @@ auto Buffer::map() -> void * {
   [[maybe_unused]] u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
-  // glBindBuffer(target, _objectId);
+  // glBindBuffer(target, objectId_);
   // mapped = glMapBuffer(target, GL_WRITE_ONLY);
   // if (!mapped) {
   //   return nullptr;
@@ -171,7 +171,7 @@ auto Buffer::map() -> void * {
 
   // glBindBuffer(target, 0);
 #else
-  Extension::glBindBuffer(target, _objectId);
+  Extension::glBindBuffer(target, objectId_);
   mapped = Extension::glMapBuffer(target, GL_WRITE_ONLY_ARB);
   if (!mapped) {
     return nullptr;
@@ -187,11 +187,11 @@ void Buffer::unmap() {
   [[maybe_unused]] u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
-  // glBindBuffer(target, _objectId);
+  // glBindBuffer(target, objectId_);
   // glUnmapBufferOES(target);
   // glBindBuffer(target, 0);
 #else
-  Extension::glBindBuffer(target, _objectId);
+  Extension::glBindBuffer(target, objectId_);
   Extension::glUnmapBuffer(target);
   Extension::glBindBuffer(target, 0);
 #endif
@@ -199,9 +199,9 @@ void Buffer::unmap() {
 
 void Buffer::bind() {
 #ifdef _EMSCRIPTEN
-  glBindBuffer(Buffer::targetToGLenum(target_), _objectId);
+  glBindBuffer(Buffer::targetToGLenum(target_), objectId_);
 #else
-  Extension::glBindBuffer(Buffer::targetToGLenum(target_), _objectId);
+  Extension::glBindBuffer(Buffer::targetToGLenum(target_), objectId_);
 #endif
 }
 
