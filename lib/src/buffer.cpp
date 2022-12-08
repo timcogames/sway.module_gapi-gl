@@ -13,18 +13,18 @@ NAMESPACE_BEGIN(gapi)
 auto Buffer::targetToGLenum(BufferTarget_t target) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (target) {
-    case BufferTarget_t::kArray:
+    case BufferTarget_t::Array:
       return GL_ARRAY_BUFFER;
-    case BufferTarget_t::kElementArray:
+    case BufferTarget_t::ElementArray:
       return GL_ELEMENT_ARRAY_BUFFER;
     default:
       return 0;
   }
 #else
   switch (target) {
-    case BufferTarget_t::kArray:
+    case BufferTarget_t::Array:
       return GL_ARRAY_BUFFER_ARB;
-    case BufferTarget_t::kElementArray:
+    case BufferTarget_t::ElementArray:
       return GL_ELEMENT_ARRAY_BUFFER_ARB;
     default:
       return 0;
@@ -35,22 +35,22 @@ auto Buffer::targetToGLenum(BufferTarget_t target) -> GLenum {
 auto Buffer::usageToGLenum(BufferUsage_t usage) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (usage) {
-    case BufferUsage_t::kStatic:
+    case BufferUsage_t::Static:
       return GL_STATIC_DRAW;
-    case BufferUsage_t::kDynamic:
+    case BufferUsage_t::Dynamic:
       return GL_DYNAMIC_DRAW;
-    case BufferUsage_t::kStream:
+    case BufferUsage_t::Stream:
       return GL_STREAM_DRAW;
     default:
       return 0;
   }
 #else
   switch (usage) {
-    case BufferUsage_t::kStatic:
+    case BufferUsage_t::Static:
       return GL_STATIC_DRAW_ARB;
-    case BufferUsage_t::kDynamic:
+    case BufferUsage_t::Dynamic:
       return GL_DYNAMIC_DRAW_ARB;
-    case BufferUsage_t::kStream:
+    case BufferUsage_t::Stream:
       return GL_STREAM_DRAW_ARB;
     default:
       return 0;
@@ -61,22 +61,22 @@ auto Buffer::usageToGLenum(BufferUsage_t usage) -> GLenum {
 auto Buffer::accessToGLenum(BufferAccess_t access) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (access) {
-    case BufferAccess_t::kRead:
+    case BufferAccess_t::Read:
       return GL_READ_ONLY;
-    case BufferAccess_t::kWrite:
+    case BufferAccess_t::Write:
       return GL_WRITE_ONLY;
-    case BufferAccess_t::kReadWrite:
+    case BufferAccess_t::ReadWrite:
       return GL_READ_WRITE;
     default:
       return 0;
   }
 #else
   switch (access) {
-    case BufferAccess_t::kRead:
+    case BufferAccess_t::Read:
       return GL_READ_ONLY_ARB;
-    case BufferAccess_t::kWrite:
+    case BufferAccess_t::Write:
       return GL_WRITE_ONLY_ARB;
-    case BufferAccess_t::kReadWrite:
+    case BufferAccess_t::ReadWrite:
       return GL_READ_WRITE_ARB;
     default:
       return 0;
@@ -84,8 +84,8 @@ auto Buffer::accessToGLenum(BufferAccess_t access) -> GLenum {
 #endif
 }
 
-auto Buffer::createInstance(const BufferCreateInfo &createInfo) -> BufferRef_t {
-  auto instance = std::make_shared<Buffer>(createInfo.desc);
+auto Buffer::createInstance(BufferIdQueueRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t {
+  auto instance = std::make_shared<Buffer>(idQueue, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
   }
@@ -93,24 +93,24 @@ auto Buffer::createInstance(const BufferCreateInfo &createInfo) -> BufferRef_t {
   return nullptr;
 }
 
-Buffer::Buffer(const BufferDescriptor &desc)
-    : ABufferBase(desc)
+#define INVALID_BUFFER_OBJECT_NAME (-1)
+using BufferObjectIdType = u32_t;
+
+Buffer::Buffer(BufferIdQueueRef_t idQueue, const BufferDescriptor &desc)
+    : BufferBase(desc)
     , target_(desc.target)
     , usage_(desc.usage)
     , capacity_(desc.capacity)
     , byteStride_(desc.byteStride) {
-#ifdef _EMSCRIPTEN
-  glGenBuffers(1, &objectId_);
-#else
-  Extension::glGenBuffers(1, &objectId_);
-#endif
+  setUid(idQueue->getBufferId());
 }
 
 Buffer::~Buffer() {
+  auto objectId = getUid().value();
 #ifdef _EMSCRIPTEN
-  glDeleteBuffers(1, &objectId_);
+  glDeleteBuffers(1, &objectId);
 #else
-  Extension::glDeleteBuffers(1, &objectId_);
+  Extension::glDeleteBuffers(1, &objectId);
 #endif
 }
 
@@ -120,12 +120,12 @@ auto Buffer::allocate(const void *data) -> bool {
   s32_t allocedSize = 0;
 
 #ifdef _EMSCRIPTEN
-  glBindBuffer(target, objectId_);
+  glBindBuffer(target, getUid().value());
   glBufferData(target, dataSize, data, Buffer::usageToGLenum(usage_));
 
   glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
 #else
-  Extension::glBindBuffer(target, objectId_);
+  Extension::glBindBuffer(target, getUid().value());
   Extension::glBufferData(target, dataSize, data, Buffer::usageToGLenum(usage_));
 
   Extension::glGetBufferParameteriv(target, GL_BUFFER_SIZE_ARB, &allocedSize);
@@ -142,14 +142,14 @@ void Buffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
   u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
-  if (glIsBuffer(objectId_)) {
-    glBindBuffer(target, objectId_);
+  if (glIsBuffer(getUid().value())) {
+    glBindBuffer(target, getUid().value());
     glBufferSubData(target, offset, size, source);
     glBindBuffer(target, 0);
   }
 #else
-  if (Extension::glIsBuffer(objectId_)) {
-    Extension::glBindBuffer(target, objectId_);
+  if (Extension::glIsBuffer(getUid().value())) {
+    Extension::glBindBuffer(target, getUid().value());
     Extension::glBufferSubData(target, offset, size, source);
     Extension::glBindBuffer(target, 0);
   }
@@ -171,7 +171,7 @@ auto Buffer::map() -> void * {
 
   // glBindBuffer(target, 0);
 #else
-  Extension::glBindBuffer(target, objectId_);
+  Extension::glBindBuffer(target, getUid().value());
   mapped = Extension::glMapBuffer(target, GL_WRITE_ONLY_ARB);
   if (!mapped) {
     return nullptr;
@@ -187,11 +187,11 @@ void Buffer::unmap() {
   [[maybe_unused]] u32_t target = Buffer::targetToGLenum(target_);
 
 #ifdef _EMSCRIPTEN
-  // glBindBuffer(target, objectId_);
+  // glBindBuffer(target, getUid().value());
   // glUnmapBufferOES(target);
   // glBindBuffer(target, 0);
 #else
-  Extension::glBindBuffer(target, objectId_);
+  Extension::glBindBuffer(target, getUid().value());
   Extension::glUnmapBuffer(target);
   Extension::glBindBuffer(target, 0);
 #endif
@@ -199,9 +199,9 @@ void Buffer::unmap() {
 
 void Buffer::bind() {
 #ifdef _EMSCRIPTEN
-  glBindBuffer(Buffer::targetToGLenum(target_), objectId_);
+  glBindBuffer(Buffer::targetToGLenum(target_), getUid().value());
 #else
-  Extension::glBindBuffer(Buffer::targetToGLenum(target_), objectId_);
+  Extension::glBindBuffer(Buffer::targetToGLenum(target_), getUid().value());
 #endif
 }
 

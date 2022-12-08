@@ -26,9 +26,9 @@ void VertexLayout::addAttribute(VertexAttributeDescriptor desc) {
   std::string alias = stringize(desc.semantic);
 
 #ifdef _EMSCRIPTEN
-  s32_t location = glGetAttribLocation(_shaderProgram->getObjectId(), alias.c_str());
+  s32_t location = glGetAttribLocation(_shaderProgram->getUid().value(), alias.c_str());
 #else
-  s32_t location = Extension::glGetAttribLocation(_shaderProgram->getObjectId(), alias.c_str());
+  s32_t location = Extension::glGetAttribLocation(_shaderProgram->getUid().value(), alias.c_str());
 #endif
 
   desc.location = location;

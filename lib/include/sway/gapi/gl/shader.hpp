@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление шейдерного объекта.
  */
-class Shader final : public AShaderBase {
+class Shader final : public ShaderBase {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -22,23 +22,27 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] type Тип создаваемого шейдера.
    */
   Shader(ShaderType_t type);
 
   /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
+   * @brief Деструктор класса.
+   *        Освобождает захваченные ресурсы.
    */
   virtual ~Shader();
 
   /**
    * @brief Выполняет компиляцию шейдерного объекта.
+   *
    * @param[in] source Исходный код шейдера.
    */
   MTHD_OVERRIDE(void compile(lpcstr_t source));
 
   /**
    * @brief Возвращает статус компиляции.
+   *
    * @return Если компиляция прошла успешно 'true', иначе 'false'.
    */
   // clang-format off
@@ -46,6 +50,7 @@ public:
 
   /**
    * @brief Получает тип шейдера.
+   *
    * @return Тип шейдера.
    */
   // clang-format off

@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление шейдерной программы.
  */
-class ShaderProgram final : public AShaderProgramBase {
+class ShaderProgram final : public ShaderProgramBase {
 public:
   static auto createInstance() -> ShaderProgramRef_t;
 
@@ -20,12 +20,14 @@ public:
   ShaderProgram();
 
   /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
+   * @brief Деструктор класса.
+   *        Освобождает захваченные ресурсы.
    */
   virtual ~ShaderProgram();
 
   /**
    * @brief Связывает шейдерный объект с программным объектом.
+   *
    * @param[in] shader Указатель на связываемый шейдерный объект.
    * @sa detach(u32_t)
    */
@@ -33,6 +35,7 @@ public:
 
   /**
    * @brief Отсоединяет шейдерный объект от программного объекта.
+   *
    * @param[in] attachedId Отвязываемый шейдерный объект.
    * @sa attach(ShaderRef_t)
    */
@@ -40,12 +43,14 @@ public:
 
   /**
    * @brief Компонует программный объект.
+   *
    * @sa isLinked() const
    */
   MTHD_OVERRIDE(void link());
 
   /**
    * @brief Возвращает статус компоновки.
+   *
    * @sa link()
    */
   // clang-format off
@@ -53,12 +58,14 @@ public:
 
   /**
    * @brief Проверяет скомпоновонный объект на корректность.
+   *
    * @sa isValidated() const
    */
   MTHD_OVERRIDE(void validate());
 
   /**
    * @brief Возвращает статус корректности скомпоновоного объекта.
+   *
    * @sa validate()
    */
   // clang-format off
@@ -66,6 +73,7 @@ public:
 
   /**
    * @brief Делает шейдерную программу активной.
+   *
    * @sa unuse(),
    *     isUsed() const
    */
@@ -73,6 +81,7 @@ public:
 
   /**
    * @brief Деактивирует шейдерную программу.
+   *
    * @sa use(),
    *     isUsed() const
    */
@@ -81,6 +90,7 @@ public:
   /**
    * @brief Возвращает логическое значение, которое определяет,
    *        является ли шейдерная программа активной в текущем состоянии рендеринга.
+   *
    * @sa use(),
    *     unuse()
    */
@@ -89,6 +99,7 @@ public:
 
   /**
    * @brief Передает значение uniform-переменной в шейдер.
+   *
    * @param[in] uniform Имя uniform-переменной.
    * @param[in] vec Значение uniform-переменной.
    */
@@ -96,6 +107,7 @@ public:
 
   /**
    * @brief Передает значение uniform-переменной в шейдер.
+   *
    * @param[in] uniform Имя uniform-переменной.
    * @param[in] col Значение uniform-переменной.
    */

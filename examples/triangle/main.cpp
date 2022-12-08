@@ -58,7 +58,8 @@ int main(int argc, char *argv[]) {
   float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
   vboCreateInfo.data = vertices;
 
-  auto vbo = functions->createBuffer(vboCreateInfo);
+  auto idQueue = functions->createBufferIdQueue();
+  auto vbo = functions->createBuffer(idQueue, vboCreateInfo);
   auto vlayout = functions->createVertexLayout(program);
   vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
 

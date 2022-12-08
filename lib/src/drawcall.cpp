@@ -8,17 +8,17 @@ NAMESPACE_BEGIN(gapi)
 
 GLenum DrawCall::topologyToGLenum(TopologyType_t topology) {
   switch (topology) {
-    case TopologyType_t::kPointList:
+    case TopologyType_t::PointList:
       return GL_POINTS;
-    case TopologyType_t::kLineList:
+    case TopologyType_t::LineList:
       return GL_LINES;
-    case TopologyType_t::kLineStrip:
+    case TopologyType_t::LineStrip:
       return GL_LINE_STRIP;
-    case TopologyType_t::kTriangleList:
+    case TopologyType_t::TriangleList:
       return GL_TRIANGLES;
-    case TopologyType_t::kTriangleStrip:
+    case TopologyType_t::TriangleStrip:
       return GL_TRIANGLE_STRIP;
-    case TopologyType_t::kTriangleFan:
+    case TopologyType_t::TriangleFan:
       return GL_TRIANGLE_FAN;
     default:
       return 0;
@@ -54,7 +54,7 @@ void DrawCall::_draw(BufferRef_t ibo) {
 }
 
 void DrawCall::_drawIndexed(BufferRef_t ibo) {
-  if (Extension::glIsBuffer(ibo->getObjectId())) {
+  if (Extension::glIsBuffer(ibo->getUid().value())) {
     // Empty
   }
 

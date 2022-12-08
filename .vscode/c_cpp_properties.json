@@ -4,7 +4,10 @@
       "name": "Mac",
       "includePath": [
         "${workspaceFolder}/lib/include",
-        "${workspaceFolder}/submodules/sway.module_core/lib/include"
+        "${workspaceFolder}/submodules/sway.module_core/lib/include",
+        "${workspaceFolder}/submodules/sway.module_math/lib/include",
+        "${workspaceFolder}/submodules/sway.module_platform-glx11/lib/include",
+        "${workspaceFolder}/submodules/sway.module_gapi/include"
       ]
     }
   ],

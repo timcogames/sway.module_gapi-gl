@@ -15,17 +15,20 @@ public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
+   *
    * @param[in] program Указатель на шейдерную программу.
    */
   VertexLayout(ShaderProgramRef_t program);
 
   /**
-   * @brief Деструктор класса. Освобождает захваченные ресурсы.
+   * @brief Деструктор класса.
+   *        Освобождает захваченные ресурсы.
    */
   virtual ~VertexLayout();
 
   /**
    * @brief Добавляет вершинный атрибут.
+   *
    * @param[in] desc Описание вершинного атрибута.
    */
   MTHD_OVERRIDE(void addAttribute(VertexAttributeDescriptor desc));

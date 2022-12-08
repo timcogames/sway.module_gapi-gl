@@ -11,18 +11,18 @@ NAMESPACE_BEGIN(gapi)
 auto Shader::typeToGLenum(ShaderType_t type) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (type) {
-    case ShaderType_t::kVertex:
+    case ShaderType_t::Vertex:
       return GL_VERTEX_SHADER;
-    case ShaderType_t::kFragment:
+    case ShaderType_t::Fragment:
       return GL_FRAGMENT_SHADER;
     default:
       return GL_INVALID_INDEX;
   }
 #else
   switch (type) {
-    case ShaderType_t::kVertex:
+    case ShaderType_t::Vertex:
       return GL_VERTEX_SHADER_ARB;
-    case ShaderType_t::kFragment:
+    case ShaderType_t::Fragment:
       return GL_FRAGMENT_SHADER_ARB;
     default:
       return GL_INVALID_INDEX;
@@ -43,21 +43,25 @@ auto Shader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderRef_t {
 }
 
 Shader::Shader(ShaderType_t type)
-    : AShaderBase(type)
+    : ShaderBase(type)
     , _type(type)
     , _compiled(false) {
 #ifdef _EMSCRIPTEN
-  objectId_ = glCreateShader(Shader::typeToGLenum(_type));
+  auto objectId = glCreateShader(Shader::typeToGLenum(_type));
 #else
-  objectId_ = Extension::glCreateShaderObject(Shader::typeToGLenum(_type));
+  auto objectId = Extension::glCreateShaderObject(Shader::typeToGLenum(_type));
 #endif
+
+  if (objectId != 0) {
+    setUid(objectId);
+  }
 }
 
 Shader::~Shader() {
 #ifdef _EMSCRIPTEN
-  glDeleteShader(objectId_);
+  glDeleteShader(getUid().value());
 #else
-  Extension::glDeleteShaderObject(objectId_);
+  Extension::glDeleteShaderObject(getUid().value());
 #endif
 }
 
@@ -66,17 +70,17 @@ void Shader::compile(lpcstr_t source) {
 #ifdef _EMSCRIPTEN
   // EM_ASM({ console.log('objectId_: ' + $0); }, objectId_);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, source);
-  glShaderSource(objectId_, 1, &source, NULL);
-  glCompileShader(objectId_);
-  glGetShaderiv(objectId_, GL_COMPILE_STATUS, &compileStatus);
+  glShaderSource(getUid().value(), 1, &source, NULL);
+  glCompileShader(getUid().value());
+  glGetShaderiv(getUid().value(), GL_COMPILE_STATUS, &compileStatus);
 #else
-  Extension::glShaderSource(objectId_, 1, &source, NULL);
-  Extension::glCompileShader(objectId_);
-  Extension::glGetObjectParameteriv(objectId_, GL_OBJECT_COMPILE_STATUS_ARB, &compileStatus);
+  Extension::glShaderSource(getUid().value(), 1, &source, NULL);
+  Extension::glCompileShader(getUid().value());
+  Extension::glGetObjectParameteriv(getUid().value(), GL_OBJECT_COMPILE_STATUS_ARB, &compileStatus);
 #endif
   _compiled = (compileStatus == GL_TRUE);
   if (!_compiled) {
-    throw ShaderCompilationException(objectId_);
+    throw ShaderCompilationException(getUid().value());
   }
 }
 

@@ -37,6 +37,7 @@ public:
 
   /**
    * @brief Выполняет отрисовку примитива.
+   *
    * @param[in] topology Топология примитива.
    * @param[in] bufset Набор буферных объектов.
    * @param[in] type Тип значений в индексах.
@@ -46,12 +47,14 @@ public:
 private:
   /**
    * @brief Выводит примитивы по данным в массивах.
+   *
    * @sa _drawIndexed(BufferRef_t)
    */
   void _draw(BufferRef_t ibo);
 
   /**
    * @brief Выводит индексные примитивы по данным в массивах.
+   *
    * @sa _draw(BufferRef_t)
    */
   void _drawIndexed(BufferRef_t ibo);

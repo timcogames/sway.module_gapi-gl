@@ -1,3 +1,5 @@
+#include "../../../../submodules/sway.module_core/lib/src/_embinds.cpp"
+
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
@@ -12,8 +14,9 @@
 
 using namespace sway;
 
-std::shared_ptr<gapi::AShaderProgramBase> program = nullptr;
-std::shared_ptr<gapi::ABufferBase> vbo = nullptr;
+std::shared_ptr<gapi::ShaderProgramBase> program = nullptr;
+std::shared_ptr<gapi::BufferIdQueue> idQueue = nullptr;
+std::shared_ptr<gapi::BufferBase> vbo = nullptr;
 std::shared_ptr<gapi::IVertexLayoutBase> vlayout = nullptr;
 std::shared_ptr<gapi::IDrawCallBase> drawCall = nullptr;
 
@@ -25,7 +28,7 @@ void update() {
   vbo->bind();
   vlayout->enable();
 
-  drawCall->execute(gapi::TopologyType_t::kTriangleList, {vbo, nullptr}, core::ValueDataType::Char);
+  drawCall->execute(gapi::TopologyType_t::TriangleList, {vbo, nullptr}, core::ValueDataType::Char);
 
   vlayout->disable();
   vbo->unbind();
@@ -56,14 +59,14 @@ int main() {
   // EM_ASM({ console.log('version: ' + $0); }, capability->getVersion().getMajor());
 
   gapi::ShaderCreateInfo vsoCreateInfo;
-  vsoCreateInfo.type = gapi::ShaderType_t::kVertex;
+  vsoCreateInfo.type = gapi::ShaderType_t::Vertex;
   vsoCreateInfo.code = "attribute vec3 attr_position; \
     void main() { \
       gl_Position = vec4(attr_position, 1.0); \
      }";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
-  fsoCreateInfo.type = gapi::ShaderType_t::kFragment;
+  fsoCreateInfo.type = gapi::ShaderType_t::Fragment;
   fsoCreateInfo.code = "void main() { \
       gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
     }";
@@ -76,16 +79,17 @@ int main() {
   program->validate();
 
   gapi::BufferCreateInfo vboCreateInfo;
-  vboCreateInfo.desc.target = gapi::BufferTarget_t::kArray;
-  vboCreateInfo.desc.usage = gapi::BufferUsage_t::kStatic;
+  vboCreateInfo.desc.target = gapi::BufferTarget_t::Array;
+  vboCreateInfo.desc.usage = gapi::BufferUsage_t::Static;
   vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
   vboCreateInfo.desc.capacity = 3;
   std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
   vboCreateInfo.data = vertices.data();
 
-  vbo = functions->createBuffer(vboCreateInfo);
+  idQueue = functions->createBufferIdQueue();
+  vbo = functions->createBuffer(idQueue, vboCreateInfo);
   vlayout = functions->createVertexLayout(program);
-  vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::kPosition, false, true));
+  vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
 
   drawCall = functions->createDrawCall();
 
