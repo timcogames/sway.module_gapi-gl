@@ -18,7 +18,7 @@ using BufferIdType = u32_t;
 template <typename T, typename Container = std::deque<T>>
 class IterableQueue : public std::queue<T, Container> {
 public:
-  typedef typename Container::const_iterator const_iterator;
+  using const_iterator = typename Container::const_iterator;
 
   const_iterator begin() const { return this->c.begin(); }
   const_iterator end() const { return this->c.end(); }
@@ -31,7 +31,7 @@ public:
   BufferIdQueueImpl()
       : chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
-  ~BufferIdQueueImpl() {
+  virtual ~BufferIdQueueImpl() {
 #ifdef _EMSCRIPTEN
     glDeleteBuffers(queue_.size(), std::vector<BufferIdType>({queue_.begin(), queue_.end()}).data());
 #else
@@ -49,7 +49,7 @@ public:
       Extension::glGenBuffers(chunkCapacity_, bufferIds);
 #endif
 
-      for (int i = 0; i < chunkCapacity_; i++) {
+      for (u32_t i = 0; i < chunkCapacity_; i++) {
         queue_.push(bufferIds[i]);
       }
 

@@ -32,10 +32,12 @@ ShaderProgram::~ShaderProgram() {
   std::for_each(
       objectIdSet_.begin(), objectIdSet_.end(), std::bind(&ShaderProgram::detach, this, std::placeholders::_1));
 
+  auto programId = getUid().value();
+
 #ifdef _EMSCRIPTEN
-  glDeleteProgram(getUid().value());
+  glDeleteProgram(programId);
 #else
-  Extension::glDeletePrograms(1, &getUid().value());
+  Extension::glDeletePrograms(1, &programId);
 #endif
 }
 
