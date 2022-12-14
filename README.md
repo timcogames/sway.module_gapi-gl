@@ -1,6 +1,6 @@
 # sway.module_gapi-gl
 
-[![Build Status][travis-svg]][travis-url] [![codecov][codecov-svg]][codecov-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
+[![codecov][codecov-svg]][codecov-url] [![Documentation][codedocs-svg]][codedocs-url] [![License][license-svg]][license-url]
 
 ## Клонирование проекта
 
@@ -21,12 +21,6 @@ mkdir build && cd ./build
 ```console
 # Только динимическая библиотека
 cmake -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_GL_SHARED_LIB=ON ../
-```
-
-#### для Google тестов
-
-```console
-cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest -DMODULE_GAPI_GL_ENABLE_TESTS=ON ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию
@@ -66,8 +60,6 @@ ssh -X root@<HOSTNAME>
 
 См. [CONTRIBUTING](./github/CONTRIBUTING.md)
 
-[travis-svg]: https://travis-ci.com/timcogames/sway.module_gapi-gl.svg?branch=master
-[travis-url]: https://travis-ci.com/timcogames/sway.module_gapi-gl
 [codecov-svg]: https://codecov.io/gh/timcogames/sway.module_gapi-gl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/timcogames/sway.module_gapi-gl
 [codedocs-svg]: https://codedocs.xyz/timcogames/sway.module_gapi-gl.svg

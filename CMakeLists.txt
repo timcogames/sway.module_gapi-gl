@@ -45,6 +45,10 @@ if (MODULE_USE_EMSCRIPTEN)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s MODULARIZE=1")
 endif ()
 
+if (MODULE_GAPI_GL_ENABLE_TESTS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_TESTS")
+endif ()
+
 message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
          compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
        build type | ${CMAKE_BUILD_TYPE}
@@ -138,7 +142,7 @@ if (MODULE_GAPI_GL_ENABLE_TESTS)
   if (MODULE_GAPI_GL_SHARED_LIB)
     message(STATUS "[${META_GAPI_GL_PRJNAME}]: Tests are only allowed with a static lib")
   else ()
-    message(STATUS "[${META_GAPI_GL_PRJNAME}]:Tests have been enabled")
+    message(STATUS "[${META_GAPI_GL_PRJNAME}]: Tests have been enabled")
     add_subdirectory(lib/tests/google)
   endif ()
 endif ()
