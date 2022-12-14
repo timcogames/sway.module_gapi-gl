@@ -53,7 +53,7 @@ void Capability::_initializeVersion() {
 }
 
 void Capability::_initializeExtensions() {
-  auto exts = reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS));
+  const auto *exts = reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS));
   printf("OpenGL extensions:\n%s\n", exts);
   auto func = [&](ExtensionInitList_t probes) -> core::binding::ProcAddress_t {
     for (const auto &probe : probes) {

@@ -55,12 +55,12 @@ int main(int argc, char *argv[]) {
   vboCreateInfo.desc.usage = gapi::BufferUsage_t::Static;
   vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
   vboCreateInfo.desc.capacity = 3;
-  float vertices[] = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
-  vboCreateInfo.data = vertices;
+  std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
+  vboCreateInfo.data = vertices.data();
 
   auto idQueue = functions->createBufferIdQueue();
   auto vbo = functions->createBuffer(idQueue, vboCreateInfo);
-  auto vlayout = functions->createVertexLayout(program);
+  auto vlayout = functions->createVertexAttribLayout(program);
   vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
 
   auto drawCall = functions->createDrawCall();

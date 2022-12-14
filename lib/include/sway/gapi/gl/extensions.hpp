@@ -8,6 +8,7 @@ NAMESPACE_BEGIN(gapi)
 
 class Extension {
 public:
+  static std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions;
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
 
   static core::binding::TFunction<u32_t()> glCreateProgramObject;
@@ -51,4 +52,4 @@ public:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_EXTENSIONS_HPP

@@ -13,7 +13,7 @@ set(GTEST_LIBRARY_DIR "${GTest_ROOT}/build/lib")
 
 set(GTEST_MAIN_LIBRARY "${GTEST_LIBRARY_DIR}/gtest_main.lib")
 
-find_package(GTest REQUIRED)
+# find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 
 include_directories(${GTEST_INCLUDE_DIR})

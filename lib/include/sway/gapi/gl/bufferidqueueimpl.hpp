@@ -1,11 +1,11 @@
 #ifndef SWAY_GAPI_GL_BUFFERIDQUEUEIMPL_HPP
 #define SWAY_GAPI_GL_BUFFERIDQUEUEIMPL_HPP
 
-#include <sway/gapi/bufferIdqueue.hpp>
+#include <sway/gapi/bufferidqueue.hpp>
+#include <sway/gapi/gl/bufferhelper.hpp>
 #include <sway/gapi/gl/extensions.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-#include <GLES2/gl2.h>
 #include <queue>
 
 NAMESPACE_BEGIN(sway)
@@ -29,25 +29,17 @@ public:
   static auto createInstance() -> std::shared_ptr<BufferIdQueue> { return std::make_shared<BufferIdQueueImpl>(); }
 
   BufferIdQueueImpl()
-      : chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
+      : helper_(gapi::Extension::extensions)
+      , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
   virtual ~BufferIdQueueImpl() {
-#ifdef _EMSCRIPTEN
-    glDeleteBuffers(queue_.size(), std::vector<BufferIdType>({queue_.begin(), queue_.end()}).data());
-#else
-    Extension::glDeleteBuffers(queue_.size(), std::vector<BufferIdType>({queue_.begin(), queue_.end()}).data());
-#endif
+    helper_.DeleteBuffers(queue_.size(), std::vector<BufferIdType>({queue_.begin(), queue_.end()}).data());
   }
 
-  [[nodiscard]] auto getBufferId() -> BufferIdType {
+  [[nodiscard]] auto newGuid() -> BufferIdType {
     if (queue_.empty()) {
       auto *bufferIds = new BufferIdType[chunkCapacity_];
-
-#ifdef _EMSCRIPTEN
-      glGenBuffers(chunkCapacity_, bufferIds);
-#else
-      Extension::glGenBuffers(chunkCapacity_, bufferIds);
-#endif
+      helper_.GenerateBuffers(chunkCapacity_, bufferIds);
 
       for (u32_t i = 0; i < chunkCapacity_; i++) {
         queue_.push(bufferIds[i]);
@@ -56,13 +48,14 @@ public:
       SAFE_DELETE_ARRAY(bufferIds);
     }
 
-    int uniqueid = queue_.front();
+    auto uniqueid = queue_.front();
     queue_.pop();
 
     return uniqueid;
   }
 
 private:
+  BufferHelper helper_;
   IterableQueue<BufferIdType> queue_;
   u32_t chunkCapacity_;
 };

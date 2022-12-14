@@ -2,6 +2,8 @@
 #define SWAY_GAPI_GL_SHADERPROGRAM_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/shaderhelper.hpp>
+#include <sway/gapi/gl/shaderprogramhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -54,7 +56,9 @@ public:
    * @sa link()
    */
   // clang-format off
-  MTHD_OVERRIDE(auto isLinked() const -> bool);  // clang-format on
+  MTHD_OVERRIDE(auto isLinked() const -> bool) {  // clang-format on
+    return linked_;
+  }
 
   /**
    * @brief Проверяет скомпоновонный объект на корректность.
@@ -69,7 +73,9 @@ public:
    * @sa validate()
    */
   // clang-format off
-  MTHD_OVERRIDE(auto isValidated() const -> bool);  // clang-format on
+  MTHD_OVERRIDE(auto isValidated() const -> bool) {  // clang-format on
+    return validated_;
+  }
 
   /**
    * @brief Делает шейдерную программу активной.
@@ -117,6 +123,8 @@ public:
 
 private:
   // ShaderObjectIdSet_t objectIdSet_;
+  ShaderHelper shaderHelper_;
+  ShaderProgramHelper programHelper_;
   std::set<int> objectIdSet_;
   UniformVec4fUmap_t uniformVec4fSet_;
   UniformMat4fUmap_t uniformMat4fSet_;
@@ -127,4 +135,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_SHADERPROGRAM_HPP

@@ -1,7 +1,8 @@
-#ifndef SWAY_GAPI_GL_SHADER_HPP
-#define SWAY_GAPI_GL_SHADER_HPP
+#ifndef SWAY_GAPI_GL_GENERICSHADER_HPP
+#define SWAY_GAPI_GL_GENERICSHADER_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/shaderhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -9,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление шейдерного объекта.
  */
-class Shader final : public ShaderBase {
+class GenericShader final : public Shader {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -25,13 +26,13 @@ public:
    *
    * @param[in] type Тип создаваемого шейдера.
    */
-  Shader(ShaderType_t type);
+  GenericShader(ShaderType_t type);
 
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
    */
-  virtual ~Shader();
+  virtual ~GenericShader();
 
   /**
    * @brief Выполняет компиляцию шейдерного объекта.
@@ -46,7 +47,9 @@ public:
    * @return Если компиляция прошла успешно 'true', иначе 'false'.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto isCompiled() const -> bool);  // clang-format on
+  MTHD_OVERRIDE(auto isCompiled() const -> bool) {  // clang-format on
+    return compiled_;
+  }
 
   /**
    * @brief Получает тип шейдера.
@@ -54,14 +57,17 @@ public:
    * @return Тип шейдера.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getType() const -> ShaderType_t);  // clang-format on
+  MTHD_OVERRIDE(auto getType() const -> ShaderType_t) {  // clang-format on
+    return type_;
+  }
 
 private:
-  ShaderType_t _type;  // Тип шейдера.
-  bool _compiled;
+  ShaderHelper shaderHelper_;
+  ShaderType_t type_;  // Тип шейдера.
+  bool compiled_;
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_GENERICSHADER_HPP

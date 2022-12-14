@@ -1,6 +1,6 @@
 #include <sway/gapi/gl/exceptions.hpp>
 #include <sway/gapi/gl/extensions.hpp>
-#include <sway/gapi/gl/shader.hpp>
+#include <sway/gapi/gl/genericshader.hpp>
 #include <sway/gapi/gl/shaderprogram.hpp>
 
 #include <GLES2/gl2.h>
@@ -15,14 +15,11 @@ auto ShaderProgram::createInstance() -> ShaderProgramRef_t {
 }
 
 ShaderProgram::ShaderProgram()
-    : linked_(false)
+    : shaderHelper_(gapi::Extension::extensions)
+    , programHelper_(gapi::Extension::extensions)
+    , linked_(false)
     , validated_(false) {
-#ifdef _EMSCRIPTEN
-  auto objectId = glCreateProgram();
-#else
-  auto objectId = Extension::glCreateProgramObject();
-#endif
-
+  auto objectId = programHelper_.CreateProgram();
   if (objectId != 0) {
     setUid(objectId);
   }
@@ -33,119 +30,68 @@ ShaderProgram::~ShaderProgram() {
       objectIdSet_.begin(), objectIdSet_.end(), std::bind(&ShaderProgram::detach, this, std::placeholders::_1));
 
   auto programId = getUid().value();
-
-#ifdef _EMSCRIPTEN
-  glDeleteProgram(programId);
-#else
-  Extension::glDeletePrograms(1, &programId);
-#endif
+  programHelper_.DeleteProgram(1, &programId);
 }
 
 void ShaderProgram::attach(ShaderRef_t shader) {
-  int shaderObjectId = shader->getUid().value();
-  // std::set<int> s1;
-  // s1.insert(shader->getObjectId());
-  // objectIdSet_.insert(s1.begin(), s1.end());
-
-  auto result = objectIdSet_.insert(shaderObjectId);
+  auto result = objectIdSet_.insert(shader->getUid().value());
   if (result.second) {
-#ifdef _EMSCRIPTEN
-    glAttachShader(getUid().value(), *(result.first));
-    // glAttachShader(objectId_, shader->getObjectId());
-#else
-    Extension::glAttachObject(getUid().value(), *(result.first));
-#endif
+    programHelper_.AttachShader(getUid().value(), *(result.first));
   }
 }
 
 void ShaderProgram::detach(u32_t attachedId) {
-#ifdef _EMSCRIPTEN
-  glDetachShader(getUid().value(), attachedId);
-#else
-  Extension::glDetachObject(getUid().value(), attachedId);
-#endif
-
+  programHelper_.DetachShader(getUid().value(), attachedId);
   objectIdSet_.erase(attachedId);
 }
 
 void ShaderProgram::link() {
   int linkStatus;
 
-#ifdef _EMSCRIPTEN
-  glLinkProgram(getUid().value());
-  glGetProgramiv(getUid().value(), GL_LINK_STATUS, &linkStatus);
-#else
-  Extension::glLinkProgram(getUid().value());
-  Extension::glGetObjectParameteriv(getUid().value(), GL_OBJECT_LINK_STATUS_ARB, &linkStatus);
-#endif
-
+  programHelper_.LinkProgram(getUid().value());
+  programHelper_.GetObjectParam(getUid().value(), GL_LINK_STATUS, &linkStatus);  // GL_OBJECT_LINK_STATUS_ARB
   linked_ = (linkStatus == GL_TRUE);
   if (!linked_) {
     throw ShaderProgramLinkageException(getUid().value());
   }
 }
 
-auto ShaderProgram::isLinked() const -> bool { return linked_; }
-
 void ShaderProgram::validate() {
   int validateStatus;
 
-#ifdef _EMSCRIPTEN
-  glValidateProgram(getUid().value());
-  glGetProgramiv(getUid().value(), GL_VALIDATE_STATUS, &validateStatus);
-#else
-  Extension::glValidateProgram(getUid().value());
-  Extension::glGetObjectParameteriv(getUid().value(), GL_OBJECT_VALIDATE_STATUS_ARB, &validateStatus);
-#endif
-
+  programHelper_.ValidateProgram(getUid().value());
+  programHelper_.GetObjectParam(
+      getUid().value(), GL_VALIDATE_STATUS, &validateStatus);  // GL_OBJECT_VALIDATE_STATUS_ARB
   validated_ = (validateStatus == GL_TRUE);
   if (!validated_) {
     throw ShaderProgramValidationException(getUid().value());
   }
 }
 
-auto ShaderProgram::isValidated() const -> bool { return validated_; }
-
 void ShaderProgram::use() {
   if (getUid().value() > 0 && !isUsed()) {
-
-#ifdef _EMSCRIPTEN
-    glUseProgram(getUid().value());
+    programHelper_.UseProgram(getUid().value());
 
     for (auto iter : uniformVec4fSet_) {
-      s32_t location = glGetUniformLocation(getUid().value(), iter.first.c_str());
+      auto location = programHelper_.GetUniformLocation(getUid().value(), iter.first.c_str());
       if (location != -1) {
-        glUniform4f(location, iter.second.getX(), iter.second.getY(), iter.second.getZ(), iter.second.getW());
-      }
-    }
-#else
-    Extension::glUseProgramObject(getUid().value());
-
-    for (auto iter : uniformVec4fSet_) {
-      s32_t location = Extension::glGetUniformLocation(getUid().value(), iter.first.c_str());
-      if (location != -1) {
-        Extension::glUniform4f(
+        programHelper_.Uniform4f(
             location, iter.second.getX(), iter.second.getY(), iter.second.getZ(), iter.second.getW());
       }
     }
 
     for (auto iter : uniformMat4fSet_) {
-      s32_t location = Extension::glGetUniformLocation(getUid().value(), iter.first.c_str());
+      auto location = programHelper_.GetUniformLocation(getUid().value(), iter.first.c_str());
       if (location != -1) {
-        Extension::glUniformMatrix4fv(location, 1, GL_FALSE, (float *)&iter.second);
+        programHelper_.UniformMatrix4f(location, 1, GL_FALSE, (float *)&iter.second);
       }
     }
-#endif
   }
 }
 
 void ShaderProgram::unuse() {
   if (getUid().value() > 0 && isUsed()) {
-#ifdef _EMSCRIPTEN
-    glUseProgram(0);
-#else
-    Extension::glUseProgramObject(0);
-#endif
+    programHelper_.UseProgram(0);
   }
 }
 
@@ -153,7 +99,7 @@ auto ShaderProgram::isUsed() const -> bool {
   s32_t current = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &current);
 
-  return (current == (s32_t)getUid().value());
+  return (current == getUid().value());
 }
 
 void ShaderProgram::setUniformVec4f(const std::string &uniform, const math::vec4f_t &vec) {

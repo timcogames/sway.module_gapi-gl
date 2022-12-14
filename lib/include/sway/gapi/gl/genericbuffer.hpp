@@ -1,6 +1,7 @@
-#ifndef SWAY_GAPI_GL_BUFFER_HPP
-#define SWAY_GAPI_GL_BUFFER_HPP
+#ifndef SWAY_GAPI_GL_GENERICBUFFER_HPP
+#define SWAY_GAPI_GL_GENERICBUFFER_HPP
 
+#include <sway/gapi/gl/bufferhelper.hpp>
 #include <sway/gapi/gl/bufferidqueueimpl.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
@@ -10,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление аппаратного буфера.
  */
-class Buffer final : public BufferBase {
+class GenericBuffer final : public Buffer {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -28,13 +29,13 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  Buffer(BufferIdQueueRef_t idQueue, const BufferDescriptor &desc);
+  GenericBuffer(BufferIdQueueRef_t idQueue, const BufferDescriptor &desc);
 
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
    */
-  virtual ~Buffer();
+  virtual ~GenericBuffer();
 
   /**
    * @brief Устанавливает данные в аппаратный буфер.
@@ -63,21 +64,6 @@ public:
   MTHD_OVERRIDE(void updateSubdata(const void *source));
 
   /**
-   * @brief Получает указатель на область памяти, в которой находятся данные буфера.
-   *
-   * @sa unmap()
-   */
-  // clang-format off
-  MTHD_OVERRIDE(auto map() -> void *);  // clang-format on
-
-  /**
-   * @brief Возвращает данные буфера в память.
-   *
-   * @sa map()
-   */
-  MTHD_OVERRIDE(void unmap());
-
-  /**
    * @brief Делает буфер текущим.
    *
    * @sa unbind()
@@ -101,7 +87,6 @@ public:
 
   /**
    * @brief Получает режим работы с данными.
-   *
    */
   // clang-format off
   MTHD_OVERRIDE(auto getUsage() const -> BufferUsage_t) {  // clang-format on
@@ -125,6 +110,7 @@ public:
   }
 
 private:
+  BufferHelper helper_;
   BufferTarget_t target_;
   BufferUsage_t usage_;
   s32_t capacity_;
@@ -134,4 +120,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_BUFFER_HPP
+#endif  // SWAY_GAPI_GL_GENERICBUFFER_HPP

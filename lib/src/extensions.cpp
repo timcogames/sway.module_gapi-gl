@@ -3,6 +3,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
+std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> Extension::extensions = nullptr;
+
 core::binding::TFunction<u32_t()> Extension::glCreateProgramObject = nullptr;
 core::binding::TFunction<void(s32_t num, const u32_t *programs)> Extension::glDeletePrograms = nullptr;
 core::binding::TFunction<void(u32_t containerObj, u32_t obj)> Extension::glAttachObject = nullptr;
@@ -41,38 +43,39 @@ core::binding::TFunction<void(u32_t index)> Extension::glDisableVertexAttribArra
 core::binding::TFunction<void(u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer)>
     Extension::glVertexAttribPointer = nullptr;
 
-void Extension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &loadExtension) {
-  glCreateProgramObject = loadExtension({{"GL_ARB_shader_objects", "glCreateProgramObjectARB"}});
-  glDeletePrograms = loadExtension({{"GL_ARB_fragment_program", "glDeleteProgramsARB"}});
-  glAttachObject = loadExtension({{"GL_ARB_shader_objects", "glAttachObjectARB"}});
-  glDetachObject = loadExtension({{"GL_ARB_shader_objects", "glDetachObjectARB"}});
-  glLinkProgram = loadExtension({{"GL_ARB_shader_objects", "glLinkProgramARB"}});
-  glValidateProgram = loadExtension({{"GL_ARB_shader_objects", "glValidateProgramARB"}});
-  glUseProgramObject = loadExtension({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
-  glGetUniformLocation = loadExtension({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
-  glUniform4f = loadExtension({{"GL_ARB_shader_objects", "glUniform4fARB"}});
-  glUniformMatrix4fv = loadExtension({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
-  glCreateShaderObject = loadExtension({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});
-  glDeleteShaderObject = loadExtension({{"GL_ARB_shader_objects", "glDeleteObjectARB"}});
-  glShaderSource = loadExtension({{"GL_ARB_shader_objects", "glShaderSourceARB"}});
-  glCompileShader = loadExtension({{"GL_ARB_shader_objects", "glCompileShaderARB"}});
-  glGetObjectParameteriv = loadExtension({{"GL_ARB_shader_objects", "glGetObjectParameterivARB"}});
-  glGetInfoLog = loadExtension({{"GL_ARB_shader_objects", "glGetInfoLogARB"}});
+void Extension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+  extensions = exts;
+  glCreateProgramObject = extensions({{"GL_ARB_shader_objects", "glCreateProgramObjectARB"}});
+  glDeletePrograms = extensions({{"GL_ARB_fragment_program", "glDeleteProgramsARB"}});
+  glAttachObject = extensions({{"GL_ARB_shader_objects", "glAttachObjectARB"}});
+  glDetachObject = extensions({{"GL_ARB_shader_objects", "glDetachObjectARB"}});
+  glLinkProgram = extensions({{"GL_ARB_shader_objects", "glLinkProgramARB"}});
+  glValidateProgram = extensions({{"GL_ARB_shader_objects", "glValidateProgramARB"}});
+  glUseProgramObject = extensions({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
+  glGetUniformLocation = extensions({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
+  glUniform4f = extensions({{"GL_ARB_shader_objects", "glUniform4fARB"}});
+  glUniformMatrix4fv = extensions({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
+  glCreateShaderObject = extensions({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});
+  glDeleteShaderObject = extensions({{"GL_ARB_shader_objects", "glDeleteObjectARB"}});
+  glShaderSource = extensions({{"GL_ARB_shader_objects", "glShaderSourceARB"}});
+  glCompileShader = extensions({{"GL_ARB_shader_objects", "glCompileShaderARB"}});
+  glGetObjectParameteriv = extensions({{"GL_ARB_shader_objects", "glGetObjectParameterivARB"}});
+  glGetInfoLog = extensions({{"GL_ARB_shader_objects", "glGetInfoLogARB"}});
 
-  glGenBuffers = loadExtension({{"GL_ARB_vertex_buffer_object", "glGenBuffersARB"}});
-  glDeleteBuffers = loadExtension({{"GL_ARB_vertex_buffer_object", "glDeleteBuffersARB"}});
-  glBindBuffer = loadExtension({{"GL_ARB_vertex_buffer_object", "glBindBufferARB"}});
-  glBufferData = loadExtension({{"GL_ARB_vertex_buffer_object", "glBufferDataARB"}});
-  glBufferSubData = loadExtension({{"GL_ARB_vertex_buffer_object", "glBufferSubDataARB"}});
-  glMapBuffer = loadExtension({{"GL_ARB_vertex_buffer_object", "glMapBufferARB"}});
-  glUnmapBuffer = loadExtension({{"GL_ARB_vertex_buffer_object", "glUnmapBufferARB"}});
-  glIsBuffer = loadExtension({{"GL_ARB_vertex_buffer_object", "glIsBufferARB"}});
-  glGetBufferParameteriv = loadExtension({{"GL_ARB_vertex_buffer_object", "glGetBufferParameterivARB"}});
+  glGenBuffers = extensions({{"GL_ARB_vertex_buffer_object", "glGenBuffersARB"}});
+  glDeleteBuffers = extensions({{"GL_ARB_vertex_buffer_object", "glDeleteBuffersARB"}});
+  glBindBuffer = extensions({{"GL_ARB_vertex_buffer_object", "glBindBufferARB"}});
+  glBufferData = extensions({{"GL_ARB_vertex_buffer_object", "glBufferDataARB"}});
+  glBufferSubData = extensions({{"GL_ARB_vertex_buffer_object", "glBufferSubDataARB"}});
+  glMapBuffer = extensions({{"GL_ARB_vertex_buffer_object", "glMapBufferARB"}});
+  glUnmapBuffer = extensions({{"GL_ARB_vertex_buffer_object", "glUnmapBufferARB"}});
+  glIsBuffer = extensions({{"GL_ARB_vertex_buffer_object", "glIsBufferARB"}});
+  glGetBufferParameteriv = extensions({{"GL_ARB_vertex_buffer_object", "glGetBufferParameterivARB"}});
 
-  glGetAttribLocation = loadExtension({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
-  glEnableVertexAttribArray = loadExtension({{"GL_ARB_vertex_program", "glEnableVertexAttribArrayARB"}});
-  glDisableVertexAttribArray = loadExtension({{"GL_ARB_vertex_program", "glDisableVertexAttribArrayARB"}});
-  glVertexAttribPointer = loadExtension({{"GL_ARB_vertex_program", "glVertexAttribPointerARB"}});
+  glGetAttribLocation = extensions({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
+  glEnableVertexAttribArray = extensions({{"GL_ARB_vertex_program", "glEnableVertexAttribArrayARB"}});
+  glDisableVertexAttribArray = extensions({{"GL_ARB_vertex_program", "glDisableVertexAttribArrayARB"}});
+  glVertexAttribPointer = extensions({{"GL_ARB_vertex_program", "glVertexAttribPointerARB"}});
 }
 
 NAMESPACE_END(gapi)

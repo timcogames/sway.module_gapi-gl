@@ -1,16 +1,18 @@
-#ifndef SWAY_GAPI_GL_VERTEXLAYOUT_HPP
-#define SWAY_GAPI_GL_VERTEXLAYOUT_HPP
+#ifndef SWAY_GAPI_GL_GENERICVERTEXATTRIBLAYOUT_HPP
+#define SWAY_GAPI_GL_GENERICVERTEXATTRIBLAYOUT_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/shaderhelper.hpp>
 #include <sway/gapi/gl/shaderprogram.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
+#include <sway/gapi/gl/vertexattribhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class VertexLayout : public IVertexLayoutBase {
+class GenericVertexAttribLayout final : public VertexAttribLayout {
 public:
-  static auto createInstance(ShaderProgramRef_t program) -> VertexLayoutRef_t;
+  static auto createInstance(ShaderProgramRef_t program) -> VertexAttribLayoutPtr_t;
 
   /**
    * @brief Конструктор класса.
@@ -18,13 +20,13 @@ public:
    *
    * @param[in] program Указатель на шейдерную программу.
    */
-  VertexLayout(ShaderProgramRef_t program);
+  GenericVertexAttribLayout(ShaderProgramRef_t program);
 
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
    */
-  virtual ~VertexLayout();
+  virtual ~GenericVertexAttribLayout();
 
   /**
    * @brief Добавляет вершинный атрибут.
@@ -44,13 +46,15 @@ public:
   MTHD_OVERRIDE(void disable());
 
 private:
-  ShaderProgramRef_t _shaderProgram;  // Шейдерная программа.
-  VertexAttribDescUmap_t _attributes;
-  u32_t _attributeOffset;
-  int _maxVertexAttributes;  // Максимальное количество атрибутов.
+  ShaderHelper shaderHelper_;
+  VertexAttribHelper vertexAttribHelper_;
+  ShaderProgramRef_t shaderProgram_;  // Шейдерная программа.
+  VertexAttribDescUmap_t attributes_;
+  u32_t attributeOffset_;
+  int maxVertexAttributes_;  // Максимальное количество атрибутов.
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_GENERICVERTEXATTRIBLAYOUT_HPP

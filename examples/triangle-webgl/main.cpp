@@ -1,6 +1,7 @@
 #include "../../../../submodules/sway.module_core/lib/src/_embinds.cpp"
 
 #include <sway/core.hpp>
+#include <sway/core/plugin.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
 #include <sway/math.hpp>
@@ -16,8 +17,8 @@ using namespace sway;
 
 std::shared_ptr<gapi::ShaderProgramBase> program = nullptr;
 std::shared_ptr<gapi::BufferIdQueue> idQueue = nullptr;
-std::shared_ptr<gapi::BufferBase> vbo = nullptr;
-std::shared_ptr<gapi::IVertexLayoutBase> vlayout = nullptr;
+std::shared_ptr<gapi::Buffer> vbo = nullptr;
+std::shared_ptr<gapi::VertexAttribLayout> vlayout = nullptr;
 std::shared_ptr<gapi::IDrawCallBase> drawCall = nullptr;
 
 void update() {
@@ -75,8 +76,12 @@ int main() {
   program->attach(functions->createShader(vsoCreateInfo));
   program->attach(functions->createShader(fsoCreateInfo));
 
-  program->link();
-  program->validate();
+  try {
+    program->link();
+    program->validate();
+  } catch (std::exception &exception) {
+    throw;
+  }
 
   gapi::BufferCreateInfo vboCreateInfo;
   vboCreateInfo.desc.target = gapi::BufferTarget_t::Array;
@@ -88,7 +93,7 @@ int main() {
 
   idQueue = functions->createBufferIdQueue();
   vbo = functions->createBuffer(idQueue, vboCreateInfo);
-  vlayout = functions->createVertexLayout(program);
+  vlayout = functions->createVertexAttribLayout(program);
   vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
 
   drawCall = functions->createDrawCall();

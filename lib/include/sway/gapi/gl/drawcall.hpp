@@ -48,7 +48,7 @@ private:
   /**
    * @brief Выводит примитивы по данным в массивах.
    *
-   * @sa _drawIndexed(BufferRef_t)
+   * @sa _drawIndexed(std::shared_ptr<Buffer>)
    */
   void _draw(BufferRef_t ibo);
 
@@ -57,7 +57,7 @@ private:
    *
    * @sa _draw(BufferRef_t)
    */
-  void _drawIndexed(BufferRef_t ibo);
+  void _drawIndexed(std::shared_ptr<Buffer> ibo);
 
   DrawCbFunc_t _drawCbFunc;
 

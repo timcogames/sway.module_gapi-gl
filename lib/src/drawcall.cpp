@@ -1,6 +1,6 @@
-#include <sway/gapi/gl/buffer.hpp>
 #include <sway/gapi/gl/drawcall.hpp>
 #include <sway/gapi/gl/extensions.hpp>
+#include <sway/gapi/gl/genericbuffer.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -48,12 +48,11 @@ void DrawCall::execute(TopologyType_t topology, BufferSet bufset, core::ValueDat
   }
 }
 
-void DrawCall::_draw(BufferRef_t ibo) {
-  // boost::ignore_unused(ibo);
+void DrawCall::_draw([[maybe_unused]] BufferRef_t ibo) {
   glDrawArrays(_drawArrays.mode, _drawArrays.first, _drawArrays.count);
 }
 
-void DrawCall::_drawIndexed(BufferRef_t ibo) {
+void DrawCall::_drawIndexed(std::shared_ptr<Buffer> ibo) {
   if (Extension::glIsBuffer(ibo->getUid().value())) {
     // Empty
   }

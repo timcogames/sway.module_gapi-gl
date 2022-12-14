@@ -27,6 +27,16 @@ public:
   // clang-format off
   MTHD_OVERRIDE(auto getVersion() const -> core::Version);  // clang-format on
 
+  static auto getExtensions() -> lpcstr_t { return reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS)); }
+  static auto isExtensionSupported(lpcstr_t extensions, lpcstr_t name) -> bool {
+    if (strstr(extensions, name) == nullptr) {
+      std::cout << "(!) Extension " << name << " is not supported." << std::endl;
+      return false;
+    }
+
+    return true;
+  }
+
 private:
   /**
    * @brief Инициализирует версию.
@@ -67,4 +77,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif
+#endif  // SWAY_GAPI_GL_CAPABILITY_HPP
