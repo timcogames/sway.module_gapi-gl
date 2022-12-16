@@ -17,7 +17,7 @@ DLLAPI_EXPORT void pluginInitialize(core::PluginFunctionSet *functions) {
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShaderProgram =
       reinterpret_cast<core::binding::ProcAddress_t>(ShaderProgram::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createIdGenerator =
-      reinterpret_cast<core::binding::ProcAddress_t>(BufferIdGenerator<u32_t>::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(BufferIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(GenericBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexAttribLayout =

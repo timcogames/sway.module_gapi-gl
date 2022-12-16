@@ -14,7 +14,7 @@ class ShaderProgramHelper {
 public:
   ShaderProgramHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts);
 
-  DECLARE_GENERIC_MEMBER(ShaderProgramHelper, CreateProgram, u32_t)
+  DECLARE_GENERIC_MEMBER(ShaderProgramHelper, CreateProgram, u32_t, /* ... */)
   auto EMU_CreateProgram() -> u32_t;
   auto STD_CreateProgram() -> u32_t;
   auto ARB_CreateProgram() -> u32_t;

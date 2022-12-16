@@ -12,10 +12,10 @@ class BufferHelper {
 public:
   BufferHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts);
 
-  DECLARE_GENERIC_MEMBER(BufferHelper, GenerateBuffers, void, u32_t, u32_t *)
-  void EMU_GenerateBuffers(u32_t num, u32_t *ids);
-  void STD_GenerateBuffers(u32_t num, u32_t *ids);
-  void ARB_GenerateBuffers(u32_t num, u32_t *ids);
+  DECLARE_GENERIC_MEMBER(BufferHelper, GenerateBuffers, void, u32_t, u32_t, u32_t *)
+  void EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
+  void STD_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
+  void ARB_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
 
   DECLARE_GENERIC_MEMBER(BufferHelper, DeleteBuffers, void, u32_t, u32_t *)
   void EMU_DeleteBuffers(u32_t num, u32_t *ids);

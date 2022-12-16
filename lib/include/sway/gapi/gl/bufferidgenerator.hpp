@@ -14,41 +14,22 @@ NAMESPACE_BEGIN(gapi)
 #define BUFFER_IDS_CHUNK_CAPACITY 10
 
 using BufferIdType = u32_t;
+using BufferIdContainer = std::deque<BufferIdType>;
 
-template <typename T, typename Container = std::deque<T>>
-class BufferIdGenerator : public std::queue<T, Container>, public IdGenerator {
+class BufferIdGenerator : public std::queue<BufferIdType, BufferIdContainer>, public IdGenerator {
 public:
-  static auto createInstance() -> std::shared_ptr<IdGenerator> { return std::make_shared<BufferIdGenerator>(); }
+  static auto createInstance() -> std::shared_ptr<IdGenerator>;
 
-  BufferIdGenerator()
-      : helper_(gapi::Extension::extensions)
-      , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
+  BufferIdGenerator();
 
-  virtual ~BufferIdGenerator() {
-    helper_.DeleteBuffers(this->size(), std::vector<BufferIdType>({this->c.begin(), this->c.end()}).data());
-  }
+  virtual ~BufferIdGenerator();
 
-  [[nodiscard]] auto newGuid() -> BufferIdType {
-    if (this->empty()) {
-      auto *bufferIds = new BufferIdType[chunkCapacity_];
-      helper_.GenerateBuffers(chunkCapacity_, bufferIds);
-
-      for (u32_t i = 0; i < chunkCapacity_; i++) {
-        this->push(bufferIds[i]);
-      }
-
-      SAFE_DELETE_ARRAY(bufferIds);
-    }
-
-    auto uniqueid = this->front();
-    this->pop();
-
-    return uniqueid;
-  }
+  [[nodiscard]] auto newGuid() -> BufferIdType;
 
 private:
   BufferHelper helper_;
   u32_t chunkCapacity_;
+  std::vector<u32_t> used_;
 };
 
 NAMESPACE_END(gapi)

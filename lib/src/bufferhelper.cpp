@@ -43,11 +43,15 @@ BufferHelper::BufferHelper(std::function<core::binding::ProcAddress_t(ExtensionI
 #endif  // _TESTS
 }
 
-void BufferHelper::EMU_GenerateBuffers([[maybe_unused]] u32_t num, [[maybe_unused]] u32_t *ids) {}
+void BufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids) {
+  for (auto i = 0; i < num; ++i) {
+    ids[i] = i + latest + 1;
+  }
+}
 
-void BufferHelper::STD_GenerateBuffers(u32_t num, u32_t *ids) { glGenBuffers(num, ids); }
+void BufferHelper::STD_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *ids) { glGenBuffers(num, ids); }
 
-void BufferHelper::ARB_GenerateBuffers(u32_t num, u32_t *ids) {
+void BufferHelper::ARB_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *ids) {
   // core::binding::TFunction<u32_t(u32_t, u32_t *)> callbackFunc =
   //     extensions_({{"GL_ARB_vertex_buffer_object", "glGenBuffersARB"}});
 

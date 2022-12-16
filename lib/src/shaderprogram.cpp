@@ -99,7 +99,7 @@ auto ShaderProgram::isUsed() const -> bool {
   s32_t current = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &current);
 
-  return (current == getUid().value());
+  return (current == (s32_t)getUid().value());
 }
 
 void ShaderProgram::setUniformVec4f(const std::string &uniform, const math::vec4f_t &vec) {
