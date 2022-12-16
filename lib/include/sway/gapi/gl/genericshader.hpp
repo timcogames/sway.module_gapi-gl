@@ -14,7 +14,7 @@ class GenericShader final : public Shader {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-  static auto typeToGLenum(ShaderType_t type) -> GLenum;
+  static auto typeToGLenum(ShaderType type) -> GLenum;
 
 #pragma endregion
 
@@ -26,7 +26,7 @@ public:
    *
    * @param[in] type Тип создаваемого шейдера.
    */
-  GenericShader(ShaderType_t type);
+  GenericShader(ShaderType type);
 
   /**
    * @brief Деструктор класса.
@@ -57,13 +57,13 @@ public:
    * @return Тип шейдера.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getType() const -> ShaderType_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getType() const -> ShaderType) {  // clang-format on
     return type_;
   }
 
 private:
   ShaderHelper shaderHelper_;
-  ShaderType_t type_;  // Тип шейдера.
+  ShaderType type_;  // Тип шейдера.
   bool compiled_;
 };
 

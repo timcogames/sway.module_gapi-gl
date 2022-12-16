@@ -25,7 +25,7 @@ public:
   /**
    * @brief Переводит тип топологии (режим отображение примитива) в GL.
    */
-  static GLenum topologyToGLenum(TopologyType_t topology);
+  static GLenum topologyToGLenum(TopologyType topology);
 
 #pragma endregion
 
@@ -42,7 +42,7 @@ public:
    * @param[in] bufset Набор буферных объектов.
    * @param[in] type Тип значений в индексах.
    */
-  MTHD_OVERRIDE(void execute(TopologyType_t topology, BufferSet bufset, core::ValueDataType type));
+  MTHD_OVERRIDE(void execute(TopologyType topology, BufferSet bufset, core::ValueDataType type));
 
 private:
   /**

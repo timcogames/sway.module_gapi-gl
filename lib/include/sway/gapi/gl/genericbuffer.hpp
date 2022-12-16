@@ -2,7 +2,7 @@
 #define SWAY_GAPI_GL_GENERICBUFFER_HPP
 
 #include <sway/gapi/gl/bufferhelper.hpp>
-#include <sway/gapi/gl/bufferidqueueimpl.hpp>
+#include <sway/gapi/gl/bufferidgenerator.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -15,21 +15,21 @@ class GenericBuffer final : public Buffer {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-  static auto targetToGLenum(BufferTarget_t target) -> GLenum;
+  static auto targetToGLenum(BufferTarget target) -> GLenum;
 
-  static auto usageToGLenum(BufferUsage_t usage) -> GLenum;
+  static auto usageToGLenum(BufferUsage usage) -> GLenum;
 
-  static auto accessToGLenum(BufferAccess_t access) -> GLenum;
+  static auto accessToGLenum(BufferAccess access) -> GLenum;
 
 #pragma endregion
 
-  static auto createInstance(BufferIdQueueRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t;
+  static auto createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t;
 
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  GenericBuffer(BufferIdQueueRef_t idQueue, const BufferDescriptor &desc);
+  GenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc);
 
   /**
    * @brief Деструктор класса.
@@ -81,7 +81,7 @@ public:
    * @brief Получает целевой тип буфера.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget) {  // clang-format on
     return target_;
   }
 
@@ -89,7 +89,7 @@ public:
    * @brief Получает режим работы с данными.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage) {  // clang-format on
     return usage_;
   }
 
@@ -111,8 +111,8 @@ public:
 
 private:
   BufferHelper helper_;
-  BufferTarget_t target_;
-  BufferUsage_t usage_;
+  BufferTarget target_;
+  BufferUsage usage_;
   s32_t capacity_;
   s32_t byteStride_;
 };

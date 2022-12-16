@@ -27,14 +27,14 @@ int main(int argc, char *argv[]) {
   auto capability = functions->createCapability();
 
   gapi::ShaderCreateInfo vsoCreateInfo;
-  vsoCreateInfo.type = gapi::ShaderType_t::Vertex;
+  vsoCreateInfo.type = gapi::ShaderType::VERTEX;
   vsoCreateInfo.code = "attribute vec3 attr_position; \
     void main() { \
       gl_Position = vec4(attr_position, 1.0); \
      }";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
-  fsoCreateInfo.type = gapi::ShaderType_t::Fragment;
+  fsoCreateInfo.type = gapi::ShaderType::FRAGMENT;
   fsoCreateInfo.code = "void main() { \
       gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
     }";
@@ -51,17 +51,18 @@ int main(int argc, char *argv[]) {
   }
 
   gapi::BufferCreateInfo vboCreateInfo;
-  vboCreateInfo.desc.target = gapi::BufferTarget_t::Array;
-  vboCreateInfo.desc.usage = gapi::BufferUsage_t::Static;
+  vboCreateInfo.desc.target = gapi::BufferTarget::ARRAY;
+  vboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
   vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
   vboCreateInfo.desc.capacity = 3;
   std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
   vboCreateInfo.data = vertices.data();
 
-  auto idQueue = functions->createBufferIdQueue();
-  auto vbo = functions->createBuffer(idQueue, vboCreateInfo);
+  auto vboIdGenerator = functions->createIdGenerator();
+  auto vbo = functions->createBuffer(vboIdGenerator, vboCreateInfo);
   auto vlayout = functions->createVertexAttribLayout(program);
-  vlayout->addAttribute(gapi::VertexAttribute::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
+  vlayout->addAttribute(
+      gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
 
   auto drawCall = functions->createDrawCall();
 
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]) {
     vbo->bind();
     vlayout->enable();
 
-    drawCall->execute(gapi::TopologyType_t::TriangleList, {vbo, nullptr}, core::ValueDataType::Char);
+    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vbo, nullptr}, core::ValueDataType::Char);
 
     vlayout->disable();
     vbo->unbind();

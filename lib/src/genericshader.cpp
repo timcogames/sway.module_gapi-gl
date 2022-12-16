@@ -8,21 +8,21 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto GenericShader::typeToGLenum(ShaderType_t type) -> GLenum {
+auto GenericShader::typeToGLenum(ShaderType type) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (type) {
-    case ShaderType_t::Vertex:
+    case ShaderType::VERTEX:
       return GL_VERTEX_SHADER;
-    case ShaderType_t::Fragment:
+    case ShaderType::FRAGMENT:
       return GL_FRAGMENT_SHADER;
     default:
       return GL_INVALID_INDEX;
   }
 #else
   switch (type) {
-    case ShaderType_t::Vertex:
+    case ShaderType::VERTEX:
       return GL_VERTEX_SHADER_ARB;
-    case ShaderType_t::Fragment:
+    case ShaderType::FRAGMENT:
       return GL_FRAGMENT_SHADER_ARB;
     default:
       return GL_INVALID_INDEX;
@@ -42,7 +42,7 @@ auto GenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Shader
   //}
 }
 
-GenericShader::GenericShader(ShaderType_t type)
+GenericShader::GenericShader(ShaderType type)
     : Shader(type)
     , shaderHelper_(gapi::Extension::extensions)
     , type_(type)

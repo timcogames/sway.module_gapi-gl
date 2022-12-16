@@ -4,21 +4,21 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto GenericBuffer::targetToGLenum(BufferTarget_t target) -> GLenum {
+auto GenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (target) {
-    case BufferTarget_t::Array:
+    case BufferTarget::ARRAY:
       return GL_ARRAY_BUFFER;
-    case BufferTarget_t::ElementArray:
+    case BufferTarget::ELEMENT_ARRAY:
       return GL_ELEMENT_ARRAY_BUFFER;
     default:
       return 0;
   }
 #else
   switch (target) {
-    case BufferTarget_t::Array:
+    case BufferTarget::ARRAY:
       return GL_ARRAY_BUFFER_ARB;
-    case BufferTarget_t::ElementArray:
+    case BufferTarget::ELEMENT_ARRAY:
       return GL_ELEMENT_ARRAY_BUFFER_ARB;
     default:
       return 0;
@@ -26,25 +26,25 @@ auto GenericBuffer::targetToGLenum(BufferTarget_t target) -> GLenum {
 #endif
 }
 
-auto GenericBuffer::usageToGLenum(BufferUsage_t usage) -> GLenum {
+auto GenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (usage) {
-    case BufferUsage_t::Static:
+    case BufferUsage::STATIC:
       return GL_STATIC_DRAW;
-    case BufferUsage_t::Dynamic:
+    case BufferUsage::DYNAMIC:
       return GL_DYNAMIC_DRAW;
-    case BufferUsage_t::Stream:
+    case BufferUsage::STREAM:
       return GL_STREAM_DRAW;
     default:
       return 0;
   }
 #else
   switch (usage) {
-    case BufferUsage_t::Static:
+    case BufferUsage::STATIC:
       return GL_STATIC_DRAW_ARB;
-    case BufferUsage_t::Dynamic:
+    case BufferUsage::DYNAMIC:
       return GL_DYNAMIC_DRAW_ARB;
-    case BufferUsage_t::Stream:
+    case BufferUsage::STREAM:
       return GL_STREAM_DRAW_ARB;
     default:
       return 0;
@@ -52,25 +52,25 @@ auto GenericBuffer::usageToGLenum(BufferUsage_t usage) -> GLenum {
 #endif
 }
 
-auto GenericBuffer::accessToGLenum(BufferAccess_t access) -> GLenum {
+auto GenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (access) {
-    case BufferAccess_t::Read:
+    case BufferAccess::Read:
       return GL_READ_ONLY;
-    case BufferAccess_t::Write:
+    case BufferAccess::Write:
       return GL_WRITE_ONLY;
-    case BufferAccess_t::ReadWrite:
+    case BufferAccess::ReadWrite:
       return GL_READ_WRITE;
     default:
       return 0;
   }
 #else
   switch (access) {
-    case BufferAccess_t::Read:
+    case BufferAccess::Read:
       return GL_READ_ONLY_ARB;
-    case BufferAccess_t::Write:
+    case BufferAccess::Write:
       return GL_WRITE_ONLY_ARB;
-    case BufferAccess_t::ReadWrite:
+    case BufferAccess::ReadWrite:
       return GL_READ_WRITE_ARB;
     default:
       return 0;
@@ -78,7 +78,7 @@ auto GenericBuffer::accessToGLenum(BufferAccess_t access) -> GLenum {
 #endif
 }
 
-auto GenericBuffer::createInstance(BufferIdQueueRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t {
+auto GenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t {
   auto instance = std::make_shared<GenericBuffer>(idQueue, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
@@ -89,7 +89,7 @@ auto GenericBuffer::createInstance(BufferIdQueueRef_t idQueue, const BufferCreat
 
 using BufferObjectIdType = u32_t;
 
-GenericBuffer::GenericBuffer(BufferIdQueueRef_t idQueue, const BufferDescriptor &desc)
+GenericBuffer::GenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc)
     : Buffer(desc)
     , helper_(gapi::Extension::extensions)
     , target_(desc.target)

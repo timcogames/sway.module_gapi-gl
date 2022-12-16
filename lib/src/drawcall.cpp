@@ -6,19 +6,19 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-GLenum DrawCall::topologyToGLenum(TopologyType_t topology) {
+GLenum DrawCall::topologyToGLenum(TopologyType topology) {
   switch (topology) {
-    case TopologyType_t::PointList:
+    case TopologyType::POINT_LIST:
       return GL_POINTS;
-    case TopologyType_t::LineList:
+    case TopologyType::LINE_LIST:
       return GL_LINES;
-    case TopologyType_t::LineStrip:
+    case TopologyType::LINE_STRIP:
       return GL_LINE_STRIP;
-    case TopologyType_t::TriangleList:
+    case TopologyType::TRIANGLE_LIST:
       return GL_TRIANGLES;
-    case TopologyType_t::TriangleStrip:
+    case TopologyType::TRIANGLE_STRIP:
       return GL_TRIANGLE_STRIP;
-    case TopologyType_t::TriangleFan:
+    case TopologyType::TRIANGLE_FAN:
       return GL_TRIANGLE_FAN;
     default:
       return 0;
@@ -30,7 +30,7 @@ auto DrawCall::createInstance() -> DrawCallRef_t {
   return instance;
 }
 
-void DrawCall::execute(TopologyType_t topology, BufferSet bufset, core::ValueDataType type) {
+void DrawCall::execute(TopologyType topology, BufferSet bufset, core::ValueDataType type) {
   if (bufset.ibo) {
     _drawCbFunc = std::bind(&DrawCall::_drawIndexed, this, std::placeholders::_1);
     _drawElements.mode = DrawCall::topologyToGLenum(topology);
