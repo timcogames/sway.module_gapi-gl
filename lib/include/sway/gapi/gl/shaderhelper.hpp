@@ -37,10 +37,10 @@ public:
   void STD_GetShaderParam(std::optional<u32_t> obj, u32_t pname, s32_t *params);
   void ARB_GetShaderParam(std::optional<u32_t> obj, u32_t pname, s32_t *params);
 
-  DECLARE_GENERIC_MEMBER(ShaderHelper, GetAttribLocation, u32_t, u32_t, lpcstr_t)
-  auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> u32_t;
-  auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> u32_t;
-  auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> u32_t;
+  DECLARE_GENERIC_MEMBER(ShaderHelper, GetAttribLocation, s32_t, u32_t, lpcstr_t)
+  auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
 
 private:
   std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions_;

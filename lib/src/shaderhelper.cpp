@@ -115,15 +115,15 @@ void ShaderHelper::ARB_GetShaderParam(std::optional<u32_t> obj, u32_t pname, s32
   Extension::glGetObjectParameteriv(obj.value(), pname, params);
 }
 
-auto ShaderHelper::EMU_GetAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name) -> u32_t {
+auto ShaderHelper::EMU_GetAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name) -> s32_t {
   return 0;
 }
 
-auto ShaderHelper::STD_GetAttribLocation(u32_t program, lpcstr_t name) -> u32_t {
+auto ShaderHelper::STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
   return glGetAttribLocation(program, name);
 }
 
-auto ShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> u32_t {
+auto ShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
   // core::binding::TFunction<u32_t(u32_t, lpcstr_t)> callbackFunc =
   //     extensions_({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
 

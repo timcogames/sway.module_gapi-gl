@@ -24,7 +24,7 @@ GenericVertexAttribLayout::~GenericVertexAttribLayout() { attributes_.clear(); }
 void GenericVertexAttribLayout::addAttribute(VertexAttributeDescriptor desc) {
   std::string const alias = stringize(desc.semantic);
 
-  desc.location = (s32_t)shaderHelper_.GetAttribLocation(shaderProgram_->getUid().value(), alias.c_str());
+  desc.location = shaderHelper_.GetAttribLocation(shaderProgram_->getUid().value(), alias.c_str());
   desc.pointer = BUFFER_OFFSET(attributeOffset_);
 
   if (desc.location >= 0 && desc.location <= maxVertexAttributes_) {

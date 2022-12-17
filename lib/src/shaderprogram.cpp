@@ -83,7 +83,7 @@ void ShaderProgram::use() {
     for (auto iter : uniformMat4fSet_) {
       auto location = programHelper_.GetUniformLocation(getUid().value(), iter.first.c_str());
       if (location != -1) {
-        programHelper_.UniformMatrix4f(location, 1, GL_FALSE, (float *)&iter.second);
+        programHelper_.UniformMatrix4f(location, 1, false, (float *)&iter.second);
       }
     }
   }
