@@ -28,7 +28,7 @@ public:
 
 private:
   BufferHelper helper_;
-  u32_t chunkCapacity_;
+  s32_t chunkCapacity_;
   std::vector<u32_t> used_;
 };
 

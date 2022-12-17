@@ -53,11 +53,11 @@ void DrawCall::_draw([[maybe_unused]] BufferRef_t ibo) {
 }
 
 void DrawCall::_drawIndexed(std::shared_ptr<Buffer> ibo) {
+  ibo->bind();
   if (Extension::glIsBuffer(ibo->getUid().value())) {
-    // Empty
+    // OK
   }
 
-  ibo->bind();
   glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, nullptr);
   ibo->unbind();
 }

@@ -128,13 +128,14 @@ if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT MODULE_USE_EMSCRIPTEN)
   message(STATUS "Examples have been enabled")
 
   custom_add_subdirectory("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
-  add_subdirectory(examples/triangle)
+  add_subdirectory(examples/01-triangle)
+  add_subdirectory(examples/02-ibo)
 endif ()
 
 if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND MODULE_USE_EMSCRIPTEN)
   message(STATUS "Examples have been enabled")
 
-  add_subdirectory(examples/triangle-webgl)
+  add_subdirectory(examples/01-triangle-webgl)
 endif ()
 
 # Добавляем построение тестов

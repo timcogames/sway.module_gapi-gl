@@ -58,8 +58,18 @@ int main(int argc, char *argv[]) {
   std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
   vboCreateInfo.data = vertices.data();
 
-  auto vboIdGenerator = functions->createIdGenerator();
-  auto vbo = functions->createBuffer(vboIdGenerator, vboCreateInfo);
+  gapi::BufferCreateInfo iboCreateInfo;
+  iboCreateInfo.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+  iboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
+  iboCreateInfo.desc.byteStride = sizeof(u32_t);
+  iboCreateInfo.desc.capacity = 3;
+  std::array<u32_t, 3> indices = {0, 1, 2};
+  iboCreateInfo.data = indices.data();
+
+  auto idGenerator = functions->createIdGenerator();
+
+  auto vbo = functions->createBuffer(idGenerator, vboCreateInfo);
+  auto ibo = functions->createBuffer(idGenerator, iboCreateInfo);
   auto vlayout = functions->createVertexAttribLayout(program);
   vlayout->addAttribute(
       gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
@@ -74,7 +84,11 @@ int main(int argc, char *argv[]) {
     vbo->bind();
     vlayout->enable();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vbo, nullptr}, core::ValueDataType::Char);
+    ibo->bind();
+
+    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vbo, ibo}, core::ValueDataType::UInt);
+
+    ibo->unbind();
 
     vlayout->disable();
     vbo->unbind();

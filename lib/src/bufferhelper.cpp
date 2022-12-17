@@ -44,7 +44,7 @@ BufferHelper::BufferHelper(std::function<core::binding::ProcAddress_t(ExtensionI
 }
 
 void BufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids) {
-  for (auto i = 0; i < num; ++i) {
+  for (auto i = 0; i < (s32_t)num; ++i) {
     ids[i] = i + latest + 1;
   }
 }

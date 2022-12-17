@@ -16,7 +16,7 @@
 using namespace sway;
 
 std::shared_ptr<gapi::ShaderProgramBase> program = nullptr;
-std::shared_ptr<gapi::IdGenerator> vboIdGenerator = nullptr;
+std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
 std::shared_ptr<gapi::Buffer> vbo = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vlayout = nullptr;
 std::shared_ptr<gapi::IDrawCallBase> drawCall = nullptr;
@@ -91,8 +91,9 @@ int main() {
   std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
   vboCreateInfo.data = vertices.data();
 
-  vboIdGenerator = functions->createIdGenerator();
-  vbo = functions->createBuffer(vboIdGenerator, vboCreateInfo);
+  idGenerator = functions->createIdGenerator();
+
+  vbo = functions->createBuffer(idGenerator, vboCreateInfo);
   vlayout = functions->createVertexAttribLayout(program);
   vlayout->addAttribute(
       gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
