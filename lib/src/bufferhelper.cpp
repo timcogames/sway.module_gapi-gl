@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
 
 BufferHelper::BufferHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts)
     : extensions_(std::move(exts)) {
-#ifdef _TESTS
+#ifdef _STUB
   GenerateBuffers_ = &BufferHelper::EMU_GenerateBuffers;
   DeleteBuffers_ = &BufferHelper::EMU_DeleteBuffers;
   BindBuffer_ = &BufferHelper::EMU_BindBuffer;
@@ -40,7 +40,7 @@ BufferHelper::BufferHelper(std::function<core::binding::ProcAddress_t(ExtensionI
     GetBufferParam_ = &BufferHelper::STD_GetBufferParam;
   }
 
-#endif  // _TESTS
+#endif
 }
 
 void BufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids) {

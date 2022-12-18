@@ -6,23 +6,23 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-void *dlGetProcAddress(const char *name) {
-  static void *h = NULL;
+void *dlGetProcAddress(lpcstr_t name) {
+  static void *handle = nullptr;
   static void *gpa;
 
-  if (h == NULL) {
-    if ((h = dlopen(NULL, RTLD_LAZY | RTLD_LOCAL)) == NULL) {
-      return NULL;
+  if (handle == nullptr) {
+    if ((handle = dlopen(nullptr, RTLD_LAZY | RTLD_LOCAL)) == nullptr) {
+      return nullptr;
     }
 
-    gpa = dlsym(h, "glXGetProcAddress");
+    gpa = dlsym(handle, "glXGetProcAddress");
   }
 
-  if (gpa != NULL) {
-    return ((void *(*)(const unsigned char *))gpa)((const unsigned char *)name);
-  } else {
-    return dlsym(h, (const char *)name);
+  if (gpa != nullptr) {
+    return ((void *(*)(const u8_t *))gpa)((const u8_t *)name);
   }
+
+  return dlsym(handle, (lpcstr_t)name);
 }
 
 auto Capability::createInstance() -> CapabilityRef_t {
@@ -31,19 +31,26 @@ auto Capability::createInstance() -> CapabilityRef_t {
 }
 
 Capability::Capability() {
-  _initializeVersion();
-  _initializeExtensions();
-  _initLimits();
+#ifdef _STUB
+  printf("Graphics card and driver information:\n");
+  printf("\tAs stub\n");
+#else
+
+  initializeVersion_();
+  initializeExtensions_();
+  initLimits_();
 
   printf("Graphics card and driver information:\n");
   printf("\tOpenGL (%s) version: %s\n", _vendor.c_str(), _version.c_str());
   printf("\tOpenGL Renderer: %s\n", _renderer.c_str());
   printf("\tOpenGL shading language version: %s\n", _shadingLanguageVersion.c_str());
+
+#endif
 }
 
 auto Capability::getVersion() const -> core::Version { return core::Version(_majorVersion, _minorVersion); }
 
-void Capability::_initializeVersion() {
+void Capability::initializeVersion_() {
   _renderer = reinterpret_cast<lpcstr_t>(glGetString(GL_RENDERER));
   _vendor = reinterpret_cast<lpcstr_t>(glGetString(GL_VENDOR));
   _version = reinterpret_cast<lpcstr_t>(glGetString(GL_VERSION));
@@ -52,7 +59,7 @@ void Capability::_initializeVersion() {
   sscanf(_version.c_str(), "%d.%d", &_majorVersion, &_minorVersion);
 }
 
-void Capability::_initializeExtensions() {
+void Capability::initializeExtensions_() {
   const auto *exts = reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS));
   printf("OpenGL extensions:\n%s\n", exts);
   auto func = [&](ExtensionInitList_t probes) -> core::binding::ProcAddress_t {
@@ -68,7 +75,7 @@ void Capability::_initializeExtensions() {
   Extension::define(func);
 }
 
-void Capability::_initLimits() {
+void Capability::initLimits_() {
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &_maxVertexAttributes);
   glGetIntegerv(GL_MAX_VERTEX_OUTPUT_COMPONENTS, &_maxVertexOutputComponents);
   glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &_maxVertexTextureImageUnits);

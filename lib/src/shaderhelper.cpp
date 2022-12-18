@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 ShaderHelper::ShaderHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts)
     : extensions_(std::move(exts)) {
 
-#ifdef _TESTS
+#ifdef _STUB
   CreateShader_ = &ShaderHelper::EMU_CreateShader;
   DeleteShader_ = &ShaderHelper::EMU_DeleteShader;
   ShaderSource_ = &ShaderHelper::EMU_ShaderSource;
@@ -41,7 +41,7 @@ ShaderHelper::ShaderHelper(std::function<core::binding::ProcAddress_t(ExtensionI
     GetAttribLocation_ = &ShaderHelper::STD_GetAttribLocation;
   }
 
-#endif  // _TESTS
+#endif
 }
 
 auto ShaderHelper::EMU_CreateShader([[maybe_unused]] u32_t type) -> u32_t { return 0; }

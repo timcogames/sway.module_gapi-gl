@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 ShaderProgramHelper::ShaderProgramHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts)
     : extensions_(std::move(exts)) {
 
-#ifdef _TESTS
+#ifdef _STUB
   CreateProgram_ = &ShaderProgramHelper::EMU_CreateProgram;
   DeleteProgram_ = &ShaderProgramHelper::EMU_DeleteProgram;
   AttachShader_ = &ShaderProgramHelper::EMU_AttachShader;
@@ -51,7 +51,7 @@ ShaderProgramHelper::ShaderProgramHelper(std::function<core::binding::ProcAddres
     GetObjectParam_ = &ShaderProgramHelper::STD_GetObjectParam;
   }
 
-#endif  // _TESTS
+#endif
 }
 
 auto ShaderProgramHelper::EMU_CreateProgram() -> u32_t { return 0; }

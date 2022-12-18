@@ -17,6 +17,7 @@ option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
 option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
+option(MODULE_USE_AS_STUB "Enable test builds" OFF)
 option(MODULE_USE_EMSCRIPTEN "Using emscripten compiler" OFF)
 option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
@@ -45,8 +46,8 @@ if (MODULE_USE_EMSCRIPTEN)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s MODULARIZE=1")
 endif ()
 
-if (MODULE_GAPI_GL_ENABLE_TESTS)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_TESTS")
+if (MODULE_GAPI_GL_ENABLE_TESTS OR MODULE_USE_AS_STUB)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_STUB")
 endif ()
 
 message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
@@ -62,6 +63,7 @@ message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
         boost dir | ${CUSTOM_BOOST_ROOT_DIR}
         gtest dir | ${CUSTOM_GTEST_ROOT_DIR}
 
+             stub | ${MODULE_USE_AS_STUB}
        emscripten | ${MODULE_USE_EMSCRIPTEN}
          coverage | ${MODULE_GAPI_GL_ENABLE_COVERAGE}
             tests | ${MODULE_GAPI_GL_ENABLE_TESTS}

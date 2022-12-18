@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 VertexAttribHelper::VertexAttribHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts)
     : extensions_(std::move(exts)) {
 
-#ifdef _TESTS
+#ifdef _STUB
   EnableArray_ = &VertexAttribHelper::EMU_EnableVertexAttribArray;
   DisableArray_ = &VertexAttribHelper::EMU_EnableVertexAttribArray;
   Setup_ = &VertexAttribHelper::EMU_SetupVertexAttribPointer;
@@ -27,7 +27,7 @@ VertexAttribHelper::VertexAttribHelper(std::function<core::binding::ProcAddress_
     Setup_ = &VertexAttribHelper::STD_SetupVertexAttribPointer;
   }
 
-#endif  // _TESTS
+#endif
 }
 
 void VertexAttribHelper::EMU_EnableVertexAttribArray([[maybe_unused]] u32_t index) {}

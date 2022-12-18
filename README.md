@@ -25,11 +25,15 @@ cmake -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_GL_SHARED_LIB=ON ../
 
 Опция сборки | Тип | Описание | По умолчанию
 :---|:---|:---|:---:
-`BOOST_ROOT` | `PATH` | Путь до корневой директории Boost библиотеки | `-`
-`MODULE_GAPI_BUILD_SHARED` | `BOOL` | Сборка библиотеки общего пользования | `OFF`
-`ENABLE_COVERAGE` | `BOOL` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
-`ENABLE_TESTS` | `BOOL` | Включает построение тестов | `OFF`
-`ENABLE_EXAMPLES` | `BOOL` | Включает построение примеров | `OFF`
+`MODULE_GAPI_GL_SHARED_LIB` | `BOOL` | Сборка библиотеки общего пользования | `OFF`
+`MODULE_GAPI_GL_ENABLE_COVERAGE` | `BOOL` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
+`MODULE_GAPI_GL_ENABLE_TESTS` | `BOOL` | Включает построение тестов | `OFF`
+`MODULE_GAPI_GL_ENABLE_EXAMPLES` | `BOOL` | Включает построение примеров | `OFF`
+`MODULE_USE_AS_STUB` | `BOOL` | Сборка библиотеки в виде заглушки | `OFF`
+`MODULE_USE_EMSCRIPTEN` | `BOOL` | Использует emscripten компилятор | `OFF`
+`CUSTOM_EMSCRIPTEN_ROOT_DIR` | `PATH` | Путь до корневой директории Emscripten | `OFF`
+`CUSTOM_BOOST_ROOT_DIR` | `PATH` | (не актуален) Путь до корневой директории Boost | `OFF`
+`CUSTOM_GTEST_ROOT_DIR` | `PATH` | Путь до корневой директории GTest | `OFF`
 
 Запускаем сборку
 

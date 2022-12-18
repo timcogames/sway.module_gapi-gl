@@ -41,14 +41,14 @@ private:
   /**
    * @brief Инициализирует версию.
    */
-  void _initializeVersion();
+  void initializeVersion_();
 
   /**
    * @brief Инициализирует расширения.
    */
-  void _initializeExtensions();
+  void initializeExtensions_();
 
-  void _initLimits();
+  void initLimits_();
 
   std::string _renderer;
   std::string _vendor;
