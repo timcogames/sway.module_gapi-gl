@@ -1,16 +1,16 @@
-#ifndef SWAY_GAPI_GL_GENERICVERTEXATTRIBLAYOUT_HPP
-#define SWAY_GAPI_GL_GENERICVERTEXATTRIBLAYOUT_HPP
+#ifndef SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP
+#define SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP
 
+#include <sway/gapi/gl/oglgenericshaderhelper.hpp>
+#include <sway/gapi/gl/oglshaderprogram.hpp>
+#include <sway/gapi/gl/oglvertexattriblayouthelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
-#include <sway/gapi/gl/shaderhelper.hpp>
-#include <sway/gapi/gl/shaderprogram.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
-#include <sway/gapi/gl/vertexattribhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class GenericVertexAttribLayout final : public VertexAttribLayout {
+class OGLVertexAttribLayout final : public VertexAttribLayout {
 public:
   static auto createInstance(ShaderProgramRef_t program) -> VertexAttribLayoutPtr_t;
 
@@ -20,13 +20,13 @@ public:
    *
    * @param[in] program Указатель на шейдерную программу.
    */
-  GenericVertexAttribLayout(ShaderProgramRef_t program);
+  OGLVertexAttribLayout(ShaderProgramRef_t program);
 
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
    */
-  virtual ~GenericVertexAttribLayout();
+  virtual ~OGLVertexAttribLayout();
 
   /**
    * @brief Добавляет вершинный атрибут.
@@ -46,8 +46,8 @@ public:
   MTHD_OVERRIDE(void disable());
 
 private:
-  ShaderHelper shaderHelper_;
-  VertexAttribHelper vertexAttribHelper_;
+  OGLGenericShaderHelper shaderHelper_;
+  OGLVertexAttribLayoutHelper helper_;
   ShaderProgramRef_t shaderProgram_;  // Шейдерная программа.
   VertexAttribDescUmap_t attributes_;
   u32_t attributeOffset_;
@@ -57,4 +57,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_GENERICVERTEXATTRIBLAYOUT_HPP
+#endif  // SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP

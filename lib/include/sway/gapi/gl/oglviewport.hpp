@@ -1,12 +1,12 @@
-#ifndef SWAY_GAPI_GL_VIEWPORT_HPP
-#define SWAY_GAPI_GL_VIEWPORT_HPP
+#ifndef SWAY_GAPI_GL_OGLVIEWPORT_HPP
+#define SWAY_GAPI_GL_OGLVIEWPORT_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class Viewport : public IViewportBase {
+class OGLViewport : public Viewport {
 public:
   static auto createInstance() -> ViewportRef_t;
 
@@ -14,12 +14,12 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  Viewport();
+  OGLViewport();
 
   /**
    * @brief Деструктор класса.
    */
-  virtual ~Viewport() = default;
+  virtual ~OGLViewport() = default;
 
   /**
    * @brief Устанавливает новые значения прямоугольной области.

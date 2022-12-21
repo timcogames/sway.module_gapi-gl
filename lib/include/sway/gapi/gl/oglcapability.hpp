@@ -1,12 +1,12 @@
-#ifndef SWAY_GAPI_GL_CAPABILITY_HPP
-#define SWAY_GAPI_GL_CAPABILITY_HPP
+#ifndef SWAY_GAPI_GL_OGLCAPABILITY_HPP
+#define SWAY_GAPI_GL_OGLCAPABILITY_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class Capability : public ICapabilityBase {
+class OGLCapability : public Capability {
 public:
   static auto createInstance() -> CapabilityRef_t;
 
@@ -14,12 +14,12 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  Capability();
+  OGLCapability();
 
   /**
    * @brief Деструктор класса.
    */
-  virtual ~Capability() = default;
+  virtual ~OGLCapability() = default;
 
   /**
    * @brief Возвращает версию OpenGL.
@@ -77,4 +77,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_CAPABILITY_HPP
+#endif  // SWAY_GAPI_GL_OGLCAPABILITY_HPP

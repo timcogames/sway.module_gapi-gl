@@ -15,11 +15,11 @@
 
 using namespace sway;
 
-std::shared_ptr<gapi::ShaderProgramBase> program = nullptr;
+std::shared_ptr<gapi::ShaderProgram> program = nullptr;
 std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
 std::shared_ptr<gapi::Buffer> vbo = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vlayout = nullptr;
-std::shared_ptr<gapi::IDrawCallBase> drawCall = nullptr;
+std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
 void update() {
   auto t = emscripten_get_now();
@@ -60,14 +60,14 @@ int main() {
   // EM_ASM({ console.log('version: ' + $0); }, capability->getVersion().getMajor());
 
   gapi::ShaderCreateInfo vsoCreateInfo;
-  vsoCreateInfo.type = gapi::ShaderType::VERTEX;
-  vsoCreateInfo.code = "attribute vec3 attr_position; \
+  vsoCreateInfo.type = gapi::ShaderType::VERT;
+  vsoCreateInfo.code = "attribute vec3 attrib_pos; \
     void main() { \
-      gl_Position = vec4(attr_position, 1.0); \
+      gl_Position = vec4(attrib_pos, 1.0); \
      }";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
-  fsoCreateInfo.type = gapi::ShaderType::FRAGMENT;
+  fsoCreateInfo.type = gapi::ShaderType::FRAG;
   fsoCreateInfo.code = "void main() { \
       gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
     }";
@@ -95,8 +95,7 @@ int main() {
 
   vbo = functions->createBuffer(idGenerator, vboCreateInfo);
   vlayout = functions->createVertexAttribLayout(program);
-  vlayout->addAttribute(
-      gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
+  vlayout->addAttribute(gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
 
   drawCall = functions->createDrawCall();
 

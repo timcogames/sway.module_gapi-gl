@@ -1,6 +1,6 @@
-#include <sway/gapi/gl/exceptions.hpp>
-#include <sway/gapi/gl/extensions.hpp>
-#include <sway/gapi/gl/genericshader.hpp>
+#include <sway/gapi/gl/oglexceptions.hpp>
+#include <sway/gapi/gl/oglextensions.hpp>
+#include <sway/gapi/gl/oglgenericshader.hpp>
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
@@ -8,21 +8,21 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto GenericShader::typeToGLenum(ShaderType type) -> GLenum {
+auto OGLGenericShader::typeToGLenum(ShaderType type) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (type) {
-    case ShaderType::VERTEX:
+    case ShaderType::VERT:
       return GL_VERTEX_SHADER;
-    case ShaderType::FRAGMENT:
+    case ShaderType::FRAG:
       return GL_FRAGMENT_SHADER;
     default:
       return GL_INVALID_INDEX;
   }
 #else
   switch (type) {
-    case ShaderType::VERTEX:
+    case ShaderType::VERT:
       return GL_VERTEX_SHADER_ARB;
-    case ShaderType::FRAGMENT:
+    case ShaderType::FRAG:
       return GL_FRAGMENT_SHADER_ARB;
     default:
       return GL_INVALID_INDEX;
@@ -30,9 +30,9 @@ auto GenericShader::typeToGLenum(ShaderType type) -> GLenum {
 #endif
 }
 
-auto GenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderRef_t {
+auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderRef_t {
   // try {
-  auto instance = std::make_shared<GenericShader>(createInfo.type);
+  auto instance = std::make_shared<OGLGenericShader>(createInfo.type);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());
   instance->compile(createInfo.code.c_str());
   return instance;
@@ -42,30 +42,30 @@ auto GenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Shader
   //}
 }
 
-GenericShader::GenericShader(ShaderType type)
+OGLGenericShader::OGLGenericShader(ShaderType type)
     : Shader(type)
-    , shaderHelper_(gapi::Extension::extensions)
+    , helper_(gapi::Extension::extensions)
     , type_(type)
     , compiled_(false) {
-  auto objectId = shaderHelper_.CreateShader(GenericShader::typeToGLenum(type_));
+  auto objectId = helper_.CreateShader(OGLGenericShader::typeToGLenum(type_));
   if (objectId != 0) {
     setUid(objectId);
   }
 }
 
-GenericShader::~GenericShader() { shaderHelper_.DeleteShader(getUid()); }
+OGLGenericShader::~OGLGenericShader() { helper_.DeleteShader(getUid()); }
 
-void GenericShader::compile(lpcstr_t source) {
+void OGLGenericShader::compile(lpcstr_t source) {
   int compileStatus;
   // EM_ASM({ console.log('objectId_: ' + $0); }, objectId_);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, source);
 
-  shaderHelper_.ShaderSource(getUid(), 1, &source, nullptr);
-  shaderHelper_.CompileShader(getUid());
-  shaderHelper_.GetShaderParam(getUid(), GL_COMPILE_STATUS, &compileStatus);  // GL_OBJECT_COMPILE_STATUS_ARB
+  helper_.ShaderSource(getUid(), 1, &source, nullptr);
+  helper_.CompileShader(getUid());
+  helper_.GetShaderParam(getUid(), GL_COMPILE_STATUS, &compileStatus);  // GL_OBJECT_COMPILE_STATUS_ARB
   compiled_ = (compileStatus == GL_TRUE);
   if (!compiled_) {
-    throw ShaderCompilationException(getUid().value());
+    throw OGLShaderCompilationException(getUid().value());
   }
 }
 

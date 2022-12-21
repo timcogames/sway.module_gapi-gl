@@ -1,10 +1,10 @@
-#include <sway/gapi/gl/extensions.hpp>
-#include <sway/gapi/gl/genericbuffer.hpp>
+#include <sway/gapi/gl/oglextensions.hpp>
+#include <sway/gapi/gl/oglgenericbuffer.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto GenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
+auto OGLGenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (target) {
     case BufferTarget::ARRAY:
@@ -26,7 +26,7 @@ auto GenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
 #endif
 }
 
-auto GenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
+auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (usage) {
     case BufferUsage::STATIC:
@@ -52,7 +52,7 @@ auto GenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 #endif
 }
 
-auto GenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
+auto OGLGenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
 #ifdef _EMSCRIPTEN
   switch (access) {
     case BufferAccess::Read:
@@ -78,8 +78,8 @@ auto GenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
 #endif
 }
 
-auto GenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t {
-  auto instance = std::make_shared<GenericBuffer>(idQueue, createInfo.desc);
+auto OGLGenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t {
+  auto instance = std::make_shared<OGLGenericBuffer>(idQueue, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
   }
@@ -89,7 +89,7 @@ auto GenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateI
 
 using BufferObjectIdType = u32_t;
 
-GenericBuffer::GenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc)
+OGLGenericBuffer::OGLGenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc)
     : Buffer(desc)
     , helper_(gapi::Extension::extensions)
     , target_(desc.target)
@@ -99,29 +99,20 @@ GenericBuffer::GenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &d
   setUid(idQueue->newGuid());
 }
 
-GenericBuffer::~GenericBuffer() {
-  // auto objectId = getUid().value();
-  // #ifdef _EMSCRIPTEN
-  //   glDeleteBuffers(1, &objectId);
-  // #else
-  //   Extension::glDeleteBuffers(1, &objectId);
-  // #endif
-}
-
-auto GenericBuffer::allocate(const void *data) -> bool {
-  auto target = GenericBuffer::targetToGLenum(target_);
+auto OGLGenericBuffer::allocate(const void *data) -> bool {
+  auto target = OGLGenericBuffer::targetToGLenum(target_);
   auto dataSize = capacity_ * byteStride_;
   auto allocedSize = 0;
 
   helper_.BindBuffer(target, getUid().value());
-  helper_.BufferData(target, dataSize, data, GenericBuffer::usageToGLenum(usage_));
+  helper_.BufferData(target, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
   helper_.GetBufferParam(target, GL_BUFFER_SIZE_ARB, &allocedSize);
 
   return allocedSize == dataSize;
 }
 
-void GenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
-  auto target = GenericBuffer::targetToGLenum(target_);
+void OGLGenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
+  auto target = OGLGenericBuffer::targetToGLenum(target_);
   if (helper_.IsBuffer(getUid().value())) {
     helper_.BindBuffer(target, getUid().value());
     helper_.BufferSubData(target, offset, size, source);
@@ -129,11 +120,11 @@ void GenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *source) 
   }
 }
 
-void GenericBuffer::updateSubdata(const void *source) { updateSubdata(0, capacity_ * byteStride_, source); }
+void OGLGenericBuffer::updateSubdata(const void *source) { updateSubdata(0, capacity_ * byteStride_, source); }
 
-void GenericBuffer::bind() { helper_.BindBuffer(GenericBuffer::targetToGLenum(target_), getUid().value()); }
+void OGLGenericBuffer::bind() { helper_.BindBuffer(OGLGenericBuffer::targetToGLenum(target_), getUid().value()); }
 
-void GenericBuffer::unbind() { helper_.BindBuffer(GenericBuffer::targetToGLenum(target_), 0); }
+void OGLGenericBuffer::unbind() { helper_.BindBuffer(OGLGenericBuffer::targetToGLenum(target_), 0); }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

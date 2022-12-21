@@ -27,14 +27,14 @@ int main(int argc, char *argv[]) {
   auto capability = functions->createCapability();
 
   gapi::ShaderCreateInfo vsoCreateInfo;
-  vsoCreateInfo.type = gapi::ShaderType::VERTEX;
-  vsoCreateInfo.code = "attribute vec3 attr_position; \
+  vsoCreateInfo.type = gapi::ShaderType::VERT;
+  vsoCreateInfo.code = "attribute vec3 attrib_pos; \
     void main() { \
-      gl_Position = vec4(attr_position, 1.0); \
+      gl_Position = vec4(attrib_pos, 1.0); \
      }";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
-  fsoCreateInfo.type = gapi::ShaderType::FRAGMENT;
+  fsoCreateInfo.type = gapi::ShaderType::FRAG;
   fsoCreateInfo.code = "void main() { \
       gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
     }";
@@ -62,8 +62,7 @@ int main(int argc, char *argv[]) {
 
   auto vbo = functions->createBuffer(idGenerator, vboCreateInfo);
   auto vlayout = functions->createVertexAttribLayout(program);
-  vlayout->addAttribute(
-      gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic_t::Position, false, true));
+  vlayout->addAttribute(gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
 
   auto drawCall = functions->createDrawCall();
 

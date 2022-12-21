@@ -1,5 +1,5 @@
-#include <sway/gapi/gl/capability.hpp>
-#include <sway/gapi/gl/extensions.hpp>
+#include <sway/gapi/gl/oglcapability.hpp>
+#include <sway/gapi/gl/oglextensions.hpp>
 
 #include <dlfcn.h>
 
@@ -25,12 +25,12 @@ void *dlGetProcAddress(lpcstr_t name) {
   return dlsym(handle, (lpcstr_t)name);
 }
 
-auto Capability::createInstance() -> CapabilityRef_t {
-  auto instance = std::make_shared<Capability>();
+auto OGLCapability::createInstance() -> CapabilityRef_t {
+  auto instance = std::make_shared<OGLCapability>();
   return instance;
 }
 
-Capability::Capability() {
+OGLCapability::OGLCapability() {
 #ifdef _STUB
   printf("Graphics card and driver information:\n");
   printf("\tAs stub\n");
@@ -48,9 +48,9 @@ Capability::Capability() {
 #endif
 }
 
-auto Capability::getVersion() const -> core::Version { return core::Version(_majorVersion, _minorVersion); }
+auto OGLCapability::getVersion() const -> core::Version { return core::Version(_majorVersion, _minorVersion); }
 
-void Capability::initializeVersion_() {
+void OGLCapability::initializeVersion_() {
   _renderer = reinterpret_cast<lpcstr_t>(glGetString(GL_RENDERER));
   _vendor = reinterpret_cast<lpcstr_t>(glGetString(GL_VENDOR));
   _version = reinterpret_cast<lpcstr_t>(glGetString(GL_VERSION));
@@ -59,7 +59,7 @@ void Capability::initializeVersion_() {
   sscanf(_version.c_str(), "%d.%d", &_majorVersion, &_minorVersion);
 }
 
-void Capability::initializeExtensions_() {
+void OGLCapability::initializeExtensions_() {
   const auto *exts = reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS));
   printf("OpenGL extensions:\n%s\n", exts);
   auto func = [&](ExtensionInitList_t probes) -> core::binding::ProcAddress_t {
@@ -75,7 +75,7 @@ void Capability::initializeExtensions_() {
   Extension::define(func);
 }
 
-void Capability::initLimits_() {
+void OGLCapability::initLimits_() {
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &_maxVertexAttributes);
   glGetIntegerv(GL_MAX_VERTEX_OUTPUT_COMPONENTS, &_maxVertexOutputComponents);
   glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &_maxVertexTextureImageUnits);

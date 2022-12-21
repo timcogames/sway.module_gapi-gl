@@ -1,9 +1,9 @@
-#ifndef SWAY_GAPI_GL_SHADERPROGRAM_HPP
-#define SWAY_GAPI_GL_SHADERPROGRAM_HPP
+#ifndef SWAY_GAPI_GL_OGLSHADERPROGRAM_HPP
+#define SWAY_GAPI_GL_OGLSHADERPROGRAM_HPP
 
+#include <sway/gapi/gl/oglgenericshaderhelper.hpp>
+#include <sway/gapi/gl/oglshaderprogramhelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
-#include <sway/gapi/gl/shaderhelper.hpp>
-#include <sway/gapi/gl/shaderprogramhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление шейдерной программы.
  */
-class ShaderProgram final : public ShaderProgramBase {
+class OGLShaderProgram final : public ShaderProgram {
 public:
   static auto createInstance() -> ShaderProgramRef_t;
 
@@ -19,13 +19,13 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  ShaderProgram();
+  OGLShaderProgram();
 
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
    */
-  virtual ~ShaderProgram();
+  virtual ~OGLShaderProgram();
 
   /**
    * @brief Связывает шейдерный объект с программным объектом.
@@ -123,8 +123,7 @@ public:
 
 private:
   // ShaderObjectIdSet_t objectIdSet_;
-  ShaderHelper shaderHelper_;
-  ShaderProgramHelper programHelper_;
+  OGLShaderProgramHelper helper_;
   std::set<int> objectIdSet_;
   UniformVec4fUmap_t uniformVec4fSet_;
   UniformMat4fUmap_t uniformMat4fSet_;
@@ -135,4 +134,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_SHADERPROGRAM_HPP
+#endif  // SWAY_GAPI_GL_OGLSHADERPROGRAM_HPP

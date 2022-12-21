@@ -1,24 +1,24 @@
-#include <sway/gapi/gl/bufferidgenerator.hpp>
+#include <sway/gapi/gl/oglbufferidgenerator.hpp>
 
 #include <algorithm>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto BufferIdGenerator::createInstance() -> std::shared_ptr<IdGenerator> {
-  return std::make_shared<BufferIdGenerator>();
+auto OGLBufferIdGenerator::createInstance() -> std::shared_ptr<IdGenerator> {
+  return std::make_shared<OGLBufferIdGenerator>();
 }
 
-BufferIdGenerator::BufferIdGenerator()
+OGLBufferIdGenerator::OGLBufferIdGenerator()
     : helper_(gapi::Extension::extensions)
     , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
-BufferIdGenerator::~BufferIdGenerator() {
+OGLBufferIdGenerator::~OGLBufferIdGenerator() {
   helper_.DeleteBuffers(used_.size(), used_.data());
   used_.clear();
 }
 
-auto BufferIdGenerator::newGuid() -> BufferIdType {
+auto OGLBufferIdGenerator::newGuid() -> BufferIdType {
   if (this->empty()) {
     auto *bufferIds = new BufferIdType[chunkCapacity_];
 

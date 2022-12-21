@@ -1,5 +1,5 @@
-#ifndef SWAY_GAPI_GL_DRAWCALL_HPP
-#define SWAY_GAPI_GL_DRAWCALL_HPP
+#ifndef SWAY_GAPI_GL_OGLDRAWCALL_HPP
+#define SWAY_GAPI_GL_OGLDRAWCALL_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
 
@@ -18,7 +18,7 @@ struct DrawArrays {
   s32_t count;
 };
 
-class DrawCall : public IDrawCallBase {
+class OGLDrawCall : public DrawCall {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -31,9 +31,9 @@ public:
 
   static auto createInstance() -> DrawCallRef_t;
 
-  DrawCall() = default;
+  OGLDrawCall() = default;
 
-  virtual ~DrawCall() = default;
+  virtual ~OGLDrawCall() = default;
 
   /**
    * @brief Выполняет отрисовку примитива.
@@ -50,14 +50,14 @@ private:
    *
    * @sa _drawIndexed(std::shared_ptr<Buffer>)
    */
-  void _draw(BufferRef_t ibo);
+  void draw_(BufferRef_t ibo);
 
   /**
    * @brief Выводит индексные примитивы по данным в массивах.
    *
    * @sa _draw(BufferRef_t)
    */
-  void _drawIndexed(std::shared_ptr<Buffer> ibo);
+  void drawIndexed_(std::shared_ptr<Buffer> ibo);
 
   DrawCbFunc_t _drawCbFunc;
 
@@ -70,4 +70,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_DRAWCALL_HPP
+#endif  // SWAY_GAPI_GL_OGLDRAWCALL_HPP

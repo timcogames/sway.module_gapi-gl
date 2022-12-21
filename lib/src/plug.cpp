@@ -11,21 +11,21 @@ DLLAPI_EXPORT core::PluginInfo pluginGetInfo() {
 
 DLLAPI_EXPORT void pluginInitialize(core::PluginFunctionSet *functions) {
   static_cast<ConcreatePluginFunctionSet *>(functions)->createCapability =
-      reinterpret_cast<core::binding::ProcAddress_t>(Capability::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLCapability::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShader =
-      reinterpret_cast<core::binding::ProcAddress_t>(GenericShader::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericShader::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShaderProgram =
-      reinterpret_cast<core::binding::ProcAddress_t>(ShaderProgram::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLShaderProgram::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createIdGenerator =
-      reinterpret_cast<core::binding::ProcAddress_t>(BufferIdGenerator::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLBufferIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
-      reinterpret_cast<core::binding::ProcAddress_t>(GenericBuffer::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexAttribLayout =
-      reinterpret_cast<core::binding::ProcAddress_t>(GenericVertexAttribLayout::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexAttribLayout::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createDrawCall =
-      reinterpret_cast<core::binding::ProcAddress_t>(DrawCall::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLDrawCall::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createViewport =
-      reinterpret_cast<core::binding::ProcAddress_t>(Viewport::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLViewport::createInstance);
 }
 
 NAMESPACE_END(gapi)

@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_GL_GENERICBUFFER_HPP
-#define SWAY_GAPI_GL_GENERICBUFFER_HPP
+#ifndef SWAY_GAPI_GL_OGLGENERICBUFFER_HPP
+#define SWAY_GAPI_GL_OGLGENERICBUFFER_HPP
 
-#include <sway/gapi/gl/bufferhelper.hpp>
-#include <sway/gapi/gl/bufferidgenerator.hpp>
+#include <sway/gapi/gl/oglbufferidgenerator.hpp>
+#include <sway/gapi/gl/oglgenericbufferhelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление аппаратного буфера.
  */
-class GenericBuffer final : public Buffer {
+class OGLGenericBuffer final : public Buffer {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -29,13 +29,9 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  GenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc);
+  OGLGenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc);
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  virtual ~GenericBuffer();
+  virtual ~OGLGenericBuffer() = default;
 
   /**
    * @brief Устанавливает данные в аппаратный буфер.
@@ -110,7 +106,7 @@ public:
   }
 
 private:
-  BufferHelper helper_;
+  OGLGenericBufferHelper helper_;
   BufferTarget target_;
   BufferUsage usage_;
   s32_t capacity_;
@@ -120,4 +116,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_GENERICBUFFER_HPP
+#endif  // SWAY_GAPI_GL_OGLGENERICBUFFER_HPP

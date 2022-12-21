@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_GL_GENERICSHADER_HPP
-#define SWAY_GAPI_GL_GENERICSHADER_HPP
+#ifndef SWAY_GAPI_GL_OGLGENERICSHADER_HPP
+#define SWAY_GAPI_GL_OGLGENERICSHADER_HPP
 
+#include <sway/gapi/gl/oglgenericshaderhelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
-#include <sway/gapi/gl/shaderhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 /**
  * @brief Представление шейдерного объекта.
  */
-class GenericShader final : public Shader {
+class OGLGenericShader final : public Shader {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
@@ -26,13 +26,13 @@ public:
    *
    * @param[in] type Тип создаваемого шейдера.
    */
-  GenericShader(ShaderType type);
+  OGLGenericShader(ShaderType type);
 
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
    */
-  virtual ~GenericShader();
+  virtual ~OGLGenericShader();
 
   /**
    * @brief Выполняет компиляцию шейдерного объекта.
@@ -62,7 +62,7 @@ public:
   }
 
 private:
-  ShaderHelper shaderHelper_;
+  OGLGenericShaderHelper helper_;
   ShaderType type_;  // Тип шейдера.
   bool compiled_;
 };
@@ -70,4 +70,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_GENERICSHADER_HPP
+#endif  // SWAY_GAPI_GL_OGLGENERICSHADER_HPP

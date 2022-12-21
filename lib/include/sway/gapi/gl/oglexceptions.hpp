@@ -1,7 +1,7 @@
-#ifndef SWAY_GAPI_GL_EXCEPTIONS_HPP
-#define SWAY_GAPI_GL_EXCEPTIONS_HPP
+#ifndef SWAY_GAPI_GL_OGLEXCEPTIONS_HPP
+#define SWAY_GAPI_GL_OGLEXCEPTIONS_HPP
 
-#include <sway/gapi/gl/extensions.hpp>
+#include <sway/gapi/gl/oglextensions.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
 #include <GLES2/gl2.h>
@@ -10,13 +10,13 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class ShaderException : public core::runtime::Exception {
+class OGLShaderException : public core::runtime::Exception {
 public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  ShaderException(u32_t objectId)
+  OGLShaderException(u32_t objectId)
       : core::runtime::Exception([objectId]() -> std::string {
         std::string result;
         s32_t logLength;
@@ -45,38 +45,38 @@ public:
   }
 };
 
-class ShaderCompilationException : public ShaderException {
+class OGLShaderCompilationException : public OGLShaderException {
 public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  ShaderCompilationException(u32_t objectId)
-      : ShaderException(objectId) {
+  OGLShaderCompilationException(u32_t objectId)
+      : OGLShaderException(objectId) {
     // Empty
   }
 };
 
-class ShaderProgramLinkageException : public ShaderException {
+class OGLShaderProgramLinkageException : public OGLShaderException {
 public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  ShaderProgramLinkageException(u32_t objectId)
-      : ShaderException(objectId) {
+  OGLShaderProgramLinkageException(u32_t objectId)
+      : OGLShaderException(objectId) {
     // Empty
   }
 };
 
-class ShaderProgramValidationException : public ShaderException {
+class OGLShaderProgramValidationException : public OGLShaderException {
 public:
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  ShaderProgramValidationException(u32_t objectId)
-      : ShaderException(objectId) {
+  OGLShaderProgramValidationException(u32_t objectId)
+      : OGLShaderException(objectId) {
     // Empty
   }
 };
@@ -84,4 +84,4 @@ public:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_EXCEPTIONS_HPP
+#endif  // SWAY_GAPI_GL_OGLEXCEPTIONS_HPP
