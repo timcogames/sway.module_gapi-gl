@@ -9,6 +9,13 @@
 
 using namespace sway;
 
+std::shared_ptr<gapi::ShaderProgram> program = nullptr;
+std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
+std::shared_ptr<gapi::Buffer> vtxBuffer = nullptr;
+std::shared_ptr<gapi::Buffer> idxBuffer = nullptr;
+std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
+std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
+
 int main(int argc, char *argv[]) {
   glx11::WindowInitialInfo windowInitialInfo;
   windowInitialInfo.title = "examples";
@@ -39,7 +46,7 @@ int main(int argc, char *argv[]) {
       gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
     }";
 
-  auto program = functions->createShaderProgram();
+  program = functions->createShaderProgram();
   program->attach(functions->createShader(vsoCreateInfo));
   program->attach(functions->createShader(fsoCreateInfo));
 
@@ -66,31 +73,32 @@ int main(int argc, char *argv[]) {
   std::array<u32_t, 3> indices = {0, 1, 2};
   iboCreateInfo.data = indices.data();
 
-  auto idGenerator = functions->createIdGenerator();
+  idGenerator = functions->createIdGenerator();
 
-  auto vbo = functions->createBuffer(idGenerator, vboCreateInfo);
-  auto ibo = functions->createBuffer(idGenerator, iboCreateInfo);
-  auto vlayout = functions->createVertexAttribLayout(program);
-  vlayout->addAttribute(gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
+  vtxBuffer = functions->createBuffer(idGenerator, vboCreateInfo);
+  idxBuffer = functions->createBuffer(idGenerator, iboCreateInfo);
+  vtxAttribLayout = functions->createVertexAttribLayout(program);
+  vtxAttribLayout->addAttribute(
+      gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
 
-  auto drawCall = functions->createDrawCall();
+  drawCall = functions->createDrawCall();
 
   while (canvas->eventLoop(true)) {
     canvas->getContext()->makeCurrent();
 
     program->use();
 
-    vbo->bind();
-    vlayout->enable();
+    vtxBuffer->bind();
+    vtxAttribLayout->enable();
 
-    ibo->bind();
+    idxBuffer->bind();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vbo, ibo}, core::ValueDataType::UInt);
+    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vtxBuffer, idxBuffer}, core::ValueDataType::UInt);
 
-    ibo->unbind();
+    idxBuffer->unbind();
 
-    vlayout->disable();
-    vbo->unbind();
+    vtxAttribLayout->disable();
+    vtxBuffer->unbind();
 
     program->unuse();
 

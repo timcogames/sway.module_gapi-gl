@@ -21,7 +21,6 @@ OGLShaderProgramHelper::OGLShaderProgramHelper(std::function<core::binding::Proc
   GetUniformLocation_ = &OGLShaderProgramHelper::EMU_GetUniformLocation;
   Uniform4f_ = &OGLShaderProgramHelper::EMU_Uniform4f;
   UniformMatrix4f_ = &OGLShaderProgramHelper::EMU_UniformMatrix4f;
-  GetObjectParam_ = &OGLShaderProgramHelper::EMU_GetObjectParam;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
@@ -36,7 +35,6 @@ OGLShaderProgramHelper::OGLShaderProgramHelper(std::function<core::binding::Proc
     GetUniformLocation_ = &OGLShaderProgramHelper::ARB_GetUniformLocation;
     Uniform4f_ = &OGLShaderProgramHelper::ARB_Uniform4f;
     UniformMatrix4f_ = &OGLShaderProgramHelper::ARB_UniformMatrix4f;
-    GetObjectParam_ = &OGLShaderProgramHelper::ARB_GetObjectParam;
   } else {
     CreateProgram_ = &OGLShaderProgramHelper::STD_CreateProgram;
     DeleteProgram_ = &OGLShaderProgramHelper::STD_DeleteProgram;
@@ -48,7 +46,6 @@ OGLShaderProgramHelper::OGLShaderProgramHelper(std::function<core::binding::Proc
     GetUniformLocation_ = &OGLShaderProgramHelper::STD_GetUniformLocation;
     Uniform4f_ = &OGLShaderProgramHelper::STD_Uniform4f;
     UniformMatrix4f_ = &OGLShaderProgramHelper::STD_UniformMatrix4f;
-    GetObjectParam_ = &OGLShaderProgramHelper::STD_GetObjectParam;
   }
 
 #endif
@@ -81,86 +78,101 @@ void OGLShaderProgramHelper::ARB_DeleteProgram(s32_t num, const u32_t *programs)
   Extension::glDeletePrograms(num, programs);
 }
 
-void OGLShaderProgramHelper::EMU_AttachShader([[maybe_unused]] u32_t program, [[maybe_unused]] u32_t shader) {}
+void OGLShaderProgramHelper::EMU_AttachShader(
+    [[maybe_unused]] std::optional<u32_t> progId, [[maybe_unused]] std::optional<u32_t> shaderId) {}
 
-void OGLShaderProgramHelper::STD_AttachShader(u32_t program, u32_t shader) { glAttachShader(program, shader); }
+void OGLShaderProgramHelper::STD_AttachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId) {
+  glAttachShader(progId.value(), shaderId.value());
+}
 
-void OGLShaderProgramHelper::ARB_AttachShader(u32_t program, u32_t shader) {
+void OGLShaderProgramHelper::ARB_AttachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId) {
   // core::binding::TFunction<void(u32_t, u32_t)> callbackFunc =
   //     extensions_({{"GL_ARB_shader_objects", "glAttachObjectARB"}});
 
-  // callbackFunc(program, shader);
+  // callbackFunc(progId.value(), shaderId);
 
-  Extension::glAttachObject(program, shader);
+  Extension::glAttachObject(progId.value(), shaderId.value());
 }
 
-void OGLShaderProgramHelper::EMU_DetachShader([[maybe_unused]] u32_t program, [[maybe_unused]] u32_t shader) {}
+void OGLShaderProgramHelper::EMU_DetachShader(
+    [[maybe_unused]] std::optional<u32_t> progId, [[maybe_unused]] std::optional<u32_t> shaderId) {}
 
-void OGLShaderProgramHelper::STD_DetachShader(u32_t program, u32_t shader) { glDetachShader(program, shader); }
+void OGLShaderProgramHelper::STD_DetachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId) {
+  glDetachShader(progId.value(), shaderId.value());
+}
 
-void OGLShaderProgramHelper::ARB_DetachShader(u32_t program, u32_t shader) {
+void OGLShaderProgramHelper::ARB_DetachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId) {
   // core::binding::TFunction<void(u32_t, u32_t)> callbackFunc =
   //     extensions_({{"GL_ARB_shader_objects", "glDetachObjectARB"}});
 
-  // callbackFunc(program, shader);
+  // callbackFunc(progId.value(), shader);
 
-  Extension::glDetachObject(program, shader);
+  Extension::glDetachObject(progId.value(), shaderId.value());
 }
 
-void OGLShaderProgramHelper::EMU_LinkProgram([[maybe_unused]] u32_t program) {}
+void OGLShaderProgramHelper::EMU_LinkProgram([[maybe_unused]] std::optional<u32_t> progId, s32_t *status) {}
 
-void OGLShaderProgramHelper::STD_LinkProgram(u32_t program) { glLinkProgram(program); }
+void OGLShaderProgramHelper::STD_LinkProgram(std::optional<u32_t> progId, s32_t *status) {
+  glLinkProgram(progId.value());
+  glGetProgramiv(progId.value(), GL_LINK_STATUS, status);
+}
 
-void OGLShaderProgramHelper::ARB_LinkProgram(u32_t program) {
+void OGLShaderProgramHelper::ARB_LinkProgram(std::optional<u32_t> progId, s32_t *status) {
   // core::binding::TFunction<void(u32_t)> callbackFunc = extensions_({{"GL_ARB_shader_objects", "glLinkProgramARB"}});
 
-  // callbackFunc(program);
+  // callbackFunc(progId.value());
 
-  Extension::glLinkProgram(program);
+  Extension::glLinkProgram(progId.value());
+  Extension::glGetObjectParameteriv(progId.value(), GL_OBJECT_LINK_STATUS_ARB, status);
 }
 
-void OGLShaderProgramHelper::EMU_ValidateProgram([[maybe_unused]] u32_t program) {}
+void OGLShaderProgramHelper::EMU_ValidateProgram(
+    [[maybe_unused]] std::optional<u32_t> progId, [[maybe_unused]] s32_t *status) {}
 
-void OGLShaderProgramHelper::STD_ValidateProgram(u32_t program) { glValidateProgram(program); }
+void OGLShaderProgramHelper::STD_ValidateProgram(std::optional<u32_t> progId, s32_t *status) {
+  glValidateProgram(progId.value());
+  glGetProgramiv(progId.value(), GL_VALIDATE_STATUS, status);
+}
 
-void OGLShaderProgramHelper::ARB_ValidateProgram(u32_t program) {
+void OGLShaderProgramHelper::ARB_ValidateProgram(std::optional<u32_t> progId, s32_t *status) {
   // core::binding::TFunction<void(u32_t)> callbackFunc = extensions_({{"GL_ARB_shader_objects",
   // "glValidateProgramARB"}});
 
-  // callbackFunc(program);
+  // callbackFunc(progId.value());
 
-  Extension::glValidateProgram(program);
+  Extension::glValidateProgram(progId.value());
+  Extension::glGetObjectParameteriv(progId.value(), GL_OBJECT_VALIDATE_STATUS_ARB, status);
 }
 
-void OGLShaderProgramHelper::EMU_UseProgram([[maybe_unused]] u32_t program) {}
+void OGLShaderProgramHelper::EMU_UseProgram([[maybe_unused]] std::optional<u32_t> progId) {}
 
-void OGLShaderProgramHelper::STD_UseProgram(u32_t program) { glUseProgram(program); }
+void OGLShaderProgramHelper::STD_UseProgram(std::optional<u32_t> progId) { glUseProgram(progId.value()); }
 
-void OGLShaderProgramHelper::ARB_UseProgram(u32_t program) {
+void OGLShaderProgramHelper::ARB_UseProgram(std::optional<u32_t> progId) {
   // core::binding::TFunction<void(u32_t)> callbackFunc =
   //     extensions_({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
 
-  // callbackFunc(program);
+  // callbackFunc(progId.value());
 
-  Extension::glUseProgramObject(program);
+  Extension::glUseProgramObject(progId.value());
 }
 
-auto OGLShaderProgramHelper::EMU_GetUniformLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
-    -> s32_t {
+auto OGLShaderProgramHelper::EMU_GetUniformLocation(
+    [[maybe_unused]] std::optional<u32_t> progId, [[maybe_unused]] lpcstr_t name) -> s32_t {
   return 0;
 }
 
-auto OGLShaderProgramHelper::STD_GetUniformLocation(u32_t program, lpcstr_t name) -> s32_t {
-  return glGetUniformLocation(program, name);
+auto OGLShaderProgramHelper::STD_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
+  return glGetUniformLocation(progId.value(), name);
 }
 
-auto OGLShaderProgramHelper::ARB_GetUniformLocation(u32_t program, lpcstr_t name) -> s32_t {
+auto OGLShaderProgramHelper::ARB_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
   // core::binding::TFunction<s32_t(u32_t, lpcstr_t)> callbackFunc =
   //     extensions_({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
 
-  // return callbackFunc(program, name);
+  // return callbackFunc(progId.value(), name);
 
-  Extension::glGetUniformLocation(program, name);
+  Extension::glGetUniformLocation(progId.value(), name);
 }
 
 void OGLShaderProgramHelper::EMU_Uniform4f([[maybe_unused]] s32_t location, [[maybe_unused]] f32_t v0,
@@ -193,21 +205,6 @@ void OGLShaderProgramHelper::ARB_UniformMatrix4f(s32_t location, s32_t count, bo
   // callbackFunc(location, count, transpose, value);
 
   Extension::glUniformMatrix4fv(location, count, transpose, value);
-}
-
-void OGLShaderProgramHelper::EMU_GetObjectParam(u32_t program, u32_t pname, s32_t *params) {}
-
-void OGLShaderProgramHelper::STD_GetObjectParam(u32_t program, u32_t pname, s32_t *params) {
-  glGetProgramiv(program, pname, params);
-}
-
-void OGLShaderProgramHelper::ARB_GetObjectParam(u32_t program, u32_t pname, s32_t *params) {
-  // core::binding::TFunction<void(u32_t, u32_t, s32_t *)> callbackFunc =
-  //     extensions_({{"GL_ARB_shader_objects", "glGetObjectParameterivARB"}});
-
-  // callbackFunc(program, pname, params);
-
-  Extension::glGetObjectParameteriv(program, pname, params);
 }
 
 NAMESPACE_END(gapi)

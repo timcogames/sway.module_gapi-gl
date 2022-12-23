@@ -55,15 +55,15 @@ OGLGenericShader::OGLGenericShader(ShaderType type)
 
 OGLGenericShader::~OGLGenericShader() { helper_.DeleteShader(getUid()); }
 
-void OGLGenericShader::compile(lpcstr_t source) {
-  int compileStatus;
-  // EM_ASM({ console.log('objectId_: ' + $0); }, objectId_);
-  // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, source);
+auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
+  return helper_.GetAttribLocation(progId.value(), name);
+}
 
+void OGLGenericShader::compile(lpcstr_t source) {
+  int status;  // Состояние шагов компилирования.
   helper_.ShaderSource(getUid(), 1, &source, nullptr);
-  helper_.CompileShader(getUid());
-  helper_.GetShaderParam(getUid(), GL_COMPILE_STATUS, &compileStatus);  // GL_OBJECT_COMPILE_STATUS_ARB
-  compiled_ = (compileStatus == GL_TRUE);
+  helper_.CompileShader(getUid(), &status);
+  compiled_ = (status == GL_TRUE);
   if (!compiled_) {
     throw OGLShaderCompilationException(getUid().value());
   }

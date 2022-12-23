@@ -24,35 +24,35 @@ public:
   void STD_DeleteProgram(s32_t num, const u32_t *programs);
   void ARB_DeleteProgram(s32_t num, const u32_t *programs);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, AttachShader, void, u32_t, u32_t)
-  void EMU_AttachShader(u32_t program, u32_t shader);
-  void STD_AttachShader(u32_t program, u32_t shader);
-  void ARB_AttachShader(u32_t program, u32_t shader);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, AttachShader, void, std::optional<u32_t>, std::optional<u32_t>)
+  void EMU_AttachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
+  void STD_AttachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
+  void ARB_AttachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, DetachShader, void, u32_t, u32_t)
-  void EMU_DetachShader(u32_t program, u32_t shader);
-  void STD_DetachShader(u32_t program, u32_t shader);
-  void ARB_DetachShader(u32_t program, u32_t shader);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, DetachShader, void, std::optional<u32_t>, std::optional<u32_t>)
+  void EMU_DetachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
+  void STD_DetachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
+  void ARB_DetachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, LinkProgram, void, u32_t)
-  void EMU_LinkProgram(u32_t program);
-  void STD_LinkProgram(u32_t program);
-  void ARB_LinkProgram(u32_t program);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, LinkProgram, void, std::optional<u32_t>, s32_t *)
+  void EMU_LinkProgram(std::optional<u32_t> progId, s32_t *status);
+  void STD_LinkProgram(std::optional<u32_t> progId, s32_t *status);
+  void ARB_LinkProgram(std::optional<u32_t> progId, s32_t *status);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, ValidateProgram, void, u32_t)
-  void EMU_ValidateProgram(u32_t program);
-  void STD_ValidateProgram(u32_t program);
-  void ARB_ValidateProgram(u32_t program);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, ValidateProgram, void, std::optional<u32_t>, s32_t *)
+  void EMU_ValidateProgram(std::optional<u32_t> progId, s32_t *status);
+  void STD_ValidateProgram(std::optional<u32_t> progId, s32_t *status);
+  void ARB_ValidateProgram(std::optional<u32_t> progId, s32_t *status);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, UseProgram, void, u32_t)
-  void EMU_UseProgram(u32_t program);
-  void STD_UseProgram(u32_t program);
-  void ARB_UseProgram(u32_t program);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, UseProgram, void, std::optional<u32_t>)
+  void EMU_UseProgram(std::optional<u32_t> progId);
+  void STD_UseProgram(std::optional<u32_t> progId);
+  void ARB_UseProgram(std::optional<u32_t> progId);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, GetUniformLocation, s32_t, u32_t, lpcstr_t)
-  auto EMU_GetUniformLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto STD_GetUniformLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto ARB_GetUniformLocation(u32_t program, lpcstr_t name) -> s32_t;
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, GetUniformLocation, s32_t, std::optional<u32_t>, lpcstr_t)
+  auto EMU_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
+  auto STD_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
+  auto ARB_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
 
   DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, Uniform4f, void, s32_t, f32_t, f32_t, f32_t, f32_t)
   void EMU_Uniform4f(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
@@ -63,11 +63,6 @@ public:
   void EMU_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
   void STD_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
   void ARB_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
-
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, GetObjectParam, void, u32_t, u32_t, s32_t *)
-  void EMU_GetObjectParam(u32_t obj, u32_t pname, s32_t *params);
-  void STD_GetObjectParam(u32_t obj, u32_t pname, s32_t *params);
-  void ARB_GetObjectParam(u32_t obj, u32_t pname, s32_t *params);
 
 private:
   std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions_;

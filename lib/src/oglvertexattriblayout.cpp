@@ -10,41 +10,40 @@ auto OGLVertexAttribLayout::createInstance(ShaderProgramRef_t program) -> Vertex
 }
 
 OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramRef_t program)
-    : VertexAttribLayout(program)
-    , shaderHelper_(gapi::Extension::extensions)
-    , helper_(gapi::Extension::extensions)
-    , shaderProgram_(program)
-    , attributeOffset_(0) {
+    : helper_(gapi::Extension::extensions)
+    , program_(program)
+    , attribOffset_(0) {
   // Получаем максимальный номер для положения вершинного атрибута.
-  glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxVertexAttributes_);
+  glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxVertexAttribs_);
 }
 
-OGLVertexAttribLayout::~OGLVertexAttribLayout() { attributes_.clear(); }
+OGLVertexAttribLayout::~OGLVertexAttribLayout() { attribs_.clear(); }
 
-void OGLVertexAttribLayout::addAttribute(VertexAttributeDescriptor desc) {
-  std::string const alias = stringize(desc.semantic);
+void OGLVertexAttribLayout::addAttribute(VertexAttribDescriptor desc) {
+  auto shader = program_->getShader(ShaderType::VERT);
+  auto const alias = stringize(desc.semantic);
 
-  desc.location = shaderHelper_.GetAttribLocation(shaderProgram_->getUid().value(), alias.c_str());
-  desc.pointer = BUFFER_OFFSET(attributeOffset_);
+  desc.location = shader->getAttribLocation(program_->getUid(), alias.c_str());
+  desc.pointer = BUFFER_OFFSET(attribOffset_);
 
-  if (desc.location >= 0 && desc.location <= maxVertexAttributes_) {
-    attributes_.insert(std::make_pair(alias, desc));
-    attributeOffset_ += desc.stride;
+  if (desc.location >= 0 && desc.location <= maxVertexAttribs_) {
+    attribs_.insert(std::make_pair(alias, desc));
+    attribOffset_ += desc.stride;
   }
 }
 
 void OGLVertexAttribLayout::enable() {
-  for (const auto &attrib : attributes_) {
+  for (const auto &attrib : attribs_) {
     if (attrib.second.enabled) {
       helper_.EnableArray((u32_t)attrib.second.location);
       helper_.Setup((u32_t)attrib.second.location, attrib.second.numComponents, TypeUtils::toGL(attrib.second.format),
-          (s8_t)attrib.second.normalized, (s32_t)attributeOffset_, attrib.second.pointer);
+          (s8_t)attrib.second.normalized, (s32_t)attribOffset_, attrib.second.pointer);
     }
   }
 }
 
 void OGLVertexAttribLayout::disable() {
-  for (const auto &attrib : attributes_) {
+  for (const auto &attrib : attribs_) {
     if (attrib.second.enabled) {
       helper_.DisableArray((u32_t)attrib.second.location);
     }

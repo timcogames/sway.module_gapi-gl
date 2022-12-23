@@ -18,7 +18,7 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    *
-   * @param[in] program Указатель на шейдерную программу.
+   * @param[in] progId Идентификатор шейдерной программы.
    */
   OGLVertexAttribLayout(ShaderProgramRef_t program);
 
@@ -33,7 +33,7 @@ public:
    *
    * @param[in] desc Описание вершинного атрибута.
    */
-  MTHD_OVERRIDE(void addAttribute(VertexAttributeDescriptor desc));
+  MTHD_OVERRIDE(void addAttribute(VertexAttribDescriptor desc));
 
   /**
    * @brief Включает чтение атрибутов.
@@ -46,12 +46,11 @@ public:
   MTHD_OVERRIDE(void disable());
 
 private:
-  OGLGenericShaderHelper shaderHelper_;
   OGLVertexAttribLayoutHelper helper_;
-  ShaderProgramRef_t shaderProgram_;  // Шейдерная программа.
-  VertexAttribDescUmap_t attributes_;
-  u32_t attributeOffset_;
-  int maxVertexAttributes_;  // Максимальное количество атрибутов.
+  ShaderProgramRef_t program_;
+  VertexAttribDescUmap_t attribs_;
+  u32_t attribOffset_;
+  int maxVertexAttribs_;  // Максимальное количество атрибутов.
 };
 
 NAMESPACE_END(gapi)

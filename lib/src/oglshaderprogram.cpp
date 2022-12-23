@@ -25,42 +25,47 @@ OGLShaderProgram::OGLShaderProgram()
 }
 
 OGLShaderProgram::~OGLShaderProgram() {
-  std::for_each(
-      objectIdSet_.begin(), objectIdSet_.end(), std::bind(&OGLShaderProgram::detach, this, std::placeholders::_1));
+  std::for_each(shaders_.begin(), shaders_.end(), [this](auto pair) { detach(pair, false); });
+  shaders_.clear();
 
   auto programId = getUid().value();
   helper_.DeleteProgram(1, &programId);
 }
 
 void OGLShaderProgram::attach(ShaderRef_t shader) {
-  auto result = objectIdSet_.insert(shader->getUid().value());
-  if (result.second) {
-    helper_.AttachShader(getUid().value(), *(result.first));
+  shaders_.insert(std::make_pair(shader->getType(), shader));
+  helper_.AttachShader(getUid(), shader->getUid());
+}
+
+void OGLShaderProgram::detach(std::pair<ShaderType, ShaderRef_t> pair, bool erasing) {
+  helper_.DetachShader(getUid(), pair.second->getUid());
+  if (erasing) {
+    shaders_.erase(pair.first);
   }
 }
 
-void OGLShaderProgram::detach(u32_t attachedId) {
-  helper_.DetachShader(getUid().value(), attachedId);
-  objectIdSet_.erase(attachedId);
+auto OGLShaderProgram::getShader(ShaderType type) -> ShaderRef_t {
+  auto iter = shaders_.find(type);
+  if (iter != shaders_.end()) {
+    return iter->second;
+  }
+
+  return nullptr;
 }
 
 void OGLShaderProgram::link() {
-  int linkStatus;
-
-  helper_.LinkProgram(getUid().value());
-  helper_.GetObjectParam(getUid().value(), GL_LINK_STATUS, &linkStatus);  // GL_OBJECT_LINK_STATUS_ARB
-  linked_ = (linkStatus == GL_TRUE);
+  int status;  // Состояние шагов линковки.
+  helper_.LinkProgram(getUid(), &status);
+  linked_ = (status == GL_TRUE);
   if (!linked_) {
     throw OGLShaderProgramLinkageException(getUid().value());
   }
 }
 
 void OGLShaderProgram::validate() {
-  int validateStatus;
-
-  helper_.ValidateProgram(getUid().value());
-  helper_.GetObjectParam(getUid().value(), GL_VALIDATE_STATUS, &validateStatus);  // GL_OBJECT_VALIDATE_STATUS_ARB
-  validated_ = (validateStatus == GL_TRUE);
+  int status;
+  helper_.ValidateProgram(getUid(), &status);
+  validated_ = (status == GL_TRUE);
   if (!validated_) {
     throw OGLShaderProgramValidationException(getUid().value());
   }
@@ -68,17 +73,17 @@ void OGLShaderProgram::validate() {
 
 void OGLShaderProgram::use() {
   if (getUid().value() > 0 && !isUsed()) {
-    helper_.UseProgram(getUid().value());
+    helper_.UseProgram(getUid());
 
     for (auto iter : uniformVec4fSet_) {
-      auto location = helper_.GetUniformLocation(getUid().value(), iter.first.c_str());
+      auto location = helper_.GetUniformLocation(getUid(), iter.first.c_str());
       if (location != -1) {
         helper_.Uniform4f(location, iter.second.getX(), iter.second.getY(), iter.second.getZ(), iter.second.getW());
       }
     }
 
     for (auto iter : uniformMat4fSet_) {
-      auto location = helper_.GetUniformLocation(getUid().value(), iter.first.c_str());
+      auto location = helper_.GetUniformLocation(getUid(), iter.first.c_str());
       if (location != -1) {
         helper_.UniformMatrix4f(location, 1, false, (float *)&iter.second);
       }

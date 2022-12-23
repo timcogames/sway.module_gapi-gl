@@ -95,7 +95,7 @@ int main() {
 
   vbo = functions->createBuffer(idGenerator, vboCreateInfo);
   vlayout = functions->createVertexAttribLayout(program);
-  vlayout->addAttribute(gapi::VertexAttributeDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
+  vlayout->addAttribute(gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
 
   drawCall = functions->createDrawCall();
 

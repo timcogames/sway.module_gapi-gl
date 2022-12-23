@@ -58,4 +58,4 @@ private:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_VIEWPORT_HPP
+#endif  // SWAY_GAPI_GL_OGLVIEWPORT_HPP

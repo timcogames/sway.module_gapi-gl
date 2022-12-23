@@ -41,22 +41,22 @@ OGLCapability::OGLCapability() {
   initLimits_();
 
   printf("Graphics card and driver information:\n");
-  printf("\tOpenGL (%s) version: %s\n", _vendor.c_str(), _version.c_str());
-  printf("\tOpenGL Renderer: %s\n", _renderer.c_str());
-  printf("\tOpenGL shading language version: %s\n", _shadingLanguageVersion.c_str());
+  printf("\tOpenGL (%s) version: %s\n", vendor_.c_str(), version_.c_str());
+  printf("\tOpenGL Renderer: %s\n", renderer_.c_str());
+  printf("\tOpenGL shading language version: %s\n", shadingLanguageVersion_.c_str());
 
 #endif
 }
 
-auto OGLCapability::getVersion() const -> core::Version { return core::Version(_majorVersion, _minorVersion); }
+auto OGLCapability::getVersion() const -> core::Version { return core::Version(majorVersion_, minorVersion_); }
 
 void OGLCapability::initializeVersion_() {
-  _renderer = reinterpret_cast<lpcstr_t>(glGetString(GL_RENDERER));
-  _vendor = reinterpret_cast<lpcstr_t>(glGetString(GL_VENDOR));
-  _version = reinterpret_cast<lpcstr_t>(glGetString(GL_VERSION));
-  _shadingLanguageVersion = reinterpret_cast<lpcstr_t>(glGetString(GL_SHADING_LANGUAGE_VERSION));
+  renderer_ = reinterpret_cast<lpcstr_t>(glGetString(GL_RENDERER));
+  vendor_ = reinterpret_cast<lpcstr_t>(glGetString(GL_VENDOR));
+  version_ = reinterpret_cast<lpcstr_t>(glGetString(GL_VERSION));
+  shadingLanguageVersion_ = reinterpret_cast<lpcstr_t>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-  sscanf(_version.c_str(), "%d.%d", &_majorVersion, &_minorVersion);
+  sscanf(version_.c_str(), "%d.%d", &majorVersion_, &minorVersion_);
 }
 
 void OGLCapability::initializeExtensions_() {
@@ -76,21 +76,21 @@ void OGLCapability::initializeExtensions_() {
 }
 
 void OGLCapability::initLimits_() {
-  glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &_maxVertexAttributes);
-  glGetIntegerv(GL_MAX_VERTEX_OUTPUT_COMPONENTS, &_maxVertexOutputComponents);
-  glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &_maxVertexTextureImageUnits);
-  glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &_maxVertexUniformComponents);
-  glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS, &_maxVertexUniformVectors);
+  glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxVertexAttributes_);
+  glGetIntegerv(GL_MAX_VERTEX_OUTPUT_COMPONENTS, &maxVertexOutputComponents_);
+  glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &maxVertexTextureImageUnits_);
+  glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &maxVertexUniformComponents_);
+  glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS, &maxVertexUniformVectors_);
 
-  glGetIntegerv(GL_MAX_DRAW_BUFFERS, &_maxDrawBuffers);
+  glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers_);
 
-  glGetIntegerv(GL_MAX_FRAGMENT_INPUT_COMPONENTS, &_maxFragmentInputComponents);
-  glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, &_maxFragmentUniformComponents);
-  glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS, &_maxFragmentUniformVectors);
+  glGetIntegerv(GL_MAX_FRAGMENT_INPUT_COMPONENTS, &maxFragmentInputComponents_);
+  glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, &maxFragmentUniformComponents_);
+  glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS, &maxFragmentUniformVectors_);
 
-  glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &_maxTextureImageUnits);
-  glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &_maxCombineTextureImageUnits);
-  glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &_maxTextureMaxAnisotropyExt);
+  glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureImageUnits_);
+  glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxCombineTextureImageUnits_);
+  glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxTextureMaxAnisotropyExt_);
 }
 
 NAMESPACE_END(gapi)

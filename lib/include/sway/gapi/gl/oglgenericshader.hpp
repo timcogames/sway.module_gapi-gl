@@ -35,6 +35,25 @@ public:
   virtual ~OGLGenericShader();
 
   /**
+   * @brief Получает тип шейдера.
+   *
+   * @return Тип шейдера.
+   */
+  // clang-format off
+  MTHD_OVERRIDE(auto getType() const -> ShaderType) {  // clang-format on
+    return type_;
+  }
+
+  /**
+   * @brief Получает ссылку на идентификатор атрибута.
+   *
+   * @param[in] name Имя атрибута в вершинном шейдере.
+   * @return Идентификатор атрибута.
+   */
+  // clang-format off
+  MTHD_OVERRIDE(auto getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t);  // clang-format on
+
+  /**
    * @brief Выполняет компиляцию шейдерного объекта.
    *
    * @param[in] source Исходный код шейдера.
@@ -49,16 +68,6 @@ public:
   // clang-format off
   MTHD_OVERRIDE(auto isCompiled() const -> bool) {  // clang-format on
     return compiled_;
-  }
-
-  /**
-   * @brief Получает тип шейдера.
-   *
-   * @return Тип шейдера.
-   */
-  // clang-format off
-  MTHD_OVERRIDE(auto getType() const -> ShaderType) {  // clang-format on
-    return type_;
   }
 
 private:
