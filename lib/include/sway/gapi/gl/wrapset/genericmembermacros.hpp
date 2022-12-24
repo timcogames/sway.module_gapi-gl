@@ -4,7 +4,6 @@
 #include <sway/namespacemacros.hpp>
 
 #include <utility>  //std::forward
-#include <variant>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

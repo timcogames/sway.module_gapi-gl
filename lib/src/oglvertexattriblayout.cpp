@@ -20,10 +20,10 @@ OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramRef_t program)
 OGLVertexAttribLayout::~OGLVertexAttribLayout() { attribs_.clear(); }
 
 void OGLVertexAttribLayout::addAttribute(VertexAttribDescriptor desc) {
-  auto shader = program_->getShader(ShaderType::VERT);
+  auto vtxShader = program_->getShader(ShaderType::VERT);
   auto const alias = stringize(desc.semantic);
 
-  desc.location = shader->getAttribLocation(program_->getUid(), alias.c_str());
+  desc.location = vtxShader->getAttribLocation(program_->getUid(), alias.c_str());
   desc.pointer = BUFFER_OFFSET(attribOffset_);
 
   if (desc.location >= 0 && desc.location <= maxVertexAttribs_) {

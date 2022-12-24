@@ -61,16 +61,16 @@ int main() {
 
   gapi::ShaderCreateInfo vsoCreateInfo;
   vsoCreateInfo.type = gapi::ShaderType::VERT;
-  vsoCreateInfo.code = "attribute vec3 attrib_pos; \
-    void main() { \
-      gl_Position = vec4(attrib_pos, 1.0); \
-     }";
+  vsoCreateInfo.code = "attribute vec3 attrib_pos;"
+                       "void main() {"
+                       "  gl_Position = vec4(attrib_pos, 1.0);"
+                       "}";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
   fsoCreateInfo.type = gapi::ShaderType::FRAG;
-  fsoCreateInfo.code = "void main() { \
-      gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
-    }";
+  fsoCreateInfo.code = "void main() {"
+                       "  gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0);"
+                       "}";
 
   program = functions->createShaderProgram();
   program->attach(functions->createShader(vsoCreateInfo));

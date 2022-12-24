@@ -21,6 +21,7 @@ OGLShaderProgramHelper::OGLShaderProgramHelper(std::function<core::binding::Proc
   GetUniformLocation_ = &OGLShaderProgramHelper::EMU_GetUniformLocation;
   Uniform4f_ = &OGLShaderProgramHelper::EMU_Uniform4f;
   UniformMatrix4f_ = &OGLShaderProgramHelper::EMU_UniformMatrix4f;
+  Uniform1i_ = &OGLShaderProgramHelper::EMU_Uniform1i;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
@@ -35,6 +36,7 @@ OGLShaderProgramHelper::OGLShaderProgramHelper(std::function<core::binding::Proc
     GetUniformLocation_ = &OGLShaderProgramHelper::ARB_GetUniformLocation;
     Uniform4f_ = &OGLShaderProgramHelper::ARB_Uniform4f;
     UniformMatrix4f_ = &OGLShaderProgramHelper::ARB_UniformMatrix4f;
+    Uniform1i_ = &OGLShaderProgramHelper::ARB_Uniform1i;
   } else {
     CreateProgram_ = &OGLShaderProgramHelper::STD_CreateProgram;
     DeleteProgram_ = &OGLShaderProgramHelper::STD_DeleteProgram;
@@ -46,6 +48,7 @@ OGLShaderProgramHelper::OGLShaderProgramHelper(std::function<core::binding::Proc
     GetUniformLocation_ = &OGLShaderProgramHelper::STD_GetUniformLocation;
     Uniform4f_ = &OGLShaderProgramHelper::STD_Uniform4f;
     UniformMatrix4f_ = &OGLShaderProgramHelper::STD_UniformMatrix4f;
+    Uniform1i_ = &OGLShaderProgramHelper::STD_Uniform1i;
   }
 
 #endif
@@ -56,8 +59,8 @@ auto OGLShaderProgramHelper::EMU_CreateProgram() -> u32_t { return 0; }
 auto OGLShaderProgramHelper::STD_CreateProgram() -> u32_t { return glCreateProgram(); }
 
 auto OGLShaderProgramHelper::ARB_CreateProgram() -> u32_t {
-  // core::binding::TFunction<u32_t()> callbackFunc = extensions_({{"GL_ARB_shader_objects",
-  // "glCreateProgramObjectARB"}});
+  // core::binding::TFunction<u32_t()> callbackFunc =
+  //     gapi::Extension::extensions({{"GL_ARB_shader_objects", "glCreateProgramObjectARB"}});
 
   // return callbackFunc();
   return Extension::glCreateProgramObject();
@@ -175,36 +178,46 @@ auto OGLShaderProgramHelper::ARB_GetUniformLocation(std::optional<u32_t> progId,
   Extension::glGetUniformLocation(progId.value(), name);
 }
 
-void OGLShaderProgramHelper::EMU_Uniform4f([[maybe_unused]] s32_t location, [[maybe_unused]] f32_t v0,
+void OGLShaderProgramHelper::EMU_Uniform4f([[maybe_unused]] s32_t loc, [[maybe_unused]] f32_t v0,
     [[maybe_unused]] f32_t v1, [[maybe_unused]] f32_t v2, [[maybe_unused]] f32_t v3) {}
 
-void OGLShaderProgramHelper::STD_Uniform4f(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3) {
-  glUniform4f(location, v0, v1, v2, v3);
+void OGLShaderProgramHelper::STD_Uniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3) {
+  glUniform4f(loc, v0, v1, v2, v3);
 }
 
-void OGLShaderProgramHelper::ARB_Uniform4f(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3) {
+void OGLShaderProgramHelper::ARB_Uniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3) {
   // core::binding::TFunction<void(s32_t, f32_t, f32_t, f32_t, f32_t)> callbackFunc =
   //     extensions_({{"GL_ARB_shader_objects", "glUniform4fARB"}});
 
-  // callbackFunc(location, v0, v1, v2, v3);
+  // callbackFunc(loc, v0, v1, v2, v3);
 
-  Extension::glUniform4f(location, v0, v1, v2, v3);
+  Extension::glUniform4f(loc, v0, v1, v2, v3);
 }
 
-void OGLShaderProgramHelper::EMU_UniformMatrix4f([[maybe_unused]] s32_t location, [[maybe_unused]] s32_t count,
-    [[maybe_unused]] bool transpose, [[maybe_unused]] const f32_t *value) {}
+void OGLShaderProgramHelper::EMU_UniformMatrix4f([[maybe_unused]] s32_t loc, [[maybe_unused]] s32_t count,
+    [[maybe_unused]] bool transpose, [[maybe_unused]] const f32_t *val) {}
 
-void OGLShaderProgramHelper::STD_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value) {
-  glUniformMatrix4fv(location, count, transpose, value);
+void OGLShaderProgramHelper::STD_UniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val) {
+  glUniformMatrix4fv(loc, count, transpose, val);
 }
 
-void OGLShaderProgramHelper::ARB_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value) {
+void OGLShaderProgramHelper::ARB_UniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val) {
   // core::binding::TFunction<void(s32_t, s32_t, bool, const f32_t *)> callbackFunc =
   //     extensions_({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
 
-  // callbackFunc(location, count, transpose, value);
+  // callbackFunc(loc, count, transpose, val);
 
-  Extension::glUniformMatrix4fv(location, count, transpose, value);
+  Extension::glUniformMatrix4fv(loc, count, transpose, val);
+}
+
+void OGLShaderProgramHelper::EMU_Uniform1i(s32_t loc, s32_t val) {}
+
+void OGLShaderProgramHelper::STD_Uniform1i(s32_t loc, s32_t val) { glUniform1i(loc, val); }
+
+void OGLShaderProgramHelper::ARB_Uniform1i(s32_t loc, s32_t val) {
+  //
+
+  Extension::glUniform1i(loc, val);
 }
 
 NAMESPACE_END(gapi)

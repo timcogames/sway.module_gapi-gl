@@ -13,6 +13,7 @@ core::binding::TFunction<void(u32_t programObj)> Extension::glLinkProgram = null
 core::binding::TFunction<void(u32_t programObj)> Extension::glValidateProgram = nullptr;
 core::binding::TFunction<void(u32_t programObj)> Extension::glUseProgramObject = nullptr;
 core::binding::TFunction<s32_t(u32_t programObj, lpcstr_t name)> Extension::glGetUniformLocation = nullptr;
+core::binding::TFunction<void(s32_t location, s32_t val)> Extension::glUniform1i = nullptr;
 core::binding::TFunction<void(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3)> Extension::glUniform4f = nullptr;
 core::binding::TFunction<void(s32_t location, s32_t count, bool transpose, const f32_t *value)>
     Extension::glUniformMatrix4fv = nullptr;
@@ -53,6 +54,7 @@ void Extension::define(const std::function<core::binding::ProcAddress_t(Extensio
   glValidateProgram = extensions({{"GL_ARB_shader_objects", "glValidateProgramARB"}});
   glUseProgramObject = extensions({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
   glGetUniformLocation = extensions({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
+  glUniform1i = extensions({{"GL_ARB_shader_objects", "glUniform1iARB"}});
   glUniform4f = extensions({{"GL_ARB_shader_objects", "glUniform4fARB"}});
   glUniformMatrix4fv = extensions({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
   glCreateShaderObject = extensions({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});

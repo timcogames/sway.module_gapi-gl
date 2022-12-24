@@ -25,6 +25,7 @@ OGLShaderProgram::OGLShaderProgram()
 }
 
 OGLShaderProgram::~OGLShaderProgram() {
+  // glGetAttachedShaders
   std::for_each(shaders_.begin(), shaders_.end(), [this](auto pair) { detach(pair, false); });
   shaders_.clear();
 
@@ -33,6 +34,7 @@ OGLShaderProgram::~OGLShaderProgram() {
 }
 
 void OGLShaderProgram::attach(ShaderRef_t shader) {
+  // glIsShader
   shaders_.insert(std::make_pair(shader->getType(), shader));
   helper_.AttachShader(getUid(), shader->getUid());
 }
@@ -88,6 +90,13 @@ void OGLShaderProgram::use() {
         helper_.UniformMatrix4f(location, 1, false, (float *)&iter.second);
       }
     }
+
+    for (auto iter : uniform1iSet_) {
+      auto location = helper_.GetUniformLocation(getUid(), iter.first.c_str());
+      if (location != -1) {
+        helper_.Uniform1i(location, iter.second);
+      }
+    }
   }
 }
 
@@ -115,6 +124,8 @@ void OGLShaderProgram::setUniformCol4f(const std::string &uniform, const math::c
 void OGLShaderProgram::setUniformMat4f(const std::string &uniform, const math::mat4f_t &mat) {
   uniformMat4fSet_[uniform] = mat;
 }
+
+void OGLShaderProgram::setUniform1i(const std::string &uniform, s32_t val) { uniform1iSet_[uniform] = val; }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

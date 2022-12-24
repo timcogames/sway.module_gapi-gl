@@ -16,6 +16,7 @@ std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
 std::shared_ptr<gapi::Buffer> vtxBuffer = nullptr;
 std::shared_ptr<gapi::Buffer> idxBuffer = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
+std::shared_ptr<gapi::Texture> texture = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
 int main(int argc, char *argv[]) {
@@ -37,16 +38,21 @@ int main(int argc, char *argv[]) {
 
   gapi::ShaderCreateInfo vsoCreateInfo;
   vsoCreateInfo.type = gapi::ShaderType::VERT;
-  vsoCreateInfo.code = "attribute vec3 attrib_pos; \
-    void main() { \
-      gl_Position = vec4(attrib_pos, 1.0); \
-     }";
+  vsoCreateInfo.code = "attribute vec3 attrib_pos;"
+                       "attribute vec2 attrib_texcoord_0;"
+                       "varying vec2 io_texcoord;"
+                       "void main() {"
+                       "  gl_Position = vec4(attrib_pos, 1.0);"
+                       "  io_texcoord = attrib_texcoord_0;"
+                       "}";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
   fsoCreateInfo.type = gapi::ShaderType::FRAG;
-  fsoCreateInfo.code = "void main() { \
-      gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0); \
-    }";
+  fsoCreateInfo.code = "varying vec2 io_texcoord;"
+                       "uniform sampler2D ufrm_diffuse;"
+                       "void main() {"
+                       "  gl_FragColor = texture2D(ufrm_diffuse, io_texcoord);"
+                       "}";
 
   program = functions->createShaderProgram();
   program->attach(functions->createShader(vsoCreateInfo));
@@ -62,9 +68,13 @@ int main(int argc, char *argv[]) {
   gapi::BufferCreateInfo vboCreateInfo;
   vboCreateInfo.desc.target = gapi::BufferTarget::ARRAY;
   vboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
-  vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
+  vboCreateInfo.desc.byteStride = sizeof(math::VertexTexCoord);
   vboCreateInfo.desc.capacity = 3;
-  std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
+  std::array<f32_t, 9 /*pos*/ + 6 /*texcoord*/> vertices = {
+      +0.5, -0.5, 0.0, 0.0, 0.0,  // v1
+      -0.5, -0.5, 0.0, 1.0, 0.0,  // v2
+      +0.0, +0.5, 0.0, 0.5, 1.0  // v3
+  };
   vboCreateInfo.data = vertices.data();
 
   gapi::BufferCreateInfo iboCreateInfo;
@@ -82,13 +92,21 @@ int main(int argc, char *argv[]) {
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
+  vtxAttribLayout->addAttribute(
+      gapi::VertexAttribDescriptor::merge<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0, false, true));
+
+  texture = functions->createTexture();
 
   drawCall = functions->createDrawCall();
 
   while (canvas->eventLoop(true)) {
     canvas->getContext()->makeCurrent();
 
+    const int TEXTURE_UNIT_ZERO = 0;
+    program->setUniform1i("ufrm_diffuse", TEXTURE_UNIT_ZERO);
     program->use();
+
+    texture->bind();
 
     vtxBuffer->bind();
     vtxAttribLayout->enable();
@@ -101,6 +119,8 @@ int main(int argc, char *argv[]) {
 
     vtxAttribLayout->disable();
     vtxBuffer->unbind();
+
+    texture->unbind();
 
     program->unuse();
 

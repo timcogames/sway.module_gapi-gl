@@ -2,6 +2,7 @@
 #define SWAY_GAPI_GL_OGLTEXTURE_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -14,9 +15,16 @@ public:
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  OGLTexture();
+  OGLTexture(int width, int height);
 
   virtual ~OGLTexture() = default;
+
+  MTHD_OVERRIDE(void bind());
+
+  MTHD_OVERRIDE(void unbind());
+
+private:
+  OGLTextureHelper helper_;
 };
 
 NAMESPACE_END(gapi)

@@ -7,9 +7,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-OGLGenericShaderHelper::OGLGenericShaderHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts)
-    : extensions_(std::move(exts)) {
-
+OGLGenericShaderHelper::OGLGenericShaderHelper(
+    const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts)
+// : extensions_(std::move(exts))
+{
 #ifdef _STUB
   CreateShader_ = &OGLGenericShaderHelper::EMU_CreateShader;
   DeleteShader_ = &OGLGenericShaderHelper::EMU_DeleteShader;

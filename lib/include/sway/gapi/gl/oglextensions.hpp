@@ -19,6 +19,7 @@ public:
   static core::binding::TFunction<void(u32_t programObj)> glValidateProgram;
   static core::binding::TFunction<void(u32_t programObj)> glUseProgramObject;
   static core::binding::TFunction<s32_t(u32_t programObj, lpcstr_t name)> glGetUniformLocation;
+  static core::binding::TFunction<void(s32_t location, s32_t val)> glUniform1i;
   static core::binding::TFunction<void(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3)> glUniform4f;
   static core::binding::TFunction<void(s32_t location, s32_t count, bool transpose, const f32_t *value)>
       glUniformMatrix4fv;

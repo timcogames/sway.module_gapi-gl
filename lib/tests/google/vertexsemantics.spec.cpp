@@ -9,19 +9,19 @@
 using namespace sway;
 
 TEST(VertexSemantics, Stringize) {
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::Position), "attr_position");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::Color), "attr_color");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_0), "attr_texcoord_0");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_1), "attr_texcoord_1");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_2), "attr_texcoord_2");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_3), "attr_texcoord_3");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_4), "attr_texcoord_4");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_5), "attr_texcoord_5");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_6), "attr_texcoord_6");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::TexCoord_7), "attr_texcoord_7");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::Normal), "attr_normal");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::Tangent), "attr_tangent");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::Binormal), "attr_binormal");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::BlendWeights), "attr_blend_weights");
-  ASSERT_EQ(stringize(gapi::VertexSemantic_t::BlendIndices), "attr_blend_indices");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::POS), "attrib_pos");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::COL), "attrib_col");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_0), "attrib_texcoord_0");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_1), "attrib_texcoord_1");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_2), "attrib_texcoord_2");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_3), "attrib_texcoord_3");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_4), "attrib_texcoord_4");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_5), "attrib_texcoord_5");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_6), "attrib_texcoord_6");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_7), "attrib_texcoord_7");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::NORMAL), "attrib_normal");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::TANGENT), "attrib_tangent");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::BINORMAL), "attrib_binormal");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::BLEND_WEIGHTS), "attrib_blend_weights");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::BLEND_INDICES), "attrib_blend_indices");
 }

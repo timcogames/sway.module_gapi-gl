@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLGenericShaderHelper {
 public:
-  OGLGenericShaderHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts);
+  OGLGenericShaderHelper(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts);
 
   DECLARE_GENERIC_MEMBER(OGLGenericShaderHelper, CreateShader, u32_t, u32_t)
   auto EMU_CreateShader(u32_t type) -> u32_t;
@@ -37,9 +37,6 @@ public:
   auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
   auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
   auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-
-private:
-  std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions_;
 };
 
 NAMESPACE_END(gapi)

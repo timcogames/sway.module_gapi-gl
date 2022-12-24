@@ -1,5 +1,6 @@
 #include <sway/gapi/gl/oglcapability.hpp>
 #include <sway/gapi/gl/oglextensions.hpp>
+#include <sway/gapi/gl/wrap/ogltextureextension.hpp>
 
 #include <dlfcn.h>
 
@@ -73,6 +74,7 @@ void OGLCapability::initializeExtensions_() {
   };
 
   Extension::define(func);
+  OGLTextureExtension::define(func);
 }
 
 void OGLCapability::initLimits_() {

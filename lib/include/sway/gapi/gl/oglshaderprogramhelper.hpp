@@ -64,6 +64,11 @@ public:
   void STD_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
   void ARB_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
 
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, Uniform1i, void, s32_t, s32_t)
+  void EMU_Uniform1i(s32_t location, s32_t val);
+  void STD_Uniform1i(s32_t location, s32_t val);
+  void ARB_Uniform1i(s32_t location, s32_t val);
+
 private:
   std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions_;
 };

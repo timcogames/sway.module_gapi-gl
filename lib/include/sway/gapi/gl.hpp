@@ -6,6 +6,7 @@
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 #include <sway/gapi/gl/oglgenericshader.hpp>
 #include <sway/gapi/gl/oglshaderprogram.hpp>
+#include <sway/gapi/gl/ogltexture.hpp>
 #include <sway/gapi/gl/oglvertexattriblayout.hpp>
 #include <sway/gapi/gl/oglviewport.hpp>
 
