@@ -12,7 +12,7 @@ OGLTexture::OGLTexture(int width, int height) {
   std::vector<u8_t> image(width * height * 4);
   for (auto y = 0; y < height; y++) {
     for (auto x = 0; x < width; x++) {
-      auto col = ((((x & 0x8) == 0) ^ ((y & 0x8)) == 0)) * 255;
+      auto col = (((x & 0x8) == 0) ^ ((y & 0x8) == 0)) * 255;
       image[(y * width + x) * 4 + 0] = (GLubyte)col;
       image[(y * width + x) * 4 + 1] = (GLubyte)col;
       image[(y * width + x) * 4 + 2] = (GLubyte)col;
