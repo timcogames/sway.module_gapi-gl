@@ -9,15 +9,14 @@ auto OGLTexture::createInstance() -> TextureRef_t {
 }
 
 OGLTexture::OGLTexture(int width, int height) {
-  u8_t pixels[height][width][4];
-  int c;
-  for (auto i = 0; i < height; i++) {
-    for (auto j = 0; j < width; j++) {
-      c = ((((i & 0x8) == 0) ^ ((j & 0x8)) == 0)) * 255;
-      pixels[i][j][0] = (GLubyte)c;
-      pixels[i][j][1] = (GLubyte)c;
-      pixels[i][j][2] = (GLubyte)c;
-      pixels[i][j][3] = (GLubyte)255;
+  std::vector<u8_t> image(width * height * 4);
+  for (auto y = 0; y < height; y++) {
+    for (auto x = 0; x < width; x++) {
+      auto col = ((((x & 0x8) == 0) ^ ((y & 0x8)) == 0)) * 255;
+      image[(y * width + x) * 4 + 0] = (GLubyte)col;
+      image[(y * width + x) * 4 + 1] = (GLubyte)col;
+      image[(y * width + x) * 4 + 2] = (GLubyte)col;
+      image[(y * width + x) * 4 + 3] = 255;
     }
   }
 
@@ -26,7 +25,7 @@ OGLTexture::OGLTexture(int width, int height) {
   setUid(objname);
 
   glBindTexture(GL_TEXTURE_2D, getUid().value());
-  helper_.TextureImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void *)pixels);
+  helper_.TextureImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
