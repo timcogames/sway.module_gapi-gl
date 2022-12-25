@@ -1,16 +1,16 @@
-#ifndef SWAY_GAPI_GL_OGLGENERICBUFFERHELPER_HPP
-#define SWAY_GAPI_GL_OGLGENERICBUFFERHELPER_HPP
+#ifndef SWAY_GAPI_GL_WRAP_OGLGENERICBUFFERHELPER_HPP
+#define SWAY_GAPI_GL_WRAP_OGLGENERICBUFFERHELPER_HPP
 
 #include <sway/core/binding/procaddress.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
-#include <sway/gapi/gl/wrapset/genericmembermacros.hpp>
+#include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 class OGLGenericBufferHelper {
 public:
-  OGLGenericBufferHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts);
+  OGLGenericBufferHelper();
 
   DECLARE_GENERIC_MEMBER(OGLGenericBufferHelper, GenerateBuffers, void, u32_t, u32_t, u32_t *)
   void EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
@@ -37,21 +37,18 @@ public:
   void STD_BufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
   void ARB_BufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
 
-  DECLARE_GENERIC_MEMBER(OGLGenericBufferHelper, IsBuffer, u8_t, u32_t)
-  auto EMU_IsBuffer(u32_t buffer) -> u8_t;
-  auto STD_IsBuffer(u32_t buffer) -> u8_t;
-  auto ARB_IsBuffer(u32_t buffer) -> u8_t;
+  DECLARE_GENERIC_MEMBER(OGLGenericBufferHelper, isBuffer, u8_t, u32_t)
+  auto EMU_isBuffer(u32_t buffer) -> u8_t;
+  auto STD_isBuffer(u32_t buffer) -> u8_t;
+  auto ARB_isBuffer(u32_t buffer) -> u8_t;
 
   DECLARE_GENERIC_MEMBER(OGLGenericBufferHelper, GetBufferParam, void, u32_t, u32_t, s32_t *)
   void EMU_GetBufferParam(u32_t target, u32_t pname, s32_t *params);
   void STD_GetBufferParam(u32_t target, u32_t pname, s32_t *params);
   void ARB_GetBufferParam(u32_t target, u32_t pname, s32_t *params);
-
-private:
-  std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions_;
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_OGLGENERICBUFFERHELPER_HPP
+#endif  // SWAY_GAPI_GL_WRAP_OGLGENERICBUFFERHELPER_HPP

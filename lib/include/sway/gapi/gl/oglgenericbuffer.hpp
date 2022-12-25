@@ -2,8 +2,8 @@
 #define SWAY_GAPI_GL_OGLGENERICBUFFER_HPP
 
 #include <sway/gapi/gl/oglbufferidgenerator.hpp>
-#include <sway/gapi/gl/oglgenericbufferhelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

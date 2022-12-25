@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_GL_OGLEXCEPTIONS_HPP
-#define SWAY_GAPI_GL_OGLEXCEPTIONS_HPP
+#ifndef SWAY_GAPI_GL_OGLSHADEREXCEPTIONS_HPP
+#define SWAY_GAPI_GL_OGLSHADEREXCEPTIONS_HPP
 
-#include <sway/gapi/gl/oglextensions.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/wrap/oglinfohelper.hpp>
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
@@ -17,7 +17,7 @@ public:
    *        Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderException(u32_t objectId)
-      : core::runtime::Exception([objectId]() -> std::string {
+      : core::runtime::Exception([this, objectId]() -> std::string {
         std::string result;
         s32_t logLength;
 
@@ -30,10 +30,10 @@ public:
           result = std::string(logInfo.get());
         }
 #else
-        Extension::glGetObjectParameteriv(objectId, GL_OBJECT_INFO_LOG_LENGTH_ARB, &logLength);
+        helper_.ARB_getObjectParameter(objectId, GL_OBJECT_INFO_LOG_LENGTH_ARB, &logLength);
         if (logLength > 0) {
           auto logInfo = std::make_unique<GLchar[]>(logLength);
-          Extension::glGetInfoLog(objectId, logLength, NULL, logInfo.get());
+          helper_.ARB_getInfoLog(objectId, logLength, nullptr, logInfo.get());
 
           result = std::string(logInfo.get());
         }
@@ -43,6 +43,9 @@ public:
       }()) {
     // Empty
   }
+
+private:
+  OGLInfoHelper helper_;
 };
 
 class OGLShaderCompilationException : public OGLShaderException {
@@ -84,4 +87,4 @@ public:
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_OGLEXCEPTIONS_HPP
+#endif  // SWAY_GAPI_GL_OGLSHADEREXCEPTIONS_HPP

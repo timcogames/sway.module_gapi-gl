@@ -1,9 +1,8 @@
 #ifndef SWAY_GAPI_GL_OGLBUFFERIDGENERATOR_HPP
 #define SWAY_GAPI_GL_OGLBUFFERIDGENERATOR_HPP
 
-#include <sway/gapi/gl/oglextensions.hpp>
-#include <sway/gapi/gl/oglgenericbufferhelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
 #include <sway/gapi/idgenerator.hpp>
 
 #include <queue>

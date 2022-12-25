@@ -10,7 +10,7 @@ auto OGLBufferIdGenerator::createInstance() -> std::shared_ptr<IdGenerator> {
 }
 
 OGLBufferIdGenerator::OGLBufferIdGenerator()
-    : helper_(gapi::Extension::extensions)
+    : helper_()
     , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
 OGLBufferIdGenerator::~OGLBufferIdGenerator() {

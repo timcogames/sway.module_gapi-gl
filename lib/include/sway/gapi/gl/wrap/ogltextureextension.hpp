@@ -11,6 +11,7 @@ class OGLTextureExtension {
 public:
   static core::binding::TFunction<void(s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, const void *)>
       glTextureImage2DEXT;
+  static core::binding::TFunction<void(u32_t)> glActiveTextureARB;
 
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
 };

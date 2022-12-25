@@ -1,22 +1,19 @@
 #include <sway/gapi/gl/oglcapability.hpp>
-#include <sway/gapi/gl/oglextensions.hpp>
-#include <sway/gapi/gl/oglgenericshaderhelper.hpp>
+#include <sway/gapi/gl/wrap/oglgenericshaderextension.hpp>
+#include <sway/gapi/gl/wrap/oglgenericshaderhelper.hpp>
 
 #include <GLES2/gl2.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-OGLGenericShaderHelper::OGLGenericShaderHelper(
-    const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts)
-// : extensions_(std::move(exts))
-{
+OGLGenericShaderHelper::OGLGenericShaderHelper() {
 #ifdef _STUB
   CreateShader_ = &OGLGenericShaderHelper::EMU_CreateShader;
   DeleteShader_ = &OGLGenericShaderHelper::EMU_DeleteShader;
   ShaderSource_ = &OGLGenericShaderHelper::EMU_ShaderSource;
   CompileShader_ = &OGLGenericShaderHelper::EMU_CompileShader;
-  GetAttribLocation_ = &OGLGenericShaderHelper::EMU_GetAttribLocation;
+  getAttribLocation_ = &OGLGenericShaderHelper::EMU_getAttribLocation;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
@@ -34,9 +31,9 @@ OGLGenericShaderHelper::OGLGenericShaderHelper(
   }
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_vertex_shader")) {
-    GetAttribLocation_ = &OGLGenericShaderHelper::ARB_GetAttribLocation;
+    getAttribLocation_ = &OGLGenericShaderHelper::ARB_getAttribLocation;
   } else {
-    GetAttribLocation_ = &OGLGenericShaderHelper::STD_GetAttribLocation;
+    getAttribLocation_ = &OGLGenericShaderHelper::STD_getAttribLocation;
   }
 
 #endif
@@ -47,12 +44,7 @@ auto OGLGenericShaderHelper::EMU_CreateShader([[maybe_unused]] u32_t type) -> u3
 auto OGLGenericShaderHelper::STD_CreateShader(u32_t type) -> u32_t { return glCreateShader(type); }
 
 auto OGLGenericShaderHelper::ARB_CreateShader(u32_t type) -> u32_t {
-  // core::binding::TFunction<u32_t(u32_t)> callbackFunc =
-  //     extensions_({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});
-
-  // return callbackFunc(type);
-
-  return Extension::glCreateShaderObject(type);
+  return OGLGenericShaderExtension::glCreateShaderObjectARB(type);
 }
 
 void OGLGenericShaderHelper::EMU_DeleteShader([[maybe_unused]] std::optional<u32_t> obj) {}
@@ -60,12 +52,7 @@ void OGLGenericShaderHelper::EMU_DeleteShader([[maybe_unused]] std::optional<u32
 void OGLGenericShaderHelper::STD_DeleteShader(std::optional<u32_t> obj) { glDeleteShader(obj.value()); }
 
 void OGLGenericShaderHelper::ARB_DeleteShader(std::optional<u32_t> obj) {
-  // core::binding::TFunction<void(std::optional<u32_t>)> callbackFunc =
-  //     extensions_({{"GL_ARB_shader_objects", "glDeleteObjectARB"}});
-
-  // callbackFunc(obj.value());
-
-  Extension::glDeleteShaderObject(obj.value());
+  OGLGenericShaderExtension::glDeleteObjectARB(obj.value());
 }
 
 void OGLGenericShaderHelper::EMU_ShaderSource([[maybe_unused]] std::optional<u32_t> obj, [[maybe_unused]] s32_t count,
@@ -78,12 +65,7 @@ void OGLGenericShaderHelper::STD_ShaderSource(
 
 void OGLGenericShaderHelper::ARB_ShaderSource(
     std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length) {
-  // core::binding::TFunction<void(std::optional<u32_t>, s32_t, lpcstr_t *, const s32_t *)> callbackFunc =
-  //     extensions_({{"GL_ARB_shader_objects", "glShaderSourceARB"}});
-
-  // callbackFunc(obj.value(), count, string, length);
-
-  Extension::glShaderSource(obj.value(), count, string, length);
+  OGLGenericShaderExtension::glShaderSourceARB(obj.value(), count, string, length);
 }
 
 void OGLGenericShaderHelper::EMU_CompileShader(
@@ -95,31 +77,21 @@ void OGLGenericShaderHelper::STD_CompileShader(std::optional<u32_t> obj, s32_t *
 }
 
 void OGLGenericShaderHelper::ARB_CompileShader(std::optional<u32_t> obj, s32_t *status) {
-  // core::binding::TFunction<void(std::optional<u32_t>)> callbackFunc =
-  //     extensions_({{"GL_ARB_shader_objects", "glCompileShaderARB"}});
-
-  // callbackFunc(obj.value());
-
-  Extension::glCompileShader(obj.value());
-  Extension::glGetObjectParameteriv(obj.value(), GL_OBJECT_COMPILE_STATUS_ARB, status);
+  OGLGenericShaderExtension::glCompileShaderARB(obj.value());
+  OGLInfoHelper::ARB_getObjectParameter(obj.value(), GL_OBJECT_COMPILE_STATUS_ARB, status);
 }
 
-auto OGLGenericShaderHelper::EMU_GetAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
+auto OGLGenericShaderHelper::EMU_getAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
     -> s32_t {
   return 0;
 }
 
-auto OGLGenericShaderHelper::STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
+auto OGLGenericShaderHelper::STD_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
   return glGetAttribLocation(program, name);
 }
 
-auto OGLGenericShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
-  // core::binding::TFunction<u32_t(u32_t, lpcstr_t)> callbackFunc =
-  //     extensions_({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
-
-  // return callbackFunc(program, name);
-
-  return Extension::glGetAttribLocation(program, name);
+auto OGLGenericShaderHelper::ARB_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
+  return OGLGenericShaderExtension::glGetAttribLocationARB(program, name);
 }
 
 NAMESPACE_END(gapi)

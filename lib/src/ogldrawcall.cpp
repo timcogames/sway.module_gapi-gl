@@ -1,5 +1,4 @@
 #include <sway/gapi/gl/ogldrawcall.hpp>
-#include <sway/gapi/gl/oglextensions.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
@@ -54,9 +53,9 @@ void OGLDrawCall::draw_([[maybe_unused]] BufferRef_t ibo) {
 
 void OGLDrawCall::drawIndexed_(std::shared_ptr<Buffer> ibo) {
   ibo->bind();
-  if (Extension::glIsBuffer(ibo->getUid().value())) {
-    // OK
-  }
+  // if (OGLGenericBufferExtension::isBuffer(ibo->getUid().value())) {
+  //   // OK
+  // }
 
   glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, nullptr);
   ibo->unbind();

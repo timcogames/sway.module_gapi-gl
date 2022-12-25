@@ -1,18 +1,19 @@
-#ifndef SWAY_GAPI_GL_OGLSHADERPROGRAMHELPER_HPP
-#define SWAY_GAPI_GL_OGLSHADERPROGRAMHELPER_HPP
+#ifndef SWAY_GAPI_GL_WRAP_OGLSHADERPROGRAMHELPER_HPP
+#define SWAY_GAPI_GL_WRAP_OGLSHADERPROGRAMHELPER_HPP
 
 #include <sway/core/binding/procaddress.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
-#include <sway/gapi/gl/wrapset/genericmembermacros.hpp>
+#include <sway/gapi/gl/wrap/genericmembermacros.hpp>
+#include <sway/gapi/gl/wrap/oglinfohelper.hpp>
 
 #include <variant>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class OGLShaderProgramHelper {
+class OGLShaderProgramHelper : public OGLInfoHelper {
 public:
-  OGLShaderProgramHelper(std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> exts);
+  OGLShaderProgramHelper();
 
   DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, CreateProgram, u32_t, /* ... */)
   auto EMU_CreateProgram() -> u32_t;
@@ -20,9 +21,9 @@ public:
   auto ARB_CreateProgram() -> u32_t;
 
   DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, DeleteProgram, void, s32_t, const u32_t *)
-  void EMU_DeleteProgram(s32_t num, const u32_t *programs);
-  void STD_DeleteProgram(s32_t num, const u32_t *programs);
-  void ARB_DeleteProgram(s32_t num, const u32_t *programs);
+  void EMU_DeleteProgram(s32_t num, const u32_t *progIds);
+  void STD_DeleteProgram(s32_t num, const u32_t *progIds);
+  void ARB_DeleteProgram(s32_t num, const u32_t *progIds);
 
   DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, AttachShader, void, std::optional<u32_t>, std::optional<u32_t>)
   void EMU_AttachShader(std::optional<u32_t> progId, std::optional<u32_t> shaderId);
@@ -49,31 +50,28 @@ public:
   void STD_UseProgram(std::optional<u32_t> progId);
   void ARB_UseProgram(std::optional<u32_t> progId);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, GetUniformLocation, s32_t, std::optional<u32_t>, lpcstr_t)
-  auto EMU_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
-  auto STD_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
-  auto ARB_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, getUniformLocation, s32_t, std::optional<u32_t>, lpcstr_t)
+  auto EMU_getUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
+  auto STD_getUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
+  auto ARB_getUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t;
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, Uniform4f, void, s32_t, f32_t, f32_t, f32_t, f32_t)
-  void EMU_Uniform4f(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
-  void STD_Uniform4f(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
-  void ARB_Uniform4f(s32_t location, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, setUniform1i, void, s32_t, s32_t)
+  void EMU_setUniform1i(s32_t loc, s32_t val);
+  void STD_setUniform1i(s32_t loc, s32_t val);
+  void ARB_setUniform1i(s32_t loc, s32_t val);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, UniformMatrix4f, void, s32_t, s32_t, bool, const f32_t *)
-  void EMU_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
-  void STD_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
-  void ARB_UniformMatrix4f(s32_t location, s32_t count, bool transpose, const f32_t *value);
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, setUniform4f, void, s32_t, f32_t, f32_t, f32_t, f32_t)
+  void EMU_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
+  void STD_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
+  void ARB_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
 
-  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, Uniform1i, void, s32_t, s32_t)
-  void EMU_Uniform1i(s32_t location, s32_t val);
-  void STD_Uniform1i(s32_t location, s32_t val);
-  void ARB_Uniform1i(s32_t location, s32_t val);
-
-private:
-  std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> extensions_;
+  DECLARE_GENERIC_MEMBER(OGLShaderProgramHelper, setUniformMatrix4f, void, s32_t, s32_t, bool, const f32_t *)
+  void EMU_setUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val);
+  void STD_setUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val);
+  void ARB_setUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val);
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_OGLSHADERPROGRAMHELPER_HPP
+#endif  // SWAY_GAPI_GL_WRAP_OGLSHADERPROGRAMHELPER_HPP

@@ -2,6 +2,7 @@
 #define SWAY_GAPI_GL_OGLCAPABILITY_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/wrap/oglshaderprogramextension.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

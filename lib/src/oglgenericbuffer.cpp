@@ -1,4 +1,3 @@
-#include <sway/gapi/gl/oglextensions.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -91,7 +90,6 @@ using BufferObjectIdType = u32_t;
 
 OGLGenericBuffer::OGLGenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc)
     : Buffer(desc)
-    , helper_(gapi::Extension::extensions)
     , target_(desc.target)
     , usage_(desc.usage)
     , capacity_(desc.capacity)
@@ -113,7 +111,7 @@ auto OGLGenericBuffer::allocate(const void *data) -> bool {
 
 void OGLGenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
   auto target = OGLGenericBuffer::targetToGLenum(target_);
-  if (helper_.IsBuffer(getUid().value())) {
+  if (helper_.isBuffer(getUid().value())) {
     helper_.BindBuffer(target, getUid().value());
     helper_.BufferSubData(target, offset, size, source);
     helper_.BindBuffer(target, 0);

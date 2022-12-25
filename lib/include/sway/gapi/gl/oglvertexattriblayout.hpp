@@ -1,11 +1,10 @@
 #ifndef SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP
 #define SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP
 
-#include <sway/gapi/gl/oglgenericshaderhelper.hpp>
 #include <sway/gapi/gl/oglshaderprogram.hpp>
-#include <sway/gapi/gl/oglvertexattriblayouthelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
+#include <sway/gapi/gl/wrap/oglvertexattriblayouthelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

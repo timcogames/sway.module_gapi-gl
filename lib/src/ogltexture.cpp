@@ -35,7 +35,7 @@ OGLTexture::OGLTexture(int width, int height) {
 }
 
 void OGLTexture::bind() {
-  glActiveTexture(getUid().value());
+  helper_.setActiveTexture(getUid().value());
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, getUid().value());
 }

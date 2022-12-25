@@ -1,4 +1,3 @@
-#include <sway/gapi/gl/oglextensions.hpp>
 #include <sway/gapi/gl/oglvertexattriblayout.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -10,8 +9,7 @@ auto OGLVertexAttribLayout::createInstance(ShaderProgramRef_t program) -> Vertex
 }
 
 OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramRef_t program)
-    : helper_(gapi::Extension::extensions)
-    , program_(program)
+    : program_(program)
     , attribOffset_(0) {
   // Получаем максимальный номер для положения вершинного атрибута.
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxVertexAttribs_);

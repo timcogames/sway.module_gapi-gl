@@ -1,16 +1,17 @@
-#ifndef SWAY_GAPI_GL_OGLGENERICSHADERHELPER_HPP
-#define SWAY_GAPI_GL_OGLGENERICSHADERHELPER_HPP
+#ifndef SWAY_GAPI_GL_WRAP_OGLGENERICSHADERHELPER_HPP
+#define SWAY_GAPI_GL_WRAP_OGLGENERICSHADERHELPER_HPP
 
 #include <sway/core/binding/procaddress.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
-#include <sway/gapi/gl/wrapset/genericmembermacros.hpp>
+#include <sway/gapi/gl/wrap/genericmembermacros.hpp>
+#include <sway/gapi/gl/wrap/oglinfohelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class OGLGenericShaderHelper {
+class OGLGenericShaderHelper : public OGLInfoHelper {
 public:
-  OGLGenericShaderHelper(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts);
+  OGLGenericShaderHelper();
 
   DECLARE_GENERIC_MEMBER(OGLGenericShaderHelper, CreateShader, u32_t, u32_t)
   auto EMU_CreateShader(u32_t type) -> u32_t;
@@ -33,13 +34,13 @@ public:
   void STD_CompileShader(std::optional<u32_t> obj, s32_t *status);
   void ARB_CompileShader(std::optional<u32_t> obj, s32_t *status);
 
-  DECLARE_GENERIC_MEMBER(OGLGenericShaderHelper, GetAttribLocation, s32_t, u32_t, lpcstr_t)
-  auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  DECLARE_GENERIC_MEMBER(OGLGenericShaderHelper, getAttribLocation, s32_t, u32_t, lpcstr_t)
+  auto EMU_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto STD_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto ARB_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
 };
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
-#endif  // SWAY_GAPI_GL_OGLGENERICSHADERHELPER_HPP
+#endif  // SWAY_GAPI_GL_WRAP_OGLGENERICSHADERHELPER_HPP

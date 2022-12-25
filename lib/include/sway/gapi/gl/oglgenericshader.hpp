@@ -1,8 +1,8 @@
 #ifndef SWAY_GAPI_GL_OGLGENERICSHADER_HPP
 #define SWAY_GAPI_GL_OGLGENERICSHADER_HPP
 
-#include <sway/gapi/gl/oglgenericshaderhelper.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/wrap/oglgenericshaderhelper.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)

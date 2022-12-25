@@ -1,6 +1,5 @@
-#include <sway/gapi/gl/oglexceptions.hpp>
-#include <sway/gapi/gl/oglextensions.hpp>
 #include <sway/gapi/gl/oglgenericshader.hpp>
+#include <sway/gapi/gl/oglshaderexceptions.hpp>
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
@@ -44,7 +43,6 @@ auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Sha
 
 OGLGenericShader::OGLGenericShader(ShaderType type)
     : Shader(type)
-    , helper_(gapi::Extension::extensions)
     , type_(type)
     , compiled_(false) {
   auto objectId = helper_.CreateShader(OGLGenericShader::typeToGLenum(type_));
@@ -56,7 +54,7 @@ OGLGenericShader::OGLGenericShader(ShaderType type)
 OGLGenericShader::~OGLGenericShader() { helper_.DeleteShader(getUid()); }
 
 auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
-  return helper_.GetAttribLocation(progId.value(), name);
+  return helper_.getAttribLocation(progId.value(), name);
 }
 
 void OGLGenericShader::compile(lpcstr_t source) {
