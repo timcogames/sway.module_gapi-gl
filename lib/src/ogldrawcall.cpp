@@ -31,24 +31,24 @@ auto OGLDrawCall::createInstance() -> DrawCallRef_t {
 
 void OGLDrawCall::execute(TopologyType topology, BufferSet bufset, core::ValueDataType type) {
   if (bufset.ibo) {
-    _drawCbFunc = std::bind(&OGLDrawCall::drawIndexed_, this, std::placeholders::_1);
-    _drawElements.mode = OGLDrawCall::topologyToGLenum(topology);
-    _drawElements.count = bufset.ibo->getCapacity();
-    _drawElements.type = TypeUtils::toGL(type);
+    drawCbFunc_ = std::bind(&OGLDrawCall::drawIndexed_, this, std::placeholders::_1);
+    drawElements_.mode = OGLDrawCall::topologyToGLenum(topology);
+    drawElements_.count = bufset.ibo->getCapacity();
+    drawElements_.type = TypeUtils::toGL(type);
   } else {
-    _drawCbFunc = std::bind(&OGLDrawCall::draw_, this, std::placeholders::_1);
-    _drawArrays.mode = OGLDrawCall::topologyToGLenum(topology);
-    _drawArrays.first = 0;
-    _drawArrays.count = bufset.vbo->getCapacity();
+    drawCbFunc_ = std::bind(&OGLDrawCall::draw_, this, std::placeholders::_1);
+    drawArrays_.mode = OGLDrawCall::topologyToGLenum(topology);
+    drawArrays_.first = 0;
+    drawArrays_.count = bufset.vbo->getCapacity();
   }
 
-  if (_drawCbFunc) {
-    _drawCbFunc(bufset.ibo);
+  if (drawCbFunc_) {
+    drawCbFunc_(bufset.ibo);
   }
 }
 
 void OGLDrawCall::draw_([[maybe_unused]] BufferRef_t ibo) {
-  glDrawArrays(_drawArrays.mode, _drawArrays.first, _drawArrays.count);
+  glDrawArrays(drawArrays_.mode, drawArrays_.first, drawArrays_.count);
 }
 
 void OGLDrawCall::drawIndexed_(std::shared_ptr<Buffer> ibo) {
@@ -57,7 +57,7 @@ void OGLDrawCall::drawIndexed_(std::shared_ptr<Buffer> ibo) {
   //   // OK
   // }
 
-  glDrawElements(_drawElements.mode, _drawElements.count, _drawElements.type, nullptr);
+  glDrawElements(drawElements_.mode, drawElements_.count, drawElements_.type, nullptr);
   ibo->unbind();
 }
 

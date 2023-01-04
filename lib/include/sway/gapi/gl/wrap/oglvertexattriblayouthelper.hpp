@@ -12,17 +12,17 @@ class OGLVertexAttribLayoutHelper {
 public:
   OGLVertexAttribLayoutHelper();
 
-  DECLARE_GENERIC_MEMBER(OGLVertexAttribLayoutHelper, EnableArray, void, u32_t)
+  DECLARE_GENERIC_MEMBER(void, OGLVertexAttribLayoutHelper, EnableArray, u32_t)
   void EMU_EnableVertexAttribArray(u32_t index);
   void STD_EnableVertexAttribArray(u32_t index);
   void ARB_EnableVertexAttribArray(u32_t index);
 
-  DECLARE_GENERIC_MEMBER(OGLVertexAttribLayoutHelper, DisableArray, void, u32_t)
+  DECLARE_GENERIC_MEMBER(void, OGLVertexAttribLayoutHelper, DisableArray, u32_t)
   void EMU_DisableVertexAttribArray(u32_t index);
   void STD_DisableVertexAttribArray(u32_t index);
   void ARB_DisableVertexAttribArray(u32_t index);
 
-  DECLARE_GENERIC_MEMBER(OGLVertexAttribLayoutHelper, Setup, void, u32_t, s32_t, u32_t, u8_t, s32_t, const void *)
+  DECLARE_GENERIC_MEMBER(void, OGLVertexAttribLayoutHelper, Setup, u32_t, s32_t, u32_t, u8_t, s32_t, const void *)
   void EMU_SetupVertexAttribPointer(
       u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer);
   void STD_SetupVertexAttribPointer(

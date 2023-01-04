@@ -8,7 +8,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-#define DECLARE_GENERIC_MEMBER(classname, funcname, funcret, ...)    \
+#define DECLARE_GENERIC_MEMBER(funcret, classname, funcname, ...)    \
 private:                                                             \
   typedef funcret (classname::*funcname##CallbackFunc)(__VA_ARGS__); \
   funcname##CallbackFunc funcname##_;                                \
