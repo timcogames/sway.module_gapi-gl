@@ -10,8 +10,7 @@ auto OGLBufferIdGenerator::createInstance() -> std::shared_ptr<IdGenerator> {
 }
 
 OGLBufferIdGenerator::OGLBufferIdGenerator()
-    : helper_()
-    , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
+    : chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
 OGLBufferIdGenerator::~OGLBufferIdGenerator() {
   helper_.DeleteBuffers(used_.size(), used_.data());

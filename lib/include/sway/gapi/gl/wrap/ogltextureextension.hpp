@@ -9,9 +9,12 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLTextureExtension {
 public:
+  static core::binding::TFunction<void(s32_t, u32_t *)> glGenTexturesEXT;
+  static core::binding::TFunction<void(u32_t, u32_t)> glBindTextureEXT;
   static core::binding::TFunction<void(s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, const void *)>
       glTextureImage2DEXT;
   static core::binding::TFunction<void(u32_t)> glActiveTextureARB;
+  static core::binding::TFunction<void(u32_t, u32_t, const s32_t *)> glTexParameterIivEXT;
 
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
 };

@@ -11,13 +11,11 @@ class OGLTexture : public Texture {
 public:
   static auto createInstance() -> TextureRef_t;
 
-  /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
-   */
-  OGLTexture(int width, int height);
+  OGLTexture();
 
   virtual ~OGLTexture() = default;
+
+  MTHD_OVERRIDE(void create(void *data, int width, int height));
 
   MTHD_OVERRIDE(void bind());
 

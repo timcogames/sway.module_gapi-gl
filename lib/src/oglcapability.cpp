@@ -1,10 +1,11 @@
 #include <sway/gapi/gl/oglcapability.hpp>
+#include <sway/gapi/gl/wrap/oglbufferextension.hpp>
+#include <sway/gapi/gl/wrap/oglframebufferextension.hpp>
 #include <sway/gapi/gl/wrap/oglgenericshaderextension.hpp>
 #include <sway/gapi/gl/wrap/oglinfoextension.hpp>
 #include <sway/gapi/gl/wrap/oglshaderprogramextension.hpp>
 #include <sway/gapi/gl/wrap/ogltextureextension.hpp>
 #include <sway/gapi/gl/wrap/oglvertexattriblayoutextension.hpp>
-#include <sway/gapi/gl/wrap/openglbufferextension.hpp>
 
 #include <dlfcn.h>
 
@@ -80,9 +81,10 @@ void OGLCapability::initializeExtensions_() {
   OGLInfoExtension::define(func);
   OGLShaderProgramExtension::define(func);
   OGLGenericShaderExtension::define(func);
-  OpenGLBufferExtension::define(func);
+  OGLBufferExtension::define(func);
   OGLVertexAttribLayoutExtension::define(func);
   OGLTextureExtension::define(func);
+  OGLFramebufferExtension::define(func);
 }
 
 void OGLCapability::initLimits_() {

@@ -11,19 +11,34 @@ class OGLTextureHelper {
 public:
   OGLTextureHelper();
 
+  DECLARE_GENERIC_MEMBER(OGLTextureHelper, generateTextures, void, s32_t, u32_t *)
+  void EMU_GenerateTextures(s32_t num, u32_t *textures);
+  void STD_GenerateTextures(s32_t num, u32_t *textures);
+  void EXT_GenerateTextures(s32_t num, u32_t *textures);
+
+  DECLARE_GENERIC_MEMBER(OGLTextureHelper, bindTexture, void, u32_t, std::optional<u32_t>)
+  void EMU_BindTexture(u32_t target, std::optional<u32_t> texId);
+  void STD_BindTexture(u32_t target, std::optional<u32_t> texId);
+  void EXT_BindTexture(u32_t target, std::optional<u32_t> texId);
+
   DECLARE_GENERIC_MEMBER(
       OGLTextureHelper, TextureImage2D, void, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, s32_t, const void *)
-  auto EMU_TextureImage2D(s32_t target, s32_t level, s32_t internalFormat, s32_t width, s32_t height, s32_t border,
-      s32_t format, s32_t type, const void *pixels) -> void;
-  auto STD_TextureImage2D(s32_t target, s32_t level, s32_t internalFormat, s32_t width, s32_t height, s32_t border,
-      s32_t format, s32_t type, const void *pixels) -> void;
-  auto EXT_TextureImage2D(s32_t target, s32_t level, s32_t internalFormat, s32_t width, s32_t height, s32_t border,
-      s32_t format, s32_t type, const void *pixels) -> void;
+  void EMU_TextureImage2D(s32_t target, s32_t level, s32_t internalFormat, s32_t width, s32_t height, s32_t border,
+      s32_t format, s32_t type, const void *pixels);
+  void STD_TextureImage2D(s32_t target, s32_t level, s32_t internalFormat, s32_t width, s32_t height, s32_t border,
+      s32_t format, s32_t type, const void *pixels);
+  void EXT_TextureImage2D(s32_t target, s32_t level, s32_t internalFormat, s32_t width, s32_t height, s32_t border,
+      s32_t format, s32_t type, const void *pixels);
 
-  DECLARE_GENERIC_MEMBER(OGLTextureHelper, setActiveTexture, void, s32_t)
-  auto EMU_setActiveTexture(s32_t target) -> void;
-  auto STD_setActiveTexture(s32_t target) -> void;
-  auto ARB_setActiveTexture(s32_t target) -> void;
+  DECLARE_GENERIC_MEMBER(OGLTextureHelper, setActiveTexture, void, std::optional<u32_t>)
+  void EMU_setActiveTexture(std::optional<u32_t> texId);
+  void STD_setActiveTexture(std::optional<u32_t> texId);
+  void ARB_setActiveTexture(std::optional<u32_t> texId);
+
+  DECLARE_GENERIC_MEMBER(OGLTextureHelper, setTextureParamI, void, u32_t, u32_t, s32_t)
+  void EMU_setTextureParamI(u32_t target, u32_t pname, s32_t param);
+  void STD_setTextureParamI(u32_t target, u32_t pname, s32_t param);
+  void EXT_setTextureParamI(u32_t target, u32_t pname, s32_t param);
 };
 
 NAMESPACE_END(gapi)

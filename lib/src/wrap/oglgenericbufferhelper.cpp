@@ -1,6 +1,6 @@
 #include <sway/gapi/gl/oglcapability.hpp>
+#include <sway/gapi/gl/wrap/oglbufferextension.hpp>
 #include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
-#include <sway/gapi/gl/wrap/openglbufferextension.hpp>
 
 #define GL_GLEXT_PROTOTYPES 1
 #include <GLES2/gl2.h>
@@ -53,7 +53,7 @@ void OGLGenericBufferHelper::STD_GenerateBuffers([[maybe_unused]] u32_t latest, 
 }
 
 void OGLGenericBufferHelper::ARB_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *ids) {
-  OpenGLBufferExtension::glGenBuffersARB(num, ids);
+  OGLBufferExtension::glGenBuffersARB(num, ids);
 }
 
 void OGLGenericBufferHelper::EMU_DeleteBuffers([[maybe_unused]] u32_t num, [[maybe_unused]] u32_t *ids) {}
@@ -61,7 +61,7 @@ void OGLGenericBufferHelper::EMU_DeleteBuffers([[maybe_unused]] u32_t num, [[may
 void OGLGenericBufferHelper::STD_DeleteBuffers(u32_t num, u32_t *ids) { glDeleteBuffers(num, ids); }
 
 void OGLGenericBufferHelper::ARB_DeleteBuffers(u32_t num, u32_t *ids) {
-  OpenGLBufferExtension::glDeleteBuffersARB(num, ids);
+  OGLBufferExtension::glDeleteBuffersARB(num, ids);
 }
 
 void OGLGenericBufferHelper::EMU_BindBuffer([[maybe_unused]] u32_t target, [[maybe_unused]] u32_t buffer) {}
@@ -69,7 +69,7 @@ void OGLGenericBufferHelper::EMU_BindBuffer([[maybe_unused]] u32_t target, [[may
 void OGLGenericBufferHelper::STD_BindBuffer(u32_t target, u32_t buffer) { glBindBuffer(target, buffer); }
 
 void OGLGenericBufferHelper::ARB_BindBuffer(u32_t target, u32_t buffer) {
-  OpenGLBufferExtension::glBindBufferARB(target, buffer);
+  OGLBufferExtension::glBindBufferARB(target, buffer);
 }
 
 void OGLGenericBufferHelper::EMU_BufferData([[maybe_unused]] u32_t target, [[maybe_unused]] ptrdiff_t size,
@@ -80,7 +80,7 @@ void OGLGenericBufferHelper::STD_BufferData(u32_t target, ptrdiff_t size, const 
 }
 
 void OGLGenericBufferHelper::ARB_BufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage) {
-  OpenGLBufferExtension::glBufferDataARB(target, size, data, usage);
+  OGLBufferExtension::glBufferDataARB(target, size, data, usage);
 }
 
 void OGLGenericBufferHelper::EMU_BufferSubData([[maybe_unused]] u32_t target, [[maybe_unused]] ptrdiff_t offset,
@@ -91,14 +91,14 @@ void OGLGenericBufferHelper::STD_BufferSubData(u32_t target, ptrdiff_t offset, p
 }
 
 void OGLGenericBufferHelper::ARB_BufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data) {
-  OpenGLBufferExtension::glBufferSubDataARB(target, offset, size, data);
+  OGLBufferExtension::glBufferSubDataARB(target, offset, size, data);
 }
 
 auto OGLGenericBufferHelper::EMU_isBuffer([[maybe_unused]] u32_t target) -> u8_t { return true; }
 
 auto OGLGenericBufferHelper::STD_isBuffer(u32_t target) -> u8_t { return glIsBuffer(target); }
 
-auto OGLGenericBufferHelper::ARB_isBuffer(u32_t target) -> u8_t { return OpenGLBufferExtension::glIsBufferARB(target); }
+auto OGLGenericBufferHelper::ARB_isBuffer(u32_t target) -> u8_t { return OGLBufferExtension::glIsBufferARB(target); }
 
 void OGLGenericBufferHelper::EMU_GetBufferParam(
     [[maybe_unused]] u32_t target, [[maybe_unused]] u32_t pname, [[maybe_unused]] s32_t *params) {}
@@ -108,7 +108,7 @@ void OGLGenericBufferHelper::STD_GetBufferParam(u32_t target, u32_t pname, s32_t
 }
 
 void OGLGenericBufferHelper::ARB_GetBufferParam(u32_t target, u32_t pname, s32_t *params) {
-  return OpenGLBufferExtension::glGetBufferParameterivARB(target, pname, params);
+  return OGLBufferExtension::glGetBufferParameterivARB(target, pname, params);
 }
 
 NAMESPACE_END(gapi)

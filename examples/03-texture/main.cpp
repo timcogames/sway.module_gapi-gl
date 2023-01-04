@@ -95,7 +95,20 @@ int main(int argc, char *argv[]) {
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0, false, true));
 
+  auto size = math::size2i_t(64, 64);
+  std::vector<u8_t> image(size.getW() * size.getH() * 4);
+  for (auto y = 0; y < size.getH(); y++) {
+    for (auto x = 0; x < size.getW(); x++) {
+      auto col = (((x & 0x8) == 0) ^ ((y & 0x8) == 0)) * 255;
+      image[(y * size.getW() + x) * 4 + 0] = (u8_t)col;
+      image[(y * size.getW() + x) * 4 + 1] = (u8_t)col;
+      image[(y * size.getW() + x) * 4 + 2] = (u8_t)col;
+      image[(y * size.getW() + x) * 4 + 3] = 255;
+    }
+  }
+
   texture = functions->createTexture();
+  texture->create(image.data(), size.getW(), size.getH());
 
   drawCall = functions->createDrawCall();
 
