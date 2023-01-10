@@ -31,8 +31,8 @@ public:
 private:
   OGLFramebufferHelper helper_;
   s32_t maxColorAttachments_;
-  bool fboSupported_;
-  bool fboUsed_;
+  // bool fboSupported_;
+  // bool fboUsed_;
 };
 
 NAMESPACE_END(gapi)

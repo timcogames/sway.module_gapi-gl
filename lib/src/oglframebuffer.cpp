@@ -31,9 +31,7 @@ auto OGLFramebuffer::attachmentToGLenum(FramebufferAttachment attachment) -> u32
   }
 }
 
-OGLFramebuffer::OGLFramebuffer()
-    : fboSupported_(true)
-    , fboUsed_(true) {
+OGLFramebuffer::OGLFramebuffer() {
   glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxColorAttachments_);
 
   u32_t objname;
