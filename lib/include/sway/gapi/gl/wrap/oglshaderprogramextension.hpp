@@ -18,6 +18,7 @@ public:
   static core::binding::TFunction<void(u32_t)> glUseProgramObjectARB;
   static core::binding::TFunction<s32_t(u32_t, lpcstr_t)> glGetUniformLocationARB;
   static core::binding::TFunction<void(s32_t, s32_t)> glUniform1iARB;
+  static core::binding::TFunction<void(s32_t, f32_t)> glUniform1fARB;
   static core::binding::TFunction<void(s32_t, f32_t, f32_t, f32_t, f32_t)> glUniform4fARB;
   static core::binding::TFunction<void(s32_t, s32_t, bool, const f32_t *)> glUniformMatrix4fvARB;
 

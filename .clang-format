@@ -41,4 +41,5 @@ TypenameMacros:
   - MTHD_OVERRIDE
   - DECLARE_EVENT
   - TEST
+  - TEST_F
 AlwaysBreakTemplateDeclarations: true

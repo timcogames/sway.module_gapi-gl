@@ -78,13 +78,11 @@ void OGLTextureHelper::EXT_TextureImage2D(s32_t target, s32_t level, s32_t inter
   OGLTextureExtension::glTextureImage2DEXT(target, level, internalFormat, width, height, border, format, type, pixels);
 }
 
-void OGLTextureHelper::EMU_setActiveTexture([[maybe_unused]] std::optional<u32_t> texId) {}
+void OGLTextureHelper::EMU_setActiveTexture([[maybe_unused]] s32_t slot) {}
 
-void OGLTextureHelper::STD_setActiveTexture(std::optional<u32_t> texId) { glActiveTexture(texId.value()); }
+void OGLTextureHelper::STD_setActiveTexture(s32_t slot) { glActiveTexture(slot); }
 
-void OGLTextureHelper::ARB_setActiveTexture(std::optional<u32_t> texId) {
-  OGLTextureExtension::glActiveTextureARB(texId.value());
-}
+void OGLTextureHelper::ARB_setActiveTexture(s32_t slot) { OGLTextureExtension::glActiveTextureARB(slot); }
 
 void OGLTextureHelper::EMU_setTextureParamI(
     [[maybe_unused]] u32_t target, [[maybe_unused]] u32_t pname, [[maybe_unused]] s32_t param) {}

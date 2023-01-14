@@ -119,6 +119,7 @@ int main(int argc, char *argv[]) {
     program->setUniform1i("ufrm_diffuse", TEXTURE_UNIT_ZERO);
     program->use();
 
+    texture->setActive(0);
     texture->bind();
 
     vtxBuffer->bind();

@@ -96,6 +96,13 @@ void OGLShaderProgram::use() {
         helper_.setUniform1i(location, iter.second);
       }
     }
+
+    for (auto iter : uniform1fSet_) {
+      auto location = helper_.getUniformLocation(getUid(), iter.first.c_str());
+      if (location != -1) {
+        helper_.setUniform1f(location, iter.second);
+      }
+    }
   }
 }
 
@@ -125,6 +132,8 @@ void OGLShaderProgram::setUniformMat4f(const std::string &uniform, const math::m
 }
 
 void OGLShaderProgram::setUniform1i(const std::string &uniform, s32_t val) { uniform1iSet_[uniform] = val; }
+
+void OGLShaderProgram::setUniform1f(const std::string &uniform, f32_t val) { uniform1fSet_[uniform] = val; }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

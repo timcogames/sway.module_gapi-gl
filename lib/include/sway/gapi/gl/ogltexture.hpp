@@ -17,6 +17,8 @@ public:
 
   MTHD_OVERRIDE(void create(void *data, int width, int height));
 
+  MTHD_OVERRIDE(void setActive(s32_t slot));
+
   MTHD_OVERRIDE(void bind());
 
   MTHD_OVERRIDE(void unbind());
