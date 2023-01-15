@@ -88,7 +88,7 @@ int main() {
   vboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
   vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
   vboCreateInfo.desc.capacity = 3;
-  std::array<float, 9> vertices = {-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0};
+  std::array<f32_t, 9> vertices = {-0.5F, -0.5F, 0.0F, 0.5F, -0.5F, 0.0F, 0.0F, 0.5F, 0.0F};
   vboCreateInfo.data = vertices.data();
 
   idGenerator = functions->createIdGenerator();

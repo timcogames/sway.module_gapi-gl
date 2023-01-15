@@ -71,9 +71,9 @@ int main(int argc, char *argv[]) {
   vboCreateInfo.desc.byteStride = sizeof(math::VertexTexCoord);
   vboCreateInfo.desc.capacity = 3;
   std::array<f32_t, 9 /*pos*/ + 6 /*texcoord*/> vertices = {
-      +0.5, -0.5, 0.0, 0.0, 0.0,  // v1
-      -0.5, -0.5, 0.0, 1.0, 0.0,  // v2
-      +0.0, +0.5, 0.0, 0.5, 1.0  // v3
+      +0.5F, -0.5F, 0.0F, 0.0F, 0.0F,  // v1
+      -0.5F, -0.5F, 0.0F, 1.0F, 0.0F,  // v2
+      +0.0F, +0.5F, 0.0F, 0.5F, 1.0F  // v3
   };
   vboCreateInfo.data = vertices.data();
 
