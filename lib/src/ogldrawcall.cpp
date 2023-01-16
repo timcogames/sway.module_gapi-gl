@@ -5,7 +5,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-GLenum OGLDrawCall::topologyToGLenum(TopologyType topology) {
+auto OGLDrawCall::topologyToGLenum(TopologyType topology) -> GLenum {
   switch (topology) {
     case TopologyType::POINT_LIST:
       return GL_POINTS;

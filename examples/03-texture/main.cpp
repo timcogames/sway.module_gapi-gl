@@ -17,6 +17,7 @@ std::shared_ptr<gapi::Buffer> vtxBuffer = nullptr;
 std::shared_ptr<gapi::Buffer> idxBuffer = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
 std::shared_ptr<gapi::Texture> texture = nullptr;
+std::shared_ptr<gapi::TextureSampler> textureSampler = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
 int main(int argc, char *argv[]) {
@@ -109,6 +110,12 @@ int main(int argc, char *argv[]) {
 
   texture = functions->createTexture();
   texture->create(image.data(), size.getW(), size.getH());
+
+  textureSampler = functions->createTextureSampler();
+  texture->bind();
+  textureSampler->setWrapMode(gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
+  textureSampler->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
+  texture->unbind();
 
   drawCall = functions->createDrawCall();
 

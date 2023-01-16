@@ -24,6 +24,8 @@ DLLAPI_EXPORT void pluginInitialize(core::PluginFunctionSet *functions) {
       reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexAttribLayout::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createTexture =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLTexture::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createTextureSampler =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLTextureSampler::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createDrawCall =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLDrawCall::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createViewport =
