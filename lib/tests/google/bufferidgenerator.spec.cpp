@@ -9,7 +9,7 @@
 using namespace sway;
 
 TEST(BufferIdGenerator, newGuid) {
-  auto idGenerator = gapi::BufferIdGenerator::createInstance();
+  auto idGenerator = gapi::OGLBufferIdGenerator::createInstance();
   for (auto i = 0; i < 12; ++i) {
     idGenerator->newGuid();
   }

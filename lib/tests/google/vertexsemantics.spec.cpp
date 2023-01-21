@@ -21,7 +21,7 @@ TEST(VertexSemantics, Stringize) {
   ASSERT_EQ(stringize(gapi::VertexSemantic::TEXCOORD_7), "attrib_texcoord_7");
   ASSERT_EQ(stringize(gapi::VertexSemantic::NORMAL), "attrib_normal");
   ASSERT_EQ(stringize(gapi::VertexSemantic::TANGENT), "attrib_tangent");
-  ASSERT_EQ(stringize(gapi::VertexSemantic::BINORMAL), "attrib_binormal");
+  ASSERT_EQ(stringize(gapi::VertexSemantic::BINORM), "attrib_binorm");
   ASSERT_EQ(stringize(gapi::VertexSemantic::BLEND_WEIGHTS), "attrib_blend_weights");
   ASSERT_EQ(stringize(gapi::VertexSemantic::BLEND_INDICES), "attrib_blend_indices");
 }

@@ -41,7 +41,7 @@ auto OGLTextureSampler::createInstance() -> TextureSamplerRef_t {
 void OGLTextureSampler::setWrapMode(TextureWrap wrapS, TextureWrap wrapT, TextureWrap wrapR) {
   helper_.setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, OGLTextureSampler::wrapToGLenum(wrapS));
   helper_.setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, OGLTextureSampler::wrapToGLenum(wrapT));
-  // helper_.setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, OGLTextureSampler::wrapToGLenum(wrapR));
+  helper_.setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, OGLTextureSampler::wrapToGLenum(wrapR));
 }
 
 void OGLTextureSampler::setFilterMode(TextureFilter minFilter, TextureFilter magFilter) {
