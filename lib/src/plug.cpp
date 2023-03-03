@@ -4,12 +4,24 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-DLLAPI_EXPORT core::PluginInfo pluginGetInfo() {
+EXTERN_C_BEGIN
+
+#ifdef _EMSCRIPTEN
+EMSCRIPTEN_KEEPALIVE
+#else
+DLLAPI_EXPORT
+#endif
+core::PluginInfo pluginGetInfo() {
   core::PluginInfo info = {};
   return info;
 }
 
-DLLAPI_EXPORT void pluginInitialize(core::PluginFunctionSet *functions) {
+#ifdef _EMSCRIPTEN
+EMSCRIPTEN_KEEPALIVE
+#else
+DLLAPI_EXPORT
+#endif
+void pluginInitialize(core::PluginFunctionSet *functions) {
   static_cast<ConcreatePluginFunctionSet *>(functions)->createCapability =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLCapability::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShader =
@@ -31,6 +43,8 @@ DLLAPI_EXPORT void pluginInitialize(core::PluginFunctionSet *functions) {
   static_cast<ConcreatePluginFunctionSet *>(functions)->createViewport =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLViewport::createInstance);
 }
+
+EXTERN_C_END
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
