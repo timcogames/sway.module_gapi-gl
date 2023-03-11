@@ -21,7 +21,7 @@ public:
         std::string result;
         s32_t logLength;
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
         glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &logLength);
         if (logLength > 0) {
           auto logInfo = std::make_unique<GLchar[]>(logLength);

@@ -6,7 +6,7 @@ NAMESPACE_BEGIN(gapi)
 
 EXTERN_C_BEGIN
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 EMSCRIPTEN_KEEPALIVE
 #else
 DLLAPI_EXPORT
@@ -16,7 +16,7 @@ core::PluginInfo pluginGetInfo() {
   return info;
 }
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 EMSCRIPTEN_KEEPALIVE
 #else
 DLLAPI_EXPORT

@@ -14,16 +14,17 @@ set(META_GAPI_GL_VERSION ${META_GAPI_GL_VERSION_MAJOR}.${META_GAPI_GL_VERSION_MI
 
 # Опции сборки
 option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
+option(MODULE_GAPI_GL_MT "Enable multithreading" OFF)
 option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_USE_AS_STUB "Enable test builds" OFF)
-option(MODULE_USE_EMSCRIPTEN "Using emscripten compiler" OFF)
+option(GLOBAL_EMSCRIPTEN_PLATFORM "Using emscripten compiler" OFF)
 option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
 option(CUSTOM_GTEST_ROOT_DIR "GTest root directory" OFF)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND MODULE_USE_EMSCRIPTEN)
+if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOBAL_EMSCRIPTEN_PLATFORM)
   set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
   include(${CMAKE_TOOLCHAIN_FILE})
 endif ()
@@ -37,14 +38,13 @@ project(${META_GAPI_GL_PRJNAME} VERSION ${META_GAPI_GL_VERSION} LANGUAGES CXX)
 # Подмодули
 custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
 
-if (MODULE_USE_EMSCRIPTEN)
+if (GLOBAL_EMSCRIPTEN_PLATFORM)
   set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
   set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -Wall -std=c++17 -shared -dynamiclib")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--shared-memory,--no-check-features")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_EMSCRIPTEN")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-unicode-whitespace \
       -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM")
   
   # set(EMSCRIPTEN_THREADS -sUSE_PTHREADS=1 
   #                        -sPTHREAD_POOL_SIZE=8 
@@ -52,14 +52,19 @@ if (MODULE_USE_EMSCRIPTEN)
   #                        -sALLOW_BLOCKING_ON_MAIN_THREAD=1)
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sWASM=1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sSIDE_MODULE=1")
+  if (MODULE_GAPI_GL_SHARED_LIB)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sSIDE_MODULE=1")
+  endif ()
+  if (MODULE_GAPI_GL_MT)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--shared-memory,--no-check-features")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_PTHREADS=1 -sPTHREAD_POOL_SIZE=8")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sIMPORTED_MEMORY=1")
+  endif ()
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sMODULARIZE=1 -sEXPORT_NAME=\"pluginInitialize\"")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORT_ALL=1")
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORTED_FUNCTIONS=[\"pluginInitialize\"]")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sEXPORTED_FUNCTIONS=[\"_pluginInitialize\"]")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sFULL_ES3=1")
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sPROXY_TO_WORKER=1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_PTHREADS=1 -sPTHREAD_POOL_SIZE=1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sIMPORTED_MEMORY=1")
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sPROXY_TO_PTHREAD=1")
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sBUILD_AS_WORKER=1")
   # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_PTHREADS=1")
@@ -80,7 +85,7 @@ if (MODULE_USE_EMSCRIPTEN)
   # set(CMAKE_STRIP TRUE) 
 endif ()
 
-if (MODULE_GAPI_GL_SHARED_LIB AND NOT MODULE_USE_EMSCRIPTEN)
+if (MODULE_GAPI_GL_SHARED_LIB AND NOT GLOBAL_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "g++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable -Wno-unused-parameter -Wno-return-stack-address -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
@@ -108,7 +113,7 @@ message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
         gtest dir | ${CUSTOM_GTEST_ROOT_DIR}
 
              stub | ${MODULE_USE_AS_STUB}
-       emscripten | ${MODULE_USE_EMSCRIPTEN}
+       emscripten | ${GLOBAL_EMSCRIPTEN_PLATFORM}
          coverage | ${MODULE_GAPI_GL_ENABLE_COVERAGE}
             tests | ${MODULE_GAPI_GL_ENABLE_TESTS}
          examples | ${MODULE_GAPI_GL_ENABLE_EXAMPLES}
@@ -168,7 +173,7 @@ custom_enable_cxx17(${META_GAPI_GL_LIBNAME})
 target_link_libraries(${META_GAPI_GL_LIBNAME} libmodule_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
 # Добавляем построение примеров
-if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT MODULE_USE_EMSCRIPTEN)
+if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOBAL_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   custom_add_subdirectory("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
@@ -177,7 +182,7 @@ if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT MODULE_USE_EMSCRIPTEN)
   add_subdirectory(examples/03-texture)
 endif ()
 
-if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND MODULE_USE_EMSCRIPTEN)
+if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOBAL_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   add_subdirectory(examples/01-triangle-webgl)

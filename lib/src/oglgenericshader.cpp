@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 auto OGLGenericShader::typeToGLenum(ShaderType type) -> GLenum {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   switch (type) {
     case ShaderType::VERT:
       return GL_VERTEX_SHADER;

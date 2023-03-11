@@ -4,7 +4,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 auto OGLGenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   switch (target) {
     case BufferTarget::ARRAY:
       return GL_ARRAY_BUFFER;
@@ -26,7 +26,7 @@ auto OGLGenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
 }
 
 auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   switch (usage) {
     case BufferUsage::STATIC:
       return GL_STATIC_DRAW;
@@ -52,7 +52,7 @@ auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 }
 
 auto OGLGenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   switch (access) {
     case BufferAccess::Read:
       return GL_READ_ONLY;
