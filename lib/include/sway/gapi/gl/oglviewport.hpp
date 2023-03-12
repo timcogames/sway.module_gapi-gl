@@ -51,8 +51,11 @@ public:
   // clang-format off
   MTHD_OVERRIDE(auto aspect() const -> f32_t);  // clang-format on
 
+  MTHD_OVERRIDE(void clear());
+
 private:
-  // ViewportMode_t mode_;
+  ViewportMode mode_;
+  math::col4f_t clearColor_;
 };
 
 NAMESPACE_END(gapi)

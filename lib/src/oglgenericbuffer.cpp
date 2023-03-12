@@ -54,22 +54,22 @@ auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 auto OGLGenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
   switch (access) {
-    case BufferAccess::Read:
+    case BufferAccess::READ:
       return GL_READ_ONLY;
-    case BufferAccess::Write:
+    case BufferAccess::WRITE:
       return GL_WRITE_ONLY;
-    case BufferAccess::ReadWrite:
+    case BufferAccess::READ_WRITE:
       return GL_READ_WRITE;
     default:
       return 0;
   }
 #else
   switch (access) {
-    case BufferAccess::Read:
+    case BufferAccess::READ:
       return GL_READ_ONLY_ARB;
-    case BufferAccess::Write:
+    case BufferAccess::WRITE:
       return GL_WRITE_ONLY_ARB;
-    case BufferAccess::ReadWrite:
+    case BufferAccess::READ_WRITE:
       return GL_READ_WRITE_ARB;
     default:
       return 0;
