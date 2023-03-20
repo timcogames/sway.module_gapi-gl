@@ -10,10 +10,7 @@ NAMESPACE_BEGIN(gapi)
 class OGLStateExtension {
 public:
   static core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t)> glBlendFuncSeparateEXT;
-  static core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t, u32_t)> glBlendFuncSeparateiARB;
-
   static core::binding::TFunction<void(u32_t, u32_t)> glBlendEquationSeparateEXT;
-  static core::binding::TFunction<void(u32_t, u32_t, u32_t)> glBlendEquationSeparateiARB;
 
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
 };
