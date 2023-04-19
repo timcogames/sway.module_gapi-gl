@@ -14,6 +14,7 @@ core::binding::TFunction<s32_t(u32_t, lpcstr_t)> OGLShaderProgramExtension::glGe
 core::binding::TFunction<void(s32_t, s32_t)> OGLShaderProgramExtension::glUniform1iARB = nullptr;
 core::binding::TFunction<void(s32_t, f32_t)> OGLShaderProgramExtension::glUniform1fARB = nullptr;
 core::binding::TFunction<void(s32_t, f32_t, f32_t, f32_t, f32_t)> OGLShaderProgramExtension::glUniform4fARB = nullptr;
+core::binding::TFunction<void(s32_t, s32_t, f32_t *)> OGLShaderProgramExtension::glUniform4fvARB = nullptr;
 core::binding::TFunction<void(s32_t, s32_t, bool, const f32_t *)> OGLShaderProgramExtension::glUniformMatrix4fvARB =
     nullptr;
 
@@ -30,6 +31,7 @@ void OGLShaderProgramExtension::define(
   glUniform1iARB = extensions({{"GL_ARB_shader_objects", "glUniform1iARB"}});
   glUniform1fARB = extensions({{"GL_ARB_shader_objects", "glUniform1fARB"}});
   glUniform4fARB = extensions({{"GL_ARB_shader_objects", "glUniform4fARB"}});
+  glUniform4fvARB = extensions({{"GL_ARB_shader_objects", "glUniform4fvARB"}});
   glUniformMatrix4fvARB = extensions({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
 }
 

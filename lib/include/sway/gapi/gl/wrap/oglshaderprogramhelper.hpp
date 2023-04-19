@@ -65,10 +65,15 @@ public:
   void STD_setUniform1f(s32_t loc, f32_t val);
   void ARB_setUniform1f(s32_t loc, f32_t val);
 
-  DECLARE_GENERIC_MEMBER(void, OGLShaderProgramHelper, setUniform4f, s32_t, f32_t, f32_t, f32_t, f32_t)
-  void EMU_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
-  void STD_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
-  void ARB_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3);
+  DECLARE_GENERIC_MEMBER(void, OGLShaderProgramHelper, setUniformVec4f, s32_t, math::vec4f_t)
+  void EMU_setUniformVec4f(s32_t loc, math::vec4f_t vec);
+  void STD_setUniformVec4f(s32_t loc, math::vec4f_t vec);
+  void ARB_setUniformVec4f(s32_t loc, math::vec4f_t vec);
+
+  DECLARE_GENERIC_MEMBER(void, OGLShaderProgramHelper, setUniformArr4f, s32_t, s32_t, f32_t *)
+  void EMU_setUniformArr4f(s32_t loc, s32_t count, f32_t *val);
+  void STD_setUniformArr4f(s32_t loc, s32_t count, f32_t *val);
+  void ARB_setUniformArr4f(s32_t loc, s32_t count, f32_t *val);
 
   DECLARE_GENERIC_MEMBER(void, OGLShaderProgramHelper, setUniformMatrix4f, s32_t, s32_t, bool, const f32_t *)
   void EMU_setUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val);

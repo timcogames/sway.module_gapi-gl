@@ -46,18 +46,26 @@ public:
    *
    * @param[in] offset Начало изменяемого блока данных.
    * @param[in] size Размер изменяемого блока данных.
-   * @param[in] source Область памяти, содержащая новые значения.
+   * @param[in] src Область памяти, содержащая новые значения.
    * @sa updateSubdata(const void *)
    */
-  MTHD_OVERRIDE(void updateSubdata(u32_t offset, u32_t size, const void *source));
+  MTHD_OVERRIDE(void updateSubdata(u32_t offset, u32_t size, const void *src));
 
   /**
    * @brief Изменяет данные в уже существующем буфере.
    *
-   * @param[in] source Область памяти, содержащая новые значения.
+   * @param[in] src Область памяти, содержащая новые значения.
    * @sa updateSubdata(u32_t, u32_t, const void *)
    */
-  MTHD_OVERRIDE(void updateSubdata(const void *source));
+  MTHD_OVERRIDE(void updateSubdata(const void *src));
+
+  // clang-format off
+  MTHD_OVERRIDE(auto map() -> void *);  // clang-format on
+
+  // clang-format off
+  MTHD_OVERRIDE(auto mapRange(s32_t offset, s32_t length, u32_t flags) -> void *);  // clang-format on
+
+  MTHD_OVERRIDE(void unmap());
 
   /**
    * @brief Делает буфер текущим.

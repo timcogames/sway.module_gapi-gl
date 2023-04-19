@@ -20,6 +20,7 @@ public:
   static core::binding::TFunction<void(s32_t, s32_t)> glUniform1iARB;
   static core::binding::TFunction<void(s32_t, f32_t)> glUniform1fARB;
   static core::binding::TFunction<void(s32_t, f32_t, f32_t, f32_t, f32_t)> glUniform4fARB;
+  static core::binding::TFunction<void(s32_t, s32_t, f32_t *)> glUniform4fvARB;
   static core::binding::TFunction<void(s32_t, s32_t, bool, const f32_t *)> glUniformMatrix4fvARB;
 
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);

@@ -79,7 +79,7 @@ void OGLShaderProgram::use() {
     for (auto iter : uniformVec4fSet_) {
       auto location = helper_.getUniformLocation(getUid(), iter.first.c_str());
       if (location != -1) {
-        helper_.setUniform4f(location, iter.second.getX(), iter.second.getY(), iter.second.getZ(), iter.second.getW());
+        helper_.STD_setUniformVec4f(location, iter.second);
       }
     }
 

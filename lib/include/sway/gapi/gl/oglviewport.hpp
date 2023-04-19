@@ -2,6 +2,7 @@
 #define SWAY_GAPI_GL_OGLVIEWPORT_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/viewportmodes.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -52,6 +53,8 @@ public:
   MTHD_OVERRIDE(auto aspect() const -> f32_t);  // clang-format on
 
   MTHD_OVERRIDE(void clear());
+
+  auto getMode() const -> ViewportMode { return mode_; }
 
 private:
   ViewportMode mode_;

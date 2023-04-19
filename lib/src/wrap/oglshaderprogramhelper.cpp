@@ -17,7 +17,8 @@ OGLShaderProgramHelper::OGLShaderProgramHelper() {
   ValidateProgram_ = &OGLShaderProgramHelper::EMU_ValidateProgram;
   UseProgram_ = &OGLShaderProgramHelper::EMU_UseProgram;
   getUniformLocation_ = &OGLShaderProgramHelper::EMU_getUniformLocation;
-  setUniform4f_ = &OGLShaderProgramHelper::EMU_setUniform4f;
+  setUniformVec4f_ = &OGLShaderProgramHelper::EMU_setUniformVec4f;
+  setUniformArr4f_ = &OGLShaderProgramHelper::EMU_setUniformArr4f;
   setUniformMatrix4f_ = &OGLShaderProgramHelper::EMU_setUniformMatrix4f;
   setUniform1i_ = &OGLShaderProgramHelper::EMU_setUniform1i;
   setUniform1f_ = &OGLShaderProgramHelper::EMU_setUniform1f;
@@ -33,7 +34,8 @@ OGLShaderProgramHelper::OGLShaderProgramHelper() {
     ValidateProgram_ = &OGLShaderProgramHelper::ARB_ValidateProgram;
     UseProgram_ = &OGLShaderProgramHelper::ARB_UseProgram;
     getUniformLocation_ = &OGLShaderProgramHelper::ARB_getUniformLocation;
-    setUniform4f_ = &OGLShaderProgramHelper::ARB_setUniform4f;
+    setUniformVec4f_ = &OGLShaderProgramHelper::ARB_setUniformVec4f;
+    setUniformArr4f_ = &OGLShaderProgramHelper::ARB_setUniformArr4f;
     setUniformMatrix4f_ = &OGLShaderProgramHelper::ARB_setUniformMatrix4f;
     setUniform1i_ = &OGLShaderProgramHelper::ARB_setUniform1i;
     setUniform1f_ = &OGLShaderProgramHelper::ARB_setUniform1f;
@@ -46,7 +48,8 @@ OGLShaderProgramHelper::OGLShaderProgramHelper() {
     ValidateProgram_ = &OGLShaderProgramHelper::STD_ValidateProgram;
     UseProgram_ = &OGLShaderProgramHelper::STD_UseProgram;
     getUniformLocation_ = &OGLShaderProgramHelper::STD_getUniformLocation;
-    setUniform4f_ = &OGLShaderProgramHelper::STD_setUniform4f;
+    setUniformVec4f_ = &OGLShaderProgramHelper::STD_setUniformVec4f;
+    setUniformArr4f_ = &OGLShaderProgramHelper::STD_setUniformArr4f;
     setUniformMatrix4f_ = &OGLShaderProgramHelper::STD_setUniformMatrix4f;
     setUniform1i_ = &OGLShaderProgramHelper::STD_setUniform1i;
     setUniform1f_ = &OGLShaderProgramHelper::STD_setUniform1f;
@@ -157,15 +160,23 @@ void OGLShaderProgramHelper::ARB_setUniform1f(s32_t loc, f32_t val) {
   OGLShaderProgramExtension::glUniform1fARB(loc, val);
 }
 
-void OGLShaderProgramHelper::EMU_setUniform4f([[maybe_unused]] s32_t loc, [[maybe_unused]] f32_t v0,
-    [[maybe_unused]] f32_t v1, [[maybe_unused]] f32_t v2, [[maybe_unused]] f32_t v3) {}
+void OGLShaderProgramHelper::EMU_setUniformVec4f([[maybe_unused]] s32_t loc, [[maybe_unused]] math::vec4f_t vec) {}
 
-void OGLShaderProgramHelper::STD_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3) {
-  glUniform4f(loc, v0, v1, v2, v3);
+void OGLShaderProgramHelper::STD_setUniformVec4f(s32_t loc, math::vec4f_t vec) {
+  glUniform4f(loc, vec.getX(), vec.getY(), vec.getZ(), vec.getW());
 }
 
-void OGLShaderProgramHelper::ARB_setUniform4f(s32_t loc, f32_t v0, f32_t v1, f32_t v2, f32_t v3) {
-  OGLShaderProgramExtension::glUniform4fARB(loc, v0, v1, v2, v3);
+void OGLShaderProgramHelper::ARB_setUniformVec4f(s32_t loc, math::vec4f_t vec) {
+  OGLShaderProgramExtension::glUniform4fARB(loc, vec.getX(), vec.getY(), vec.getZ(), vec.getW());
+}
+
+void OGLShaderProgramHelper::EMU_setUniformArr4f(
+    [[maybe_unused]] s32_t loc, [[maybe_unused]] s32_t count, [[maybe_unused]] f32_t *val) {}
+
+void OGLShaderProgramHelper::STD_setUniformArr4f(s32_t loc, s32_t count, f32_t *val) { glUniform4fv(loc, count, val); }
+
+void OGLShaderProgramHelper::ARB_setUniformArr4f(s32_t loc, s32_t count, f32_t *val) {
+  OGLShaderProgramExtension::glUniform4fvARB(loc, count, val);
 }
 
 void OGLShaderProgramHelper::EMU_setUniformMatrix4f([[maybe_unused]] s32_t loc, [[maybe_unused]] s32_t count,

@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
   vsoCreateInfo.code = "attribute vec3 attrib_pos; \
     void main() { \
       gl_Position = vec4(attrib_pos, 1.0); \
-     }";
+    }";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
   fsoCreateInfo.type = gapi::ShaderType::FRAG;

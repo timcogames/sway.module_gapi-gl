@@ -102,27 +102,50 @@ auto OGLGenericBuffer::allocate(const void *data) -> bool {
   auto dataSize = capacity_ * byteStride_;
   auto allocedSize = 0;
 
-  helper_.BindBuffer(target, getUid().value());
-  helper_.BufferData(target, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
-  helper_.GetBufferParam(target, GL_BUFFER_SIZE_ARB, &allocedSize);
+  this->bind();
+  helper_.bufferData(target, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
+  helper_.getBufferParam(target, GL_BUFFER_SIZE_ARB, &allocedSize);
 
   return allocedSize == dataSize;
 }
 
-void OGLGenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *source) {
-  auto target = OGLGenericBuffer::targetToGLenum(target_);
-  if (helper_.isBuffer(getUid().value())) {
-    helper_.BindBuffer(target, getUid().value());
-    helper_.BufferSubData(target, offset, size, source);
-    helper_.BindBuffer(target, 0);
+void OGLGenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *src) {
+  if (!helper_.isBuffer(getUid().value())) {
+    return;
   }
+
+  this->bind();
+  helper_.bufferSubData(OGLGenericBuffer::targetToGLenum(target_), offset, size, src);
+  this->unbind();
 }
 
-void OGLGenericBuffer::updateSubdata(const void *source) { updateSubdata(0, capacity_ * byteStride_, source); }
+void OGLGenericBuffer::updateSubdata(const void *src) { updateSubdata(0, capacity_ * byteStride_, src); }
 
-void OGLGenericBuffer::bind() { helper_.BindBuffer(OGLGenericBuffer::targetToGLenum(target_), getUid().value()); }
+auto OGLGenericBuffer::map() -> void * {
+  if (!helper_.isBuffer(getUid().value())) {
+    return nullptr;
+  }
 
-void OGLGenericBuffer::unbind() { helper_.BindBuffer(OGLGenericBuffer::targetToGLenum(target_), 0); }
+  this->bind();
+  // clang-format off
+  void *data = helper_.mapBuffer(OGLGenericBuffer::targetToGLenum(target_),
+      OGLGenericBuffer::accessToGLenum(BufferAccess::WRITE));  // clang-format on
+  this->unbind();
+
+  return data;
+}
+
+auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, u32_t flags) -> void * {}
+
+void OGLGenericBuffer::unmap() {
+  this->bind();
+  helper_.unmapBuffer(OGLGenericBuffer::targetToGLenum(target_));
+  this->unbind();
+}
+
+void OGLGenericBuffer::bind() { helper_.bindBuffer(OGLGenericBuffer::targetToGLenum(target_), getUid().value()); }
+
+void OGLGenericBuffer::unbind() { helper_.bindBuffer(OGLGenericBuffer::targetToGLenum(target_), 0); }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
