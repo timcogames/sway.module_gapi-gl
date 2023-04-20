@@ -142,7 +142,7 @@ auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, BufferAccess flags) 
 
   this->bind();
   // clang-format off
-  void *data = helper_.mapRange(offset, length, OGLGenericBuffer::targetToGLenum(target_),
+  void *data = helper_.mapBufferRange(offset, length, OGLGenericBuffer::targetToGLenum(target_),
       OGLGenericBuffer::accessToGLenum(flags));  // clang-format on
   this->unbind();
 
