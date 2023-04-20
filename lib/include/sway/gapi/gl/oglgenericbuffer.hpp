@@ -63,7 +63,7 @@ public:
   MTHD_OVERRIDE(auto map() -> void *);  // clang-format on
 
   // clang-format off
-  MTHD_OVERRIDE(auto mapRange(s32_t offset, s32_t length, u32_t flags) -> void *);  // clang-format on
+  MTHD_OVERRIDE(auto mapRange(s32_t offset, s32_t length, BufferAccess flags) -> void *);  // clang-format on
 
   MTHD_OVERRIDE(void unmap());
 

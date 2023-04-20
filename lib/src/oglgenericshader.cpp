@@ -57,9 +57,9 @@ auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t n
   return helper_.getAttribLocation(progId.value(), name);
 }
 
-void OGLGenericShader::compile(lpcstr_t source) {
+void OGLGenericShader::compile(lpcstr_t src) {
   int status;  // Состояние шагов компилирования.
-  helper_.ShaderSource(getUid(), 1, &source, nullptr);
+  helper_.ShaderSource(getUid(), 1, &src, nullptr);
   helper_.CompileShader(getUid(), &status);
   compiled_ = (status == GL_TRUE);
   if (!compiled_) {

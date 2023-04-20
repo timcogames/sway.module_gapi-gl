@@ -135,7 +135,19 @@ auto OGLGenericBuffer::map() -> void * {
   return data;
 }
 
-auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, u32_t flags) -> void * {}
+auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, BufferAccess flags) -> void * {
+  if (!helper_.isBuffer(getUid().value())) {
+    return nullptr;
+  }
+
+  this->bind();
+  // clang-format off
+  void *data = helper_.mapRange(offset, length, OGLGenericBuffer::targetToGLenum(target_),
+      OGLGenericBuffer::accessToGLenum(flags));  // clang-format on
+  this->unbind();
+
+  return data;
+}
 
 void OGLGenericBuffer::unmap() {
   this->bind();

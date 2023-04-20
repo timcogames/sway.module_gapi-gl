@@ -56,9 +56,9 @@ public:
   /**
    * @brief Выполняет компиляцию шейдерного объекта.
    *
-   * @param[in] source Исходный код шейдера.
+   * @param[in] src Исходный код шейдера.
    */
-  MTHD_OVERRIDE(void compile(lpcstr_t source));
+  MTHD_OVERRIDE(void compile(lpcstr_t src));
 
   /**
    * @brief Возвращает статус компиляции.
