@@ -5,6 +5,7 @@
 #include <sway/gapi/gl/wrap/oglinfoextension.hpp>
 #include <sway/gapi/gl/wrap/oglshaderprogramextension.hpp>
 #include <sway/gapi/gl/wrap/ogltextureextension.hpp>
+#include <sway/gapi/gl/wrap/oglvertexarrayextension.hpp>
 #include <sway/gapi/gl/wrap/oglvertexattriblayoutextension.hpp>
 
 #include <dlfcn.h>
@@ -82,6 +83,7 @@ void OGLCapability::initializeExtensions_() {
   OGLShaderProgramExtension::define(func);
   OGLGenericShaderExtension::define(func);
   OGLBufferExtension::define(func);
+  OGLVertexArrayExtension::define(func);
   OGLVertexAttribLayoutExtension::define(func);
   OGLTextureExtension::define(func);
   OGLFramebufferExtension::define(func);
