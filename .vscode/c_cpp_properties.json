@@ -4,6 +4,8 @@
       "name": "Mac",
       "includePath": [
         "/opt/X11/include",
+        "/Users/apriori85/Documents/Third-party/googletest/googletest/include",
+        "/Users/apriori85/Documents/Third-party/googletest/googlemock/include",
         "/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten/cache/sysroot/include",
         "${workspaceFolder}/lib/include",
         "${workspaceFolder}/submodules/sway.module_core/lib/include",

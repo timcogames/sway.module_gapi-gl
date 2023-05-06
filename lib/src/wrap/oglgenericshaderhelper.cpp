@@ -9,25 +9,25 @@ NAMESPACE_BEGIN(gapi)
 
 OGLGenericShaderHelper::OGLGenericShaderHelper() {
 #ifdef _STUB
-  CreateShader_ = &OGLGenericShaderHelper::EMU_CreateShader;
-  DeleteShader_ = &OGLGenericShaderHelper::EMU_DeleteShader;
-  ShaderSource_ = &OGLGenericShaderHelper::EMU_ShaderSource;
-  CompileShader_ = &OGLGenericShaderHelper::EMU_CompileShader;
+  createShader_ = &OGLGenericShaderHelper::EMU_CreateShader;
+  deleteShader_ = &OGLGenericShaderHelper::EMU_DeleteShader;
+  shaderSource_ = &OGLGenericShaderHelper::EMU_ShaderSource;
+  compileShader_ = &OGLGenericShaderHelper::EMU_CompileShader;
   getAttribLocation_ = &OGLGenericShaderHelper::EMU_getAttribLocation;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_shader_objects")) {
-    CreateShader_ = &OGLGenericShaderHelper::ARB_CreateShader;
-    DeleteShader_ = &OGLGenericShaderHelper::ARB_DeleteShader;
-    ShaderSource_ = &OGLGenericShaderHelper::ARB_ShaderSource;
-    CompileShader_ = &OGLGenericShaderHelper::ARB_CompileShader;
+    createShader_ = &OGLGenericShaderHelper::ARB_CreateShader;
+    deleteShader_ = &OGLGenericShaderHelper::ARB_DeleteShader;
+    shaderSource_ = &OGLGenericShaderHelper::ARB_ShaderSource;
+    compileShader_ = &OGLGenericShaderHelper::ARB_CompileShader;
   } else {
-    CreateShader_ = &OGLGenericShaderHelper::STD_CreateShader;
-    DeleteShader_ = &OGLGenericShaderHelper::STD_DeleteShader;
-    ShaderSource_ = &OGLGenericShaderHelper::STD_ShaderSource;
-    CompileShader_ = &OGLGenericShaderHelper::STD_CompileShader;
+    createShader_ = &OGLGenericShaderHelper::STD_CreateShader;
+    deleteShader_ = &OGLGenericShaderHelper::STD_DeleteShader;
+    shaderSource_ = &OGLGenericShaderHelper::STD_ShaderSource;
+    compileShader_ = &OGLGenericShaderHelper::STD_CompileShader;
   }
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_vertex_shader")) {

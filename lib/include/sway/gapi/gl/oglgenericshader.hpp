@@ -28,6 +28,8 @@ public:
    */
   OGLGenericShader(ShaderType type);
 
+  OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType type);
+
   /**
    * @brief Деструктор класса.
    *        Освобождает захваченные ресурсы.
@@ -71,7 +73,7 @@ public:
   }
 
 private:
-  OGLGenericShaderHelper helper_;
+  OGLGenericShaderHelperIface *helper_;
   ShaderType type_;  // Тип шейдера.
   bool compiled_;
 };

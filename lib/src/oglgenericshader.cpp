@@ -43,24 +43,39 @@ auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Sha
 
 OGLGenericShader::OGLGenericShader(ShaderType type)
     : Shader(type)
+    , helper_(new OGLGenericShaderHelper())
     , type_(type)
     , compiled_(false) {
-  auto objectId = helper_.CreateShader(OGLGenericShader::typeToGLenum(type_));
+  auto objectId = helper_->createShader(OGLGenericShader::typeToGLenum(type_));
   if (objectId != 0) {
     setUid(objectId);
   }
 }
 
-OGLGenericShader::~OGLGenericShader() { helper_.DeleteShader(getUid()); }
+OGLGenericShader::OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType type)
+    : Shader(type)
+    , helper_(&helper)
+    , type_(type)
+    , compiled_(false) {
+  auto objectId = helper_->createShader(OGLGenericShader::typeToGLenum(type_));
+  if (objectId != 0) {
+    setUid(objectId);
+  }
+}
+
+OGLGenericShader::~OGLGenericShader() {
+  helper_->deleteShader(getUid());
+  SAFE_DELETE_OBJECT(helper_);
+}
 
 auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
-  return helper_.getAttribLocation(progId.value(), name);
+  return helper_->getAttribLocation(progId.value(), name);
 }
 
 void OGLGenericShader::compile(lpcstr_t src) {
   int status;  // Состояние шагов компилирования.
-  helper_.ShaderSource(getUid(), 1, &src, nullptr);
-  helper_.CompileShader(getUid(), &status);
+  helper_->shaderSource(getUid(), 1, &src, nullptr);
+  helper_->compileShader(getUid(), &status);
   compiled_ = (status == GL_TRUE);
   if (!compiled_) {
     throw OGLShaderCompilationException(getUid().value());

@@ -19,6 +19,11 @@ public:                                                              \
     return (this->*funcname##_)(std::forward<Args>(args)...);        \
   }
 
+#define DECL_GENERIC_CALLBACK_FUNC(funcret, classname, funcname, ...) \
+private:                                                              \
+  typedef funcret (classname::*funcname##CallbackFunc)(__VA_ARGS__);  \
+  funcname##CallbackFunc funcname##_;
+
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)
 
