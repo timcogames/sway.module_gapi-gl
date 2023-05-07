@@ -9,50 +9,50 @@ NAMESPACE_BEGIN(gapi)
 
 OGLShaderProgramHelper::OGLShaderProgramHelper() {
 #ifdef _STUB
-  CreateProgram_ = &OGLShaderProgramHelper::EMU_CreateProgram;
-  DeleteProgram_ = &OGLShaderProgramHelper::EMU_DeleteProgram;
-  AttachShader_ = &OGLShaderProgramHelper::EMU_AttachShader;
-  DetachShader_ = &OGLShaderProgramHelper::EMU_DetachShader;
-  LinkProgram_ = &OGLShaderProgramHelper::EMU_LinkProgram;
-  ValidateProgram_ = &OGLShaderProgramHelper::EMU_ValidateProgram;
-  UseProgram_ = &OGLShaderProgramHelper::EMU_UseProgram;
-  getUniformLocation_ = &OGLShaderProgramHelper::EMU_getUniformLocation;
-  setUniformVec4f_ = &OGLShaderProgramHelper::EMU_setUniformVec4f;
-  setUniformArr4f_ = &OGLShaderProgramHelper::EMU_setUniformArr4f;
-  setUniformMatrix4f_ = &OGLShaderProgramHelper::EMU_setUniformMatrix4f;
-  setUniform1i_ = &OGLShaderProgramHelper::EMU_setUniform1i;
-  setUniform1f_ = &OGLShaderProgramHelper::EMU_setUniform1f;
+  createProgram_ = &OGLShaderProgramHelper::EMU_CreateProgram;
+  deleteProgram_ = &OGLShaderProgramHelper::EMU_DeleteProgram;
+  attachShader_ = &OGLShaderProgramHelper::EMU_AttachShader;
+  detachShader_ = &OGLShaderProgramHelper::EMU_DetachShader;
+  linkProgram_ = &OGLShaderProgramHelper::EMU_LinkProgram;
+  validateProgram_ = &OGLShaderProgramHelper::EMU_ValidateProgram;
+  useProgram_ = &OGLShaderProgramHelper::EMU_UseProgram;
+  getUniformLocation_ = &OGLShaderProgramHelper::EMU_GetUniformLocation;
+  setUniformVec4f_ = &OGLShaderProgramHelper::EMU_SetUniformVec4f;
+  setUniformArr4f_ = &OGLShaderProgramHelper::EMU_SetUniformArr4f;
+  setUniformMatrix4f_ = &OGLShaderProgramHelper::EMU_SetUniformMatrix4f;
+  setUniform1i_ = &OGLShaderProgramHelper::EMU_SetUniform1i;
+  setUniform1f_ = &OGLShaderProgramHelper::EMU_SetUniform1f;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_shader_objects")) {
-    CreateProgram_ = &OGLShaderProgramHelper::ARB_CreateProgram;
-    DeleteProgram_ = &OGLShaderProgramHelper::ARB_DeleteProgram;
-    AttachShader_ = &OGLShaderProgramHelper::ARB_AttachShader;
-    DetachShader_ = &OGLShaderProgramHelper::ARB_DetachShader;
-    LinkProgram_ = &OGLShaderProgramHelper::ARB_LinkProgram;
-    ValidateProgram_ = &OGLShaderProgramHelper::ARB_ValidateProgram;
-    UseProgram_ = &OGLShaderProgramHelper::ARB_UseProgram;
-    getUniformLocation_ = &OGLShaderProgramHelper::ARB_getUniformLocation;
-    setUniformVec4f_ = &OGLShaderProgramHelper::ARB_setUniformVec4f;
-    setUniformArr4f_ = &OGLShaderProgramHelper::ARB_setUniformArr4f;
-    setUniformMatrix4f_ = &OGLShaderProgramHelper::ARB_setUniformMatrix4f;
-    setUniform1i_ = &OGLShaderProgramHelper::ARB_setUniform1i;
-    setUniform1f_ = &OGLShaderProgramHelper::ARB_setUniform1f;
+    createProgram_ = &OGLShaderProgramHelper::ARB_CreateProgram;
+    deleteProgram_ = &OGLShaderProgramHelper::ARB_DeleteProgram;
+    attachShader_ = &OGLShaderProgramHelper::ARB_AttachShader;
+    detachShader_ = &OGLShaderProgramHelper::ARB_DetachShader;
+    linkProgram_ = &OGLShaderProgramHelper::ARB_LinkProgram;
+    validateProgram_ = &OGLShaderProgramHelper::ARB_ValidateProgram;
+    useProgram_ = &OGLShaderProgramHelper::ARB_UseProgram;
+    getUniformLocation_ = &OGLShaderProgramHelper::ARB_GetUniformLocation;
+    setUniformVec4f_ = &OGLShaderProgramHelper::ARB_SetUniformVec4f;
+    setUniformArr4f_ = &OGLShaderProgramHelper::ARB_SetUniformArr4f;
+    setUniformMatrix4f_ = &OGLShaderProgramHelper::ARB_SetUniformMatrix4f;
+    setUniform1i_ = &OGLShaderProgramHelper::ARB_SetUniform1i;
+    setUniform1f_ = &OGLShaderProgramHelper::ARB_SetUniform1f;
   } else {
-    CreateProgram_ = &OGLShaderProgramHelper::STD_CreateProgram;
-    DeleteProgram_ = &OGLShaderProgramHelper::STD_DeleteProgram;
-    AttachShader_ = &OGLShaderProgramHelper::STD_AttachShader;
-    DetachShader_ = &OGLShaderProgramHelper::STD_DetachShader;
-    LinkProgram_ = &OGLShaderProgramHelper::STD_LinkProgram;
-    ValidateProgram_ = &OGLShaderProgramHelper::STD_ValidateProgram;
-    UseProgram_ = &OGLShaderProgramHelper::STD_UseProgram;
-    getUniformLocation_ = &OGLShaderProgramHelper::STD_getUniformLocation;
-    setUniformVec4f_ = &OGLShaderProgramHelper::STD_setUniformVec4f;
-    setUniformArr4f_ = &OGLShaderProgramHelper::STD_setUniformArr4f;
-    setUniformMatrix4f_ = &OGLShaderProgramHelper::STD_setUniformMatrix4f;
-    setUniform1i_ = &OGLShaderProgramHelper::STD_setUniform1i;
-    setUniform1f_ = &OGLShaderProgramHelper::STD_setUniform1f;
+    createProgram_ = &OGLShaderProgramHelper::STD_CreateProgram;
+    deleteProgram_ = &OGLShaderProgramHelper::STD_DeleteProgram;
+    attachShader_ = &OGLShaderProgramHelper::STD_AttachShader;
+    detachShader_ = &OGLShaderProgramHelper::STD_DetachShader;
+    linkProgram_ = &OGLShaderProgramHelper::STD_LinkProgram;
+    validateProgram_ = &OGLShaderProgramHelper::STD_ValidateProgram;
+    useProgram_ = &OGLShaderProgramHelper::STD_UseProgram;
+    getUniformLocation_ = &OGLShaderProgramHelper::STD_GetUniformLocation;
+    setUniformVec4f_ = &OGLShaderProgramHelper::STD_SetUniformVec4f;
+    setUniformArr4f_ = &OGLShaderProgramHelper::STD_SetUniformArr4f;
+    setUniformMatrix4f_ = &OGLShaderProgramHelper::STD_SetUniformMatrix4f;
+    setUniform1i_ = &OGLShaderProgramHelper::STD_SetUniform1i;
+    setUniform1f_ = &OGLShaderProgramHelper::STD_SetUniform1f;
   }
 
 #endif
@@ -107,7 +107,7 @@ void OGLShaderProgramHelper::STD_LinkProgram(std::optional<u32_t> progId, s32_t 
 
 void OGLShaderProgramHelper::ARB_LinkProgram(std::optional<u32_t> progId, s32_t *status) {
   OGLShaderProgramExtension::glLinkProgramARB(progId.value());
-  OGLInfoHelper::ARB_getObjectParameter(progId.value(), GL_OBJECT_LINK_STATUS_ARB, status);
+  OGLInfoHelper::ARB_GetObjectParameter(progId.value(), GL_OBJECT_LINK_STATUS_ARB, status);
 }
 
 void OGLShaderProgramHelper::EMU_ValidateProgram(
@@ -120,7 +120,7 @@ void OGLShaderProgramHelper::STD_ValidateProgram(std::optional<u32_t> progId, s3
 
 void OGLShaderProgramHelper::ARB_ValidateProgram(std::optional<u32_t> progId, s32_t *status) {
   OGLShaderProgramExtension::glValidateProgramARB(progId.value());
-  OGLInfoHelper::ARB_getObjectParameter(progId.value(), GL_OBJECT_VALIDATE_STATUS_ARB, status);
+  OGLInfoHelper::ARB_GetObjectParameter(progId.value(), GL_OBJECT_VALIDATE_STATUS_ARB, status);
 }
 
 void OGLShaderProgramHelper::EMU_UseProgram([[maybe_unused]] std::optional<u32_t> progId) {}
@@ -131,62 +131,62 @@ void OGLShaderProgramHelper::ARB_UseProgram(std::optional<u32_t> progId) {
   OGLShaderProgramExtension::glUseProgramObjectARB(progId.value());
 }
 
-auto OGLShaderProgramHelper::EMU_getUniformLocation(
+auto OGLShaderProgramHelper::EMU_GetUniformLocation(
     [[maybe_unused]] std::optional<u32_t> progId, [[maybe_unused]] lpcstr_t name) -> s32_t {
   return 0;
 }
 
-auto OGLShaderProgramHelper::STD_getUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
+auto OGLShaderProgramHelper::STD_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
   return glGetUniformLocation(progId.value(), name);
 }
 
-auto OGLShaderProgramHelper::ARB_getUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
+auto OGLShaderProgramHelper::ARB_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
   OGLShaderProgramExtension::glGetUniformLocationARB(progId.value(), name);
 }
 
-void OGLShaderProgramHelper::EMU_setUniform1i(s32_t loc, s32_t val) {}
+void OGLShaderProgramHelper::EMU_SetUniform1i(s32_t loc, s32_t val) {}
 
-void OGLShaderProgramHelper::STD_setUniform1i(s32_t loc, s32_t val) { glUniform1i(loc, val); }
+void OGLShaderProgramHelper::STD_SetUniform1i(s32_t loc, s32_t val) { glUniform1i(loc, val); }
 
-void OGLShaderProgramHelper::ARB_setUniform1i(s32_t loc, s32_t val) {
+void OGLShaderProgramHelper::ARB_SetUniform1i(s32_t loc, s32_t val) {
   OGLShaderProgramExtension::glUniform1iARB(loc, val);
 }
 
-void OGLShaderProgramHelper::EMU_setUniform1f(s32_t loc, f32_t val) {}
+void OGLShaderProgramHelper::EMU_SetUniform1f(s32_t loc, f32_t val) {}
 
-void OGLShaderProgramHelper::STD_setUniform1f(s32_t loc, f32_t val) { glUniform1f(loc, val); }
+void OGLShaderProgramHelper::STD_SetUniform1f(s32_t loc, f32_t val) { glUniform1f(loc, val); }
 
-void OGLShaderProgramHelper::ARB_setUniform1f(s32_t loc, f32_t val) {
+void OGLShaderProgramHelper::ARB_SetUniform1f(s32_t loc, f32_t val) {
   OGLShaderProgramExtension::glUniform1fARB(loc, val);
 }
 
-void OGLShaderProgramHelper::EMU_setUniformVec4f([[maybe_unused]] s32_t loc, [[maybe_unused]] math::vec4f_t vec) {}
+void OGLShaderProgramHelper::EMU_SetUniformVec4f([[maybe_unused]] s32_t loc, [[maybe_unused]] math::vec4f_t vec) {}
 
-void OGLShaderProgramHelper::STD_setUniformVec4f(s32_t loc, math::vec4f_t vec) {
+void OGLShaderProgramHelper::STD_SetUniformVec4f(s32_t loc, math::vec4f_t vec) {
   glUniform4f(loc, vec.getX(), vec.getY(), vec.getZ(), vec.getW());
 }
 
-void OGLShaderProgramHelper::ARB_setUniformVec4f(s32_t loc, math::vec4f_t vec) {
+void OGLShaderProgramHelper::ARB_SetUniformVec4f(s32_t loc, math::vec4f_t vec) {
   OGLShaderProgramExtension::glUniform4fARB(loc, vec.getX(), vec.getY(), vec.getZ(), vec.getW());
 }
 
-void OGLShaderProgramHelper::EMU_setUniformArr4f(
+void OGLShaderProgramHelper::EMU_SetUniformArr4f(
     [[maybe_unused]] s32_t loc, [[maybe_unused]] s32_t count, [[maybe_unused]] f32_t *val) {}
 
-void OGLShaderProgramHelper::STD_setUniformArr4f(s32_t loc, s32_t count, f32_t *val) { glUniform4fv(loc, count, val); }
+void OGLShaderProgramHelper::STD_SetUniformArr4f(s32_t loc, s32_t count, f32_t *val) { glUniform4fv(loc, count, val); }
 
-void OGLShaderProgramHelper::ARB_setUniformArr4f(s32_t loc, s32_t count, f32_t *val) {
+void OGLShaderProgramHelper::ARB_SetUniformArr4f(s32_t loc, s32_t count, f32_t *val) {
   OGLShaderProgramExtension::glUniform4fvARB(loc, count, val);
 }
 
-void OGLShaderProgramHelper::EMU_setUniformMatrix4f([[maybe_unused]] s32_t loc, [[maybe_unused]] s32_t count,
+void OGLShaderProgramHelper::EMU_SetUniformMatrix4f([[maybe_unused]] s32_t loc, [[maybe_unused]] s32_t count,
     [[maybe_unused]] bool transpose, [[maybe_unused]] const f32_t *val) {}
 
-void OGLShaderProgramHelper::STD_setUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val) {
+void OGLShaderProgramHelper::STD_SetUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val) {
   glUniformMatrix4fv(loc, count, transpose, val);
 }
 
-void OGLShaderProgramHelper::ARB_setUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val) {
+void OGLShaderProgramHelper::ARB_SetUniformMatrix4f(s32_t loc, s32_t count, bool transpose, const f32_t *val) {
   OGLShaderProgramExtension::glUniformMatrix4fvARB(loc, count, transpose, val);
 }
 

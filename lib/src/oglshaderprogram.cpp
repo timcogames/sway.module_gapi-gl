@@ -17,7 +17,7 @@ auto OGLShaderProgram::createInstance() -> ShaderProgramRef_t {
 OGLShaderProgram::OGLShaderProgram()
     : linked_(false)
     , validated_(false) {
-  auto objectId = helper_.CreateProgram();
+  auto objectId = helper_.createProgram();
   if (objectId != 0) {
     setUid(objectId);
   }
@@ -29,17 +29,17 @@ OGLShaderProgram::~OGLShaderProgram() {
   shaders_.clear();
 
   auto programId = getUid().value();
-  helper_.DeleteProgram(1, &programId);
+  helper_.deleteProgram(1, &programId);
 }
 
 void OGLShaderProgram::attach(ShaderRef_t shader) {
   // glIsShader
   shaders_.insert(std::make_pair(shader->getType(), shader));
-  helper_.AttachShader(getUid(), shader->getUid());
+  helper_.attachShader(getUid(), shader->getUid());
 }
 
 void OGLShaderProgram::detach(std::pair<ShaderType, ShaderRef_t> pair, bool erasing) {
-  helper_.DetachShader(getUid(), pair.second->getUid());
+  helper_.detachShader(getUid(), pair.second->getUid());
   if (erasing) {
     shaders_.erase(pair.first);
   }
@@ -56,7 +56,7 @@ auto OGLShaderProgram::getShader(ShaderType type) -> ShaderRef_t {
 
 void OGLShaderProgram::link() {
   int status;  // Состояние шагов линковки.
-  helper_.LinkProgram(getUid(), &status);
+  helper_.linkProgram(getUid(), &status);
   linked_ = (status == GL_TRUE);
   if (!linked_) {
     throw OGLShaderProgramLinkageException(getUid().value());
@@ -65,7 +65,7 @@ void OGLShaderProgram::link() {
 
 void OGLShaderProgram::validate() {
   int status;
-  helper_.ValidateProgram(getUid(), &status);
+  helper_.validateProgram(getUid(), &status);
   validated_ = (status == GL_TRUE);
   if (!validated_) {
     throw OGLShaderProgramValidationException(getUid().value());
@@ -74,12 +74,12 @@ void OGLShaderProgram::validate() {
 
 void OGLShaderProgram::use() {
   if (getUid().value() > 0 && !isUsed()) {
-    helper_.UseProgram(getUid());
+    helper_.useProgram(getUid());
 
     for (auto iter : uniformVec4fSet_) {
       auto location = helper_.getUniformLocation(getUid(), iter.first.c_str());
       if (location != -1) {
-        helper_.STD_setUniformVec4f(location, iter.second);
+        helper_.setUniformVec4f(location, iter.second);
       }
     }
 
@@ -108,7 +108,7 @@ void OGLShaderProgram::use() {
 
 void OGLShaderProgram::unuse() {
   if (getUid().value() > 0 && isUsed()) {
-    helper_.UseProgram(0);
+    helper_.useProgram(0);
   }
 }
 

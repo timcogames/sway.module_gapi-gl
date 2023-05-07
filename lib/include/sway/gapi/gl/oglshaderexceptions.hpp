@@ -30,10 +30,10 @@ public:
           result = std::string(logInfo.get());
         }
 #else
-        helper_.ARB_getObjectParameter(objectId, GL_OBJECT_INFO_LOG_LENGTH_ARB, &logLength);
+        helper_.ARB_GetObjectParameter(objectId, GL_OBJECT_INFO_LOG_LENGTH_ARB, &logLength);
         if (logLength > 0) {
           auto logInfo = std::make_unique<GLchar[]>(logLength);
-          helper_.ARB_getInfoLog(objectId, logLength, nullptr, logInfo.get());
+          helper_.ARB_GetInfoLog(objectId, logLength, nullptr, logInfo.get());
 
           result = std::string(logInfo.get());
         }

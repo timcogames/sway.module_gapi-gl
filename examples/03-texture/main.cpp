@@ -1,9 +1,9 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
-#include <sway/glx11/canvas.hpp>
-#include <sway/glx11/xscreenconnection.hpp>
 #include <sway/math.hpp>
+#include <sway/pltf/mac/dtpcanvas.hpp>
+#include <sway/pltf/mac/dtpscreenconnection.hpp>
 
 #include <memory>  // std::shared_ptr, std::make_shared
 
@@ -21,14 +21,14 @@ std::shared_ptr<gapi::TextureSampler> textureSampler = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
 int main(int argc, char *argv[]) {
-  glx11::WindowInitialInfo windowInitialInfo;
+  pltf::WindowInitialInfo windowInitialInfo;
   windowInitialInfo.title = "examples";
   windowInitialInfo.size.normal = math::size2i_t(800, 600);
   windowInitialInfo.fullscreen = false;
   windowInitialInfo.resizable = false;
 
-  auto connection = std::make_shared<glx11::XScreenConnection>();
-  auto canvas = std::make_shared<glx11::Canvas>(connection, windowInitialInfo);
+  auto connection = std::make_shared<pltf::DTPScreenConnection>();
+  auto canvas = std::make_shared<pltf::DTPCanvas>(connection, windowInitialInfo);
 
   canvas->show();
   canvas->getContext()->makeCurrent();

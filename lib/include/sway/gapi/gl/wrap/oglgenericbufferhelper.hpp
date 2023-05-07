@@ -13,54 +13,54 @@ public:
   OGLGenericBufferHelper();
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, generateBuffers, u32_t, u32_t, u32_t *)
-  void EMU_generateBuffers(u32_t latest, u32_t num, u32_t *ids);
-  void STD_generateBuffers(u32_t latest, u32_t num, u32_t *ids);
-  void ARB_generateBuffers(u32_t latest, u32_t num, u32_t *ids);
+  void EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
+  void STD_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
+  void ARB_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids);
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, deleteBuffers, u32_t, u32_t *)
-  void EMU_deleteBuffers(u32_t num, u32_t *ids);
-  void STD_deleteBuffers(u32_t num, u32_t *ids);
-  void ARB_deleteBuffers(u32_t num, u32_t *ids);
+  void EMU_DeleteBuffers(u32_t num, u32_t *ids);
+  void STD_DeleteBuffers(u32_t num, u32_t *ids);
+  void ARB_DeleteBuffers(u32_t num, u32_t *ids);
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bindBuffer, u32_t, u32_t)
-  void EMU_bindBuffer(u32_t target, u32_t buffer);
-  void STD_bindBuffer(u32_t target, u32_t buffer);
-  void ARB_bindBuffer(u32_t target, u32_t buffer);
+  void EMU_BindBuffer(u32_t target, u32_t buffer);
+  void STD_BindBuffer(u32_t target, u32_t buffer);
+  void ARB_BindBuffer(u32_t target, u32_t buffer);
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bufferData, u32_t, ptrdiff_t, const void *, u32_t)
-  void EMU_bufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage);
-  void STD_bufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage);
-  void ARB_bufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage);
+  void EMU_BufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage);
+  void STD_BufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage);
+  void ARB_BufferData(u32_t target, ptrdiff_t size, const void *data, u32_t usage);
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bufferSubData, u32_t, ptrdiff_t, ptrdiff_t, const void *)
-  void EMU_bufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
-  void STD_bufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
-  void ARB_bufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
+  void EMU_BufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
+  void STD_BufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
+  void ARB_BufferSubData(u32_t target, ptrdiff_t offset, ptrdiff_t size, const void *data);
 
   DECLARE_GENERIC_MEMBER(void *, OGLGenericBufferHelper, mapBuffer, u32_t, u32_t)
-  auto EMU_mapBuffer(u32_t target, u32_t access) -> void *;
-  auto STD_mapBuffer(u32_t target, u32_t access) -> void *;
-  auto ARB_mapBuffer(u32_t target, u32_t access) -> void *;
+  auto EMU_MapBuffer(u32_t target, u32_t access) -> void *;
+  auto STD_MapBuffer(u32_t target, u32_t access) -> void *;
+  auto ARB_MapBuffer(u32_t target, u32_t access) -> void *;
 
   DECLARE_GENERIC_MEMBER(void *, OGLGenericBufferHelper, mapBufferRange, u32_t, s32_t, s32_t, u32_t)
-  auto EMU_mapBufferRange(u32_t target, s32_t offset, s32_t length, u32_t access) -> void *;
-  auto STD_mapBufferRange(u32_t target, s32_t offset, s32_t length, u32_t access) -> void *;
-  auto EXT_mapBufferRange(u32_t target, s32_t offset, s32_t length, u32_t access) -> void *;
+  auto EMU_MapBufferRange(u32_t target, s32_t offset, s32_t length, u32_t access) -> void *;
+  auto STD_MapBufferRange(u32_t target, s32_t offset, s32_t length, u32_t access) -> void *;
+  auto EXT_MapBufferRange(u32_t target, s32_t offset, s32_t length, u32_t access) -> void *;
 
   DECLARE_GENERIC_MEMBER(u8_t, OGLGenericBufferHelper, unmapBuffer, u32_t)
-  auto EMU_unmapBuffer(u32_t target) -> u8_t;
-  auto STD_unmapBuffer(u32_t target) -> u8_t;
-  auto ARB_unmapBuffer(u32_t target) -> u8_t;
+  auto EMU_UnmapBuffer(u32_t target) -> u8_t;
+  auto STD_UnmapBuffer(u32_t target) -> u8_t;
+  auto ARB_UnmapBuffer(u32_t target) -> u8_t;
 
   DECLARE_GENERIC_MEMBER(u8_t, OGLGenericBufferHelper, isBuffer, u32_t)
-  auto EMU_isBuffer(u32_t buffer) -> u8_t;
-  auto STD_isBuffer(u32_t buffer) -> u8_t;
-  auto ARB_isBuffer(u32_t buffer) -> u8_t;
+  auto EMU_IsBuffer(u32_t buffer) -> u8_t;
+  auto STD_IsBuffer(u32_t buffer) -> u8_t;
+  auto ARB_IsBuffer(u32_t buffer) -> u8_t;
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, getBufferParam, u32_t, u32_t, s32_t *)
-  void EMU_getBufferParam(u32_t target, u32_t pname, s32_t *params);
-  void STD_getBufferParam(u32_t target, u32_t pname, s32_t *params);
-  void ARB_getBufferParam(u32_t target, u32_t pname, s32_t *params);
+  void EMU_GetBufferParam(u32_t target, u32_t pname, s32_t *params);
+  void STD_GetBufferParam(u32_t target, u32_t pname, s32_t *params);
+  void ARB_GetBufferParam(u32_t target, u32_t pname, s32_t *params);
 };
 
 NAMESPACE_END(gapi)

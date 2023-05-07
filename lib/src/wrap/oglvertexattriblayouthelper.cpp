@@ -9,20 +9,20 @@ NAMESPACE_BEGIN(gapi)
 
 OGLVertexAttribLayoutHelper::OGLVertexAttribLayoutHelper() {
 #ifdef _STUB
-  EnableArray_ = &OGLVertexAttribLayoutHelper::EMU_EnableVertexAttribArray;
-  DisableArray_ = &OGLVertexAttribLayoutHelper::EMU_EnableVertexAttribArray;
-  Setup_ = &OGLVertexAttribLayoutHelper::EMU_SetupVertexAttribPointer;
+  enableArray_ = &OGLVertexAttribLayoutHelper::EMU_EnableVertexAttribArray;
+  disableArray_ = &OGLVertexAttribLayoutHelper::EMU_EnableVertexAttribArray;
+  setup_ = &OGLVertexAttribLayoutHelper::EMU_SetupVertexAttribPointer;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_vertex_program")) {
-    EnableArray_ = &OGLVertexAttribLayoutHelper::ARB_EnableVertexAttribArray;
-    DisableArray_ = &OGLVertexAttribLayoutHelper::ARB_EnableVertexAttribArray;
-    Setup_ = &OGLVertexAttribLayoutHelper::ARB_SetupVertexAttribPointer;
+    enableArray_ = &OGLVertexAttribLayoutHelper::ARB_EnableVertexAttribArray;
+    disableArray_ = &OGLVertexAttribLayoutHelper::ARB_EnableVertexAttribArray;
+    setup_ = &OGLVertexAttribLayoutHelper::ARB_SetupVertexAttribPointer;
   } else {
-    EnableArray_ = &OGLVertexAttribLayoutHelper::STD_EnableVertexAttribArray;
-    DisableArray_ = &OGLVertexAttribLayoutHelper::STD_EnableVertexAttribArray;
-    Setup_ = &OGLVertexAttribLayoutHelper::STD_SetupVertexAttribPointer;
+    enableArray_ = &OGLVertexAttribLayoutHelper::STD_EnableVertexAttribArray;
+    disableArray_ = &OGLVertexAttribLayoutHelper::STD_EnableVertexAttribArray;
+    setup_ = &OGLVertexAttribLayoutHelper::STD_SetupVertexAttribPointer;
   }
 
 #endif

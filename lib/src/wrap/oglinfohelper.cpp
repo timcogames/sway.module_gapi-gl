@@ -9,39 +9,39 @@ NAMESPACE_BEGIN(gapi)
 
 OGLInfoHelper::OGLInfoHelper() {
 #ifdef _STUB
-  getObjectParameter_ = &OGLInfoHelper::EMU_getObjectParameter;
-  getInfoLog_ = &OGLInfoHelper::EMU_getInfoLog;
+  getObjectParameter_ = &OGLInfoHelper::EMU_GetObjectParameter;
+  getInfoLog_ = &OGLInfoHelper::EMU_GetInfoLog;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_shader_objects")) {
-    getObjectParameter_ = &OGLInfoHelper::ARB_getObjectParameter;
-    getInfoLog_ = &OGLInfoHelper::ARB_getInfoLog;
+    getObjectParameter_ = &OGLInfoHelper::ARB_GetObjectParameter;
+    getInfoLog_ = &OGLInfoHelper::ARB_GetInfoLog;
   } else {
-    getObjectParameter_ = &OGLInfoHelper::STD_getObjectParameter;
-    getInfoLog_ = &OGLInfoHelper::STD_getInfoLog;
+    getObjectParameter_ = &OGLInfoHelper::STD_GetObjectParameter;
+    getInfoLog_ = &OGLInfoHelper::STD_GetInfoLog;
   }
 
 #endif
 }
 
-void OGLInfoHelper::EMU_getObjectParameter(u32_t obj, u32_t pname, s32_t *params) {}
+void OGLInfoHelper::EMU_GetObjectParameter(u32_t obj, u32_t pname, s32_t *params) {}
 
-void OGLInfoHelper::STD_getObjectParameter(u32_t obj, u32_t pname, s32_t *params) {
+void OGLInfoHelper::STD_GetObjectParameter(u32_t obj, u32_t pname, s32_t *params) {
   // glGetProgramiv(obj, pname, params);
 }
 
-void OGLInfoHelper::ARB_getObjectParameter(u32_t obj, u32_t pname, s32_t *params) {
+void OGLInfoHelper::ARB_GetObjectParameter(u32_t obj, u32_t pname, s32_t *params) {
   OGLInfoExtension::glGetObjectParameterivARB(obj, pname, params);
 }
 
-void OGLInfoHelper::EMU_getInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog) {}
+void OGLInfoHelper::EMU_GetInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog) {}
 
-void OGLInfoHelper::STD_getInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog) {
+void OGLInfoHelper::STD_GetInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog) {
   // glGetShaderInfoLog(obj, maxLength, length, infoLog);
 }
 
-void OGLInfoHelper::ARB_getInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog) {
+void OGLInfoHelper::ARB_GetInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog) {
   OGLInfoExtension::glGetInfoLogARB(obj, maxLength, length, infoLog);
 }
 

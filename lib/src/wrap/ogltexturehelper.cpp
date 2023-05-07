@@ -9,9 +9,9 @@ OGLTextureHelper::OGLTextureHelper() {
 #ifdef _STUB
   generateTextures_ = &OGLTextureHelper::EMU_GenerateTextures;
   bindTexture_ = &OGLTextureHelper::EMU_BindTexture;
-  TextureImage2D_ = &OGLTextureHelper::EMU_TextureImage2D;
-  setActiveTexture_ = &OGLTextureHelper::EMU_setActiveTexture;
-  setTextureParamI_ = &OGLTextureHelper::EMU_setTextureParamI;
+  textureImage2D_ = &OGLTextureHelper::EMU_TextureImage2D;
+  setActiveTexture_ = &OGLTextureHelper::EMU_SetActiveTexture;
+  setTextureParamI_ = &OGLTextureHelper::EMU_SetTextureParamI;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
@@ -25,21 +25,21 @@ OGLTextureHelper::OGLTextureHelper() {
   }
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_EXT_direct_state_access")) {
-    TextureImage2D_ = &OGLTextureHelper::EXT_TextureImage2D;
+    textureImage2D_ = &OGLTextureHelper::EXT_TextureImage2D;
   } else {
-    TextureImage2D_ = &OGLTextureHelper::STD_TextureImage2D;
+    textureImage2D_ = &OGLTextureHelper::STD_TextureImage2D;
   }
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_multitexture")) {
-    setActiveTexture_ = &OGLTextureHelper::ARB_setActiveTexture;
+    setActiveTexture_ = &OGLTextureHelper::ARB_SetActiveTexture;
   } else {
-    setActiveTexture_ = &OGLTextureHelper::STD_setActiveTexture;
+    setActiveTexture_ = &OGLTextureHelper::STD_SetActiveTexture;
   }
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_EXT_texture_integer")) {
-    setTextureParamI_ = &OGLTextureHelper::EXT_setTextureParamI;
+    setTextureParamI_ = &OGLTextureHelper::EXT_SetTextureParamI;
   } else {
-    setTextureParamI_ = &OGLTextureHelper::STD_setTextureParamI;
+    setTextureParamI_ = &OGLTextureHelper::STD_SetTextureParamI;
   }
 
 #endif
@@ -78,20 +78,20 @@ void OGLTextureHelper::EXT_TextureImage2D(s32_t target, s32_t level, s32_t inter
   OGLTextureExtension::glTextureImage2DEXT(target, level, internalFormat, width, height, border, format, type, pixels);
 }
 
-void OGLTextureHelper::EMU_setActiveTexture([[maybe_unused]] s32_t slot) {}
+void OGLTextureHelper::EMU_SetActiveTexture([[maybe_unused]] s32_t slot) {}
 
-void OGLTextureHelper::STD_setActiveTexture(s32_t slot) { glActiveTexture(slot); }
+void OGLTextureHelper::STD_SetActiveTexture(s32_t slot) { glActiveTexture(slot); }
 
-void OGLTextureHelper::ARB_setActiveTexture(s32_t slot) { OGLTextureExtension::glActiveTextureARB(slot); }
+void OGLTextureHelper::ARB_SetActiveTexture(s32_t slot) { OGLTextureExtension::glActiveTextureARB(slot); }
 
-void OGLTextureHelper::EMU_setTextureParamI(
+void OGLTextureHelper::EMU_SetTextureParamI(
     [[maybe_unused]] u32_t target, [[maybe_unused]] u32_t pname, [[maybe_unused]] s32_t param) {}
 
-void OGLTextureHelper::STD_setTextureParamI(u32_t target, u32_t pname, s32_t param) {
+void OGLTextureHelper::STD_SetTextureParamI(u32_t target, u32_t pname, s32_t param) {
   glTexParameteri(target, pname, param);
 }
 
-void OGLTextureHelper::EXT_setTextureParamI(u32_t target, u32_t pname, s32_t param) {
+void OGLTextureHelper::EXT_SetTextureParamI(u32_t target, u32_t pname, s32_t param) {
   OGLTextureExtension::glTexParameterIivEXT(target, pname, (const s32_t *)&param);
 }
 

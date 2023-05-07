@@ -13,7 +13,7 @@ OGLGenericShaderHelper::OGLGenericShaderHelper() {
   deleteShader_ = &OGLGenericShaderHelper::EMU_DeleteShader;
   shaderSource_ = &OGLGenericShaderHelper::EMU_ShaderSource;
   compileShader_ = &OGLGenericShaderHelper::EMU_CompileShader;
-  getAttribLocation_ = &OGLGenericShaderHelper::EMU_getAttribLocation;
+  getAttribLocation_ = &OGLGenericShaderHelper::EMU_GetAttribLocation;
 #else
 
   const auto *extensions = OGLCapability::getExtensions();
@@ -31,9 +31,9 @@ OGLGenericShaderHelper::OGLGenericShaderHelper() {
   }
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_vertex_shader")) {
-    getAttribLocation_ = &OGLGenericShaderHelper::ARB_getAttribLocation;
+    getAttribLocation_ = &OGLGenericShaderHelper::ARB_GetAttribLocation;
   } else {
-    getAttribLocation_ = &OGLGenericShaderHelper::STD_getAttribLocation;
+    getAttribLocation_ = &OGLGenericShaderHelper::STD_GetAttribLocation;
   }
 
 #endif
@@ -78,19 +78,19 @@ void OGLGenericShaderHelper::STD_CompileShader(std::optional<u32_t> obj, s32_t *
 
 void OGLGenericShaderHelper::ARB_CompileShader(std::optional<u32_t> obj, s32_t *status) {
   OGLGenericShaderExtension::glCompileShaderARB(obj.value());
-  OGLInfoHelper::ARB_getObjectParameter(obj.value(), GL_OBJECT_COMPILE_STATUS_ARB, status);
+  OGLInfoHelper::ARB_GetObjectParameter(obj.value(), GL_OBJECT_COMPILE_STATUS_ARB, status);
 }
 
-auto OGLGenericShaderHelper::EMU_getAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
+auto OGLGenericShaderHelper::EMU_GetAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
     -> s32_t {
   return 0;
 }
 
-auto OGLGenericShaderHelper::STD_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
+auto OGLGenericShaderHelper::STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
   return glGetAttribLocation(program, name);
 }
 
-auto OGLGenericShaderHelper::ARB_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
+auto OGLGenericShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
   return OGLGenericShaderExtension::glGetAttribLocationARB(program, name);
 }
 

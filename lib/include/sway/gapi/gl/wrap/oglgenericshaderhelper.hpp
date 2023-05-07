@@ -11,6 +11,8 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLGenericShaderHelperIface {
 public:
+  DFLT_DTOR_VIRTUAL(OGLGenericShaderHelperIface);
+
   // clang-format off
   PURE_VIRTUAL(auto createShader(u32_t) -> u32_t);  // clang-format on
 
@@ -28,7 +30,9 @@ class OGLGenericShaderHelper : public OGLGenericShaderHelperIface, public OGLInf
 public:
   OGLGenericShaderHelper();
 
-  DECL_GENERIC_CALLBACK_FUNC(u32_t, OGLGenericShaderHelper, createShader, u32_t);
+  DFLT_DTOR_VIRTUAL(OGLGenericShaderHelper);
+
+  DECL_GENERIC_CALLBACK_FUNC(u32_t, OGLGenericShaderHelper, createShader, u32_t)
   // clang-format off
   MTHD_VIRTUAL(auto createShader(u32_t type) -> u32_t { return (this->*createShader_)(type); });  // clang-format on
 
@@ -36,7 +40,7 @@ public:
   auto STD_CreateShader(u32_t type) -> u32_t;
   auto ARB_CreateShader(u32_t type) -> u32_t;
 
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, deleteShader, std::optional<u32_t>);
+  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, deleteShader, std::optional<u32_t>)
   MTHD_VIRTUAL(void deleteShader(std::optional<u32_t> obj) { return (this->*deleteShader_)(obj); });
 
   void EMU_DeleteShader(std::optional<u32_t> obj);
@@ -44,7 +48,7 @@ public:
   void ARB_DeleteShader(std::optional<u32_t> obj);
 
   DECL_GENERIC_CALLBACK_FUNC(
-      void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, s32_t, lpcstr_t *, const s32_t *);
+      void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, s32_t, lpcstr_t *, const s32_t *)
   MTHD_VIRTUAL(void shaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length) {
     return (this->*shaderSource_)(obj, count, string, length);
   });
@@ -53,7 +57,7 @@ public:
   void STD_ShaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length);
   void ARB_ShaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length);
 
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, s32_t *);
+  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, s32_t *)
   MTHD_VIRTUAL(
       void compileShader(std::optional<u32_t> obj, s32_t *status) { return (this->*compileShader_)(obj, status); });
 
@@ -61,15 +65,15 @@ public:
   void STD_CompileShader(std::optional<u32_t> obj, s32_t *status);
   void ARB_CompileShader(std::optional<u32_t> obj, s32_t *status);
 
-  DECL_GENERIC_CALLBACK_FUNC(s32_t, OGLGenericShaderHelper, getAttribLocation, u32_t, lpcstr_t);
+  DECL_GENERIC_CALLBACK_FUNC(s32_t, OGLGenericShaderHelper, getAttribLocation, u32_t, lpcstr_t)
   // clang-format off
   MTHD_VIRTUAL(auto getAttribLocation(u32_t program, lpcstr_t name) -> s32_t {  // clang-format on
     return (this->*getAttribLocation_)(program, name);
   });
 
-  auto EMU_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto STD_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto ARB_getAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
 };
 
 NAMESPACE_END(gapi)

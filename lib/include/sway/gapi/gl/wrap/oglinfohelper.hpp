@@ -12,14 +12,14 @@ public:
   OGLInfoHelper();
 
   DECLARE_GENERIC_MEMBER(void, OGLInfoHelper, getObjectParameter, u32_t, u32_t, s32_t *)
-  void EMU_getObjectParameter(u32_t obj, u32_t pname, s32_t *params);
-  void STD_getObjectParameter(u32_t obj, u32_t pname, s32_t *params);
-  void ARB_getObjectParameter(u32_t obj, u32_t pname, s32_t *params);
+  void EMU_GetObjectParameter(u32_t obj, u32_t pname, s32_t *params);
+  void STD_GetObjectParameter(u32_t obj, u32_t pname, s32_t *params);
+  void ARB_GetObjectParameter(u32_t obj, u32_t pname, s32_t *params);
 
   DECLARE_GENERIC_MEMBER(void, OGLInfoHelper, getInfoLog, u32_t, s32_t, s32_t *, lpstr_t)
-  void EMU_getInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog);
-  void STD_getInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog);
-  void ARB_getInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog);
+  void EMU_GetInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog);
+  void STD_GetInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog);
+  void ARB_GetInfoLog(u32_t obj, s32_t maxLength, s32_t *length, lpstr_t infoLog);
 };
 
 NAMESPACE_END(gapi)

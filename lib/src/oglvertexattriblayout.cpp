@@ -33,8 +33,8 @@ void OGLVertexAttribLayout::addAttribute(VertexAttribDescriptor desc) {
 void OGLVertexAttribLayout::enable() {
   for (const auto &attrib : attribs_) {
     if (attrib.second.enabled) {
-      helper_.EnableArray((u32_t)attrib.second.location);
-      helper_.Setup((u32_t)attrib.second.location, attrib.second.numComponents, TypeUtils::toGL(attrib.second.format),
+      helper_.enableArray((u32_t)attrib.second.location);
+      helper_.setup((u32_t)attrib.second.location, attrib.second.numComponents, TypeUtils::toGL(attrib.second.format),
           (s8_t)attrib.second.normalized, (s32_t)attribOffset_, attrib.second.pointer);
     }
   }
@@ -43,7 +43,7 @@ void OGLVertexAttribLayout::enable() {
 void OGLVertexAttribLayout::disable() {
   for (const auto &attrib : attribs_) {
     if (attrib.second.enabled) {
-      helper_.DisableArray((u32_t)attrib.second.location);
+      helper_.disableArray((u32_t)attrib.second.location);
     }
   }
 }
