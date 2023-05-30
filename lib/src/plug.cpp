@@ -32,6 +32,8 @@ void pluginInitialize(core::PluginFunctionSet *functions) {
       reinterpret_cast<core::binding::ProcAddress_t>(OGLBufferIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBuffer::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexArray =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexArray::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexAttribLayout =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexAttribLayout::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createTexture =

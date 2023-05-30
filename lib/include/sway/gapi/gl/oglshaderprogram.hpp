@@ -128,7 +128,7 @@ public:
   MTHD_OVERRIDE(void setUniform1f(const std::string &uniform, f32_t val));
 
 private:
-  OGLShaderProgramHelper helper_;
+  OGLShaderProgramHelper *helper_;
   std::map<ShaderType, ShaderRef_t> shaders_;
   UniformVec4fUmap_t uniformVec4fSet_;
   UniformMat4fUmap_t uniformMat4fSet_;

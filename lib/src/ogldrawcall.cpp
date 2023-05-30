@@ -35,19 +35,27 @@ void OGLDrawCall::execute(TopologyType topology, BufferSet bufset, core::ValueDa
     drawElements_.mode = OGLDrawCall::topologyToGLenum(topology);
     drawElements_.count = bufset.ibo->getCapacity();
     drawElements_.type = TypeUtils::toGL(type);
+
+    if (drawCbFunc_) {
+      drawCbFunc_(bufset.ibo);
+    }
   } else {
     drawCbFunc_ = std::bind(&OGLDrawCall::draw_, this, std::placeholders::_1);
     drawArrays_.mode = OGLDrawCall::topologyToGLenum(topology);
     drawArrays_.first = 0;
     drawArrays_.count = bufset.vbo->getCapacity();
-  }
 
-  if (drawCbFunc_) {
-    drawCbFunc_(bufset.ibo);
+    if (drawCbFunc_) {
+      drawCbFunc_(nullptr);
+    }
   }
 }
 
 void OGLDrawCall::draw_([[maybe_unused]] BufferRef_t ibo) {
+  if (drawArrays_.mode == GL_LINES) {
+    glLineWidth(8);
+  }
+
   glDrawArrays(drawArrays_.mode, drawArrays_.first, drawArrays_.count);
 }
 

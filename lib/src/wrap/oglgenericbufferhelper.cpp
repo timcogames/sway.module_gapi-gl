@@ -2,7 +2,7 @@
 #include <sway/gapi/gl/wrap/oglbufferextension.hpp>
 #include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
 
-#define GL_GLEXT_PROTOTYPES 1
+// #define GL_GLEXT_PROTOTYPES 1
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 

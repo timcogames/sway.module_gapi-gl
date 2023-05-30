@@ -13,9 +13,9 @@ OGLViewport::OGLViewport()
     : mode_(ViewportMode::ENABLED)
     , clearColor_({0.0F, 0.0F, 0.0F, 1.0F}) {}
 
-void OGLViewport::set(s32_t x, s32_t y, s32_t w, s32_t h) { glViewport(x, y, w, h); }
+void OGLViewport::set(s32_t posX, s32_t posY, s32_t width, s32_t height) { glViewport(posX, posY, width, height); }
 
-void OGLViewport::set(s32_t w, s32_t h) { set(0, 0, w, h); }
+void OGLViewport::set(s32_t width, s32_t height) { set(0, 0, width, height); }
 
 auto OGLViewport::get() const -> math::rect4i_t {
   std::array<s32_t, 4> viewport;

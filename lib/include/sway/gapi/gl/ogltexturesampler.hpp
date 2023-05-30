@@ -15,16 +15,16 @@ public:
 
   static auto createInstance() -> TextureSamplerRef_t;
 
-  OGLTextureSampler() {}
+  OGLTextureSampler();
 
-  virtual ~OGLTextureSampler() = default;
+  virtual ~OGLTextureSampler();
 
   MTHD_OVERRIDE(void setWrapMode(TextureWrap wrapS, TextureWrap wrapT, TextureWrap wrapR));
 
   MTHD_OVERRIDE(void setFilterMode(TextureFilter minFilter, TextureFilter magFilter));
 
 private:
-  OGLTextureHelper helper_;
+  OGLTextureHelper *helper_;
 };
 
 NAMESPACE_END(gapi)
