@@ -1,7 +1,8 @@
 #### Конфигурируем проект для Google тестов
 
 ```console
-cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest -DMODULE_GAPI_GL_ENABLE_TESTS=ON ../
+cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest \
+      -DMODULE_GAPI_GL_ENABLE_TESTS=ON ../
 ```
 
 #### Запускаем сборку

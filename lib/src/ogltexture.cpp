@@ -14,6 +14,7 @@ OGLTexture::OGLTexture() {
   setUid(objname);
 }
 
+// RGBA/UNSIGNED_BYTE or RGBA32F/FLOAT formats
 void OGLTexture::create(void *data, int width, int height) {
   helper_.bindTexture(GL_TEXTURE_2D, getUid());
   helper_.textureImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);

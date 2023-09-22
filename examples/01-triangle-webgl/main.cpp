@@ -42,7 +42,7 @@ int main() {
   emscripten_webgl_init_context_attributes(&attrs);
   attrs.majorVersion = 2;
   attrs.minorVersion = 0;
-  int ctx = emscripten_webgl_create_context("#canvas", &attrs);
+  auto ctx = emscripten_webgl_create_context("#canvas", &attrs);
   if (!ctx) {
     printf("Webgl ctx could not be created!\n");
     return -1;

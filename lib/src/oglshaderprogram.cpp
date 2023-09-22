@@ -131,7 +131,8 @@ void OGLShaderProgram::setUniformCol4f(const std::string &uniform, const math::c
 }
 
 void OGLShaderProgram::setUniformMat4f(const std::string &uniform, const math::mat4f_t &mat) {
-  uniformMat4fSet_[uniform] = mat;
+  // uniformMat4fSet_[uniform] = mat;
+  uniformMat4fSet_[uniform].setData(mat.getData());
 }
 
 void OGLShaderProgram::setUniform1i(const std::string &uniform, s32_t val) { uniform1iSet_[uniform] = val; }

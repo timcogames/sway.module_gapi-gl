@@ -20,10 +20,15 @@ mkdir build && cd ./build
 
 ```console
 # Только динимическая библиотека
-cmake -DCMAKE_BUILD_TYPE=Release -DMODULE_GAPI_GL_SHARED_LIB=ON ../
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DMODULE_GAPI_GL_SHARED_LIB=ON ../
 
 # or
-cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten -DGLOBAL_EMSCRIPTEN_PLATFORM=ON -DMODULE_GAPI_GL_SHARED_LIB=ON -DMODULE_GAPI_GL_MT=ON ../
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
+      -DGLOBAL_EMSCRIPTEN_PLATFORM=ON \
+      -DMODULE_GAPI_GL_SHARED_LIB=ON \
+      -DMODULE_GAPI_GL_MT=ON ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию
