@@ -25,8 +25,8 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 
 # or
 cmake -DCMAKE_BUILD_TYPE=Release \
-      -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
-      -DGLOBAL_EMSCRIPTEN_PLATFORM=ON \
+      -DGLOB_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
+      -DGLOB_EMSCRIPTEN_PLATFORM=ON \
       -DMODULE_GAPI_GL_SHARED_LIB=ON \
       -DMODULE_GAPI_GL_MT=ON ../
 ```
@@ -39,10 +39,10 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 `MODULE_GAPI_GL_ENABLE_TESTS` | `BOOL` | Включает построение тестов | `OFF`
 `MODULE_GAPI_GL_ENABLE_EXAMPLES` | `BOOL` | Включает построение примеров | `OFF`
 `MODULE_USE_AS_STUB` | `BOOL` | Сборка библиотеки в виде заглушки | `OFF`
-`GLOBAL_EMSCRIPTEN_PLATFORM` | `BOOL` | Использует emscripten компилятор | `OFF`
-`CUSTOM_EMSCRIPTEN_ROOT_DIR` | `PATH` | Путь до корневой директории Emscripten | `OFF`
-`CUSTOM_BOOST_ROOT_DIR` | `PATH` | (не актуален) Путь до корневой директории Boost | `OFF`
-`CUSTOM_GTEST_ROOT_DIR` | `PATH` | Путь до корневой директории GTest | `OFF`
+`GLOB_EMSCRIPTEN_PLATFORM` | `BOOL` | Использует emscripten компилятор | `OFF`
+`GLOB_EMSCRIPTEN_ROOT_DIR` | `PATH` | Путь до корневой директории Emscripten | `OFF`
+`GLOB_BOOST_ROOT_DIR` | `PATH` | (не актуален) Путь до корневой директории Boost | `OFF`
+`GLOB_GTEST_ROOT_DIR` | `PATH` | Путь до корневой директории GTest | `OFF`
 
 Запускаем сборку
 

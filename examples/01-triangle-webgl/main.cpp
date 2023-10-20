@@ -1,4 +1,4 @@
-#include "../../../../submodules/sway.module_core/lib/src/_embinds.cpp"
+#include "../../submodules/sway.module_core/lib/cpp/src/_embinds.cpp"
 
 #include <sway/core.hpp>
 #include <sway/core/plugin.hpp>
@@ -37,7 +37,7 @@ void update() {
   program->unuse();
 }
 
-int main() {
+auto main() -> int {
   EmscriptenWebGLContextAttributes attrs;
   emscripten_webgl_init_context_attributes(&attrs);
   attrs.majorVersion = 2;

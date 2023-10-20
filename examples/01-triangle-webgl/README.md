@@ -2,8 +2,8 @@
 
 ```console
 cmake -DCMAKE_BUILD_TYPE=Release \
-      -DCUSTOM_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
-      -DGLOBAL_EMSCRIPTEN_PLATFORM=ON \
+      -DGLOB_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
+      -DGLOB_EMSCRIPTEN_PLATFORM=ON \
       -DMODULE_GAPI_GL_ENABLE_EXAMPLES=ON ../
 ```
 

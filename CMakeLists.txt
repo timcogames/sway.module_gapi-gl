@@ -1,8 +1,16 @@
 # Проверяем версию CMake
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_enable_cxx17.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_add_subdirectory.cmake")
+set(MODULE_GAPI_GL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(MODULE_GAPI_GL_CMAKE_DIR ${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmakehelpers)
+set(MODULE_GAPI_GL_LIB_DIR ${MODULE_GAPI_GL_ROOT_DIR}/lib)
+set(MODULE_GAPI_GL_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
+
+include("${MODULE_GAPI_GL_CMAKE_DIR}/options.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/set_output_dir.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/project_metadata.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/enable_cxx17.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/add_submodule.cmake")
 
 # Мета-информация о проекте
 set(META_GAPI_GL_PRJNAME "module_gapi_gl")
@@ -19,13 +27,9 @@ option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_USE_AS_STUB "Enable test builds" OFF)
-option(GLOBAL_EMSCRIPTEN_PLATFORM "Using emscripten compiler" OFF)
-option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
-option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
-option(CUSTOM_GTEST_ROOT_DIR "GTest root directory" OFF)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOBAL_EMSCRIPTEN_PLATFORM)
-  set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
+if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOB_EMSCRIPTEN_PLATFORM)
+  set(CMAKE_TOOLCHAIN_FILE "${GLOB_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
   include(${CMAKE_TOOLCHAIN_FILE})
 endif ()
 
@@ -36,11 +40,11 @@ endif ()
 project(${META_GAPI_GL_PRJNAME} VERSION ${META_GAPI_GL_VERSION} LANGUAGES CXX)
 
 # Подмодули
-custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
+add_submodule("core" submodules/sway.module_core)
 
-if (GLOBAL_EMSCRIPTEN_PLATFORM)
+if (GLOB_EMSCRIPTEN_PLATFORM)
   set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
-  set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
+  set(CMAKE_CXX_COMPILER "${GLOB_EMSCRIPTEN_ROOT_DIR}/em++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --no-entry")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -Wall -std=c++17 -shared -dynamiclib")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-unicode-whitespace \
@@ -55,7 +59,7 @@ if (GLOBAL_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Oz --profiling-funcs")
   if (MODULE_GAPI_GL_SHARED_LIB)
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
   endif ()
   if (MODULE_GAPI_GL_MT)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--shared-memory,--no-check-features")
@@ -89,7 +93,7 @@ if (GLOBAL_EMSCRIPTEN_PLATFORM)
   # set(CMAKE_STRIP TRUE) 
 endif ()
 
-if (MODULE_GAPI_GL_SHARED_LIB AND NOT GLOBAL_EMSCRIPTEN_PLATFORM)
+if (MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "g++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable -Wno-unused-parameter -Wno-return-stack-address -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
@@ -112,12 +116,12 @@ message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
         build dir | ${CMAKE_BINARY_DIR}
    install prefix | ${CMAKE_INSTALL_PREFIX}
 
-   emscripten dir | ${CUSTOM_EMSCRIPTEN_ROOT_DIR}
-        boost dir | ${CUSTOM_BOOST_ROOT_DIR}
-        gtest dir | ${CUSTOM_GTEST_ROOT_DIR}
+   emscripten dir | ${GLOB_EMSCRIPTEN_ROOT_DIR}
+        boost dir | ${GLOB_BOOST_ROOT_DIR}
+        gtest dir | ${GLOB_GTEST_ROOT_DIR}
 
              stub | ${MODULE_USE_AS_STUB}
-       emscripten | ${GLOBAL_EMSCRIPTEN_PLATFORM}
+       emscripten | ${GLOB_EMSCRIPTEN_PLATFORM}
          coverage | ${MODULE_GAPI_GL_ENABLE_COVERAGE}
             tests | ${MODULE_GAPI_GL_ENABLE_TESTS}
          examples | ${MODULE_GAPI_GL_ENABLE_EXAMPLES}
@@ -138,12 +142,12 @@ set(MODULE_GAPI_GL_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
 include_directories("${GLUT_INCLUDE_DIRS}")
-# include_directories("${CUSTOM_EMSCRIPTEN_ROOT_DIR}/system/include")
+# include_directories("${GLOB_EMSCRIPTEN_ROOT_DIR}/system/include")
 include_directories("${MODULE_GAPI_GL_DIR}/lib/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/cpp/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/cpp/include")
 include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_gapi/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11/cpp/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
 file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_DIR}/lib/include/*.*")
@@ -161,7 +165,7 @@ if (MODULE_GAPI_GL_SHARED_LIB)
   add_library(${META_GAPI_GL_LIBNAME} SHARED ${MODULE_GAPI_GL_SOURCES})
   set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES OUTPUT_NAME ${META_GAPI_GL_PRJNAME})
   set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES PREFIX "")
-  if (GLOBAL_EMSCRIPTEN_PLATFORM)
+  if (GLOB_EMSCRIPTEN_PLATFORM)
     set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".wasm")
   else ()
     set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".dylib.${META_GAPI_GL_VERSION}")
@@ -176,20 +180,20 @@ else ()
   set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".a.${META_GAPI_GL_VERSION}")
 endif ()
 
-custom_enable_cxx17(${META_GAPI_GL_LIBNAME})
-target_link_libraries(${META_GAPI_GL_LIBNAME} libmodule_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+enable_cxx17(${META_GAPI_GL_LIBNAME})
+target_link_libraries(${META_GAPI_GL_LIBNAME} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
 # Добавляем построение примеров
-if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOBAL_EMSCRIPTEN_PLATFORM)
+if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  custom_add_subdirectory("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
+  add_submodule("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
   add_subdirectory(examples/01-triangle)
   add_subdirectory(examples/02-ibo)
   add_subdirectory(examples/03-texture)
 endif ()
 
-if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOBAL_EMSCRIPTEN_PLATFORM)
+if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   add_subdirectory(examples/01-triangle-webgl)

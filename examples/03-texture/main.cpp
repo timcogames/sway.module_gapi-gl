@@ -20,7 +20,7 @@ std::shared_ptr<gapi::Texture> texture = nullptr;
 std::shared_ptr<gapi::TextureSampler> textureSampler = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
-int main(int argc, char *argv[]) {
+auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   pltf::WindowInitialInfo windowInitialInfo;
   windowInitialInfo.title = "examples";
   windowInitialInfo.size.normal = math::size2i_t(800, 600);
