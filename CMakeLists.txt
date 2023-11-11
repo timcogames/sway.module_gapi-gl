@@ -4,10 +4,14 @@ cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
 #_________________________________________________________________________________
 #                                                              Project directories
-set(MODULE_GAPI_GL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(MODULE_GAPI_GL_CMAKE_DIR ${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmakehelpers)
-set(MODULE_GAPI_GL_LIB_DIR ${MODULE_GAPI_GL_ROOT_DIR}/lib)
-set(MODULE_GAPI_GL_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
+set(MODULE_GAPI_GL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(MODULE_GAPI_GL_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(MODULE_GAPI_GL_CMAKE_DIR "${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmakehelpers")
+set(MODULE_GAPI_GL_LIB_DIR "${MODULE_GAPI_GL_ROOT_DIR}/lib")
+set(MODULE_GAPI_GL_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+
+set(X11_INC_DIRS "/opt/X11/include")
+set(X11_LIB_DIRS "/opt/X11/lib")
 
 #_________________________________________________________________________________
 #                                                            Include CMake modules
@@ -33,14 +37,10 @@ option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_USE_AS_STUB "Enable test builds" OFF)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOB_EMSCRIPTEN_PLATFORM)
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_TOOLCHAIN_FILE "${GLOB_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
   include(${CMAKE_TOOLCHAIN_FILE})
-endif ()
-
-if (NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
-endif ()
+endif()
 
 #_________________________________________________________________________________
 #                                                                          Project
@@ -51,7 +51,7 @@ project(${MODULE_GAPI_GL_PROJ_NAME} VERSION ${MODULE_GAPI_GL_VERSION} LANGUAGES 
 #                                                                       Submodules
 add_submodule("module_core" submodules/sway.module_core)
 
-if (GLOB_EMSCRIPTEN_PLATFORM)
+if(GLOB_EMSCRIPTEN_PLATFORM)
   set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
   set(CMAKE_CXX_COMPILER "${GLOB_EMSCRIPTEN_ROOT_DIR}/em++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --no-entry")
@@ -67,14 +67,14 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Oz --profiling-funcs")
-  if (MODULE_GAPI_GL_SHARED_LIB)
+  if(MODULE_GAPI_GL_SHARED_LIB)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
-  endif ()
+  endif()
   if (MODULE_GAPI_GL_MT)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--shared-memory,--no-check-features")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=8")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s IMPORTED_MEMORY=1")
-  endif ()
+  endif()
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MODULARIZE=1 -s EXPORT_NAME=\"pluginInitialize\"")
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORT_ALL=1")
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS=[\"_pluginInitialize\"]") # Функция уже помечена EMSCRIPTEN_KEEPALIVE
@@ -100,21 +100,21 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
   # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -sDISABLE_EXCEPTION_CATCHING=0 -sFORCE_FILESYSTEM=1 -sSINGLE_FILE=1 -sBINARYEN_ASYNC_COMPILATION=0")
   # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} ${EMSCRIPTEN_THREADS} -sPROXY_TO_PTHREAD=1")
   # set(CMAKE_STRIP TRUE) 
-endif ()
+endif()
 
-if (MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
+if(MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "g++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable -Wno-unused-parameter -Wno-return-stack-address -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
-endif ()
+endif()
 
 # add_definitions(-sUSE_PTHREADS)
 # add_compile_options("SHELL:-sUSE_PTHREADS=1 -sIMPORTED_MEMORY=1 -sPTHREAD_POOL_SIZE=8")
 # add_link_options("SHELL:-sUSE_PTHREADS=1 -sIMPORTED_MEMORY=1 -sPTHREAD_POOL_SIZE=8")
 
-if (MODULE_GAPI_GL_ENABLE_TESTS OR MODULE_USE_AS_STUB)
+if(MODULE_GAPI_GL_ENABLE_TESTS OR MODULE_USE_AS_STUB)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_STUB")
-endif ()
+endif()
 
 message("[${MODULE_GAPI_GL_PROJ_NAME}]: ${MODULE_GAPI_GL_VERSION}
          compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
@@ -136,85 +136,79 @@ message("[${MODULE_GAPI_GL_PROJ_NAME}]: ${MODULE_GAPI_GL_VERSION}
          examples | ${MODULE_GAPI_GL_ENABLE_EXAMPLES}
 ")
 
-# Определяем каталог вывода по умолчанию
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
-  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin/dbg")
-else ()
-  set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
-  set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
-endif ()
+#_________________________________________________________________________________
+#                                                           Executable output path
+set_output_dir(${MODULE_GAPI_GL_BIN_DIR})
 
-set(GLUT_INCLUDE_DIRS "/opt/X11/include")
-set(GLUT_LIBRARY_DIRS "/opt/X11/lib")
-set(MODULE_GAPI_GL_DIR ${CMAKE_CURRENT_LIST_DIR})
-
+#_________________________________________________________________________________
+#                                                          Include project headers
 # Добавляем пути для поиска хедеров
-include_directories("${GLUT_INCLUDE_DIRS}")
+include_directories("${X11_INC_DIRS}")
 # include_directories("${GLOB_EMSCRIPTEN_ROOT_DIR}/system/include")
-include_directories("${MODULE_GAPI_GL_DIR}/lib/cxx/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/cxx/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_gapi/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11/cxx/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_gapi/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_platform-glx11/lib/cxx/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_DIR}/lib/cxx/include/*.*")
-file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/lib/cxx/src/*.*")
+file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include/*.*")
+file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/src/*.*")
 
 find_package(OpenGL REQUIRED)
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
-link_directories("${GLUT_LIBRARY_DIRS}")
+link_directories("${X11_LIB_DIRS}")
 
-if (MODULE_GAPI_GL_SHARED_LIB)
+if(MODULE_GAPI_GL_SHARED_LIB)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fexceptions -fvisibility=hidden")
 
   # Добавляем в проект цель для сборки динамической библиотеки
   add_library(${MODULE_GAPI_GL_TARGET} SHARED ${MODULE_GAPI_GL_SOURCES})
   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
-  if (GLOB_EMSCRIPTEN_PLATFORM)
+  if(GLOB_EMSCRIPTEN_PLATFORM)
     set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".wasm")
-  else ()
+  else()
     set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".dylib.${MODULE_GAPI_GL_VERSION}")
     # set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".so.${MODULE_GAPI_GL_VERSION}")
-  endif ()
+  endif()
   target_compile_definitions(${MODULE_GAPI_GL_TARGET} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
-else ()
+else()
   # Добавляем в проект цель для сборки статической библиотеки
   add_library(${MODULE_GAPI_GL_TARGET} STATIC ${MODULE_GAPI_GL_SOURCES})
   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".a.${MODULE_GAPI_GL_VERSION}")
-endif ()
+endif()
 
 enable_cxx17(${MODULE_GAPI_GL_TARGET})
 target_link_libraries(${MODULE_GAPI_GL_TARGET} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
-# Добавляем построение примеров
-if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
+#_________________________________________________________________________________
+#                                                                         Examples
+if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   add_submodule("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
   add_subdirectory(examples/01-triangle)
   add_subdirectory(examples/02-ibo)
   add_subdirectory(examples/03-texture)
-endif ()
+endif()
 
-if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
+if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   add_subdirectory(examples/01-triangle-webgl)
-endif ()
+endif()
 
 #_________________________________________________________________________________
 #                                                                            Tests
-if (MODULE_GAPI_GL_ENABLE_TESTS)
-  if (MODULE_GAPI_GL_SHARED_LIB)
+if(MODULE_GAPI_GL_ENABLE_TESTS)
+  if(MODULE_GAPI_GL_SHARED_LIB)
     message(STATUS "[${MODULE_GAPI_GL_PROJ_NAME}]: Tests are only allowed with a static lib")
-  else ()
+  else()
     message(STATUS "[${MODULE_GAPI_GL_PROJ_NAME}]: Tests have been enabled")
     add_subdirectory(lib/cxx/tests/google)
-  endif ()
-endif ()
+  endif()
+endif()

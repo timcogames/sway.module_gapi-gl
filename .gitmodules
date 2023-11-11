@@ -10,6 +10,3 @@
 [submodule "submodules/sway.module_core"]
 	path = submodules/sway.module_core
 	url = https://github.com/timcogames/sway.module_core.git
-[submodule "scripts/jenkins"]
-	path = scripts/jenkins
-	url = https://github.com/victor-timoshin/sway.jenkins_pipeline-docker.git
