@@ -1,4 +1,4 @@
-@Library("jenkins") _
+@Library("sway_jenkins_pipeline_docker") _
 
 import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 
