@@ -6,22 +6,12 @@ NAMESPACE_BEGIN(gapi)
 
 EXTERN_C_BEGIN
 
-#ifdef EMSCRIPTEN_PLATFORM
-EMSCRIPTEN_KEEPALIVE
-#else
-DLLAPI_EXPORT
-#endif
-core::PluginInfo pluginGetInfo() {
+EXPORT_API core::PluginInfo pluginGetInfo() {
   core::PluginInfo info = {};
   return info;
 }
 
-#ifdef EMSCRIPTEN_PLATFORM
-EMSCRIPTEN_KEEPALIVE
-#else
-DLLAPI_EXPORT
-#endif
-void pluginInitialize(core::PluginFunctionSet *functions) {
+EXPORT_API void pluginInitialize(core::PluginFunctionSet *functions) {
   static_cast<ConcreatePluginFunctionSet *>(functions)->createCapability =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLCapability::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShader =

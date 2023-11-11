@@ -1,24 +1,29 @@
-# Проверяем версию CMake
+#_________________________________________________________________________________
+#                                                                    CMake version
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
+#_________________________________________________________________________________
+#                                                              Project directories
 set(MODULE_GAPI_GL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(MODULE_GAPI_GL_CMAKE_DIR ${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmakehelpers)
 set(MODULE_GAPI_GL_LIB_DIR ${MODULE_GAPI_GL_ROOT_DIR}/lib)
 set(MODULE_GAPI_GL_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
 
+#_________________________________________________________________________________
+#                                                            Include CMake modules
 include("${MODULE_GAPI_GL_CMAKE_DIR}/options.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/add_submodule.cmake")
 
-# Мета-информация о проекте
-set(META_GAPI_GL_PRJNAME "module_gapi_gl")
-set(META_GAPI_GL_LIBNAME "lib${META_GAPI_GL_PRJNAME}")
-set(META_GAPI_GL_VERSION_MAJOR 0)
-set(META_GAPI_GL_VERSION_MINOR 16)
-set(META_GAPI_GL_VERSION_PATCH 34)
-set(META_GAPI_GL_VERSION ${META_GAPI_GL_VERSION_MAJOR}.${META_GAPI_GL_VERSION_MINOR}.${META_GAPI_GL_VERSION_PATCH})
+# # Мета-информация о проекте
+# set(MODULE_GAPI_GL_PROJ_NAME "module_gapi_gl")
+# set(META_GAPI_GL_LIB_NAME "lib${MODULE_GAPI_GL_PROJ_NAME}")
+# set(MODULE_GAPI_GL_VERSION_MAJOR 0)
+# set(MODULE_GAPI_GL_VERSION_MINOR 16)
+# set(MODULE_GAPI_GL_VERSION_PATCH 34)
+# set(MODULE_GAPI_GL_VERSION ${MODULE_GAPI_GL_VERSION_MAJOR}.${MODULE_GAPI_GL_VERSION_MINOR}.${MODULE_GAPI_GL_VERSION_PATCH})
 
 # Опции сборки
 option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
@@ -37,10 +42,14 @@ if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
 endif ()
 
-project(${META_GAPI_GL_PRJNAME} VERSION ${META_GAPI_GL_VERSION} LANGUAGES CXX)
+#_________________________________________________________________________________
+#                                                                          Project
+project_metadata("gapi_gl" 0.2.6)
+project(${MODULE_GAPI_GL_PROJ_NAME} VERSION ${MODULE_GAPI_GL_VERSION} LANGUAGES CXX)
 
-# Подмодули
-add_submodule("core" submodules/sway.module_core)
+#_________________________________________________________________________________
+#                                                                       Submodules
+add_submodule("module_core" submodules/sway.module_core)
 
 if (GLOB_EMSCRIPTEN_PLATFORM)
   set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
@@ -107,7 +116,7 @@ if (MODULE_GAPI_GL_ENABLE_TESTS OR MODULE_USE_AS_STUB)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_STUB")
 endif ()
 
-message("[${META_GAPI_GL_PRJNAME}]: ${META_GAPI_GL_VERSION}
+message("[${MODULE_GAPI_GL_PROJ_NAME}]: ${MODULE_GAPI_GL_VERSION}
          compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
        build type | ${CMAKE_BUILD_TYPE}
        shared lib | ${MODULE_GAPI_GL_SHARED_LIB}
@@ -143,15 +152,15 @@ set(MODULE_GAPI_GL_DIR ${CMAKE_CURRENT_LIST_DIR})
 # Добавляем пути для поиска хедеров
 include_directories("${GLUT_INCLUDE_DIRS}")
 # include_directories("${GLOB_EMSCRIPTEN_ROOT_DIR}/system/include")
-include_directories("${MODULE_GAPI_GL_DIR}/lib/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/cpp/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/cpp/include")
+include_directories("${MODULE_GAPI_GL_DIR}/lib/cxx/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_core/lib/cxx/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_math/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_gapi/include")
-include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11/cpp/include")
+include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11/cxx/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_DIR}/lib/include/*.*")
-file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/lib/src/*.*")
+file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_DIR}/lib/cxx/include/*.*")
+file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_DIR}/lib/cxx/src/*.*")
 
 find_package(OpenGL REQUIRED)
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
@@ -162,26 +171,26 @@ if (MODULE_GAPI_GL_SHARED_LIB)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fexceptions -fvisibility=hidden")
 
   # Добавляем в проект цель для сборки динамической библиотеки
-  add_library(${META_GAPI_GL_LIBNAME} SHARED ${MODULE_GAPI_GL_SOURCES})
-  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES OUTPUT_NAME ${META_GAPI_GL_PRJNAME})
-  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES PREFIX "")
+  add_library(${MODULE_GAPI_GL_TARGET} SHARED ${MODULE_GAPI_GL_SOURCES})
+  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
+  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
   if (GLOB_EMSCRIPTEN_PLATFORM)
-    set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".wasm")
+    set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".wasm")
   else ()
-    set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".dylib.${META_GAPI_GL_VERSION}")
-    # set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".so.${META_GAPI_GL_VERSION}")
+    set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".dylib.${MODULE_GAPI_GL_VERSION}")
+    # set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".so.${MODULE_GAPI_GL_VERSION}")
   endif ()
-  target_compile_definitions(${META_GAPI_GL_LIBNAME} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
+  target_compile_definitions(${MODULE_GAPI_GL_TARGET} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
 else ()
   # Добавляем в проект цель для сборки статической библиотеки
-  add_library(${META_GAPI_GL_LIBNAME} STATIC ${MODULE_GAPI_GL_SOURCES})
-  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES OUTPUT_NAME ${META_GAPI_GL_PRJNAME})
-  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES PREFIX "")
-  set_target_properties(${META_GAPI_GL_LIBNAME} PROPERTIES SUFFIX ".a.${META_GAPI_GL_VERSION}")
+  add_library(${MODULE_GAPI_GL_TARGET} STATIC ${MODULE_GAPI_GL_SOURCES})
+  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
+  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
+  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".a.${MODULE_GAPI_GL_VERSION}")
 endif ()
 
-enable_cxx17(${META_GAPI_GL_LIBNAME})
-target_link_libraries(${META_GAPI_GL_LIBNAME} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+enable_cxx17(${MODULE_GAPI_GL_TARGET})
+target_link_libraries(${MODULE_GAPI_GL_TARGET} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
 # Добавляем построение примеров
 if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
@@ -199,12 +208,13 @@ if (MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   add_subdirectory(examples/01-triangle-webgl)
 endif ()
 
-# Добавляем построение тестов
+#_________________________________________________________________________________
+#                                                                            Tests
 if (MODULE_GAPI_GL_ENABLE_TESTS)
   if (MODULE_GAPI_GL_SHARED_LIB)
-    message(STATUS "[${META_GAPI_GL_PRJNAME}]: Tests are only allowed with a static lib")
+    message(STATUS "[${MODULE_GAPI_GL_PROJ_NAME}]: Tests are only allowed with a static lib")
   else ()
-    message(STATUS "[${META_GAPI_GL_PRJNAME}]: Tests have been enabled")
-    add_subdirectory(lib/tests/google)
+    message(STATUS "[${MODULE_GAPI_GL_PROJ_NAME}]: Tests have been enabled")
+    add_subdirectory(lib/cxx/tests/google)
   endif ()
 endif ()
