@@ -37,7 +37,7 @@ RUN `([ $TARGET_PLATFORM_ARCH = arm64/v8 ] && ln -s /usr/lib/aarch64-linux-gnu /
 #                                              Copy project files to the workspace
 
 COPY /lib /module_gapi_gl_workspace/lib
-COPY /cmakehelpers /module_gapi_gl_workspace/cmake_modules
+COPY /cmake_modules /module_gapi_gl_workspace/cmake_modules
 COPY /CMakeLists.txt /module_gapi_gl_workspace
 COPY /index.html /module_gapi_gl_workspace
 
