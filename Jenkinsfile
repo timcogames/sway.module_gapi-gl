@@ -3,34 +3,51 @@
 import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 
 import java.util.Optional
+import sway.jenkins_pipeline.docker.shell.Executor
+import sway.jenkins_pipeline.docker.shell.ScriptExecutor
 import sway.jenkins_pipeline.docker.model.OSType
 import sway.jenkins_pipeline.docker.model.ArchitectureType
 import sway.jenkins_pipeline.docker.model.TargetPlatform
+import sway.jenkins_pipeline.docker.entity.Entity
 import sway.jenkins_pipeline.docker.entity.ImageEntity
+import sway.jenkins_pipeline.docker.entity.MultiarchImageEntity
+import sway.jenkins_pipeline.docker.entity.ContainerEntity
 import sway.jenkins_pipeline.docker.command.BuildImageCommand
 import sway.jenkins_pipeline.docker.command.BuildImageCommandLine
 import sway.jenkins_pipeline.docker.command.BuildImageCommandHandler
 import sway.jenkins_pipeline.docker.command.CommandResult
+import sway.jenkins_pipeline.docker.query.ImageInspectQuery
+import sway.jenkins_pipeline.docker.query.ImageInspectQueryHandler
 
-def DOCKER_PATH = "/Applications/Docker.app/Contents/Resources/bin"
-def CMAKE_PATH = "/opt/homebrew/Cellar/cmake/3.22.1/bin"
+String DOCKER_PATH = "/Applications/Docker.app/Contents/Resources/bin"
+String CMAKE_PATH = "/opt/homebrew/Cellar/cmake/3.22.1/bin"
 
-def MODULE_GAPI_GL_CONTAINER_NAME = "sway"
-def MODULE_GAPI_GL_CONTAINER_ID = ""
-def MODULE_GAPI_GL_IMAGE_TAG = "latest"
-def MODULE_GAPI_GL_IMAGE_NAME = "${MODULE_GAPI_GL_CONTAINER_NAME}/module_gapi-gl"
-def MODULE_GAPI_GL_IMAGE_FULLNAME = "${MODULE_GAPI_GL_IMAGE_NAME}:${MODULE_GAPI_GL_IMAGE_TAG}"
-def MODULE_GAPI_GL_IMAGE_ID = ""
+String MODULE_GAPI_GL_CONTAINER_ID = ""
+String MODULE_GAPI_GL_CONTAINER_NAME = "cntr"
 
-def SELECTED_BRANCH_NAME = ""
-def SELECTED_BUILD_TYPE = ""
-def SELECTED_PLATFORN_LIST = []
-def SELECTED_PLATFORN_LIST_STR = ""
-def APPLIED_THIRD_PARTY_DIR = ""
-def ENABLED_TESTS = ""
-def ENABLED_COVERAGE = ""
+String MODULE_GAPI_GL_IMAGE_ID = ""
+String MODULE_GAPI_GL_IMAGE_REGISTRY_NAMESPACE = "bonus85"
+String MODULE_GAPI_GL_IMAGE_LOCAL_NAMESPACE = "local"
+String MODULE_GAPI_GL_IMAGE_NAME = "sway.module_gapi-gl"
+String MODULE_GAPI_GL_IMAGE_TAG = "latest"
+String MODULE_GAPI_GL_IMAGE_REFERENCE_NAME = "${MODULE_GAPI_GL_IMAGE_NAME}:${MODULE_GAPI_GL_IMAGE_TAG}"
+
+String SELECTED_BRANCH_NAME = ""
+String SELECTED_BUILD_TYPE = ""
+String SELECTED_PLATFORN_LIST_STR = ""
+String APPLIED_THIRD_PARTY_DIR = ""
+
+boolean ENABLED_TESTS = false
+boolean ENABLED_COVERAGE = false
+
+List<String> SELECTED_PLATFORN_LIST = []
 
 def jenkinsUtils
+
+ContainerEntity dockerContainerEntity = new ContainerEntity(MODULE_GAPI_GL_CONTAINER_NAME)
+MultiarchImageEntity dockerMultiarchImageEntity = new MultiarchImageEntity(
+  MODULE_GAPI_GL_IMAGE_REGISTRY_NAMESPACE, MODULE_GAPI_GL_IMAGE_NAME, MODULE_GAPI_GL_IMAGE_TAG)
+List<ImageEntity> dockerImageEntities = new ArrayList<ImageEntity>()
 
 node {
   try {
@@ -82,24 +99,47 @@ node {
     }
 
     stage("Build:docker gcc-linux-xarch") {
-      def targetPlatform = SELECTED_PLATFORN_LIST_STR.tokenize("/")[0];
-      def targetArch = SELECTED_PLATFORN_LIST_STR.substring(targetPlatform.size() + 1)
+      // def targetPlatform = SELECTED_PLATFORN_LIST_STR.tokenize("/")[0];
+      // def targetArch = SELECTED_PLATFORN_LIST_STR.substring(targetPlatform.size() + 1)
 
-      def imageTag = "${MODULE_GAPI_GL_IMAGE_TAG}-${targetArch.replace("/", "_")}"
-      def platform = new TargetPlatform(OSType.LINUX, ArchitectureType.AARCH64)
+      List<TargetPlatform> platforms = [ 
+        new TargetPlatform(OSType.LINUX, ArchitectureType.AARCH64)
+        // new TargetPlatform(OSType.LINUX, ArchitectureType.X64) 
+      ]
 
-      def workspace = "$WORKSPACE/gcc-linux-xarch.Dockerfile"
-      
-      def image = new ImageEntity(MODULE_GAPI_GL_IMAGE_NAME, imageTag, platform)
+      platforms.eachWithIndex { item, index ->
+        dockerImageEntities.add(new ImageEntity(MODULE_CORE_IMAGE_LOCAL_NAMESPACE, MODULE_CORE_IMAGE_NAME, MODULE_CORE_IMAGE_TAG, item))
 
-      def imageCommand = new BuildImageCommand(image.nameWithTag(), image.platform, "$workspace", [
-        "ENABLED_TESTS": jenkinsUtils.booleanToCMakeStr(ENABLED_TESTS), "ENABLED_COVERAGE": jenkinsUtils.booleanToCMakeStr(ENABLED_COVERAGE) ],
-        "$WORKSPACE")
-      imageCommand.line.addTarget("module_gapi_gl-${SELECTED_BUILD_TYPE}")
+        Map<String, String> envs = [:]
+        Map<String, String> args = [
+          "ENABLED_COVERAGE": base.booleanToCMakeStr(ENABLED_COVERAGE),
+          "ENABLED_TESTS": base.booleanToCMakeStr(ENABLED_TESTS)
+        ]
 
-      def imageCommandHandler = new BuildImageCommandHandler(DOCKER_PATH)
-      def result = imageCommandHandler.execute(imageCommand)
-      echo "$result.message"
+        BuildImageCommand buildImageCmd = new BuildImageCommand(dockerImageEntities.get(index), 
+          "${env.WORKSPACE}", "gcc-linux-xarch.Dockerfile", envs, args, "module_gapi_gl-${SELECTED_BUILD_TYPE}")
+        BuildImageCommandHandler buildImageCmdHandler = new BuildImageCommandHandler(new ScriptExecutor(DOCKER_PATH))
+        CommandResult<String> buildImageCmdHandlerResult = buildImageCmdHandler.handle(buildImageCmd)
+
+        if (buildImageCmdHandlerResult.succeeded) {
+          ImageInspectQuery imageInspectQry = new ImageInspectQuery(dockerImageEntities.get(index))
+          ImageInspectQueryHandler imageInspectQryHandler = new ImageInspectQueryHandler(new ScriptExecutor(DOCKER_PATH))
+          Map<String, String> imageInspectQryHandlerResult = imageInspectQryHandler.handle(imageInspectQry)
+          dockerImageEntities.get(index).setId(imageInspectQryHandlerResult.id)
+        }
+      }
+    }
+
+    stage("Push") {
+      // docker push sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-amd64
+
+      // docker manifest create \
+      //           sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG \
+      //   --amend sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-amd64 \
+      //   --amend sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-arm32v7 \
+      //   --amend sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-arm64v8
+
+      // docker manifest push sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG
     }
   } finally {
     stage("cleanup") {

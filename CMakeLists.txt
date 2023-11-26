@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 #                                                              Project directories
 set(MODULE_GAPI_GL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(MODULE_GAPI_GL_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(MODULE_GAPI_GL_CMAKE_DIR "${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmakehelpers")
+set(MODULE_GAPI_GL_CMAKE_DIR "${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmake_modules")
 set(MODULE_GAPI_GL_LIB_DIR "${MODULE_GAPI_GL_ROOT_DIR}/lib")
 set(MODULE_GAPI_GL_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
@@ -20,14 +20,6 @@ include("${MODULE_GAPI_GL_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/add_submodule.cmake")
-
-# # Мета-информация о проекте
-# set(MODULE_GAPI_GL_PROJ_NAME "module_gapi_gl")
-# set(META_GAPI_GL_LIB_NAME "lib${MODULE_GAPI_GL_PROJ_NAME}")
-# set(MODULE_GAPI_GL_VERSION_MAJOR 0)
-# set(MODULE_GAPI_GL_VERSION_MINOR 16)
-# set(MODULE_GAPI_GL_VERSION_PATCH 34)
-# set(MODULE_GAPI_GL_VERSION ${MODULE_GAPI_GL_VERSION_MAJOR}.${MODULE_GAPI_GL_VERSION_MINOR}.${MODULE_GAPI_GL_VERSION_PATCH})
 
 # Опции сборки
 option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
