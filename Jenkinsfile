@@ -13,7 +13,6 @@ import sway.jenkins_pipeline.docker.entity.ImageEntity
 import sway.jenkins_pipeline.docker.entity.MultiarchImageEntity
 import sway.jenkins_pipeline.docker.entity.ContainerEntity
 import sway.jenkins_pipeline.docker.command.BuildImageCommand
-import sway.jenkins_pipeline.docker.command.BuildImageCommandLine
 import sway.jenkins_pipeline.docker.command.BuildImageCommandHandler
 import sway.jenkins_pipeline.docker.command.CommandResult
 import sway.jenkins_pipeline.docker.query.ImageInspectQuery
