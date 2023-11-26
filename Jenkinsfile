@@ -107,12 +107,13 @@ node {
       ]
 
       platforms.eachWithIndex { item, index ->
-        dockerImageEntities.add(new ImageEntity(MODULE_CORE_IMAGE_LOCAL_NAMESPACE, MODULE_CORE_IMAGE_NAME, MODULE_CORE_IMAGE_TAG, item))
+        dockerImageEntities.add(new ImageEntity(
+          MODULE_GAPI_GL_IMAGE_LOCAL_NAMESPACE, MODULE_GAPI_GL_IMAGE_NAME, MODULE_GAPI_GL_IMAGE_TAG, item))
 
         Map<String, String> envs = [:]
         Map<String, String> args = [
-          "ENABLED_COVERAGE": base.booleanToCMakeStr(ENABLED_COVERAGE),
-          "ENABLED_TESTS": base.booleanToCMakeStr(ENABLED_TESTS)
+          "ENABLED_COVERAGE": jenkinsUtils.booleanToCMakeStr(ENABLED_COVERAGE),
+          "ENABLED_TESTS": jenkinsUtils.booleanToCMakeStr(ENABLED_TESTS)
         ]
 
         BuildImageCommand buildImageCmd = new BuildImageCommand(dockerImageEntities.get(index), 
