@@ -41,6 +41,8 @@ COPY /cmake_modules /module_gapi_gl_workspace/cmake_modules
 COPY /CMakeLists.txt /module_gapi_gl_workspace
 COPY /index.html /module_gapi_gl_workspace
 
+RUN mkdir /module_gapi_gl_workspace/lcov_report
+
 #_________________________________________________________________________________
 #                                                          Build development image
 
