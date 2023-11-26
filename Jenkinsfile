@@ -126,6 +126,8 @@ node {
           ImageInspectQueryHandler imageInspectQryHandler = new ImageInspectQueryHandler(new ScriptExecutor(DOCKER_PATH))
           Map<String, String> imageInspectQryHandlerResult = imageInspectQryHandler.handle(imageInspectQry)
           dockerImageEntities.get(index).setId(imageInspectQryHandlerResult.id)
+        } else {
+          echo "[ERROR]: ${buildImageCmdHandlerResult.message}"
         }
       }
     }

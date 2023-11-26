@@ -62,4 +62,4 @@ set_target_properties(${META_TRIANGLE_LIBNAME} PROPERTIES OUTPUT_NAME "index")
 set_target_properties(${META_TRIANGLE_LIBNAME} PROPERTIES SUFFIX ".html")
 
 enable_cxx17(${META_TRIANGLE_LIBNAME})
-target_link_libraries(${META_TRIANGLE_LIBNAME} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} libmodule_gapi_gl module_core)
+target_link_libraries(${META_TRIANGLE_LIBNAME} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_gapi_gl module_core)

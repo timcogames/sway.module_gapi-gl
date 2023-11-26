@@ -25,9 +25,13 @@ ARG ENABLED_COVERAGE=
 #                                                                          Install
 
 RUN apt-get update -y && apt-get install -y \
+    mesa-common-dev \
+    libx11-dev \
+    libglu1-mesa-dev \
     cmake \
     lcov \
-    libgtest-dev
+    libgtest-dev \
+    libgmock-dev
 
 RUN `([ $TARGET_PLATFORM_ARCH = arm64/v8 ] && ln -s /usr/lib/aarch64-linux-gnu /tmp/lib ) || \
      ([ $TARGET_PLATFORM_ARCH = arm64 ] && ln -s /usr/lib/aarch64-linux-gnu /tmp/lib ) || \
@@ -37,6 +41,7 @@ RUN `([ $TARGET_PLATFORM_ARCH = arm64/v8 ] && ln -s /usr/lib/aarch64-linux-gnu /
 #                                              Copy project files to the workspace
 
 COPY /lib /module_gapi_gl_workspace/lib
+COPY /submodules /module_gapi_gl_workspace/submodules
 COPY /cmake_modules /module_gapi_gl_workspace/cmake_modules
 COPY /CMakeLists.txt /module_gapi_gl_workspace
 COPY /index.html /module_gapi_gl_workspace
