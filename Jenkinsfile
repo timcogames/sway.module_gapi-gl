@@ -37,6 +37,7 @@ String SELECTED_PLATFORN_LIST_STR = ""
 String APPLIED_THIRD_PARTY_DIR = ""
 
 boolean ENABLED_TESTS = false
+boolean ENABLED_EXAMPLES = false
 boolean ENABLED_COVERAGE = false
 
 List<String> SELECTED_PLATFORN_LIST = []
@@ -80,6 +81,7 @@ node {
 
       optionParams.add(string(name: "THIRD_PARTY_DIR", defaultValue: "/opt/third_party", description: ""))
       optionParams.add(booleanParam(name: "TESTS", defaultValue: true, description: ""))
+      optionParams.add(booleanParam(name: "EXAMPLES", defaultValue: false, description: ""))
       optionParams.add(booleanParam(name: "COVERAGE", defaultValue: false, description: ""))
 
       def options = input(message: "Build options", ok: "Run", parameters: optionParams)
@@ -94,6 +96,7 @@ node {
       SELECTED_PLATFORN_LIST_STR = SELECTED_PLATFORN_LIST.join(",")
       APPLIED_THIRD_PARTY_DIR = options["THIRD_PARTY_DIR"]
       ENABLED_TESTS = options["TESTS"]
+      ENABLED_EXAMPLES = = options["EXAMPLES"]
       ENABLED_COVERAGE = options["COVERAGE"]
     }
 
@@ -112,8 +115,9 @@ node {
 
         Map<String, String> envs = [:]
         Map<String, String> args = [
+          "ENABLED_TESTS": jenkinsUtils.booleanToCMakeStr(ENABLED_TESTS),
           "ENABLED_COVERAGE": jenkinsUtils.booleanToCMakeStr(ENABLED_COVERAGE),
-          "ENABLED_TESTS": jenkinsUtils.booleanToCMakeStr(ENABLED_TESTS)
+          "ENABLED_EXAMPLES": jenkinsUtils.booleanToCMakeStr(ENABLED_EXAMPLES)
         ]
 
         BuildImageCommand buildImageCmd = new BuildImageCommand(dockerImageEntities.get(index), 

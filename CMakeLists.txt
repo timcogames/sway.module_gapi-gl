@@ -24,8 +24,8 @@ include("${MODULE_GAPI_GL_CMAKE_DIR}/add_submodule.cmake")
 # Опции сборки
 option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
 option(MODULE_GAPI_GL_MT "Enable multithreading" OFF)
-option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
+option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_USE_AS_STUB "Enable test builds" OFF)
 
@@ -98,6 +98,11 @@ if(MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "g++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable -Wno-unused-parameter -Wno-return-stack-address -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
+endif()
+
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+  # Для выявления ошибок связанных с памятью
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
 # add_definitions(-sUSE_PTHREADS)

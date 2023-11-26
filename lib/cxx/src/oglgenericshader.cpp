@@ -63,10 +63,7 @@ OGLGenericShader::OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderTy
   }
 }
 
-OGLGenericShader::~OGLGenericShader() {
-  helper_->deleteShader(getUid());
-  SAFE_DELETE_OBJECT(helper_);
-}
+OGLGenericShader::~OGLGenericShader() { helper_->deleteShader(getUid()); }
 
 auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
   return helper_->getAttribLocation(progId.value(), name);
