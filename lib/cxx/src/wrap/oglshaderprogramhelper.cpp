@@ -141,7 +141,7 @@ auto OGLShaderProgramHelper::STD_GetUniformLocation(std::optional<u32_t> progId,
 }
 
 auto OGLShaderProgramHelper::ARB_GetUniformLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t {
-  OGLShaderProgramExtension::glGetUniformLocationARB(progId.value(), name);
+  return OGLShaderProgramExtension::glGetUniformLocationARB(progId.value(), name);
 }
 
 void OGLShaderProgramHelper::EMU_SetUniform1i(s32_t loc, s32_t val) {}

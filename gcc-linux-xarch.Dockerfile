@@ -3,7 +3,7 @@ ARG TARGET_PLATFORM=
 #_________________________________________________________________________________
 #                                                                      Build stage
 
-FROM --platform=$TARGET_PLATFORM gcc:10 AS base
+FROM --platform=$TARGET_PLATFORM gcc:latest AS base
 
 #_________________________________________________________________________________
 #                                                                             Info
@@ -25,14 +25,19 @@ ARG ENABLED_EXAMPLES=
 #_________________________________________________________________________________
 #                                                                          Install
 
-RUN apt-get update -y && apt-get install -y \
-    mesa-common-dev \
-    libx11-dev \
-    libglu1-mesa-dev \
-    cmake \
-    lcov \
-    libgtest-dev \
-    libgmock-dev
+RUN echo "*** Install build tools ***" \
+      && apt-get update -y && apt-get install -y \
+         cmake \
+         lcov \
+         libgtest-dev \
+         libgmock-dev \
+      && \
+    echo "*** Install deps ***" \
+      && apt-get update -y && apt-get install -y \
+         libglu1-mesa-dev \
+         libgles2-mesa-dev \
+      && \
+    echo
 
 RUN `([ $TARGET_PLATFORM_ARCH = arm64/v8 ] && ln -s /usr/lib/aarch64-linux-gnu /tmp/lib ) || \
      ([ $TARGET_PLATFORM_ARCH = arm64 ] && ln -s /usr/lib/aarch64-linux-gnu /tmp/lib ) || \
