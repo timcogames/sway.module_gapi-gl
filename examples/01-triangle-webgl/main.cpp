@@ -1,7 +1,6 @@
-#include "../../submodules/sway.module_core/lib/cpp/src/_embinds.cpp"
+#include "../../submodules/sway.module_core/lib/cxx/src/_embinds.cpp"
 
 #include <sway/core.hpp>
-#include <sway/core/plugin.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
 #include <sway/math.hpp>
@@ -69,7 +68,7 @@ auto main() -> int {
   gapi::ShaderCreateInfo fsoCreateInfo;
   fsoCreateInfo.type = gapi::ShaderType::FRAG;
   fsoCreateInfo.code = "void main() {"
-                       "  gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0);"
+                       "  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);"
                        "}";
 
   program = functions->createShaderProgram();

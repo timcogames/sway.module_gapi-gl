@@ -16,8 +16,12 @@
   <body>
     <h1 class="heading">GAPI-GL</h1>
 
+    <div class="container mx-auto grid">
+      <canvas id="canvas"></canvas>
+    </div>
+
     <script type="module">
-      import create_gapi_gl_module from"./wwwroot/dist/module_gapi_gl_web_async.js";
+      import create_gapi_gl_module from"./wwwroot/dist/triangle.js";
 
       let instance = create_gapi_gl_module({
         locateFile: function(path) {

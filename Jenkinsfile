@@ -137,15 +137,6 @@ node {
     }
 
     stage("Push") {
-      // docker push sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-amd64
-
-      // docker manifest create \
-      //           sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG \
-      //   --amend sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-amd64 \
-      //   --amend sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-arm32v7 \
-      //   --amend sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG-arm64v8
-
-      // docker manifest push sway/MODULE_GAPI_GL_IMAGE_NAME:MODULE_GAPI_GL_IMAGE_TAG
     }
   } finally {
     stage("cleanup") {

@@ -1,117 +1,88 @@
-#_________________________________________________________________________________
-#                                                                    CMake version
+#---------------------------------------------------------------------------------
+# CMake version
+#---------------------------------------------------------------------------------
+
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
-#_________________________________________________________________________________
-#                                                              Project directories
+#---------------------------------------------------------------------------------
+# Project directories
+#---------------------------------------------------------------------------------
+
 set(MODULE_GAPI_GL_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-set(MODULE_GAPI_GL_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(MODULE_GAPI_GL_LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
 set(MODULE_GAPI_GL_CMAKE_DIR "${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_core/cmake_modules")
 set(MODULE_GAPI_GL_LIB_DIR "${MODULE_GAPI_GL_ROOT_DIR}/lib")
 set(MODULE_GAPI_GL_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
-set(X11_INC_DIRS "/opt/X11/include")
-set(X11_LIB_DIRS "/opt/X11/lib")
+#---------------------------------------------------------------------------------
+# Include CMake modules
+#---------------------------------------------------------------------------------
 
-#_________________________________________________________________________________
-#                                                            Include CMake modules
 include("${MODULE_GAPI_GL_CMAKE_DIR}/options.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/add_submodule.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/create_bitcode.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/set_environment.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/set_compilation.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmake")
 
-# Опции сборки
+#---------------------------------------------------------------------------------
+# Project options
+#---------------------------------------------------------------------------------
+
 option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
+option(MODULE_GAPI_GL_ENVIRONMENT "Environment variable" OFF)
+option(MODULE_GAPI_GL_COMPILATION "Compilation variable" OFF)
 option(MODULE_GAPI_GL_MT "Enable multithreading" OFF)
 option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
 option(MODULE_USE_AS_STUB "Enable test builds" OFF)
 
-if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOB_EMSCRIPTEN_PLATFORM)
-  set(CMAKE_TOOLCHAIN_FILE "${GLOB_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
-  include(${CMAKE_TOOLCHAIN_FILE})
+#---------------------------------------------------------------------------------
+# [EMSCRIPTEN]: Setup
+#---------------------------------------------------------------------------------
+
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  emscripten_setup()
 endif()
 
-#_________________________________________________________________________________
-#                                                                          Project
+#---------------------------------------------------------------------------------
+# Project
+#---------------------------------------------------------------------------------
+
 project_metadata("gapi_gl" 0.2.6)
 project(${MODULE_GAPI_GL_PROJ_NAME} VERSION ${MODULE_GAPI_GL_VERSION} LANGUAGES CXX)
 
-#_________________________________________________________________________________
-#                                                                       Submodules
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+
+#---------------------------------------------------------------------------------
+# Submodules
+#---------------------------------------------------------------------------------
+
 add_submodule("module_core" submodules/sway.module_core)
 
-if(GLOB_EMSCRIPTEN_PLATFORM)
-  set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
-  set(CMAKE_CXX_COMPILER "${GLOB_EMSCRIPTEN_ROOT_DIR}/em++")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --no-entry")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -Wall -std=c++17 -shared -dynamiclib")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas -Wno-unicode-whitespace \
-      -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM")
-
-  # set(EMSCRIPTEN_THREADS -s USE_PTHREADS=1 
-  #                        -s PTHREAD_POOL_SIZE=8 
-  #                        -s IMPORTED_MEMORY=1 
-  #                        -s ALLOW_BLOCKING_ON_MAIN_THREAD=1)
-
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Oz --profiling-funcs")
-  if(MODULE_GAPI_GL_SHARED_LIB)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SIDE_MODULE=1")
-  endif()
-  if (MODULE_GAPI_GL_MT)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--shared-memory,--no-check-features")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=8")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s IMPORTED_MEMORY=1")
-  endif()
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MODULARIZE=1 -s EXPORT_NAME=\"pluginInitialize\"")
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORT_ALL=1")
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS=[\"_pluginInitialize\"]") # Функция уже помечена EMSCRIPTEN_KEEPALIVE
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s FULL_ES3=1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s SUPPORT_LONGJMP=0")
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s STANDALONE_WASM=1") # wasi_snapshot_preview1
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s PROXY_TO_WORKER=1")
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s PROXY_TO_PTHREAD=1")
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s BUILD_AS_WORKER=1")
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_PTHREADS=1")
-  # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -s USE_PTHREADS=1")
-
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sWASM=1 -sSIDE_MODULE=1")
-  # # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sMODULARIZE=1 -sBUILD_AS_SHARED_LIB=1 -sEXPORT_ALL=1 -sDISABLE_EXCEPTION_CATCHING=0 -sFORCE_FILESYSTEM=1 -sSINGLE_FILE=1 -sBINARYEN_ASYNC_COMPILATION=0")
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sMODULARIZE=1 -sEXPORT_NAME=\"createModule\" -sEXPORT_ALL=1")
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sFULL_ES3=1")
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${EMSCRIPTEN_THREADS}")
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sSTRICT_JS=1 -sDYNAMIC_EXECUTION=0 -sNO_POLYFILL=1 -sUSE_CLOSURE_COMPILER=0 -sEXPORTED_RUNTIME_METHODS=FS,wasmMemory,allocateUTF8OnStack")
-
-  # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -sWASM=1 -sSIDE_MODULE=1")
-  # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -sMODULARIZE=1 -sEXPORT_NAME=\"createModule\" -sEXPORT_ALL=1")
-  # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -sFULL_ES3=1")
-  # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} -sDISABLE_EXCEPTION_CATCHING=0 -sFORCE_FILESYSTEM=1 -sSINGLE_FILE=1 -sBINARYEN_ASYNC_COMPILATION=0")
-  # set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS} ${EMSCRIPTEN_THREADS} -sPROXY_TO_PTHREAD=1")
-  # set(CMAKE_STRIP TRUE) 
-endif()
-
-if(MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
-  set(CMAKE_CXX_COMPILER "g++")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable -Wno-unused-parameter -Wno-return-stack-address -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
-endif()
+# if(MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
+#   set(CMAKE_CXX_COMPILER "g++")
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -pedantic")
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable -Wno-unused-parameter -Wno-return-stack-address -Wno-return-type -Wno-int-to-pointer-cast -Wno-variadic-macros -Wno-null-pointer-arithmetic")
+# endif()
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
   # Для выявления ошибок связанных с памятью
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
-# add_definitions(-sUSE_PTHREADS)
-# add_compile_options("SHELL:-sUSE_PTHREADS=1 -sIMPORTED_MEMORY=1 -sPTHREAD_POOL_SIZE=8")
-# add_link_options("SHELL:-sUSE_PTHREADS=1 -sIMPORTED_MEMORY=1 -sPTHREAD_POOL_SIZE=8")
-
-if(MODULE_GAPI_GL_ENABLE_TESTS OR MODULE_USE_AS_STUB)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_STUB")
-endif()
+# if(MODULE_GAPI_GL_ENABLE_TESTS OR MODULE_USE_AS_STUB)
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_STUB")
+# endif()
 
 message("[${MODULE_GAPI_GL_PROJ_NAME}]: ${MODULE_GAPI_GL_VERSION}
          compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
@@ -133,15 +104,16 @@ message("[${MODULE_GAPI_GL_PROJ_NAME}]: ${MODULE_GAPI_GL_VERSION}
          examples | ${MODULE_GAPI_GL_ENABLE_EXAMPLES}
 ")
 
-#_________________________________________________________________________________
-#                                                           Executable output path
+#---------------------------------------------------------------------------------
+# Executable output path
+#---------------------------------------------------------------------------------
+
 set_output_dir(${MODULE_GAPI_GL_BIN_DIR})
 
-#_________________________________________________________________________________
-#                                                          Include project headers
-# Добавляем пути для поиска хедеров
-include_directories("${X11_INC_DIRS}")
-# include_directories("${GLOB_EMSCRIPTEN_ROOT_DIR}/system/include")
+#---------------------------------------------------------------------------------
+# Include project headers
+#---------------------------------------------------------------------------------
+
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
@@ -155,35 +127,93 @@ file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/src
 find_package(OpenGL REQUIRED)
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
-link_directories("${X11_LIB_DIRS}")
+#---------------------------------------------------------------------------------
+# Create interfaces
+#---------------------------------------------------------------------------------
 
-if(MODULE_GAPI_GL_SHARED_LIB)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fexceptions -fvisibility=hidden")
+set(MODULE_CORE_TARGET_IFACE "module_core_iface")
 
-  # Добавляем в проект цель для сборки динамической библиотеки
-  add_library(${MODULE_GAPI_GL_TARGET} SHARED ${MODULE_GAPI_GL_SOURCES})
-  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
-  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
-  if(GLOB_EMSCRIPTEN_PLATFORM)
-    set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".wasm")
-  else()
-    set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".dylib.${MODULE_GAPI_GL_VERSION}")
-    # set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".so.${MODULE_GAPI_GL_VERSION}")
-  endif()
-  target_compile_definitions(${MODULE_GAPI_GL_TARGET} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
+set(TARGET_OBJECT_LIST)
+list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_core>)
+
+create_iface(${MODULE_CORE_TARGET_IFACE} ${TARGET_OBJECT_LIST})
+
+#---------------------------------------------------------------------------------
+# [EMSCRIPTEN] Bitcode
+#---------------------------------------------------------------------------------
+
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  create_bitcode(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
 else()
-  # Добавляем в проект цель для сборки статической библиотеки
-  add_library(${MODULE_GAPI_GL_TARGET} STATIC ${MODULE_GAPI_GL_SOURCES})
-  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
-  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
-  set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".a.${MODULE_GAPI_GL_VERSION}")
+  create_library(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
 endif()
 
 enable_cxx17(${MODULE_GAPI_GL_TARGET})
-target_link_libraries(${MODULE_GAPI_GL_TARGET} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
-#_________________________________________________________________________________
-#                                                                         Examples
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  create_emscripten_library(${MODULE_GAPI_GL_TARGET} ${MODULE_GAPI_GL_ENVIRONMENT} ${MODULE_GAPI_GL_COMPILATION} OUTPUT_TARGET_NAME_LIST)
+
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Oz --profiling-funcs")
+
+  foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
+    target_link_options(${target} PUBLIC 
+      "SHELL:-s STRICT=1"
+      "SHELL:-s MODULARIZE=1"
+      "SHELL:-s FULL_ES3=1"
+      "SHELL:-s SUPPORT_LONGJMP=0"
+      "SHELL:-s EXPORT_NAME=\"create_gapi_gl_module\""
+      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json"
+      "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_GAPI_GL_LIB_DIR}/runtime-exports.json")
+
+    if(MODULE_GAPI_GL_SHARED_LIB)
+      target_link_options(${target} PUBLIC 
+        "SHELL:-shared"
+        "SHELL:-dynamiclib"
+        "SHELL:-s SIDE_MODULE=1")
+    endif()
+
+    if(MODULE_GAPI_GL_MT)
+      target_link_options(${target} PUBLIC 
+        "SHELL:-Wl,--shared-memory,--no-check-features"
+        "SHELL:-s USE_PTHREADS=1"
+        "SHELL:-s PTHREAD_POOL_SIZE=8"
+        "SHELL:-s IMPORTED_MEMORY=1")
+    endif()
+    printf_link_options(${target})
+  endforeach()
+else()
+  # create_library(${MODULE_CORE_TARGET} "${MODULE_CORE_ROOT_DIR}/lib/cxx/src/*.*")
+endif()
+
+# if(MODULE_GAPI_GL_SHARED_LIB)
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fexceptions -fvisibility=hidden")
+
+#   # Добавляем в проект цель для сборки динамической библиотеки
+#   add_library(${MODULE_GAPI_GL_TARGET} SHARED ${MODULE_GAPI_GL_SOURCES})
+#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
+#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
+#   if(GLOB_EMSCRIPTEN_PLATFORM)
+#     set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".wasm")
+#   else()
+#     set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".dylib.${MODULE_GAPI_GL_VERSION}")
+#     # set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".so.${MODULE_GAPI_GL_VERSION}")
+#   endif()
+#   target_compile_definitions(${MODULE_GAPI_GL_TARGET} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
+# else()
+#   # Добавляем в проект цель для сборки статической библиотеки
+#   add_library(${MODULE_GAPI_GL_TARGET} STATIC ${MODULE_GAPI_GL_SOURCES})
+#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
+#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
+#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".a.${MODULE_GAPI_GL_VERSION}")
+# endif()
+
+# enable_cxx17(${MODULE_GAPI_GL_TARGET})
+# target_link_libraries(${MODULE_GAPI_GL_TARGET} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+
+#---------------------------------------------------------------------------------
+# Examples
+#---------------------------------------------------------------------------------
+
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
@@ -199,8 +229,10 @@ if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   add_subdirectory(examples/01-triangle-webgl)
 endif()
 
-#_________________________________________________________________________________
-#                                                                            Tests
+#---------------------------------------------------------------------------------
+# Tests
+#---------------------------------------------------------------------------------
+
 if(MODULE_GAPI_GL_ENABLE_TESTS)
   if(MODULE_GAPI_GL_SHARED_LIB)
     message(STATUS "[${MODULE_GAPI_GL_PROJ_NAME}]: Tests are only allowed with a static lib")

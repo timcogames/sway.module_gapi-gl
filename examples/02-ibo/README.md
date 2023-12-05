@@ -1,8 +1,8 @@
 #### Конфигурируем проект для сборки
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DMODULE_GAPI_GL_ENABLE_EXAMPLES=ON ../
+cmake -D CMAKE_BUILD_TYPE=Release \
+      -D MODULE_GAPI_GL_ENABLE_EXAMPLES=ON ../
 ```
 
 #### Запускаем сборку

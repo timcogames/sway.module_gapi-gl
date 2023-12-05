@@ -13,9 +13,12 @@ set(GTEST_ROOT "${GLOB_GTEST_ROOT_DIR}")
 set(GTEST_INC_DIR "${GTEST_ROOT}/include")
 set(GTEST_SRC_DIR "${GTEST_ROOT}/src")
 
+set(GMOCK_ROOT "${GLOB_GMOCK_ROOT_DIR}")
+set(GMOCK_INC_DIR "${GMOCK_ROOT}/include")
+
 find_package(Threads REQUIRED)
 
-include_directories(${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR})
+include_directories(${GTEST_INC_DIR} ${GMOCK_INC_DIR})
 
 # Получаем пути ко всем исходникам с тестами
 file(GLOB MODULE_GAPI_GL_SOURCE_TESTS ${PROJECT_SOURCE_DIR}/*.cpp)

@@ -9,7 +9,11 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <GL/glu.h>
-#include <GL/glx.h>
+#ifdef EMSCRIPTEN_PLATFORM
+// TODO
+#else
+#  include <GL/glx.h>
+#endif
 #include <memory>  // std::shared_ptr, std::make_shared
 #include <set>  // std::set
 #include <string.h>  // std::string, strstr
