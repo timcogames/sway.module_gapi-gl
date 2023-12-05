@@ -1,18 +1,21 @@
 ARG TARGET_PLATFORM=
 
-#_________________________________________________________________________________
-#                                                                      Build stage
+#---------------------------------------------------------------------------------
+# Build stage
+#---------------------------------------------------------------------------------
 
 FROM --platform=$TARGET_PLATFORM gcc:latest AS base
 # FROM --platform=$TARGET_PLATFORM arm64v8/gcc:latest AS base
 
-#_________________________________________________________________________________
-#                                                                             Info
+#---------------------------------------------------------------------------------
+# Info
+#---------------------------------------------------------------------------------
 
 LABEL Victor Timoshin <victor-timoshin@hotmail.com>
 
-#_________________________________________________________________________________
-#                                                                             Args
+#---------------------------------------------------------------------------------
+# Args
+#---------------------------------------------------------------------------------
 
 # ARG TARGET_PLATFORM_OS==<not used>
 ARG TARGET_PLATFORM_ARCH=
@@ -23,8 +26,9 @@ ARG ENABLED_TESTS=
 ARG ENABLED_COVERAGE=
 ARG ENABLED_EXAMPLES=
 
-#_________________________________________________________________________________
-#                                                                          Install
+#---------------------------------------------------------------------------------
+# Install
+#---------------------------------------------------------------------------------
 
 RUN echo "*** Install build tools ***" \
       && apt-get update -y && apt-get install -y \
@@ -44,8 +48,9 @@ RUN `([ $TARGET_PLATFORM_ARCH = arm64/v8 ] && ln -s /usr/lib/aarch64-linux-gnu /
      ([ $TARGET_PLATFORM_ARCH = arm64 ] && ln -s /usr/lib/aarch64-linux-gnu /tmp/lib ) || \
      ([ $TARGET_PLATFORM_ARCH = amd64 ] && ln -s /usr/lib/x86_64-linux-gnu /tmp/lib )`
 
-#_________________________________________________________________________________
-#                                              Copy project files to the workspace
+#---------------------------------------------------------------------------------
+# Copy project files to the workspace
+#---------------------------------------------------------------------------------
 
 COPY /lib /module_gapi_gl_workspace/lib
 COPY /submodules /module_gapi_gl_workspace/submodules
@@ -56,8 +61,9 @@ COPY /index.html /module_gapi_gl_workspace
 
 RUN mkdir /module_gapi_gl_workspace/lcov_report
 
-#_________________________________________________________________________________
-#                                                          Build development image
+#---------------------------------------------------------------------------------
+# Build development image
+#---------------------------------------------------------------------------------
 
 FROM base as module_gapi_gl-debug
 
@@ -77,8 +83,9 @@ WORKDIR /module_gapi_gl_workspace
 ENTRYPOINT ["tail"]
 CMD ["-f", "/dev/null"]
 
-#_________________________________________________________________________________
-#                                                           Build production image
+#---------------------------------------------------------------------------------
+# Build production image
+#---------------------------------------------------------------------------------
 
 FROM base as module_gapi_gl-release
 
