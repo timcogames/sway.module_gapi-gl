@@ -50,17 +50,7 @@ project(${MODULE_GAPI_GL_EX_01_PROJ_NAME} VERSION ${MODULE_GAPI_GL_EX_01_VERSION
 
 if (GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "${GLOB_EMSCRIPTEN_ROOT_DIR}/emcc")
-  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
-  #   -s MODULARIZE=1 \
-  #   -s MAIN_MODULE=1 \
-  #   -Wl,--shared-memory,--no-check-features \
-  #   -s USE_PTHREADS=1 \
-  #   -s PROXY_TO_PTHREAD=1 \
-  #   -s EXPORT_NAME=Module \
-  #   -s EXPORT_ES6=1 \
-  #   -s FULL_ES3=1 \
-  #   -s LLD_REPORT_UNDEFINED=1 \
-  #   -s EXPORTED_FUNCTIONS=[\"_main\"]")
+
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -s MAIN_MODULE=1 \
     -s EXPORT_ES6=1 \
@@ -72,15 +62,17 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
 
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
   #   -s WASM_ASYNC_COMPILATION=1 \
-  #   -s OFFSCREEN_FRAMEBUFFER=1 \
-  #   -s OFFSCREENCANVAS_SUPPORT=1 \
   #   -s ENVIRONMENT=worker")
+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+    -s OFFSCREEN_FRAMEBUFFER=1 \
+    -s OFFSCREENCANVAS_SUPPORT=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -s USE_WEBGL2=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    --preload-file ../../../@/wwwroot/dist/module_gapi_gl_wasm.wasm \
+    --preload-file ../../../@/wwwroot/dist/module_gapi_gl_wasm_async.wasm \
     -s FORCE_FILESYSTEM=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \

@@ -64,8 +64,7 @@ endif()
 project_metadata("gapi_gl" 0.2.6)
 project(${MODULE_GAPI_GL_PROJ_NAME} VERSION ${MODULE_GAPI_GL_VERSION} LANGUAGES CXX)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
 #---------------------------------------------------------------------------------
 # Submodules
@@ -169,7 +168,7 @@ enable_cxx17(${MODULE_GAPI_GL_TARGET})
 if(GLOB_EMSCRIPTEN_PLATFORM)
   create_emscripten_library(${MODULE_GAPI_GL_TARGET} ${MODULE_GAPI_GL_ENVIRONMENT} ${MODULE_GAPI_GL_COMPILATION} OUTPUT_TARGET_NAME_LIST)
 
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Oz --profiling-funcs")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --profiling-funcs")
 
   foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
     target_link_options(${target} PUBLIC 
@@ -178,6 +177,7 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
       "SHELL:-s FULL_ES3=1"
       "SHELL:-s SUPPORT_LONGJMP=0"
       "SHELL:-s EXPORT_NAME=\"create_gapi_gl_module\""
+      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json"
       "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_GAPI_GL_LIB_DIR}/runtime-exports.json")
 
     if(MODULE_GAPI_GL_SHARED_LIB)
@@ -185,9 +185,6 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
         "SHELL:-shared"
         "SHELL:-dynamiclib"
         "SHELL:-s SIDE_MODULE=1")
-    else()
-      target_link_options(${target} PUBLIC 
-        "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json")
     endif()
 
     if(MODULE_GAPI_GL_MT)
@@ -202,31 +199,6 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
 else()
   # create_library(${MODULE_CORE_TARGET} "${MODULE_CORE_ROOT_DIR}/lib/cxx/src/*.*")
 endif()
-
-# if(MODULE_GAPI_GL_SHARED_LIB)
-#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fexceptions -fvisibility=hidden")
-
-#   # Добавляем в проект цель для сборки динамической библиотеки
-#   add_library(${MODULE_GAPI_GL_TARGET} SHARED ${MODULE_GAPI_GL_SOURCES})
-#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
-#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
-#   if(GLOB_EMSCRIPTEN_PLATFORM)
-#     set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".wasm")
-#   else()
-#     set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".dylib.${MODULE_GAPI_GL_VERSION}")
-#     # set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".so.${MODULE_GAPI_GL_VERSION}")
-#   endif()
-#   target_compile_definitions(${MODULE_GAPI_GL_TARGET} PRIVATE -DBUILD_DLLAPI_LIBMODULE)
-# else()
-#   # Добавляем в проект цель для сборки статической библиотеки
-#   add_library(${MODULE_GAPI_GL_TARGET} STATIC ${MODULE_GAPI_GL_SOURCES})
-#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_PROJ_NAME})
-#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES PREFIX "")
-#   set_target_properties(${MODULE_GAPI_GL_TARGET} PROPERTIES SUFFIX ".a.${MODULE_GAPI_GL_VERSION}")
-# endif()
-
-# enable_cxx17(${MODULE_GAPI_GL_TARGET})
-# target_link_libraries(${MODULE_GAPI_GL_TARGET} module_core GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
 
 #---------------------------------------------------------------------------------
 # Examples
@@ -245,7 +217,7 @@ if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   # add_subdirectory(examples/01-dl-webgl)
-  add_subdirectory(examples/01-dl-thread-webgl)
+  add_subdirectory(examples/01-dyn-webgl)
   # add_subdirectory(examples/02-triangle-webgl)
 endif()
 

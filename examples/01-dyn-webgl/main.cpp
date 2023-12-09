@@ -13,22 +13,20 @@ using namespace sway;
 
 void update() {}
 
-void loadGapiPlugin(const char *plugname) {
+void loadGapiPlugin(lpcstr_t plugname) {
   auto *plug = new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW);
-
   auto *plugFuncset = new gapi::ConcreatePluginFunctionSet();
 
   plug->initialize(plugFuncset);
 
   auto capability = plugFuncset->createCapability();
-
   auto capabilityPtr = capability.get();
   EM_ASM({ console.log(UTF8ToString($0)); }, ((gapi::OGLCapability *)capabilityPtr)->toStr().c_str());
 }
 
 pthread_t thread;
 
-void *renderThreadEntry(void *) {
+auto renderThreadEntry(void *) -> void * {
   EmscriptenWebGLContextAttributes attr;
   emscripten_webgl_init_context_attributes(&attr);
   attr.alpha = attr.depth = attr.stencil = attr.antialias = 0;
