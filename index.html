@@ -21,7 +21,29 @@
     </div>
 
     <script type="module">
-      import create_gapi_gl_module from"./wwwroot/dist/triangle.js";
+      // import create_gapi_gl_module from"./wwwroot/dist/triangle.js";
+      import create_gapi_gl_module from"./wwwroot/dist/gapi_gl_ex_01.js";
+
+      // let compiledModule = null
+      // let emscriptenModule = null
+
+      // function onInstantiateWasm(importObject, successCallback) {
+      //   WebAssembly.instantiate(compiledModule, importObject).then(instance =>
+      //     successCallback(instance)
+      //   );
+
+      //   return {};
+      // }
+
+      // const worker = new Worker("./wwwroot/dist/gapi_gl_ex_01.worker.js"); 
+      // worker.onmessage = function(e) {
+      //   compiledModule = e.data();
+      //   console.log(compiledModule)
+
+      //   emscriptenModule = new Module({
+      //     instantiateWasm: onInstantiateWasm
+      //   })
+      // }
 
       let instance = create_gapi_gl_module({
         locateFile: function(path) {
@@ -31,7 +53,7 @@
       });
 
       instance.then((module) => {
-        // Empty
+        console.log(module);
       });
     </script>
   </body>

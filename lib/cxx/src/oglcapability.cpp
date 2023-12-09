@@ -47,15 +47,21 @@ OGLCapability::OGLCapability() {
   initializeExtensions_();
   initLimits_();
 
-  printf("Graphics card and driver information:\n");
-  printf("\tOpenGL (%s) version: %s\n", vendor_.c_str(), version_.c_str());
-  printf("\tOpenGL Renderer: %s\n", renderer_.c_str());
-  printf("\tOpenGL shading language version: %s\n", shadingLanguageVersion_.c_str());
-
 #endif
 }
 
 auto OGLCapability::getVersion() const -> core::Version { return core::Version(majorVersion_, minorVersion_); }
+
+auto OGLCapability::toStr() const -> std::string {
+  std::stringstream stream;
+  // clang-format off
+  stream << "Graphics card and driver information:\n" 
+         <<        "\tOpenGL (" << vendor_.c_str() << ") version: " << version_.c_str() << "\n"
+         <<        "\tOpenGL Renderer: " << renderer_.c_str() << "\n"
+         <<        "\tOpenGL shading language version: " << shadingLanguageVersion_.c_str();
+  // clang-format on
+  return stream.str();
+}
 
 void OGLCapability::initializeVersion_() {
   renderer_ = reinterpret_cast<lpcstr_t>(glGetString(GL_RENDERER));

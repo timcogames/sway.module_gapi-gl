@@ -14,6 +14,9 @@ set(MODULE_GAPI_GL_CMAKE_DIR "${MODULE_GAPI_GL_ROOT_DIR}/submodules/sway.module_
 set(MODULE_GAPI_GL_LIB_DIR "${MODULE_GAPI_GL_ROOT_DIR}/lib")
 set(MODULE_GAPI_GL_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
+set(X11_INC_DIRS "/opt/X11/include")
+set(X11_LIB_DIRS "/opt/X11/lib")
+
 #---------------------------------------------------------------------------------
 # Include CMake modules
 #---------------------------------------------------------------------------------
@@ -61,7 +64,8 @@ endif()
 project_metadata("gapi_gl" 0.2.6)
 project(${MODULE_GAPI_GL_PROJ_NAME} VERSION ${MODULE_GAPI_GL_VERSION} LANGUAGES CXX)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
 #---------------------------------------------------------------------------------
 # Submodules
@@ -114,6 +118,7 @@ set_output_dir(${MODULE_GAPI_GL_BIN_DIR})
 # Include project headers
 #---------------------------------------------------------------------------------
 
+include_directories("${X11_INC_DIRS}")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
@@ -124,7 +129,16 @@ include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_platform-
 file(GLOB_RECURSE MODULE_GAPI_GL_HEADERS "${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include/*.*")
 file(GLOB_RECURSE MODULE_GAPI_GL_SOURCES "${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/src/*.*")
 
+link_directories("${X11_LIB_DIRS}")
 find_package(OpenGL REQUIRED)
+if(OPENGL_FOUND)
+  # include_directories(${OPENGL_INCLUDE_DIRS})
+  # link_directories(${OPENGL_LIBRARY_DIRS})
+  # add_definitions(${OPENGL_DEFINITIONS})
+  message("OPENGL_INCLUDE_DIRS: ${OPENGL_INCLUDE_DIRS}")
+  message("OPENGL_LIBRARY_DIRS: ${OPENGL_LIBRARY_DIRS}")
+  message("OPENGL_DEFINITIONS: ${OPENGL_DEFINITIONS}")
+endif()
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
 #---------------------------------------------------------------------------------
@@ -145,7 +159,9 @@ create_iface(${MODULE_CORE_TARGET_IFACE} ${TARGET_OBJECT_LIST})
 if(GLOB_EMSCRIPTEN_PLATFORM)
   create_bitcode(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
 else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -dynamiclib")
   create_library(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
+  target_link_libraries(${MODULE_GAPI_GL_TARGET} X11 GL module_core)
 endif()
 
 enable_cxx17(${MODULE_GAPI_GL_TARGET})
@@ -162,7 +178,6 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
       "SHELL:-s FULL_ES3=1"
       "SHELL:-s SUPPORT_LONGJMP=0"
       "SHELL:-s EXPORT_NAME=\"create_gapi_gl_module\""
-      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json"
       "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_GAPI_GL_LIB_DIR}/runtime-exports.json")
 
     if(MODULE_GAPI_GL_SHARED_LIB)
@@ -170,6 +185,9 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
         "SHELL:-shared"
         "SHELL:-dynamiclib"
         "SHELL:-s SIDE_MODULE=1")
+    else()
+      target_link_options(${target} PUBLIC 
+        "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json")
     endif()
 
     if(MODULE_GAPI_GL_MT)
@@ -218,15 +236,17 @@ if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   add_submodule("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
-  add_subdirectory(examples/01-triangle)
-  add_subdirectory(examples/02-ibo)
-  add_subdirectory(examples/03-texture)
+  add_subdirectory(examples/02-triangle)
+  add_subdirectory(examples/03-ibo)
+  add_subdirectory(examples/04-texture)
 endif()
 
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  add_subdirectory(examples/01-triangle-webgl)
+  # add_subdirectory(examples/01-dl-webgl)
+  add_subdirectory(examples/01-dl-thread-webgl)
+  # add_subdirectory(examples/02-triangle-webgl)
 endif()
 
 #---------------------------------------------------------------------------------
