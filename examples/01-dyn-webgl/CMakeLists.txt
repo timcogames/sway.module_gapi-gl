@@ -2,7 +2,7 @@
 # CMake version
 #---------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
 #---------------------------------------------------------------------------------
 # Project directories
@@ -52,24 +52,27 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "${GLOB_EMSCRIPTEN_ROOT_DIR}/emcc")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -s MAIN_MODULE=1 \
     -s EXPORT_ES6=1 \
-    -s FULL_ES3=1 \
-    -s EXPORTED_FUNCTIONS=[\"_main\"]")
+    -s FULL_ES3=1")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -s NO_EXIT_RUNTIME=1")
+  if(MODULE_GAPI_GL_ALL_EXPORT)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s MAIN_MODULE=2")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+      -s MAIN_MODULE=1 \
+      -s EXPORTED_FUNCTIONS=[\"_main\"]")
+  endif()
+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s NO_EXIT_RUNTIME=1")
 
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
   #   -s WASM_ASYNC_COMPILATION=1 \
   #   -s ENVIRONMENT=worker")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -s OFFSCREEN_FRAMEBUFFER=1 \
-    -s OFFSCREENCANVAS_SUPPORT=1")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s OFFSCREEN_FRAMEBUFFER=1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s OFFSCREENCANVAS_SUPPORT=1")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -s USE_WEBGL2=1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_WEBGL2=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     --preload-file ../../../@/wwwroot/dist/module_gapi_gl_wasm_async.wasm \
@@ -78,9 +81,7 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -Wl,--shared-memory,--no-check-features \
     -s USE_PTHREADS=1")
-
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-  #   -s PROXY_TO_PTHREAD=1")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s PROXY_TO_PTHREAD=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-return-type -Wno-int-to-pointer-cast -Wno-unknown-pragmas -Wno-unicode-whitespace \
     -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-parameter -Wno-unused-variable -Wno-unused-command-line-argument -Wno-gnu-zero-variadic-macro-arguments")

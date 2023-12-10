@@ -2,7 +2,7 @@
 # CMake version
 #---------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
 #---------------------------------------------------------------------------------
 # Project directories
@@ -44,6 +44,7 @@ option(MODULE_GAPI_GL_SHARED_LIB "Build shared library (.so)" OFF)
 option(MODULE_GAPI_GL_ENVIRONMENT "Environment variable" OFF)
 option(MODULE_GAPI_GL_COMPILATION "Compilation variable" OFF)
 option(MODULE_GAPI_GL_MT "Enable multithreading" OFF)
+option(MODULE_GAPI_GL_ALL_EXPORT "" OFF)
 option(MODULE_GAPI_GL_ENABLE_TESTS "Enable test builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_COVERAGE "Enable coverage builds" OFF)
 option(MODULE_GAPI_GL_ENABLE_EXAMPLES "Enable example builds" OFF)
@@ -172,19 +173,36 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
 
   foreach(target IN LISTS OUTPUT_TARGET_NAME_LIST)
     target_link_options(${target} PUBLIC 
-      "SHELL:-s STRICT=1"
       "SHELL:-s MODULARIZE=1"
       "SHELL:-s FULL_ES3=1"
       "SHELL:-s SUPPORT_LONGJMP=0"
       "SHELL:-s EXPORT_NAME=\"create_gapi_gl_module\""
-      "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json"
       "SHELL:-s EXPORTED_RUNTIME_METHODS=@${MODULE_GAPI_GL_LIB_DIR}/runtime-exports.json")
+
+    # target_link_options(${target} PUBLIC 
+    #   "SHELL:-s STRICT=1")
+    # OR
+    target_link_options(${target} PUBLIC 
+      "SHELL:-s BINARYEN_ASYNC_COMPILATION=1")
+
+    if(MODULE_GAPI_GL_ALL_EXPORT)
+      target_link_options(${target} PUBLIC 
+        "SHELL:-s LINKABLE=1") # Полный экспорт
+    else()
+      target_link_options(${target} PUBLIC 
+        "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json") # Частичный экспорт
+    endif()
 
     if(MODULE_GAPI_GL_SHARED_LIB)
       target_link_options(${target} PUBLIC 
         "SHELL:-shared"
-        "SHELL:-dynamiclib"
-        "SHELL:-s SIDE_MODULE=1")
+        "SHELL:-dynamiclib")
+
+      if(MODULE_GAPI_GL_ALL_EXPORT)
+        target_link_options(${target} PUBLIC "SHELL:-s SIDE_MODULE=2")
+      else()
+        target_link_options(${target} PUBLIC "SHELL:-s SIDE_MODULE=1")
+      endif()
     endif()
 
     if(MODULE_GAPI_GL_MT)

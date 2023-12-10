@@ -1,6 +1,9 @@
 #### Конфигурируем проект для сборки
 
 ```console
+cmake --preset default -B build
+
+# deprecated
 cmake -D CMAKE_BUILD_TYPE=Release \
       -D GLOB_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
       -D GLOB_EMSCRIPTEN_PLATFORM=ON \
@@ -23,6 +26,9 @@ cmake -D CMAKE_BUILD_TYPE=Release \
 #### Собираем проект
 
 ```console
+cmake --build build --preset Debug
+
+# deprecated
 cmake --build ./
 ```
 

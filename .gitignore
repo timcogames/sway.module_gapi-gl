@@ -1,5 +1,9 @@
+# project output files
 /build
 /bin
 
-.obsidian
+# osx noise
 .DS_Store
+
+# note‑taking app settings
+.obsidian
