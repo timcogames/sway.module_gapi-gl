@@ -72,6 +72,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 #---------------------------------------------------------------------------------
 
 add_submodule("module_core" submodules/sway.module_core)
+add_submodule("module_platform_glx11" submodules/sway.module_platform-glx11)
 
 # if(MODULE_GAPI_GL_SHARED_LIB AND NOT GLOB_EMSCRIPTEN_PLATFORM)
 #   set(CMAKE_CXX_COMPILER "g++")
@@ -145,12 +146,13 @@ find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 # Create interfaces
 #---------------------------------------------------------------------------------
 
-set(MODULE_CORE_TARGET_IFACE "module_core_iface")
-
+set(TARGET_OBJECT_INTERFACE_LIST "module_interfaces")
 set(TARGET_OBJECT_LIST)
-list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_core>)
 
-create_iface(${MODULE_CORE_TARGET_IFACE} ${TARGET_OBJECT_LIST})
+list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_core>)
+list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_pltf>)
+
+create_iface(${TARGET_OBJECT_INTERFACE_LIST} ${TARGET_OBJECT_LIST})
 
 #---------------------------------------------------------------------------------
 # [EMSCRIPTEN] Bitcode
@@ -225,7 +227,6 @@ endif()
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND NOT GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  add_submodule("libmodule_platform_glx11" submodules/sway.module_platform-glx11)
   add_subdirectory(examples/02-triangle)
   add_subdirectory(examples/03-ibo)
   add_subdirectory(examples/04-texture)

@@ -13,7 +13,7 @@
           "value": "Release"
         },
         "GLOB_EMSCRIPTEN_ROOT_DIR": {
-          "type": "STRING",
+          "type": "FILEPATH",
           "value": "/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten"
         },
         "GLOB_EMSCRIPTEN_PLATFORM": {
@@ -21,19 +21,19 @@
           "value": "ON"
         },
         "GLOB_GTEST_ROOT_DIR": {
-          "type": "STRING",
+          "type": "FILEPATH",
           "value": ""
         },
         "GLOB_GMOCK_ROOT_DIR": {
-          "type": "STRING",
+          "type": "FILEPATH",
           "value": ""
         },
         "GLOB_GTEST_LIB_DIR": {
-          "type": "STRING",
+          "type": "FILEPATH",
           "value": ""
         },
         "GLOB_GMOCK_LIB_DIR": {
-          "type": "STRING",
+          "type": "FILEPATH",
           "value": ""
         },
         "MODULE_CORE_ENVIRONMENT": {
@@ -53,24 +53,24 @@
           "value": "async"
         },
         "MODULE_GAPI_GL_SHARED_LIB": {
-          "type": "STRING",
-          "value": "ON"
+          "type": "BOOL",
+          "value": true
         },
         "MODULE_GAPI_GL_MT": {
-          "type": "STRING",
-          "value": "ON"
+          "type": "BOOL",
+          "value": true
         },
         "MODULE_GAPI_GL_ENABLE_TESTS": {
-          "type": "STRING",
-          "value": "OFF"
+          "type": "BOOL",
+          "value": false
         },
         "MODULE_GAPI_GL_ENABLE_COVERAGE": {
-          "type": "STRING",
-          "value": "OFF"
+          "type": "BOOL",
+          "value": false
         },
         "MODULE_GAPI_GL_ENABLE_EXAMPLES": {
-          "type": "STRING",
-          "value": "ON"
+          "type": "BOOL",
+          "value": true
         }
       }
     }

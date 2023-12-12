@@ -19,7 +19,9 @@ auto main() -> int {
     return -1;
   }
 
-  auto *app = new WebApp();
+  auto *app = new WebApp("#canvas");
   app->createRenderThread();
+
+  WebAppDestroy(app);
   return 0;
 }

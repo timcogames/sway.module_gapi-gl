@@ -116,4 +116,4 @@ set_target_properties(${MODULE_GAPI_GL_EX_01_TARGET} PROPERTIES OUTPUT_NAME ${MO
 set_target_properties(${MODULE_GAPI_GL_EX_01_TARGET} PROPERTIES LINK_FLAGS "--entry")
 
 enable_cxx17(${MODULE_GAPI_GL_EX_01_TARGET})
-target_link_libraries(${MODULE_GAPI_GL_EX_01_TARGET} -lGL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_gapi_gl module_core_iface)
+target_link_libraries(${MODULE_GAPI_GL_EX_01_TARGET} -lGL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_gapi_gl module_pltf module_interfaces)
