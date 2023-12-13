@@ -10,10 +10,14 @@ void loadGapiPlugin(lpcstr_t plugname) {
 
   auto capability = plugFuncset->createCapability();
   auto capabilityPtr = capability.get();
-  EM_ASM({ console.log(UTF8ToString($0)); }, ((gapi::OGLCapability *)capabilityPtr)->toStr().c_str());
+
+  // clang-format off
+  EM_ASM({
+    console.log(UTF8ToString($0));
+  }, ((gapi::OGLCapability *)capabilityPtr)->toStr().c_str());  // clang-format on
 }
 
-void createContext(const std::string canvasId) {
+void createContext(const std::string &canvasId) {
   auto ctx = std::make_shared<pltf::EMSContext>(canvasId);
   ctx->create(nullptr);
   ctx->makeCurrent();
@@ -42,10 +46,9 @@ void WebApp::createRenderThread() {
   pthread_attr_init(&attr);
   emscripten_pthread_attr_settransferredcanvases(&attr, canvasId_.substr(1).c_str());
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-  // pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
   // clang-format off
-  pthread_create(&thread_, &attr, [](void *ctx) -> void * {
+  pthread_create(&worker_, &attr, [](void *ctx) -> void * {
     static_cast<WebApp *>(ctx)->runWorker();
     return nullptr;
   }, this);  // clang-format on
@@ -53,8 +56,9 @@ void WebApp::createRenderThread() {
 
 void WebApp::dispose() {
   assert(emscripten_is_main_browser_thread());
+
   emscripten_dispatch_to_thread(
-      thread_, EM_FUNC_SIG_VI, reinterpret_cast<void *>(WebApp::disposeInstance), nullptr, this);
+      worker_, EM_FUNC_SIG_VI, reinterpret_cast<void *>(WebApp::disposeInstance), nullptr, this);
 }
 
 void WebAppDestroy(WebApp *app) { app->dispose(); }

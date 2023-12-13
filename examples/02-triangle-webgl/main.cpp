@@ -21,8 +21,6 @@ std::shared_ptr<gapi::VertexAttribLayout> vlayout = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
 void update() {
-  auto t = emscripten_get_now();
-
   program->use();
 
   vbo->bind();

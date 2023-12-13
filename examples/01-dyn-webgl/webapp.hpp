@@ -39,11 +39,10 @@ public:
 
   static void disposeInstance(WebApp *app) { app->dispose_(); }
 
-  std::string canvasId_;
-
 private:
   std::shared_ptr<pltf::EMSLooper> looper_;
-  pthread_t thread_;
+  std::string canvasId_;
+  pthread_t worker_;
 };
 
 void WebAppDestroy(WebApp *app);

@@ -235,7 +235,6 @@ endif()
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  # add_subdirectory(examples/01-dl-webgl)
   add_subdirectory(examples/01-dyn-webgl)
   # add_subdirectory(examples/02-triangle-webgl)
 endif()
