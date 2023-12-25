@@ -61,6 +61,11 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
     -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-parameter -Wno-unused-variable -Wno-unused-command-line-argument -Wno-gnu-zero-variadic-macro-arguments")
 endif()
 
+# address
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
+# undefined
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
+
 #---------------------------------------------------------------------------------
 # Executable output path
 #---------------------------------------------------------------------------------

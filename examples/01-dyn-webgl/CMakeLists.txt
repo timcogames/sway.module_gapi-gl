@@ -75,7 +75,7 @@ if (GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_WEBGL2=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    --preload-file ../../../@/wwwroot/dist/module_gapi_gl_wasm_async.wasm \
+    --preload-file ../../@/wwwroot/dist/module_gapi_gl_wasm_async.wasm \
     -s FORCE_FILESYSTEM=1")
 
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \

@@ -31,7 +31,7 @@ public:
 
   static void mainLoopCallback_(void *target);
 
-  void createRenderThread();
+  void createWorker();
 
   void dispose();
 

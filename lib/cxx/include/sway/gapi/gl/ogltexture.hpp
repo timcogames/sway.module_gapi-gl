@@ -24,7 +24,7 @@ public:
   MTHD_OVERRIDE(void unbind());
 
 private:
-  OGLTextureHelper helper_;
+  OGLTextureHelper *helper_;
 };
 
 NAMESPACE_END(gapi)

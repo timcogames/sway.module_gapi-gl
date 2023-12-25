@@ -39,7 +39,7 @@ void WebApp::mainLoopCallback_(void *target) {
   glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void WebApp::createRenderThread() {
+void WebApp::createWorker() {
   assert(emscripten_is_main_browser_thread());
 
   pthread_attr_t attr;

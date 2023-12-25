@@ -13,7 +13,7 @@ auto main() -> int {
   }
 
   auto *app = new WebApp("#canvas");
-  app->createRenderThread();
+  app->createWorker();
 
   WebAppDestroy(app);
   return 0;

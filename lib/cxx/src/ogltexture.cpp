@@ -8,28 +8,29 @@ auto OGLTexture::createInstance() -> TextureRef_t {
   return instance;
 }
 
-OGLTexture::OGLTexture() {
+OGLTexture::OGLTexture()
+    : helper_(new OGLTextureHelper()) {
   u32_t objname;
-  helper_.generateTextures(1, &objname);
+  helper_->generateTextures(1, &objname);
   setUid(objname);
 }
 
 // RGBA/UNSIGNED_BYTE or RGBA32F/FLOAT formats
 void OGLTexture::create(void *data, int width, int height) {
-  helper_.bindTexture(GL_TEXTURE_2D, getUid());
-  helper_.textureImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-  helper_.bindTexture(GL_TEXTURE_2D, 0);
+  helper_->bindTexture(GL_TEXTURE_2D, getUid());
+  helper_->textureImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  helper_->bindTexture(GL_TEXTURE_2D, 0);
 }
 
-void OGLTexture::setActive(s32_t slot) { helper_.setActiveTexture(GL_TEXTURE0_ARB + slot); }
+void OGLTexture::setActive(s32_t slot) { helper_->setActiveTexture(GL_TEXTURE0_ARB + slot); }
 
 void OGLTexture::bind() {
   // glEnable(GL_TEXTURE_2D);
-  helper_.bindTexture(GL_TEXTURE_2D, getUid());
+  helper_->bindTexture(GL_TEXTURE_2D, getUid());
 }
 
 void OGLTexture::unbind() {
-  helper_.bindTexture(GL_TEXTURE_2D, 0);
+  helper_->bindTexture(GL_TEXTURE_2D, 0);
   // glDisable(GL_TEXTURE_2D);
 }
 

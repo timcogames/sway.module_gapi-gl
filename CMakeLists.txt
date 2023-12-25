@@ -161,7 +161,7 @@ create_iface(${TARGET_OBJECT_INTERFACE_LIST} ${TARGET_OBJECT_LIST})
 if(GLOB_EMSCRIPTEN_PLATFORM)
   create_bitcode(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -dynamiclib")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -dynamiclib")
   create_library(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
   target_link_libraries(${MODULE_GAPI_GL_TARGET} X11 GL module_core)
 endif()
@@ -184,15 +184,12 @@ if(GLOB_EMSCRIPTEN_PLATFORM)
     # target_link_options(${target} PUBLIC 
     #   "SHELL:-s STRICT=1")
     # OR
-    target_link_options(${target} PUBLIC 
-      "SHELL:-s BINARYEN_ASYNC_COMPILATION=1")
+    target_link_options(${target} PUBLIC "SHELL:-s BINARYEN_ASYNC_COMPILATION=1")
 
     if(MODULE_GAPI_GL_ALL_EXPORT)
-      target_link_options(${target} PUBLIC 
-        "SHELL:-s LINKABLE=1") # Полный экспорт
+      target_link_options(${target} PUBLIC "SHELL:-s LINKABLE=1") # Полный экспорт
     else()
-      target_link_options(${target} PUBLIC 
-        "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json") # Частичный экспорт
+      target_link_options(${target} PUBLIC "SHELL:-s EXPORTED_FUNCTIONS=@${MODULE_GAPI_GL_LIB_DIR}/exports.json") # Частичный экспорт
     endif()
 
     if(MODULE_GAPI_GL_SHARED_LIB)
@@ -235,8 +232,8 @@ endif()
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  add_subdirectory(examples/01-dyn-webgl)
-  # add_subdirectory(examples/02-triangle-webgl)
+  # add_subdirectory(examples/01-dyn-webgl)
+  add_subdirectory(examples/02-triangle-webgl)
 endif()
 
 #---------------------------------------------------------------------------------

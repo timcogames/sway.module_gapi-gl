@@ -20,15 +20,27 @@ mkdir build && cd ./build
 
 ```console
 # Только динимическая библиотека
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DMODULE_GAPI_GL_SHARED_LIB=ON ../
+cmake -D CMAKE_BUILD_TYPE=Release \
+      -D MODULE_GAPI_GL_SHARED_LIB=ON \
+       ../
 
-# or
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DGLOB_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
-      -DGLOB_EMSCRIPTEN_PLATFORM=ON \
-      -DMODULE_GAPI_GL_SHARED_LIB=ON \
-      -DMODULE_GAPI_GL_MT=ON ../
+cmake -D CMAKE_BUILD_TYPE=Release \
+      -D GLOB_EMSCRIPTEN_ROOT_DIR=/Users/apriori85/Documents/Third-party/emsdk/upstream/emscripten \
+      -D GLOB_EMSCRIPTEN_PLATFORM=ON \
+      -D GLOB_GTEST_ROOT_DIR= \
+      -D GLOB_GMOCK_ROOT_DIR= \
+      -D GLOB_GTEST_LIB_DIR= \
+      -D GLOB_GMOCK_LIB_DIR= \
+      -D MODULE_CORE_ENVIRONMENT=web,node \
+      -D MODULE_CORE_COMPILATION=async \
+      -D MODULE_GAPI_GL_ENVIRONMENT=node \
+      -D MODULE_GAPI_GL_COMPILATION=async \
+      -D MODULE_GAPI_GL_SHARED_LIB=ON \
+      -D MODULE_GAPI_GL_MT=ON \
+      -D MODULE_GAPI_GL_ENABLE_TESTS=OFF \
+      -D MODULE_GAPI_GL_ENABLE_COVERAGE=OFF \
+      -D MODULE_GAPI_GL_ENABLE_EXAMPLES=ON \
+      ../
 ```
 
 Опция сборки | Тип | Описание | По умолчанию
@@ -56,7 +68,7 @@ cmake --build ./
 readelf -Ws ./../bin/module_gapi_gl.so.*
 
 # macos
-nm -g ./../bin/module_gapi_gl.dylib.*
+nm -g ./../bin/libmodule_gapi_gl.dylib.*
 # or
 /opt/homebrew/Cellar/binutils/2.39_1/bin/gobjdump -t ./../bin/module_gapi_gl.dylib.*
 nm ./../bin/module_gapi_gl.dylib.* | grep ' T '
@@ -79,3 +91,31 @@ ssh -X root@<HOSTNAME>
 [codedocs-url]: https://codedocs.xyz/timcogames/sway.module_gapi-gl/
 [license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg
 [license-url]: LICENSE
+
+docker build --tag sway/module_gapi-api:latest \
+             --build-arg ENABLED_COVERAGE=ON \
+             --build-arg ENABLED_TESTS=ON \
+             --build-arg ENABLED_EXAMPLES=ON \
+             --build-arg TARGET_PLATFORM=linux/arm64/v8 \
+             --build-arg TARGET_PLATFORM_OS=linux \
+             --build-arg TARGET_PLATFORM_ARCH=arm64/v8 \
+             --file gcc-linux-xarch.Dockerfile \
+             --target module_gapi_gl-release \
+             --progress plain \
+             /.
+
+docker build --tag sway/module_gapi-api:latest \
+             --build-arg ENABLED_COVERAGE=ON \
+             --build-arg ENABLED_TESTS=ON \
+             --build-arg ENABLED_EXAMPLES=ON \
+             --build-arg TARGET_PLATFORM=linux/arm64/v8 \
+             --build-arg TARGET_PLATFORM_OS=linux \
+             --build-arg TARGET_PLATFORM_ARCH=arm64/v8 \
+             --file gcc-wasm.Dockerfile \
+             --target module_gapi_gl-release \
+             --progress plain \
+             ./
+
+docker cp 262103c54e84a9b5e51a3d429fc4bca78477b53afa28db71ad3885e8f1b2b755:/module_gapi_gl_workspace/bin/. /Users/apriori85/Documents/Projects/sway.module_gapi-gl/bin
+
+

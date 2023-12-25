@@ -62,7 +62,11 @@ void OGLShaderProgram::link() {
   helper_->linkProgram(getUid(), &status);
   linked_ = (status == GL_TRUE);
   if (!linked_) {
+#ifdef EMSCRIPTEN_PLATFORM
+    EM_ASM({ console.error("Error: " + UTF8ToString($0)); }, getUid().value());
+#else
     throw OGLShaderProgramLinkageException(getUid().value());
+#endif
   }
 }
 
@@ -71,7 +75,11 @@ void OGLShaderProgram::validate() {
   helper_->validateProgram(getUid(), &status);
   validated_ = (status == GL_TRUE);
   if (!validated_) {
+#ifdef EMSCRIPTEN_PLATFORM
+    EM_ASM({ console.error("Error: " + UTF8ToString($0)); }, getUid().value());
+#else
     throw OGLShaderProgramValidationException(getUid().value());
+#endif
   }
 }
 
