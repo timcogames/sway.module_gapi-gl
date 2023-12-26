@@ -26,9 +26,10 @@ include("${MODULE_GAPI_GL_CMAKE_DIR}/set_output_dir.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/project_metadata.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/enable_cxx17.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/add_submodule.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/create_object.cmake")
+include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/create_interface.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
-include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/create_bitcode.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
 include("${MODULE_GAPI_GL_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
@@ -152,14 +153,14 @@ set(TARGET_OBJECT_LIST)
 list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_core>)
 list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:module_pltf>)
 
-create_iface(${TARGET_OBJECT_INTERFACE_LIST} ${TARGET_OBJECT_LIST})
+create_interface(${TARGET_OBJECT_INTERFACE_LIST} ${TARGET_OBJECT_LIST})
 
 #---------------------------------------------------------------------------------
 # [EMSCRIPTEN] Bitcode
 #---------------------------------------------------------------------------------
 
 if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_bitcode(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
+  create_object(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
 else()
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -dynamiclib")
   create_library(${MODULE_GAPI_GL_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
@@ -232,8 +233,8 @@ endif()
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  # add_subdirectory(examples/01-dyn-webgl)
-  add_subdirectory(examples/02-triangle-webgl)
+  add_subdirectory(examples/01-dyn-webgl)
+  # add_subdirectory(examples/02-triangle-webgl)
 endif()
 
 #---------------------------------------------------------------------------------

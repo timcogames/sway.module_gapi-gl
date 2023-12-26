@@ -4,6 +4,7 @@
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
 #include <sway/math.hpp>
+#include <sway/pltf/web/emslooper.hpp>
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
@@ -14,13 +15,15 @@
 
 using namespace sway;
 
+std::shared_ptr<pltf::EMSLooper> looper = nullptr;
+
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
 std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
 std::shared_ptr<gapi::Buffer> vbo = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vlayout = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
-void update() {
+void mainLoopCallback(void *target) {
   program->use();
 
   vbo->bind();
@@ -96,7 +99,8 @@ auto main() -> int {
 
   drawCall = functions->createDrawCall();
 
-  emscripten_set_main_loop(update, 0, 0);
+  looper = std::make_shared<pltf::EMSLooper>();
+  looper->loop(mainLoopCallback, nullptr, false);
 
   return 0;
 }
