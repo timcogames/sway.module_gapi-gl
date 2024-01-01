@@ -18,19 +18,21 @@ struct OGLDepthState : public OGLStateEnabledable {
   f64_t near;
   f64_t far;
 
-  OGLDepthState() {
-    enabled = true;
+  OGLDepthState()
+      : OGLStateEnabledable(GL_DEPTH_TEST) {
     func = GL_NEVER;
     mask = false;
   }
 
   void capture() {
-    enabled = (glIsEnabled(GL_DEPTH_TEST) != 0U);
+    this->onSaveCurrentState_();
+
     glGetIntegerv(GL_DEPTH_FUNC, (s32_t *)&func);
   }
 
   void apply([[maybe_unused]] OGLStateHelper helper /*, [[maybe_unused]] DirtyState dirty*/) {
-    if (!isEnabled(GL_DEPTH_TEST)) {
+    this->onUpdateState_();
+    if (!this->enabled) {
       return;
     }
 

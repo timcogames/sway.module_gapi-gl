@@ -11,7 +11,7 @@
         "${workspaceFolder}/submodules/sway.module_core/lib/cxx/include",
         "${workspaceFolder}/submodules/sway.module_math/lib/cxx/include",
         "${workspaceFolder}/submodules/sway.module_platform-glx11/lib/cxx/include",
-        "${workspaceFolder}/submodules/sway.module_gapi/include"
+        "${workspaceFolder}/submodules/sway.module_gapi/api/cxx/include"
       ]
     }
   ],

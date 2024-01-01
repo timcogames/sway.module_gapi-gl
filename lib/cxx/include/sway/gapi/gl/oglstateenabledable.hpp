@@ -7,12 +7,18 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 struct OGLStateEnabledable {
-  bool enabled;
+  bool enabled = false;
 
-  [[nodiscard]] auto isEnabled(u32_t cap) const -> bool {
-    (enabled ? glEnable : glDisable)(cap);
-    return enabled;
-  }
+  OGLStateEnabledable(u32_t cap)
+      : capability_(cap) {}
+
+protected:
+  void onSaveCurrentState_() { enabled = (glIsEnabled(capability_) != 0); }
+
+  void onUpdateState_() { (enabled ? glEnable : glDisable)(capability_); }
+
+private:
+  u32_t capability_;
 };
 
 NAMESPACE_END(gapi)

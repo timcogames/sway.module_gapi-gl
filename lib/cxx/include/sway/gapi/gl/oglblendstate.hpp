@@ -29,8 +29,8 @@ struct OGLBlendState : public OGLStateEnabledable {
   BlendFactor factor;
   BlendMode mode;
 
-  OGLBlendState() {
-    enabled = true;
+  OGLBlendState()
+      : OGLStateEnabledable(GL_BLEND) {
     color = math::col4f_t(0.0F, 0.0F, 0.0F, 0.0F);
     factor.src.rgb = OGLBlendFunctionConvertor::toGLenum(BlendFunction::ONE);
     factor.src.alpha = OGLBlendFunctionConvertor::toGLenum(BlendFunction::ONE);
@@ -41,7 +41,8 @@ struct OGLBlendState : public OGLStateEnabledable {
   }
 
   void capture() {
-    enabled = (glIsEnabled(GL_BLEND) != 0U);
+    this->onSaveCurrentState_();
+
     glGetIntegerv(GL_BLEND_SRC_RGB, (GLint *)&factor.src.rgb);
     glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint *)&factor.src.alpha);
     glGetIntegerv(GL_BLEND_DST_RGB, (GLint *)&factor.dst.rgb);
@@ -51,7 +52,8 @@ struct OGLBlendState : public OGLStateEnabledable {
   }
 
   void apply(OGLStateHelper helper /*, [[maybe_unused]] DirtyState dirty*/) {
-    if (!isEnabled(GL_BLEND)) {
+    this->onUpdateState_();
+    if (!this->enabled) {
       return;
     }
 

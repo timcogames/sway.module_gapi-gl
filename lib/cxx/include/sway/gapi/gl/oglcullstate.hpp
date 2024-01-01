@@ -14,20 +14,22 @@ struct OGLCullState : public OGLStateEnabledable {
   u32_t mode;
   u32_t front;
 
-  OGLCullState() {
-    enabled = true;
+  OGLCullState()
+      : OGLStateEnabledable(GL_CULL_FACE) {
     mode = OGLCullFaceConvertor::toGLenum(CullFace::BACK);
     front = OGLFrontFaceConvertor::toGLenum(FrontFace::COUNTER_CLOCK_WISE);
   }
 
   void capture() {
-    enabled = (glIsEnabled(GL_CULL_FACE) != 0U);
+    this->onSaveCurrentState_();
+
     glGetIntegerv(GL_CULL_FACE_MODE, (s32_t *)&mode);
     glGetIntegerv(GL_FRONT_FACE, (s32_t *)&front);
   }
 
   void apply([[maybe_unused]] OGLStateHelper helper /*, [[maybe_unused]] DirtyState dirty*/) {
-    if (!isEnabled(GL_CULL_FACE)) {
+    this->onUpdateState_();
+    if (!this->enabled) {
       return;
     }
 

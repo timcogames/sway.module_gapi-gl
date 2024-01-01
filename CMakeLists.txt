@@ -124,7 +124,7 @@ include_directories("${X11_INC_DIRS}")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
-include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_gapi/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_platform-glx11/lib/cxx/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
