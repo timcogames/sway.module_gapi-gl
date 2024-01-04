@@ -18,6 +18,17 @@ public:
         return 0;
     }
   }
+
+  static auto fromGLenum(GLenum face) -> FrontFace {
+    switch (face) {
+      case GL_CW:
+        return FrontFace::CLOCK_WISE;
+      case GL_CCW:
+        return FrontFace::COUNTER_CLOCK_WISE;
+      default:
+        return FrontFace::UNDEF;
+    }
+  }
 };
 
 NAMESPACE_END(gapi)

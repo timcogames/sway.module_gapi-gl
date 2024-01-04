@@ -34,7 +34,36 @@ public:
         return GL_SRC_ALPHA_SATURATE;
       default:
         return 0;
-        // throw std::runtime_error("Unknown function: " + std::to_string(fnc));
+        // throw std::runtime_error("Unknown function: " + std::to_string(func));
+    }
+  }
+
+  static auto fromGLenum(GLenum func) -> BlendFunction {
+    switch (func) {
+      case GL_ZERO:
+        return BlendFunction::ZERO;
+      case GL_ONE:
+        return BlendFunction::ONE;
+      case GL_SRC_COLOR:
+        return BlendFunction::SRC_COLOR;
+      case GL_ONE_MINUS_SRC_COLOR:
+        return BlendFunction::ONE_MINUS_SRC_COLOR;
+      case GL_DST_COLOR:
+        return BlendFunction::DST_COLOR;
+      case GL_ONE_MINUS_DST_COLOR:
+        return BlendFunction::ONE_MINUS_DST_COLOR;
+      case GL_SRC_ALPHA:
+        return BlendFunction::SRC_ALPHA;
+      case GL_ONE_MINUS_SRC_ALPHA:
+        return BlendFunction::ONE_MINUS_SRC_ALPHA;
+      case GL_DST_ALPHA:
+        return BlendFunction::DST_ALPHA;
+      case GL_ONE_MINUS_DST_ALPHA:
+        return BlendFunction::ONE_MINUS_DST_ALPHA;
+      case GL_SRC_ALPHA_SATURATE:
+        return BlendFunction::SRC_ALPHA_SATURATE;
+      default:
+        return BlendFunction::UNDEF;
     }
   }
 };

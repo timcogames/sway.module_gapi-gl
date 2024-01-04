@@ -32,6 +32,29 @@ public:
         return 0;
     }
   }
+
+  static auto fromGLenum(GLenum operation) -> StencilOperation {
+    switch (operation) {
+      case GL_KEEP:
+        return StencilOperation::KEEP;
+      case GL_ZERO:
+        return StencilOperation::ZERO;
+      case GL_REPLACE:
+        return StencilOperation::REPLACE;
+      case GL_INCR:
+        return StencilOperation::INCREMENT;
+      case GL_INCR_WRAP:
+        return StencilOperation::INCREMENT_WRAP;
+      case GL_DECR:
+        return StencilOperation::DECREMENT;
+      case GL_DECR_WRAP:
+        return StencilOperation::DECREMENT_WRAP;
+      case GL_INVERT:
+        return StencilOperation::INVERT;
+      default:
+        return StencilOperation::UNDEF;
+    }
+  }
 };
 
 NAMESPACE_END(gapi)

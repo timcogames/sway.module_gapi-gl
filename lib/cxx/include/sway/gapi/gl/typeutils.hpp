@@ -1,6 +1,7 @@
 #ifndef SWAY_GAPI_GL_TYPEUTILS_HPP
 #define SWAY_GAPI_GL_TYPEUTILS_HPP
 
+#include <sway/core.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -46,21 +47,21 @@ class TypeUtils {
 public:
   static auto toGL(core::ValueDataType type) -> u32_t {
     switch (type) {
-      case core::ValueDataType::Char:
+      case core::ValueDataType::BYTE:
         return GL_BYTE;
-      case core::ValueDataType::Short:
+      case core::ValueDataType::SHORT:
         return GL_SHORT;
-      case core::ValueDataType::Int:
+      case core::ValueDataType::INT:
         return GL_INT;
-      case core::ValueDataType::UChar:
+      case core::ValueDataType::UBYTE:
         return GL_UNSIGNED_BYTE;
-      case core::ValueDataType::UShort:
+      case core::ValueDataType::USHORT:
         return GL_UNSIGNED_SHORT;
-      case core::ValueDataType::UInt:
+      case core::ValueDataType::UINT:
         return GL_UNSIGNED_INT;
-      case core::ValueDataType::Float:
+      case core::ValueDataType::FLOAT:
         return GL_FLOAT;
-      case core::ValueDataType::Double:
+      case core::ValueDataType::DOUBLE:
         return GL_DOUBLE;
       default:
         return 0;

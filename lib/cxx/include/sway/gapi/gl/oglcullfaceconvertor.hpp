@@ -18,6 +18,17 @@ public:
         return 0;
     }
   }
+
+  static auto fromGLenum(GLenum face) -> CullFace {
+    switch (face) {
+      case GL_BACK:
+        return CullFace::BACK;
+      case GL_FRONT:
+        return CullFace::FRONT;
+      default:
+        return CullFace::UNDEF;
+    }
+  }
 };
 
 NAMESPACE_END(gapi)
