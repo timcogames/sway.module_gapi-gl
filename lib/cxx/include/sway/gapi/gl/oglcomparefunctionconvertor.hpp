@@ -10,49 +10,49 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLCompareFunctionConvertor final {
 public:
-  static auto toGLenum(CompareFunction function) -> GLenum {
-    switch (function) {
-      case CompareFunction::NEVER:
+  static auto toGLenum(CompareFn func) -> GLenum {
+    switch (func) {
+      case CompareFn::NEVER:
         return GL_NEVER;
-      case CompareFunction::ALWAYS:
+      case CompareFn::ALWAYS:
         return GL_ALWAYS;
-      case CompareFunction::LESS:
+      case CompareFn::LESS:
         return GL_LESS;
-      case CompareFunction::LESS_OR_EQUAL:
+      case CompareFn::LESS_OR_EQUAL:
         return GL_LEQUAL;
-      case CompareFunction::EQUAL:
+      case CompareFn::EQUAL:
         return GL_EQUAL;
-      case CompareFunction::NOT_EQUAL:
+      case CompareFn::NOT_EQUAL:
         return GL_NOTEQUAL;
-      case CompareFunction::GREATER_OR_EQUAL:
+      case CompareFn::GREATER_OR_EQUAL:
         return GL_GEQUAL;
-      case CompareFunction::GREATER:
+      case CompareFn::GREATER:
         return GL_GREATER;
       default:
         return 0;
     }
   }
 
-  static auto fromGLenum(GLenum func) -> CompareFunction {
+  static auto fromGLenum(GLenum func) -> CompareFn {
     switch (func) {
       case GL_NEVER:
-        return CompareFunction::NEVER;
+        return CompareFn::NEVER;
       case GL_ALWAYS:
-        return CompareFunction::ALWAYS;
+        return CompareFn::ALWAYS;
       case GL_LESS:
-        return CompareFunction::LESS;
+        return CompareFn::LESS;
       case GL_LEQUAL:
-        return CompareFunction::LESS_OR_EQUAL;
+        return CompareFn::LESS_OR_EQUAL;
       case GL_EQUAL:
-        return CompareFunction::EQUAL;
+        return CompareFn::EQUAL;
       case GL_NOTEQUAL:
-        return CompareFunction::NOT_EQUAL;
+        return CompareFn::NOT_EQUAL;
       case GL_GEQUAL:
-        return CompareFunction::GREATER_OR_EQUAL;
+        return CompareFn::GREATER_OR_EQUAL;
       case GL_GREATER:
-        return CompareFunction::GREATER;
+        return CompareFn::GREATER;
       default:
-        return CompareFunction::UNDEF;
+        return CompareFn::UNDEF;
     }
   }
 };

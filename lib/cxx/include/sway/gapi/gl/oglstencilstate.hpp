@@ -3,8 +3,8 @@
 
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
+#include <sway/gapi/gl/oglcomparefunctionconvertor.hpp>
 #include <sway/gapi/gl/oglstateenabledable.hpp>
-#include <sway/gapi/gl/oglstencilfunctionconvertor.hpp>
 #include <sway/gapi/gl/oglstenciloperationconvertor.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglstatehelper.hpp>
@@ -12,27 +12,58 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-struct OGLStencilState : public OGLStateEnabledable {
-  u32_t stencilFunc;
-  u32_t stencilFail;
-  u32_t depthFail;
-  u32_t depthPass;
+struct StencilStateData : public StateEnableableData {
+  CompareFn func;
+  u32_t ref;
+  u32_t mask;
+  StencilOp fail;
+  StencilOp depthFail;
+  StencilOp depthPass;
+};
 
-  OGLStencilState()
-      : OGLStateEnabledable(GL_STENCIL_TEST) {}
+struct OGLStencilState : public OGLStateEnableable<StencilStateData> {
+  OGLStencilState(OGLStateHelper *helper)
+      : OGLStateEnableable<StencilStateData>(helper) {}
 
-  void capture() { this->onSaveCurrentState_(); }
+  // clang-format off
+  MTHD_OVERRIDE(auto capture() -> StencilStateData) {  // clang-format on
+    // GLint *funcPtr = nullptr;
+    // glGetIntegerv(GL_STENCIL_FUNC, funcPtr);
 
-  void apply([[maybe_unused]] OGLStateHelper helper) {
-    this->onUpdateState_();
-    if (!this->enabled) {
-      return;
-    }
+    // GLint *refPtr = nullptr;
+    // glGetIntegerv(GL_STENCIL_REF, refPtr);
 
-    glStencilOp(OGLStencilOperationConvertor::toGLenum(stencilFail), OGLStencilOperationConvertor::toGLenum(depthFail),
-        OGLStencilOperationConvertor::toGLenum(depthPass));
-    glStencilFunc(OGLStencilFunctionConvertor::toGLenum(stencilFunc), 1, 0xFF);
-    glStencilMask(0xFF);
+    // GLint *maskPtr = nullptr;
+    // glGetIntegerv(GL_STENCIL_VALUE_MASK, maskPtr);
+
+    // GLint *failPtr = nullptr;
+    // glGetIntegerv(GL_STENCIL_FAIL, failPtr);
+
+    // GLint *depthFailPtr = nullptr;
+    // glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, depthFailPtr);
+
+    // GLint *depthPassPtr = nullptr;
+    // glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, depthPassPtr);
+
+    return (struct StencilStateData){
+        // .enabled = this->enabled,
+        // .func = OGLCompareFunctionConvertor::fromGLenum((GLenum)&funcPtr),
+        // .ref = (u32_t)&refPtr,
+        // .mask = (u32_t)&maskPtr,
+        // .fail = OGLStencilOperationConvertor::fromGLenum((GLenum)&failPtr),
+        // .depthFail = OGLStencilOperationConvertor::fromGLenum((GLenum)&depthFailPtr),
+        // .depthPass = OGLStencilOperationConvertor::fromGLenum((GLenum)&depthPassPtr)
+    };
+  }
+
+  MTHD_OVERRIDE(void apply(StateContext *state, const StencilStateData &data)) {
+    // if (!this->enabled) {
+    //   return;
+    // }
+
+    state->setStencilFn(data.func, data.ref, data.mask);
+    state->setStencilOp(data.fail, data.depthFail, data.depthPass);
+    state->setStencilMask(data.mask);
   }
 };
 

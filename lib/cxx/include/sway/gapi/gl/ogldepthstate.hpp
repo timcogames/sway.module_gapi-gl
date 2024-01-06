@@ -11,37 +11,49 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-struct OGLDepthState : public OGLStateEnabledable {
-  u32_t func;
+struct DepthStateData : public StateEnableableData {
+  CompareFn func;
   bool mask;
-  math::vec3d_t range;
+  // math::vec2d_t range;
   f64_t near;
   f64_t far;
+};
 
-  OGLDepthState()
-      : OGLStateEnabledable(GL_DEPTH_TEST) {
-    func = GL_NEVER;
-    mask = false;
+struct OGLDepthState : public OGLStateEnableable<DepthStateData> {
+  OGLDepthState(OGLStateHelper *helper)
+      : OGLStateEnableable<DepthStateData>(helper) {}
+
+  // clang-format off
+  MTHD_OVERRIDE(auto capture() -> DepthStateData) {  // clang-format on
+
+    // GLint *funcPtr = nullptr;
+    // glGetIntegerv(GL_DEPTH_FUNC, funcPtr);
+
+    // GLboolean *maskPtr = nullptr;
+    // glGetBooleanv(GL_DEPTH_WRITEMASK, maskPtr);
+
+    // GLdouble depthRange[2];
+    // glGetDoublev(GL_DEPTH_RANGE, depthRange);
+
+    return (struct DepthStateData){
+        // .enabled = this->enabled,
+        // .func = OGLBlendFunctionConvertor::fromGLenum((u32_t)&funcPtr),
+        // .mask = (bool)&maskPtr,
+        // .near = depthRange[0],
+        // .far = depthRange[1]
+    };
   }
 
-  void capture() {
-    this->onSaveCurrentState_();
-
-    glGetIntegerv(GL_DEPTH_FUNC, (s32_t *)&func);
-  }
-
-  void apply([[maybe_unused]] OGLStateHelper helper /*, [[maybe_unused]] DirtyState dirty*/) {
-    this->onUpdateState_();
-    if (!this->enabled) {
-      return;
-    }
+  MTHD_OVERRIDE(void apply(StateContext *state, const DepthStateData &data)) {
+    // if (!this->enabled) {
+    //   return;
+    // }
 
     // glClearDepth(depth_clear_);
 
-    glDepthFunc(func);
-
-    glDepthMask(mask);
-    glDepthRange(range.getX(), range.getY());
+    state->setDepthFn(data.func);
+    state->setDepthMask(data.mask);
+    glDepthRange(data.near, data.far);
   }
 };
 

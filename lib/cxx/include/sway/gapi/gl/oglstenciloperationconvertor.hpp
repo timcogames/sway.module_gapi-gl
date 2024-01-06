@@ -10,49 +10,49 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLStencilOperationConvertor final {
 public:
-  static auto toGLenum(StencilOperation operation) -> GLenum {
+  static auto toGLenum(StencilOp operation) -> GLenum {
     switch (operation) {
-      case StencilOperation::KEEP:
+      case StencilOp::KEEP:
         return GL_KEEP;
-      case StencilOperation::ZERO:
+      case StencilOp::ZERO:
         return GL_ZERO;
-      case StencilOperation::REPLACE:
+      case StencilOp::REPLACE:
         return GL_REPLACE;
-      case StencilOperation::INCREMENT:
+      case StencilOp::INCREMENT:
         return GL_INCR;
-      case StencilOperation::INCREMENT_WRAP:
+      case StencilOp::INCREMENT_WRAP:
         return GL_INCR_WRAP;
-      case StencilOperation::DECREMENT:
+      case StencilOp::DECREMENT:
         return GL_DECR;
-      case StencilOperation::DECREMENT_WRAP:
+      case StencilOp::DECREMENT_WRAP:
         return GL_DECR_WRAP;
-      case StencilOperation::INVERT:
+      case StencilOp::INVERT:
         return GL_INVERT;
       default:
         return 0;
     }
   }
 
-  static auto fromGLenum(GLenum operation) -> StencilOperation {
+  static auto fromGLenum(GLenum operation) -> StencilOp {
     switch (operation) {
       case GL_KEEP:
-        return StencilOperation::KEEP;
+        return StencilOp::KEEP;
       case GL_ZERO:
-        return StencilOperation::ZERO;
+        return StencilOp::ZERO;
       case GL_REPLACE:
-        return StencilOperation::REPLACE;
+        return StencilOp::REPLACE;
       case GL_INCR:
-        return StencilOperation::INCREMENT;
+        return StencilOp::INCREMENT;
       case GL_INCR_WRAP:
-        return StencilOperation::INCREMENT_WRAP;
+        return StencilOp::INCREMENT_WRAP;
       case GL_DECR:
-        return StencilOperation::DECREMENT;
+        return StencilOp::DECREMENT;
       case GL_DECR_WRAP:
-        return StencilOperation::DECREMENT_WRAP;
+        return StencilOp::DECREMENT_WRAP;
       case GL_INVERT:
-        return StencilOperation::INVERT;
+        return StencilOp::INVERT;
       default:
-        return StencilOperation::UNDEF;
+        return StencilOp::UNDEF;
     }
   }
 };

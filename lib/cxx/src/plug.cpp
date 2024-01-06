@@ -34,8 +34,8 @@ EXPORT_API void pluginInitialize(core::PluginFunctionSet *functions) {
       reinterpret_cast<core::binding::ProcAddress_t>(OGLDrawCall::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createViewport =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLViewport::createInstance);
-  static_cast<ConcreatePluginFunctionSet *>(functions)->createState =
-      reinterpret_cast<core::binding::ProcAddress_t>(OGLState::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createStateContext =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLStateContext::createInstance);
 }
 
 EXTERN_C_END

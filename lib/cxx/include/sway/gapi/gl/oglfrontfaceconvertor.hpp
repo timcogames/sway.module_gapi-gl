@@ -6,8 +6,11 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class OGLFrontFaceConvertor final {
-public:
+struct OGLFrontFaceConvertor final {
+  static auto current() -> FrontFace {
+    return OGLFrontFaceConvertor::fromGLenum(TypeUtils::getU32Params(GL_FRONT_FACE));
+  }
+
   static auto toGLenum(FrontFace face) -> GLenum {
     switch (face) {
       case FrontFace::CLOCK_WISE:

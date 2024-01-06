@@ -8,29 +8,29 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLBlendFunctionConvertor final {
 public:
-  static auto toGLenum(BlendFunction fnc) -> GLenum {
-    switch (fnc) {
-      case BlendFunction::ZERO:
+  static auto toGLenum(BlendFn func) -> GLenum {
+    switch (func) {
+      case BlendFn::ZERO:
         return GL_ZERO;
-      case BlendFunction::ONE:
+      case BlendFn::ONE:
         return GL_ONE;
-      case BlendFunction::SRC_COLOR:
+      case BlendFn::SRC_COLOR:
         return GL_SRC_COLOR;
-      case BlendFunction::ONE_MINUS_SRC_COLOR:
+      case BlendFn::ONE_MINUS_SRC_COLOR:
         return GL_ONE_MINUS_SRC_COLOR;
-      case BlendFunction::DST_COLOR:
+      case BlendFn::DST_COLOR:
         return GL_DST_COLOR;
-      case BlendFunction::ONE_MINUS_DST_COLOR:
+      case BlendFn::ONE_MINUS_DST_COLOR:
         return GL_ONE_MINUS_DST_COLOR;
-      case BlendFunction::SRC_ALPHA:
+      case BlendFn::SRC_ALPHA:
         return GL_SRC_ALPHA;
-      case BlendFunction::ONE_MINUS_SRC_ALPHA:
+      case BlendFn::ONE_MINUS_SRC_ALPHA:
         return GL_ONE_MINUS_SRC_ALPHA;
-      case BlendFunction::DST_ALPHA:
+      case BlendFn::DST_ALPHA:
         return GL_DST_ALPHA;
-      case BlendFunction::ONE_MINUS_DST_ALPHA:
+      case BlendFn::ONE_MINUS_DST_ALPHA:
         return GL_ONE_MINUS_DST_ALPHA;
-      case BlendFunction::SRC_ALPHA_SATURATE:
+      case BlendFn::SRC_ALPHA_SATURATE:
         return GL_SRC_ALPHA_SATURATE;
       default:
         return 0;
@@ -38,32 +38,32 @@ public:
     }
   }
 
-  static auto fromGLenum(GLenum func) -> BlendFunction {
+  static auto fromGLenum(GLenum func) -> BlendFn {
     switch (func) {
       case GL_ZERO:
-        return BlendFunction::ZERO;
+        return BlendFn::ZERO;
       case GL_ONE:
-        return BlendFunction::ONE;
+        return BlendFn::ONE;
       case GL_SRC_COLOR:
-        return BlendFunction::SRC_COLOR;
+        return BlendFn::SRC_COLOR;
       case GL_ONE_MINUS_SRC_COLOR:
-        return BlendFunction::ONE_MINUS_SRC_COLOR;
+        return BlendFn::ONE_MINUS_SRC_COLOR;
       case GL_DST_COLOR:
-        return BlendFunction::DST_COLOR;
+        return BlendFn::DST_COLOR;
       case GL_ONE_MINUS_DST_COLOR:
-        return BlendFunction::ONE_MINUS_DST_COLOR;
+        return BlendFn::ONE_MINUS_DST_COLOR;
       case GL_SRC_ALPHA:
-        return BlendFunction::SRC_ALPHA;
+        return BlendFn::SRC_ALPHA;
       case GL_ONE_MINUS_SRC_ALPHA:
-        return BlendFunction::ONE_MINUS_SRC_ALPHA;
+        return BlendFn::ONE_MINUS_SRC_ALPHA;
       case GL_DST_ALPHA:
-        return BlendFunction::DST_ALPHA;
+        return BlendFn::DST_ALPHA;
       case GL_ONE_MINUS_DST_ALPHA:
-        return BlendFunction::ONE_MINUS_DST_ALPHA;
+        return BlendFn::ONE_MINUS_DST_ALPHA;
       case GL_SRC_ALPHA_SATURATE:
-        return BlendFunction::SRC_ALPHA_SATURATE;
+        return BlendFn::SRC_ALPHA_SATURATE;
       default:
-        return BlendFunction::UNDEF;
+        return BlendFn::UNDEF;
     }
   }
 };

@@ -45,6 +45,18 @@ NAMESPACE_BEGIN(gapi)
 
 class TypeUtils {
 public:
+  static auto getIntParams(u32_t name) -> s32_t * {
+    s32_t *params = nullptr;
+    glGetIntegerv(name, params);
+    return params;
+  }
+
+  static auto getU32Params(u32_t name) -> u32_t {
+    u32_t param = 0;
+    glGetIntegerv(name, (GLint *)&param);
+    return param;
+  }
+
   static auto toGL(core::ValueDataType type) -> u32_t {
     switch (type) {
       case core::ValueDataType::BYTE:

@@ -1,13 +1,18 @@
 #ifndef SWAY_GAPI_GL_OGLCULLFACECONVERTOR_HPP
 #define SWAY_GAPI_GL_OGLCULLFACECONVERTOR_HPP
 
+#include <sway/core.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
+#include <sway/gapi/gl/typeutils.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class OGLCullFaceConvertor final {
-public:
+struct OGLCullFaceConvertor final {
+  static auto current() -> CullFace {
+    return OGLCullFaceConvertor::fromGLenum(TypeUtils::getU32Params(GL_CULL_FACE_MODE));
+  }
+
   static auto toGLenum(CullFace face) -> GLenum {
     switch (face) {
       case CullFace::BACK:
@@ -26,7 +31,7 @@ public:
       case GL_FRONT:
         return CullFace::FRONT;
       default:
-        return CullFace::UNDEF;
+        return CullFace::DISABLED;
     }
   }
 };
