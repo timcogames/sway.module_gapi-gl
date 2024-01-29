@@ -16,5 +16,6 @@
 #include <sway/gapi/gl/oglvertexarray.hpp>
 #include <sway/gapi/gl/oglvertexattriblayout.hpp>
 #include <sway/gapi/gl/oglviewport.hpp>
+#include <sway/gapi/glmacros.hpp>
 
 #endif  // SWAY_GAPI_GL_HPP

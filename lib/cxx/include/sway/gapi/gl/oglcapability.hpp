@@ -28,7 +28,8 @@ public:
   // clang-format off
   MTHD_OVERRIDE(auto getVersion() const -> core::Version);  // clang-format on
 
-  [[nodiscard]] auto toStr() const -> std::string;
+  [[nodiscard]]
+  auto toStr() const -> std::string;
 
   static auto getExtensions() -> lpcstr_t { return reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS)); }
 

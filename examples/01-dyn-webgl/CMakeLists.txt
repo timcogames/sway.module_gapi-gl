@@ -8,29 +8,29 @@ cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 # Project directories
 #---------------------------------------------------------------------------------
 
-set(MODULE_GAPI_GL_EX_01_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-set(MODULE_GAPI_GL_EX_01_LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
-set(MODULE_GAPI_GL_EX_01_CMAKE_DIR "${MODULE_GAPI_GL_EX_01_ROOT_DIR}/../../submodules/sway.module_core/cmake_modules")
-set(MODULE_GAPI_GL_EX_01_LIB_DIR "${MODULE_GAPI_GL_EX_01_ROOT_DIR}/lib")
-set(MODULE_GAPI_GL_EX_01_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+set(MODULE_GAPI_GL01_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(MODULE_GAPI_GL01_LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
+set(MODULE_GAPI_GL01_CMAKE_DIR "${MODULE_GAPI_GL01_ROOT_DIR}/../../submodules/sway.module_core/cmake_modules")
+set(MODULE_GAPI_GL01_LIB_DIR "${MODULE_GAPI_GL01_ROOT_DIR}/lib")
+set(MODULE_GAPI_GL01_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 
 #---------------------------------------------------------------------------------
 # Include CMake modules
 #---------------------------------------------------------------------------------
 
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/options.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/set_output_dir.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/project_metadata.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/enable_cxx17.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/add_submodule.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/set_environment.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/set_compilation.cmake")
-include("${MODULE_GAPI_GL_EX_01_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/options.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/set_output_dir.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/project_metadata.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/enable_cxx17.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/add_submodule.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/set_environment.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/set_compilation.cmake")
+include("${MODULE_GAPI_GL01_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmake")
 
 #---------------------------------------------------------------------------------
 # [EMSCRIPTEN]: Setup
@@ -44,8 +44,8 @@ endif()
 # Project
 #---------------------------------------------------------------------------------
 
-project_metadata("gapi_gl_ex_01" 0.2.6)
-project(${MODULE_GAPI_GL_EX_01_PROJ_NAME} VERSION ${MODULE_GAPI_GL_EX_01_VERSION} LANGUAGES CXX)
+project_metadata("gapi_gl01" 0.2.6)
+project(${MODULE_GAPI_GL01_PROJ_NAME} VERSION ${MODULE_GAPI_GL01_VERSION} LANGUAGES CXX)
 
 if (GLOB_EMSCRIPTEN_PLATFORM)
   set(CMAKE_CXX_COMPILER "${GLOB_EMSCRIPTEN_ROOT_DIR}/emcc")
@@ -90,7 +90,7 @@ endif()
 # Executable output path
 #---------------------------------------------------------------------------------
 
-set_output_dir(${MODULE_GAPI_GL_EX_01_BIN_DIR})
+set_output_dir(${MODULE_GAPI_GL01_BIN_DIR})
 
 #---------------------------------------------------------------------------------
 # Find libraries
@@ -104,15 +104,19 @@ if(OPENGL_FOUND)
 endif()
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
-set(MODULE_GAPI_GL_EX_01_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(MODULE_GAPI_GL01_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_GAPI_GL_EX_01_HEADERS "${MODULE_GAPI_GL_EX_01_DIR}/*.hpp")
-file(GLOB_RECURSE MODULE_GAPI_GL_EX_01_SOURCES "${MODULE_GAPI_GL_EX_01_DIR}/*.cpp")
+file(GLOB_RECURSE MODULE_GAPI_GL01_HEADERS "${MODULE_GAPI_GL01_DIR}/*.hpp")
+file(GLOB_RECURSE MODULE_GAPI_GL01_SOURCES "${MODULE_GAPI_GL01_DIR}/*.cpp")
 
-add_executable(${MODULE_GAPI_GL_EX_01_TARGET} ${MODULE_GAPI_GL_EX_01_SOURCES})
-set_target_properties(${MODULE_GAPI_GL_EX_01_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL_EX_01_PROJ_NAME})
-set_target_properties(${MODULE_GAPI_GL_EX_01_TARGET} PROPERTIES LINK_FLAGS "--entry")
+#---------------------------------------------------------------------------------
+# Create app
+#---------------------------------------------------------------------------------
 
-enable_cxx17(${MODULE_GAPI_GL_EX_01_TARGET})
-target_link_libraries(${MODULE_GAPI_GL_EX_01_TARGET} -lGL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_gapi_gl module_pltf module_interfaces)
+add_executable(${MODULE_GAPI_GL01_LIB_TARGET} ${MODULE_GAPI_GL01_SOURCES})
+set_target_properties(${MODULE_GAPI_GL01_LIB_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_GAPI_GL01_PROJ_NAME})
+set_target_properties(${MODULE_GAPI_GL01_LIB_TARGET} PROPERTIES LINK_FLAGS "--entry")
+
+enable_cxx17(${MODULE_GAPI_GL01_LIB_TARGET})
+target_link_libraries(${MODULE_GAPI_GL01_LIB_TARGET} -lGL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_pltf module_gapi_gl_obj module_gapi_gl_dependences)

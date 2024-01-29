@@ -1,0 +1,18 @@
+#ifndef SWAY_GAPI_GLMACROS_HPP
+#define SWAY_GAPI_GLMACROS_HPP
+
+#include <sway/visibilitymacros.hpp>
+
+#undef D_MODULE_GAPI_GL_INTERFACE_EXPORT_API
+#ifdef D_MODULE_GAPI_GL_INTERFACE_EXPORT
+#  if defined(EMSCRIPTEN_PLATFORM)
+#    include <emscripten.h>
+#    define D_MODULE_GAPI_GL_INTERFACE_EXPORT_API EMSCRIPTEN_KEEPALIVE
+#  else
+#    define D_MODULE_GAPI_GL_INTERFACE_EXPORT_API PUBLIC_ATTRIB
+#  endif
+#else
+#  define D_MODULE_GAPI_GL_INTERFACE_EXPORT_API
+#endif
+
+#endif  // SWAY_GAPI_GLMACROS_HPP

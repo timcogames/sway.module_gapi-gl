@@ -14,7 +14,7 @@ public:
 
   OGLStateContext();
 
-  DFLT_DTOR_VIRTUAL(OGLStateContext);
+  virtual ~OGLStateContext() = default;
 
   MTHD_OVERRIDE(void setCapabilityEnable(StateCapability cap, bool enable));
 

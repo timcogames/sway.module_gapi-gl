@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLGenericShaderHelperIface {
 public:
-  DFLT_DTOR_VIRTUAL(OGLGenericShaderHelperIface);
+  virtual ~OGLGenericShaderHelperIface() = default;
 
   // clang-format off
   PURE_VIRTUAL(auto createShader(u32_t) -> u32_t);  // clang-format on
@@ -30,7 +30,7 @@ class OGLGenericShaderHelper : public OGLGenericShaderHelperIface, public OGLInf
 public:
   OGLGenericShaderHelper();
 
-  DFLT_DTOR_VIRTUAL(OGLGenericShaderHelper);
+  virtual ~OGLGenericShaderHelper() = default;
 
   DECL_GENERIC_CALLBACK_FUNC(u32_t, OGLGenericShaderHelper, createShader, u32_t)
   // clang-format off

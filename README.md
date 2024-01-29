@@ -8,6 +8,11 @@
 git clone --recursive https://github.com/timcogames/sway.module_gapi-gl.git
 ```
 
+```console
+git submodule foreach --recursive git checkout develop
+git submodule foreach --recursive git pull origin develop
+```
+
 ## Сборка проекта
 
 Создаем директорию build и переходим в неё
@@ -22,7 +27,7 @@ mkdir build && cd ./build
 # Только динимическая библиотека
 cmake -D CMAKE_BUILD_TYPE=Release \
       -D MODULE_GAPI_GL_SHARED_LIB=ON \
-       ../
+      ../
 
 cmake -D CMAKE_BUILD_TYPE=Release \
       -D GLOB_EMSCRIPTEN_ROOT_DIR=/Users/<USER_NAME>/Documents/Third-party/emsdk/upstream/emscripten \

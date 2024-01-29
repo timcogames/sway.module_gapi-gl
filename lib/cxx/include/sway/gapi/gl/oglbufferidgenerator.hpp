@@ -23,7 +23,8 @@ public:
 
   virtual ~OGLBufferIdGenerator();
 
-  [[nodiscard]] auto newGuid() -> BufferIdType;
+  [[nodiscard]]
+  auto newGuid() -> BufferIdType;
 
 private:
   OGLGenericBufferHelper helper_;

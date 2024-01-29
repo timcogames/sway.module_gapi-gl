@@ -6,12 +6,12 @@ NAMESPACE_BEGIN(gapi)
 
 EXTERN_C_BEGIN
 
-EXPORT_API core::PluginInfo pluginGetInfo() {
+D_MODULE_GAPI_GL_INTERFACE_EXPORT_API core::PluginInfo pluginGetInfo() {
   core::PluginInfo info = {};
   return info;
 }
 
-EXPORT_API void pluginInitialize(core::PluginFunctionSet *functions) {
+D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunctionSet *functions) {
   static_cast<ConcreatePluginFunctionSet *>(functions)->createCapability =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLCapability::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShader =
