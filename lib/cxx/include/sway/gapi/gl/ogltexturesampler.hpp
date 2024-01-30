@@ -15,7 +15,7 @@ public:
 
   static auto createInstance() -> TextureSamplerRef_t;
 
-  OGLTextureSampler();
+  OGLTextureSampler(TextureTarget target);
 
   virtual ~OGLTextureSampler();
 
@@ -25,6 +25,7 @@ public:
 
 private:
   OGLTextureHelper *helper_;
+  TextureTarget target_;
 };
 
 NAMESPACE_END(gapi)

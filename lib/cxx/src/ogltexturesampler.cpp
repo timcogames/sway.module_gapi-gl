@@ -34,24 +34,25 @@ auto OGLTextureSampler::wrapToGLenum(TextureWrap wrap) -> GLenum {
 }
 
 auto OGLTextureSampler::createInstance() -> TextureSamplerRef_t {
-  auto instance = std::make_shared<OGLTextureSampler>();
+  auto instance = std::make_shared<OGLTextureSampler>(TextureTarget::TEX_2D);
   return instance;
 }
 
-OGLTextureSampler::OGLTextureSampler()
-    : helper_(new OGLTextureHelper()) {}
+OGLTextureSampler::OGLTextureSampler(TextureTarget target)
+    : helper_(new OGLTextureHelper())
+    , target_(target) {}
 
 OGLTextureSampler::~OGLTextureSampler() { SAFE_DELETE_OBJECT(helper_); }
 
 void OGLTextureSampler::setWrapMode(TextureWrap wrapS, TextureWrap wrapT, TextureWrap wrapR) {
-  helper_->setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, OGLTextureSampler::wrapToGLenum(wrapS));
-  helper_->setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, OGLTextureSampler::wrapToGLenum(wrapT));
-  helper_->setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, OGLTextureSampler::wrapToGLenum(wrapR));
+  helper_->setTextureParamI(target_, GL_TEXTURE_WRAP_S, OGLTextureSampler::wrapToGLenum(wrapS));
+  helper_->setTextureParamI(target_, GL_TEXTURE_WRAP_T, OGLTextureSampler::wrapToGLenum(wrapT));
+  helper_->setTextureParamI(target_, GL_TEXTURE_WRAP_R, OGLTextureSampler::wrapToGLenum(wrapR));
 }
 
 void OGLTextureSampler::setFilterMode(TextureFilter minFilter, TextureFilter magFilter) {
-  helper_->setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, OGLTextureSampler::filterToGLenum(minFilter));
-  helper_->setTextureParamI(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, OGLTextureSampler::filterToGLenum(magFilter));
+  helper_->setTextureParamI(target_, GL_TEXTURE_MAG_FILTER, OGLTextureSampler::filterToGLenum(minFilter));
+  helper_->setTextureParamI(target_, GL_TEXTURE_MIN_FILTER, OGLTextureSampler::filterToGLenum(magFilter));
 }
 
 NAMESPACE_END(gapi)

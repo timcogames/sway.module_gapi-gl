@@ -108,9 +108,18 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     }
   }
 
-  texture = functions->createTexture();
-  texture->create(image.data(), size.getW(), size.getH());
+  gapi::TextureCreateInfo createInfo;
+  createInfo.target = gapi::TextureTarget::TEX_2D;
+  createInfo.size = size;
+  // createInfo.arraySize
+  createInfo.format = gapi::PixelFormat::RGBA;
+  createInfo.internalFormat = gapi::PixelFormat::RGBA;
+  createInfo.dataType = core::ValueDataType::UBYTE;
+  createInfo.pixels = image.data();
+  // createInfo.mipLevels
+  // createInfo.sampleCount
 
+  texture = functions->createTexture(createInfo);
   textureSampler = functions->createTextureSampler();
   texture->bind();
   textureSampler->setWrapMode(gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);

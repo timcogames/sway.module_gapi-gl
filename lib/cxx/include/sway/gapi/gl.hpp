@@ -13,6 +13,7 @@
 #include <sway/gapi/gl/oglstencilstate.hpp>
 #include <sway/gapi/gl/ogltexture.hpp>
 #include <sway/gapi/gl/ogltexturesampler.hpp>
+#include <sway/gapi/gl/ogltexturetargetconvertor.hpp>
 #include <sway/gapi/gl/oglvertexarray.hpp>
 #include <sway/gapi/gl/oglvertexattriblayout.hpp>
 #include <sway/gapi/gl/oglviewport.hpp>
