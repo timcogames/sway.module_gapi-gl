@@ -19,6 +19,8 @@ public:
 
   MTHD_OVERRIDE(void create(const TextureCreateInfo &createInfo));
 
+  MTHD_OVERRIDE(void setUnpackAlignement(u32_t param));
+
   MTHD_OVERRIDE(void setActive(s32_t slot));
 
   MTHD_OVERRIDE(void bind());

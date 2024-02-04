@@ -78,18 +78,18 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   };
   vboCreateInfo.data = vertices.data();
 
-  gapi::BufferCreateInfo iboCreateInfo;
-  iboCreateInfo.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
-  iboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
-  iboCreateInfo.desc.byteStride = sizeof(u32_t);
-  iboCreateInfo.desc.capacity = 3;
+  gapi::BufferCreateInfo eboCreateInfo;
+  eboCreateInfo.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
+  eboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
+  eboCreateInfo.desc.byteStride = sizeof(u32_t);
+  eboCreateInfo.desc.capacity = 3;
   std::array<u32_t, 3> indices = {0, 1, 2};
-  iboCreateInfo.data = indices.data();
+  eboCreateInfo.data = indices.data();
 
   idGenerator = functions->createIdGenerator();
 
   vtxBuffer = functions->createBuffer(idGenerator, vboCreateInfo);
-  idxBuffer = functions->createBuffer(idGenerator, iboCreateInfo);
+  idxBuffer = functions->createBuffer(idGenerator, eboCreateInfo);
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
@@ -116,7 +116,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   createInfo.internalFormat = gapi::PixelFormat::RGBA;
   createInfo.dataType = core::ValueDataType::UBYTE;
   createInfo.pixels = image.data();
-  // createInfo.mipLevels
+  createInfo.mipLevels = 0;
   // createInfo.sampleCount
 
   texture = functions->createTexture(createInfo);

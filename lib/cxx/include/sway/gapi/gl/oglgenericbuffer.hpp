@@ -15,15 +15,13 @@ class OGLGenericBuffer final : public Buffer {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-  static auto targetToGLenum(BufferTarget target) -> GLenum;
-
   static auto usageToGLenum(BufferUsage usage) -> GLenum;
 
   static auto accessToGLenum(BufferAccess access) -> GLenum;
 
 #pragma endregion
 
-  static auto createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t;
+  static auto createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t;
 
   /**
    * @brief Конструктор класса.
@@ -44,12 +42,10 @@ public:
   /**
    * @brief Изменяет данные в уже существующем буфере.
    *
-   * @param[in] offset Начало изменяемого блока данных.
-   * @param[in] size Размер изменяемого блока данных.
-   * @param[in] src Область памяти, содержащая новые значения.
+   * @param[in] desc Описание конкретной заполняемой области.
    * @sa updateSubdata(const void *)
    */
-  MTHD_OVERRIDE(void updateSubdata(u32_t offset, u32_t size, const void *src));
+  MTHD_OVERRIDE(void updateSubdata(BufferSubdataDescriptor desc));
 
   /**
    * @brief Изменяет данные в уже существующем буфере.

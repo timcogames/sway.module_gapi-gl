@@ -3,28 +3,6 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLGenericBuffer::targetToGLenum(BufferTarget target) -> GLenum {
-#ifdef EMSCRIPTEN_PLATFORM
-  switch (target) {
-    case BufferTarget::ARRAY:
-      return GL_ARRAY_BUFFER;
-    case BufferTarget::ELEMENT_ARRAY:
-      return GL_ELEMENT_ARRAY_BUFFER;
-    default:
-      return 0;
-  }
-#else
-  switch (target) {
-    case BufferTarget::ARRAY:
-      return GL_ARRAY_BUFFER_ARB;
-    case BufferTarget::ELEMENT_ARRAY:
-      return GL_ELEMENT_ARRAY_BUFFER_ARB;
-    default:
-      return 0;
-  }
-#endif
-}
-
 auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
   switch (usage) {
@@ -77,7 +55,7 @@ auto OGLGenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
 #endif
 }
 
-auto OGLGenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferRef_t {
+auto OGLGenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t {
   auto instance = std::make_shared<OGLGenericBuffer>(idQueue, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
@@ -98,28 +76,33 @@ OGLGenericBuffer::OGLGenericBuffer(IdGeneratorRef_t idQueue, const BufferDescrip
 }
 
 auto OGLGenericBuffer::allocate(const void *data) -> bool {
-  auto target = OGLGenericBuffer::targetToGLenum(target_);
   auto dataSize = capacity_ * byteStride_;
   auto allocedSize = 0;
 
   this->bind();
-  helper_.bufferData(target, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
-  helper_.getBufferParam(target, GL_BUFFER_SIZE_ARB, &allocedSize);
+  helper_.bufferData(target_, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
+  helper_.getBufferParam(target_, GL_BUFFER_SIZE_ARB, &allocedSize);
 
   return allocedSize == dataSize;
 }
 
-void OGLGenericBuffer::updateSubdata(u32_t offset, u32_t size, const void *src) {
+void OGLGenericBuffer::updateSubdata(BufferSubdataDescriptor desc) {
   if (!helper_.isBuffer(getUid().value())) {
     return;
   }
 
   this->bind();
-  helper_.bufferSubData(OGLGenericBuffer::targetToGLenum(target_), offset, size, src);
+  helper_.bufferSubData(target_, desc.offset, desc.size, desc.data);
   this->unbind();
 }
 
-void OGLGenericBuffer::updateSubdata(const void *src) { updateSubdata(0, capacity_ * byteStride_, src); }
+void OGLGenericBuffer::updateSubdata(const void *src) {
+  BufferSubdataDescriptor desc;
+  desc.offset = 0;
+  desc.size = capacity_ * byteStride_;
+  desc.data = src;
+  this->updateSubdata(desc);
+}
 
 auto OGLGenericBuffer::map() -> void * {
   if (!helper_.isBuffer(getUid().value())) {
@@ -128,7 +111,7 @@ auto OGLGenericBuffer::map() -> void * {
 
   this->bind();
   // clang-format off
-  void *data = helper_.mapBuffer(OGLGenericBuffer::targetToGLenum(target_),
+  void *data = helper_.mapBuffer(target_,
       OGLGenericBuffer::accessToGLenum(BufferAccess::WRITE));  // clang-format on
   this->unbind();
 
@@ -142,7 +125,7 @@ auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, BufferAccess flags) 
 
   this->bind();
   // clang-format off
-  void *data = helper_.mapBufferRange(offset, length, OGLGenericBuffer::targetToGLenum(target_),
+  void *data = helper_.mapBufferRange(target_, offset, length,
       OGLGenericBuffer::accessToGLenum(flags));  // clang-format on
   this->unbind();
 
@@ -151,13 +134,13 @@ auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, BufferAccess flags) 
 
 void OGLGenericBuffer::unmap() {
   this->bind();
-  helper_.unmapBuffer(OGLGenericBuffer::targetToGLenum(target_));
+  helper_.unmapBuffer(target_);
   this->unbind();
 }
 
-void OGLGenericBuffer::bind() { helper_.bindBuffer(OGLGenericBuffer::targetToGLenum(target_), getUid().value()); }
+void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid().value()); }
 
-void OGLGenericBuffer::unbind() { helper_.bindBuffer(OGLGenericBuffer::targetToGLenum(target_), 0); }
+void OGLGenericBuffer::unbind() { helper_.bindBuffer(target_, 0); }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

@@ -19,6 +19,7 @@ OGLVertexArrayHelper::OGLVertexArrayHelper() {
     deleteVertexArrays_ = &OGLVertexArrayHelper::APPLE_DeleteVertexArrays;
     bindVertexArray_ = &OGLVertexArrayHelper::APPLE_BindVertexArray;
     isVertexArray_ = &OGLVertexArrayHelper::APPLE_IsVertexArray;
+  } else if (OGLCapability::isExtensionSupported(extensions, "OES_vertex_array_object")) {
   } else {
     generateVertexArrays_ = &OGLVertexArrayHelper::STD_GenerateVertexArrays;
     deleteVertexArrays_ = &OGLVertexArrayHelper::STD_DeleteVertexArrays;
