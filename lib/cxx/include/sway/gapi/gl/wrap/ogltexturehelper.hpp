@@ -34,6 +34,15 @@ public:
   void EXT_TextureImage2D(TextureTarget target, s32_t level, PixelFormat internalFormat, math::size2i_t size,
       s32_t border, PixelFormat format, core::ValueDataType type, const void *pixels);
 
+  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, texSubImage2D, TextureTarget, s32_t, s32_t, s32_t, s32_t, s32_t,
+      PixelFormat, core::ValueDataType, const void *)
+  void EMU_TexSubImage2D(TextureTarget target, s32_t level, s32_t xoffset, s32_t yoffset, s32_t width, s32_t height,
+      PixelFormat format, core::ValueDataType type, const void *pixels);
+  void STD_TexSubImage2D(TextureTarget target, s32_t level, s32_t xoffset, s32_t yoffset, s32_t width, s32_t height,
+      PixelFormat format, core::ValueDataType type, const void *pixels);
+  void EXT_TexSubImage2D(TextureTarget target, s32_t level, s32_t xoffset, s32_t yoffset, s32_t width, s32_t height,
+      PixelFormat format, core::ValueDataType type, const void *pixels);
+
   DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, setActiveTexture, s32_t)
   void EMU_SetActiveTexture(s32_t slot);
   void STD_SetActiveTexture(s32_t slot);

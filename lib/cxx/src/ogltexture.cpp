@@ -29,6 +29,12 @@ void OGLTexture::create(const TextureCreateInfo &createInfo) {
   helper_->bindTexture(target_, 0);
 }
 
+void OGLTexture::updateSubdata(TextureSubdataDescriptor desc) {
+  helper_->bindTexture(target_, getUid());
+  helper_->texSubImage2D(target_, desc.level, desc.offset.getX(), desc.offset.getY(), desc.size.getW(),
+      desc.size.getH(), desc.format, desc.type, desc.pixels);
+}
+
 void OGLTexture::setUnpackAlignement(u32_t param) { glPixelStorei(GL_UNPACK_ALIGNMENT, param); }
 
 void OGLTexture::setActive(s32_t slot) { helper_->setActiveTexture(GL_TEXTURE0_ARB + slot); }

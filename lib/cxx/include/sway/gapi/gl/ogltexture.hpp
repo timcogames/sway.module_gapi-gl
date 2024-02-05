@@ -5,6 +5,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
 #include <sway/gapi/texturecreateinfo.hpp>
+#include <sway/gapi/texturesubdatadescriptor.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -18,6 +19,8 @@ public:
   virtual ~OGLTexture() = default;
 
   MTHD_OVERRIDE(void create(const TextureCreateInfo &createInfo));
+
+  MTHD_OVERRIDE(void updateSubdata(TextureSubdataDescriptor desc));
 
   MTHD_OVERRIDE(void setUnpackAlignement(u32_t param));
 
