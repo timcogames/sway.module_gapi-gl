@@ -33,26 +33,30 @@ auto OGLTextureSampler::wrapToGLenum(TextureWrap wrap) -> GLenum {
   }
 }
 
-auto OGLTextureSampler::createInstance() -> TextureSamplerRef_t {
-  auto instance = std::make_shared<OGLTextureSampler>(TextureTarget::TEX_2D);
+auto OGLTextureSampler::createInstance(std::shared_ptr<Texture> texture) -> TextureSamplerRef_t {
+  auto instance = std::make_shared<OGLTextureSampler>(texture);
   return instance;
 }
 
-OGLTextureSampler::OGLTextureSampler(TextureTarget target)
+OGLTextureSampler::OGLTextureSampler(std::shared_ptr<Texture> texture)
     : helper_(new OGLTextureHelper())
-    , target_(target) {}
+    , texture_(texture) {}
 
 OGLTextureSampler::~OGLTextureSampler() { SAFE_DELETE_OBJECT(helper_); }
 
 void OGLTextureSampler::setWrapMode(TextureWrap wrapS, TextureWrap wrapT, TextureWrap wrapR) {
-  helper_->setTextureParamI(target_, GL_TEXTURE_WRAP_S, OGLTextureSampler::wrapToGLenum(wrapS));
-  helper_->setTextureParamI(target_, GL_TEXTURE_WRAP_T, OGLTextureSampler::wrapToGLenum(wrapT));
-  helper_->setTextureParamI(target_, GL_TEXTURE_WRAP_R, OGLTextureSampler::wrapToGLenum(wrapR));
+  texture_->bind();
+  helper_->setTextureParamI(texture_->getTarget(), GL_TEXTURE_WRAP_S, OGLTextureSampler::wrapToGLenum(wrapS));
+  helper_->setTextureParamI(texture_->getTarget(), GL_TEXTURE_WRAP_T, OGLTextureSampler::wrapToGLenum(wrapT));
+  helper_->setTextureParamI(texture_->getTarget(), GL_TEXTURE_WRAP_R, OGLTextureSampler::wrapToGLenum(wrapR));
+  texture_->unbind();
 }
 
 void OGLTextureSampler::setFilterMode(TextureFilter minFilter, TextureFilter magFilter) {
-  helper_->setTextureParamI(target_, GL_TEXTURE_MAG_FILTER, OGLTextureSampler::filterToGLenum(minFilter));
-  helper_->setTextureParamI(target_, GL_TEXTURE_MIN_FILTER, OGLTextureSampler::filterToGLenum(magFilter));
+  texture_->bind();
+  helper_->setTextureParamI(texture_->getTarget(), GL_TEXTURE_MAG_FILTER, OGLTextureSampler::filterToGLenum(minFilter));
+  helper_->setTextureParamI(texture_->getTarget(), GL_TEXTURE_MIN_FILTER, OGLTextureSampler::filterToGLenum(magFilter));
+  texture_->unbind();
 }
 
 NAMESPACE_END(gapi)

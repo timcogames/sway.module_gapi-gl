@@ -1,6 +1,7 @@
 #ifndef SWAY_GAPI_GL_OGLTEXTURESAMPLER_HPP
 #define SWAY_GAPI_GL_OGLTEXTURESAMPLER_HPP
 
+#include <sway/gapi.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
 
@@ -13,9 +14,9 @@ public:
 
   static auto wrapToGLenum(TextureWrap wrap) -> GLenum;
 
-  static auto createInstance() -> TextureSamplerRef_t;
+  static auto createInstance(std::shared_ptr<Texture> texture) -> TextureSamplerRef_t;
 
-  OGLTextureSampler(TextureTarget target);
+  OGLTextureSampler(std::shared_ptr<Texture> texture);
 
   virtual ~OGLTextureSampler();
 
@@ -25,7 +26,7 @@ public:
 
 private:
   OGLTextureHelper *helper_;
-  TextureTarget target_;
+  std::shared_ptr<Texture> texture_;
 };
 
 NAMESPACE_END(gapi)

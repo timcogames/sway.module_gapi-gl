@@ -34,7 +34,7 @@ struct OGLTextureTargetConvertor final {
       case GL_TEXTURE_CUBE_MAP:
         return TextureTarget::CUBE_MAP;
       default:
-        return TextureTarget::UNKNOWN;
+        return TextureTarget::Unknown;
     }
   }
 };

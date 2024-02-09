@@ -30,6 +30,9 @@ public:
 
   MTHD_OVERRIDE(void unbind());
 
+  // clang-format off
+  MTHD_OVERRIDE(auto getTarget() -> TextureTarget) { return target_; }  // clang-format on
+
 private:
   OGLTextureHelper *helper_;
   TextureTarget target_;
