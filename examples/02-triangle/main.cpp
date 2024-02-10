@@ -11,7 +11,6 @@ using namespace sway;
 
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
 std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
-std::shared_ptr<gapi::Buffer> vtxBuffer = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
@@ -66,7 +65,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
   idGenerator = functions->createIdGenerator();
 
-  vtxBuffer = functions->createBuffer(idGenerator, vboCreateInfo);
+  gapi::BufferSet bufset;
+  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
@@ -78,14 +78,14 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     program->use();
 
-    vtxBuffer->bind();
+    bufset.vbo->bind();
     vtxAttribLayout->enable();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vtxBuffer, nullptr},
-        core::ValueDataType::Char /* Не используется (у нас только вершиный буфер) */);
+    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, bufset,
+        core::ValueDataType::BYTE /* Не используется (у нас только вершиный буфер) */);
 
     vtxAttribLayout->disable();
-    vtxBuffer->unbind();
+    bufset.vbo->unbind();
 
     program->unuse();
 

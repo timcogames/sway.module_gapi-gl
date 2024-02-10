@@ -13,8 +13,6 @@ std::shared_ptr<gapi::ConcreatePluginFunctionSet> functions = nullptr;
 std::shared_ptr<gapi::Capability> capability = nullptr;
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
 std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
-std::shared_ptr<gapi::Buffer> vtxBuffer = nullptr;
-std::shared_ptr<gapi::Buffer> idxBuffer = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
@@ -77,8 +75,9 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
   idGenerator = functions->createIdGenerator();
 
-  vtxBuffer = functions->createBuffer(idGenerator, vboCreateInfo);
-  idxBuffer = functions->createBuffer(idGenerator, eboCreateInfo);
+  gapi::BufferSet bufset;
+  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
+  bufset.ebo = functions->createBuffer(idGenerator, eboCreateInfo);
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
@@ -90,17 +89,17 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     program->use();
 
-    vtxBuffer->bind();
+    bufset.vbo->bind();
     vtxAttribLayout->enable();
 
-    idxBuffer->bind();
+    bufset.ebo->bind();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vtxBuffer, idxBuffer}, core::ValueDataType::UInt);
+    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, bufset, core::ValueDataType::UINT);
 
-    idxBuffer->unbind();
+    bufset.ebo->unbind();
 
     vtxAttribLayout->disable();
-    vtxBuffer->unbind();
+    bufset.vbo->unbind();
 
     program->unuse();
 

@@ -138,6 +138,18 @@ endif()
 find_library(GLUT_glut_LIBRARY GLUT DOC "GLUT library for OSX")
 
 #---------------------------------------------------------------------------------
+# Build object library
+#---------------------------------------------------------------------------------
+
+if(NOT TARGET ${MODULE_GAPI_GL_OBJ_TARGET})
+  set(MODULE_GAPI_GL_LIB_SOURCES "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
+  set(MODULE_GAPI_GL_ENABLE_FILE_EXPORT TRUE)
+
+  create_object_library(${MODULE_GAPI_GL_OBJ_TARGET} ${MODULE_GAPI_GL_LIB_SOURCES} ${MODULE_GAPI_GL_ENABLE_FILE_EXPORT})
+  enable_cxx17(${MODULE_GAPI_GL_OBJ_TARGET})
+endif()
+
+#---------------------------------------------------------------------------------
 # Create interfaces
 #---------------------------------------------------------------------------------
 
@@ -164,18 +176,8 @@ if(NOT TARGET module_gapi_gl_dependences)
 endif()
 
 #---------------------------------------------------------------------------------
-# [EMSCRIPTEN] Bitcode
+# [EMSCRIPTEN] 
 #---------------------------------------------------------------------------------
-
-if(GLOB_EMSCRIPTEN_PLATFORM)
-  create_object_library(${MODULE_GAPI_GL_OBJ_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*" TRUE)
-else()
-  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -dynamiclib")
-  create_library(${MODULE_GAPI_GL_OBJ_TARGET} "${MODULE_GAPI_GL_ROOT_DIR}/lib/cxx/src/*.*")
-  target_link_libraries(${MODULE_GAPI_GL_OBJ_TARGET} X11 GL module_core_obj)
-endif()
-
-enable_cxx17(${MODULE_GAPI_GL_OBJ_TARGET})
 
 if(NOT MODULE_GAPI_GL_LIB_TYPE STREQUAL "object")
   if(GLOB_EMSCRIPTEN_PLATFORM)
@@ -243,8 +245,9 @@ endif()
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  add_subdirectory(examples/01-dyn-webgl)
+  # add_subdirectory(examples/01-dyn-webgl)
   # add_subdirectory(examples/02-triangle-webgl)
+  add_subdirectory(examples/04-texture)
 endif()
 
 #---------------------------------------------------------------------------------

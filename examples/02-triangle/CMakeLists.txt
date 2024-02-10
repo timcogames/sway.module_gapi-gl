@@ -18,4 +18,4 @@ include_directories("${MODULE_GAPI_GL_DIR}/submodules/sway.module_platform-glx11
 
 add_executable(${META_LIBNAME_EXAMPLES} ${MODULE_GAPI_SOURCE_EXAMPLES})
 
-target_link_libraries(${META_LIBNAME_EXAMPLES} X11 GLU module_pltf module_gapi_gl module_core)
+target_link_libraries(${META_LIBNAME_EXAMPLES} X11 GLU module_pltf module_gapi_gl_obj module_core_obj)

@@ -13,8 +13,6 @@ std::shared_ptr<gapi::ConcreatePluginFunctionSet> functions = nullptr;
 std::shared_ptr<gapi::Capability> capability = nullptr;
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
 std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
-std::shared_ptr<gapi::Buffer> vtxBuffer = nullptr;
-std::shared_ptr<gapi::Buffer> idxBuffer = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
 std::shared_ptr<gapi::Texture> texture = nullptr;
 std::shared_ptr<gapi::TextureSampler> textureSampler = nullptr;
@@ -88,8 +86,10 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
   idGenerator = functions->createIdGenerator();
 
-  vtxBuffer = functions->createBuffer(idGenerator, vboCreateInfo);
-  idxBuffer = functions->createBuffer(idGenerator, eboCreateInfo);
+  gapi::BufferSet bufset;
+  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
+  bufset.ebo = functions->createBuffer(idGenerator, eboCreateInfo);
+
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
@@ -115,16 +115,16 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   createInfo.format = gapi::PixelFormat::RGBA;
   createInfo.internalFormat = gapi::PixelFormat::RGBA;
   createInfo.dataType = core::ValueDataType::UBYTE;
-  createInfo.pixels = image.data();
+  createInfo.pixels = (s8_t *)image.data();
   createInfo.mipLevels = 0;
   // createInfo.sampleCount
 
   texture = functions->createTexture(createInfo);
-  textureSampler = functions->createTextureSampler();
-  texture->bind();
+  textureSampler = functions->createTextureSampler(texture);
+  // texture->bind();
   textureSampler->setWrapMode(gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
   textureSampler->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
-  texture->unbind();
+  // texture->unbind();
 
   drawCall = functions->createDrawCall();
 
@@ -138,17 +138,17 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     texture->setActive(0);
     texture->bind();
 
-    vtxBuffer->bind();
+    bufset.vbo->bind();
     vtxAttribLayout->enable();
 
-    idxBuffer->bind();
+    bufset.ebo->bind();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vtxBuffer, idxBuffer}, core::ValueDataType::UInt);
+    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, bufset, core::ValueDataType::UINT);
 
-    idxBuffer->unbind();
+    bufset.ebo->unbind();
 
     vtxAttribLayout->disable();
-    vtxBuffer->unbind();
+    bufset.vbo->unbind();
 
     texture->unbind();
 
