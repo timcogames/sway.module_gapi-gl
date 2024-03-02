@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLCapability : public Capability {
 public:
-  static auto createInstance() -> CapabilityRef_t;
+  static auto createInstance() -> CapabilityPtr_t;
 
   /**
    * @brief Конструктор класса.

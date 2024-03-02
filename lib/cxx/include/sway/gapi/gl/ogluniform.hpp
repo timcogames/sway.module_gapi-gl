@@ -13,13 +13,13 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-class UniformStack {
-public:
-};
+struct UniformStack {};
+
+using UniformStackPtr_t = struct UniformStack *;
 
 class OGLUniform final : public UniformStack {
 public:
-  static auto createInstance(std::optional<u32_t> programId, const std::string &name) -> std::shared_ptr<UniformStack>;
+  static auto createInstance(std::optional<u32_t> programId, const std::string &name) -> UniformStackPtr_t;
 
   /**
    * @brief Конструктор класса.

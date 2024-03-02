@@ -29,9 +29,9 @@ auto OGLGenericShader::typeToGLenum(ShaderType type) -> GLenum {
 #endif
 }
 
-auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderRef_t {
+auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t {
   // try {
-  auto instance = std::make_shared<OGLGenericShader>(createInfo.type);
+  auto *instance = new OGLGenericShader(createInfo.type);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());
   instance->compile(createInfo.code.c_str());
   return instance;

@@ -36,6 +36,10 @@
           "type": "FILEPATH",
           "value": ""
         },
+        "MODULE_CORE_LIB_TYPE": {
+          "type": "STRING",
+          "value": "object"
+        },
         "MODULE_CORE_ENVIRONMENT": {
           "type": "STRING",
           "value": "node"
@@ -52,9 +56,9 @@
           "type": "STRING",
           "value": "async"
         },
-        "MODULE_GAPI_GL_SHARED_LIB": {
-          "type": "BOOL",
-          "value": true
+        "MODULE_GAPI_GL_LIB_TYPE": {
+          "type": "STRING",
+          "value": "shared"
         },
         "MODULE_GAPI_GL_MT": {
           "type": "BOOL",

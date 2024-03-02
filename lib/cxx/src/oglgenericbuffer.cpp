@@ -55,8 +55,8 @@ auto OGLGenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
 #endif
 }
 
-auto OGLGenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t {
-  auto instance = std::make_shared<OGLGenericBuffer>(idQueue, createInfo.desc);
+auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t {
+  auto *instance = new OGLGenericBuffer(idQueue, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
   }
@@ -66,12 +66,13 @@ auto OGLGenericBuffer::createInstance(IdGeneratorRef_t idQueue, const BufferCrea
 
 using BufferObjectIdType = u32_t;
 
-OGLGenericBuffer::OGLGenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc)
+OGLGenericBuffer::OGLGenericBuffer(IdGeneratorPtr_t idQueue, const BufferDescriptor &desc)
     : Buffer(desc)
     , target_(desc.target)
     , usage_(desc.usage)
     , capacity_(desc.capacity)
     , byteStride_(desc.byteStride) {
+  std::cout << "CTOR" << std::endl;
   setUid(idQueue->newGuid());
 }
 

@@ -17,22 +17,22 @@ using namespace sway;
 
 std::shared_ptr<pltf::EMSLooper> looper = nullptr;
 
-std::shared_ptr<gapi::ShaderProgram> program = nullptr;
-std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
-std::shared_ptr<gapi::Buffer> vbo = nullptr;
-std::shared_ptr<gapi::VertexAttribLayout> vlayout = nullptr;
-std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
+gapi::BufferSet bufset;
+gapi::ShaderProgram *program = nullptr;
+gapi::IdGenerator *idGenerator = nullptr;
+gapi::VertexAttribLayout *vlayout = nullptr;
+gapi::DrawCall *drawCall = nullptr;
 
 void mainLoopCallback(void *target) {
   program->use();
 
-  vbo->bind();
+  bufset.vbo->bind();
   vlayout->enable();
 
-  drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, {vbo, nullptr}, core::ValueDataType::Char);
+  drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, bufset, core::ValueDataType::BYTE);
 
   vlayout->disable();
-  vbo->unbind();
+  bufset.vbo->unbind();
 
   program->unuse();
 }
@@ -93,7 +93,7 @@ auto main() -> int {
 
   idGenerator = functions->createIdGenerator();
 
-  vbo = functions->createBuffer(idGenerator, vboCreateInfo);
+  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
   vlayout = functions->createVertexAttribLayout(program);
   vlayout->addAttribute(gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
 

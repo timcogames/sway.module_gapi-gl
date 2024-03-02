@@ -3,8 +3,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLTexture::createInstance(const TextureCreateInfo &createInfo) -> TextureRef_t {
-  auto instance = std::make_shared<OGLTexture>(createInfo.target);
+auto OGLTexture::createInstance(const TextureCreateInfo &createInfo) -> TexturePtr_t {
+  auto *instance = new OGLTexture(createInfo.target);
   instance->create(createInfo);
   return instance;
 }

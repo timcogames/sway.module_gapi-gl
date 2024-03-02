@@ -5,9 +5,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLBufferIdGenerator::createInstance() -> std::shared_ptr<IdGenerator> {
-  return std::make_shared<OGLBufferIdGenerator>();
-}
+auto OGLBufferIdGenerator::createInstance() -> IdGeneratorPtr_t { return new OGLBufferIdGenerator(); }
 
 OGLBufferIdGenerator::OGLBufferIdGenerator()
     : chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}

@@ -3,12 +3,12 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLVertexAttribLayout::createInstance(ShaderProgramRef_t program) -> VertexAttribLayoutPtr_t {
-  auto instance = std::make_shared<OGLVertexAttribLayout>(program);
+auto OGLVertexAttribLayout::createInstance(ShaderProgramPtr_t program) -> VertexAttribLayoutPtr_t {
+  auto *instance = new OGLVertexAttribLayout(program);
   return instance;
 }
 
-OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramRef_t program)
+OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramPtr_t program)
     : program_(program)
     , attribOffset_(0) {
   // Получаем максимальный номер для положения вершинного атрибута.

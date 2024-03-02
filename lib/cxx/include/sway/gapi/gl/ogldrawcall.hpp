@@ -29,7 +29,7 @@ public:
 
 #pragma endregion
 
-  static auto createInstance() -> DrawCallRef_t;
+  static auto createInstance() -> DrawCallPtr_t;
 
   OGLDrawCall() = default;
 

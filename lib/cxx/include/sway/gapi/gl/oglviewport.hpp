@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLViewport : public Viewport {
 public:
-  static auto createInstance() -> ViewportRef_t;
+  static auto createInstance() -> ViewportPtr_t;
 
   /**
    * @brief Конструктор класса.

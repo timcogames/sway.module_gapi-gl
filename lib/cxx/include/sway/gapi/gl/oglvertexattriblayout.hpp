@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLVertexAttribLayout final : public VertexAttribLayout {
 public:
-  static auto createInstance(ShaderProgramRef_t program) -> VertexAttribLayoutPtr_t;
+  static auto createInstance(ShaderProgramPtr_t program) -> VertexAttribLayoutPtr_t;
 
   /**
    * @brief Конструктор класса.
@@ -19,7 +19,7 @@ public:
    *
    * @param[in] progId Идентификатор шейдерной программы.
    */
-  OGLVertexAttribLayout(ShaderProgramRef_t program);
+  OGLVertexAttribLayout(ShaderProgramPtr_t program);
 
   /**
    * @brief Деструктор класса.
@@ -46,7 +46,7 @@ public:
 
 private:
   OGLVertexAttribLayoutHelper helper_;
-  ShaderProgramRef_t program_;
+  ShaderProgramPtr_t program_;
   VertexAttribDescUmap_t attribs_;
   u32_t attribOffset_;
   int maxVertexAttribs_;  // Максимальное количество атрибутов.

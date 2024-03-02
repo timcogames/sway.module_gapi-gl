@@ -9,8 +9,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLShaderProgram::createInstance() -> ShaderProgramRef_t {
-  auto instance = std::make_shared<OGLShaderProgram>();
+auto OGLShaderProgram::createInstance() -> ShaderProgramPtr_t {
+  auto *instance = new OGLShaderProgram();
   return instance;
 }
 
@@ -35,20 +35,20 @@ OGLShaderProgram::~OGLShaderProgram() {
   SAFE_DELETE_OBJECT(helper_);
 }
 
-void OGLShaderProgram::attach(ShaderRef_t shader) {
+void OGLShaderProgram::attach(ShaderPtr_t shader) {
   // glIsShader
   shaders_.insert(std::make_pair(shader->getType(), shader));
   helper_->attachShader(getUid(), shader->getUid());
 }
 
-void OGLShaderProgram::detach(std::pair<ShaderType, ShaderRef_t> pair, bool erasing) {
+void OGLShaderProgram::detach(std::pair<ShaderType, ShaderPtr_t> pair, bool erasing) {
   helper_->detachShader(getUid(), pair.second->getUid());
   if (erasing) {
     shaders_.erase(pair.first);
   }
 }
 
-auto OGLShaderProgram::getShader(ShaderType type) -> ShaderRef_t {
+auto OGLShaderProgram::getShader(ShaderType type) -> ShaderPtr_t {
   auto iter = shaders_.find(type);
   if (iter != shaders_.end()) {
     return iter->second;

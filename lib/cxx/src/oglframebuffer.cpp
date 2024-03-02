@@ -3,8 +3,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLFramebuffer::createInstance() -> std::shared_ptr<Framebuffer> {
-  auto instance = std::make_shared<OGLFramebuffer>();
+auto OGLFramebuffer::createInstance() -> FramebufferPtr_t {
+  auto instance = new OGLFramebuffer();
   return instance;
 }
 
@@ -47,14 +47,14 @@ OGLFramebuffer::~OGLFramebuffer() {
   }
 }
 
-void OGLFramebuffer::attach(FramebufferAttachment attachment, TextureRef_t texture, int mipLevels) {
+void OGLFramebuffer::attach(FramebufferAttachment attachment, TexturePtr_t texture, int mipLevels) {
   helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, getUid());
   helper_.framebufferTexture2D(
       GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, texture->getUid(), mipLevels);
   helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
 }
 
-void OGLFramebuffer::attach(FramebufferAttachment attachment, std::shared_ptr<Renderbuffer> renderbuffer) {
+void OGLFramebuffer::attach(FramebufferAttachment attachment, RenderbufferPtr_t renderbuffer) {
   helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, getUid());
   helper_.framebufferRenderbuffer(
       GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, renderbuffer->getUid());

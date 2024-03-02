@@ -14,9 +14,9 @@ public:
 
   static auto wrapToGLenum(TextureWrap wrap) -> GLenum;
 
-  static auto createInstance(std::shared_ptr<Texture> texture) -> TextureSamplerRef_t;
+  static auto createInstance(TexturePtr_t texture) -> TextureSamplerPtr_t;
 
-  OGLTextureSampler(std::shared_ptr<Texture> texture);
+  OGLTextureSampler(TexturePtr_t texture);
 
   virtual ~OGLTextureSampler();
 
@@ -26,7 +26,7 @@ public:
 
 private:
   OGLTextureHelper *helper_;
-  std::shared_ptr<Texture> texture_;
+  TexturePtr_t texture_;
 };
 
 NAMESPACE_END(gapi)

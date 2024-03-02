@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLStateContext : public StateContext {
 public:
-  static auto createInstance() -> StateContextRef_t;
+  static auto createInstance() -> StateContextPtr_t;
 
   OGLStateContext();
 

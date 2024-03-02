@@ -26,7 +26,7 @@ mkdir build && cd ./build
 ```console
 # Только динимическая библиотека
 cmake -D CMAKE_BUILD_TYPE=Release \
-      -D MODULE_GAPI_GL_SHARED_LIB=ON \
+      -D MODULE_GAPI_GL_LIB_TYPE=shared \
       ../
 
 cmake -D CMAKE_BUILD_TYPE=Release \
@@ -40,7 +40,7 @@ cmake -D CMAKE_BUILD_TYPE=Release \
       -D MODULE_CORE_COMPILATION=async \
       -D MODULE_GAPI_GL_ENVIRONMENT=node \
       -D MODULE_GAPI_GL_COMPILATION=async \
-      -D MODULE_GAPI_GL_SHARED_LIB=ON \
+      -D MODULE_GAPI_GL_LIB_TYPE=object \
       -D MODULE_GAPI_GL_MT=ON \
       -D MODULE_GAPI_GL_ENABLE_TESTS=OFF \
       -D MODULE_GAPI_GL_ENABLE_COVERAGE=OFF \
@@ -50,7 +50,7 @@ cmake -D CMAKE_BUILD_TYPE=Release \
 
 Опция сборки | Тип | Описание | По умолчанию
 :---|:---|:---|:---:
-`MODULE_GAPI_GL_SHARED_LIB` | `BOOL` | Сборка библиотеки общего пользования | `OFF`
+`MODULE_GAPI_GL_LIB_TYPE` | `STRING` | Тип сборки библиотеки | `OFF`
 `MODULE_GAPI_GL_MT` | `BOOL` | Многопоточность | `OFF`
 `MODULE_GAPI_GL_ENABLE_COVERAGE` | `BOOL` | Включает поддержку сбора данных о покрытии кода тестами | `OFF`
 `MODULE_GAPI_GL_ENABLE_TESTS` | `BOOL` | Включает построение тестов | `OFF`

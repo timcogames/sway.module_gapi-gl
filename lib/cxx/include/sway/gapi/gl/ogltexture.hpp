@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLTexture : public Texture {
 public:
-  static auto createInstance(const TextureCreateInfo &createInfo) -> TextureRef_t;
+  static auto createInstance(const TextureCreateInfo &createInfo) -> TexturePtr_t;
 
   OGLTexture(TextureTarget target);
 

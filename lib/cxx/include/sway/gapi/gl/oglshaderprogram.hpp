@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(gapi)
  */
 class OGLShaderProgram final : public ShaderProgram {
 public:
-  static auto createInstance() -> ShaderProgramRef_t;
+  static auto createInstance() -> ShaderProgramPtr_t;
 
   /**
    * @brief Конструктор класса.
@@ -30,20 +30,20 @@ public:
    * @brief Связывает шейдерный объект с программным объектом.
    *
    * @param[in] shader Указатель на связываемый шейдерный объект.
-   * @sa detach(std::pair<ShaderType, ShaderRef_t>)
+   * @sa detach(std::pair<ShaderType, ShaderPtr_t>)
    */
-  MTHD_OVERRIDE(void attach(ShaderRef_t shader));
+  MTHD_OVERRIDE(void attach(ShaderPtr_t shader));
 
   /**
    * @brief Отсоединяет шейдерный объект от программного объекта.
    *
    * @param[in] objectId Указатель на отвязываемый шейдерный объект.
-   * @sa attach(ShaderRef_t)
+   * @sa attach(ShaderPtr_t)
    */
-  MTHD_OVERRIDE(void detach(std::pair<ShaderType, ShaderRef_t> pair, bool erasing));
+  MTHD_OVERRIDE(void detach(std::pair<ShaderType, ShaderPtr_t> pair, bool erasing));
 
   // clang-format off
-  MTHD_OVERRIDE(auto getShader(ShaderType type) -> ShaderRef_t);  // clang-format on
+  MTHD_OVERRIDE(auto getShader(ShaderType type) -> ShaderPtr_t);  // clang-format on
 
   /**
    * @brief Компонует программный объект.
@@ -129,7 +129,7 @@ public:
 
 private:
   OGLShaderProgramHelper *helper_;
-  std::map<ShaderType, ShaderRef_t> shaders_;
+  std::map<ShaderType, ShaderPtr_t> shaders_;
   UniformVec4fUmap_t uniformVec4fSet_;
   UniformMat4fUmap_t uniformMat4fSet_;
   Uniform1iUmap_t uniform1iSet_;

@@ -7,8 +7,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLStateContext::createInstance() -> StateContextRef_t {
-  auto instance = std::make_shared<OGLStateContext>();
+auto OGLStateContext::createInstance() -> StateContextPtr_t {
+  auto *instance = new OGLStateContext();
   return instance;
 }
 

@@ -32,8 +32,8 @@ void *dlGetProcAddress(lpcstr_t name) {
   return dlsym(handle, (lpcstr_t)name);
 }
 
-auto OGLCapability::createInstance() -> CapabilityRef_t {
-  auto instance = std::make_shared<OGLCapability>();
+auto OGLCapability::createInstance() -> CapabilityPtr_t {
+  auto *instance = new OGLCapability();
   return instance;
 }
 

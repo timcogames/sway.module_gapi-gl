@@ -4,8 +4,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLViewport::createInstance() -> ViewportRef_t {
-  auto instance = std::make_shared<OGLViewport>();
+auto OGLViewport::createInstance() -> ViewportPtr_t {
+  auto instance = new OGLViewport();
   return instance;
 }
 

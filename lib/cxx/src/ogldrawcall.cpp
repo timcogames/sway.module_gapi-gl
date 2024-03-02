@@ -24,8 +24,8 @@ auto OGLDrawCall::topologyToGLenum(TopologyType topology) -> GLenum {
   }
 }
 
-auto OGLDrawCall::createInstance() -> DrawCallRef_t {
-  auto instance = std::make_shared<OGLDrawCall>();
+auto OGLDrawCall::createInstance() -> DrawCallPtr_t {
+  auto *instance = new OGLDrawCall();
   return instance;
 }
 

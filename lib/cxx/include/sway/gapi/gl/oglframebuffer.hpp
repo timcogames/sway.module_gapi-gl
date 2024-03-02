@@ -14,15 +14,15 @@ class OGLFramebuffer : public Framebuffer {
 public:
   static auto attachmentToGLenum(FramebufferAttachment attachment) -> u32_t;
 
-  static auto createInstance() -> std::shared_ptr<Framebuffer>;
+  static auto createInstance() -> FramebufferPtr_t;
 
   OGLFramebuffer();
 
   virtual ~OGLFramebuffer();
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, TextureRef_t texture, int mipLevels));
+  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, TexturePtr_t texture, int mipLevels));
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, std::shared_ptr<Renderbuffer> renderbuffer));
+  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, RenderbufferPtr_t renderbuffer));
 
   MTHD_OVERRIDE(void bind());
 

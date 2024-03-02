@@ -18,7 +18,7 @@ public:
 
 #pragma endregion
 
-  static auto createInstance(const ShaderCreateInfo &createInfo) -> ShaderRef_t;
+  static auto createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t;
 
   /**
    * @brief Конструктор класса.

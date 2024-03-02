@@ -4,7 +4,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 auto OGLVertexArray::createInstance() -> VertexArrayPtr_t {
-  auto instance = std::make_shared<OGLVertexArray>();
+  auto *instance = new OGLVertexArray();
   return instance;
 }
 

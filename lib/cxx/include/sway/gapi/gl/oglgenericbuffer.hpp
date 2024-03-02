@@ -21,15 +21,15 @@ public:
 
 #pragma endregion
 
-  static auto createInstance(IdGeneratorRef_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t;
+  static auto createInstance(IdGeneratorPtr_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t;
 
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  OGLGenericBuffer(IdGeneratorRef_t idQueue, const BufferDescriptor &desc);
+  OGLGenericBuffer(IdGeneratorPtr_t idQueue, const BufferDescriptor &desc);
 
-  virtual ~OGLGenericBuffer() = default;
+  virtual ~OGLGenericBuffer() { std::cout << "DCTOR" << std::endl; }
 
   /**
    * @brief Устанавливает данные в аппаратный буфер.

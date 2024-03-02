@@ -154,10 +154,11 @@ endif()
 #---------------------------------------------------------------------------------
 
 set(MODULE_GAPI_GL_DEPENDENCY_LIST "module_gapi_gl_dependences")
+
 if(NOT TARGET module_gapi_gl_dependences)
   set(TARGET_OBJECT_LIST)
-
   set(MODULE_CORE_OBJ_TARGET "module_core_obj")
+
   if(TARGET ${MODULE_CORE_OBJ_TARGET})
     list(APPEND TARGET_OBJECT_LIST $<TARGET_OBJECTS:${MODULE_CORE_OBJ_TARGET}>)
   endif()
@@ -246,8 +247,7 @@ if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
   # add_subdirectory(examples/01-dyn-webgl)
-  # add_subdirectory(examples/02-triangle-webgl)
-  add_subdirectory(examples/04-texture)
+  add_subdirectory(examples/02-triangle-webgl)
 endif()
 
 #---------------------------------------------------------------------------------
@@ -255,7 +255,7 @@ endif()
 #---------------------------------------------------------------------------------
 
 if(MODULE_GAPI_GL_ENABLE_TESTS)
-  if(${MODULE_GAPI_GL_SHARED_LIB} MATCHES "static")
+  if(${MODULE_GAPI_GL_LIB_TYPE} MATCHES "static")
     message(STATUS "[${MODULE_GAPI_GL_PROJ_NAME}]: Tests have been enabled")
     add_subdirectory(lib/cxx/tests/google)
   else()

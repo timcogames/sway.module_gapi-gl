@@ -17,7 +17,7 @@ using BufferIdContainer = std::deque<BufferIdType>;
 
 class OGLBufferIdGenerator : public std::queue<BufferIdType, BufferIdContainer>, public IdGenerator {
 public:
-  static auto createInstance() -> std::shared_ptr<IdGenerator>;
+  static auto createInstance() -> IdGeneratorPtr_t;
 
   OGLBufferIdGenerator();
 

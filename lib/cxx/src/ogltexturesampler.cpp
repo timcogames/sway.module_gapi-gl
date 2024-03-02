@@ -33,12 +33,12 @@ auto OGLTextureSampler::wrapToGLenum(TextureWrap wrap) -> GLenum {
   }
 }
 
-auto OGLTextureSampler::createInstance(std::shared_ptr<Texture> texture) -> TextureSamplerRef_t {
-  auto instance = std::make_shared<OGLTextureSampler>(texture);
+auto OGLTextureSampler::createInstance(TexturePtr_t texture) -> TextureSamplerPtr_t {
+  auto *instance = new OGLTextureSampler(texture);
   return instance;
 }
 
-OGLTextureSampler::OGLTextureSampler(std::shared_ptr<Texture> texture)
+OGLTextureSampler::OGLTextureSampler(TexturePtr_t texture)
     : helper_(new OGLTextureHelper())
     , texture_(texture) {}
 
