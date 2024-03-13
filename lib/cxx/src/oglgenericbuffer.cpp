@@ -72,7 +72,6 @@ OGLGenericBuffer::OGLGenericBuffer(IdGeneratorPtr_t idQueue, const BufferDescrip
     , usage_(desc.usage)
     , capacity_(desc.capacity)
     , byteStride_(desc.byteStride) {
-  std::cout << "CTOR" << std::endl;
   setUid(idQueue->newGuid());
 }
 

@@ -19,7 +19,7 @@ protected:
   const u32_t objectId_ = 123;
 };
 
-TEST_F(GenericShaderTest, Constructor) {
+TEST_F(GenericShaderTest, Ctor) {
   setup();
 
   gapi::OGLGenericShader shader(mock_, gapi::ShaderType::VERT);
