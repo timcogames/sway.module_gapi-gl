@@ -28,6 +28,11 @@ public:
   void STD_BindBuffer(BufferTarget target, u32_t buffer);
   void ARB_BindBuffer(BufferTarget target, u32_t buffer);
 
+  DECLARE_GENERIC_MEMBER(
+      void, OGLGenericBufferHelper, bindBufferRange, BufferTarget, u32_t, u32_t, ptrdiff_t, ptrdiff_t)
+  void STD_BindBufferRange(BufferTarget target, u32_t index, u32_t buffer, ptrdiff_t offset, ptrdiff_t size);
+  void EXT_BindBufferRange(BufferTarget target, u32_t index, u32_t buffer, ptrdiff_t offset, ptrdiff_t size);
+
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bufferData, BufferTarget, ptrdiff_t, const void *, u32_t)
   void EMU_BufferData(BufferTarget target, ptrdiff_t size, const void *data, u32_t usage);
   void STD_BufferData(BufferTarget target, ptrdiff_t size, const void *data, u32_t usage);
@@ -42,6 +47,7 @@ public:
   auto EMU_MapBuffer(BufferTarget target, u32_t access) -> void *;
   auto STD_MapBuffer(BufferTarget target, u32_t access) -> void *;
   auto ARB_MapBuffer(BufferTarget target, u32_t access) -> void *;
+  auto OES_MapBuffer(BufferTarget target, u32_t access) -> void *;
 
   DECLARE_GENERIC_MEMBER(void *, OGLGenericBufferHelper, mapBufferRange, BufferTarget, s32_t, s32_t, u32_t)
   auto EMU_MapBufferRange(BufferTarget target, s32_t offset, s32_t length, u32_t access) -> void *;
@@ -52,6 +58,7 @@ public:
   auto EMU_UnmapBuffer(BufferTarget target) -> u8_t;
   auto STD_UnmapBuffer(BufferTarget target) -> u8_t;
   auto ARB_UnmapBuffer(BufferTarget target) -> u8_t;
+  auto OES_UnmapBuffer(BufferTarget target) -> u8_t;
 
   DECLARE_GENERIC_MEMBER(u8_t, OGLGenericBufferHelper, isBuffer, u32_t)
   auto EMU_IsBuffer(u32_t buffer) -> u8_t;

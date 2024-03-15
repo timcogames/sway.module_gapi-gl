@@ -17,8 +17,6 @@ public:
 
   static auto usageToGLenum(BufferUsage usage) -> GLenum;
 
-  static auto accessToGLenum(BufferAccess access) -> GLenum;
-
 #pragma endregion
 
   static auto createInstance(IdGeneratorPtr_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t;
@@ -56,12 +54,14 @@ public:
   MTHD_OVERRIDE(void updateSubdata(const void *src));
 
   // clang-format off
-  MTHD_OVERRIDE(auto map() -> void *);  // clang-format on
+  MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);  // clang-format on
 
   // clang-format off
-  MTHD_OVERRIDE(auto mapRange(s32_t offset, s32_t length, BufferAccess flags) -> void *);  // clang-format on
+  MTHD_OVERRIDE(auto mapRange(s32_t offset, s32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);  // clang-format on
 
   MTHD_OVERRIDE(void unmap());
+
+  MTHD_OVERRIDE(void bindRange(u32_t buffer, ptrdiff_t offset, ptrdiff_t size));
 
   /**
    * @brief Делает буфер текущим.

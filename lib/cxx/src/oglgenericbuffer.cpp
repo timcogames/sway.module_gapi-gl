@@ -1,3 +1,5 @@
+#include <sway/gapi/gl/oglbuffermapaccessconvertor.hpp>
+#include <sway/gapi/gl/oglbuffermaprangeaccessconvertor.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -23,32 +25,6 @@ auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
       return GL_DYNAMIC_DRAW_ARB;
     case BufferUsage::STREAM:
       return GL_STREAM_DRAW_ARB;
-    default:
-      return 0;
-  }
-#endif
-}
-
-auto OGLGenericBuffer::accessToGLenum(BufferAccess access) -> GLenum {
-#ifdef EMSCRIPTEN_PLATFORM
-  switch (access) {
-    case BufferAccess::READ:
-      return GL_READ_ONLY;
-    case BufferAccess::WRITE:
-      return GL_WRITE_ONLY;
-    case BufferAccess::READ_WRITE:
-      return GL_READ_WRITE;
-    default:
-      return 0;
-  }
-#else
-  switch (access) {
-    case BufferAccess::READ:
-      return GL_READ_ONLY_ARB;
-    case BufferAccess::WRITE:
-      return GL_WRITE_ONLY_ARB;
-    case BufferAccess::READ_WRITE:
-      return GL_READ_WRITE_ARB;
     default:
       return 0;
   }
@@ -104,29 +80,49 @@ void OGLGenericBuffer::updateSubdata(const void *src) {
   this->updateSubdata(desc);
 }
 
-auto OGLGenericBuffer::map() -> void * {
+auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
   if (!helper_.isBuffer(getUid().value())) {
     return nullptr;
   }
 
   this->bind();
   // clang-format off
-  void *data = helper_.mapBuffer(target_,
-      OGLGenericBuffer::accessToGLenum(BufferAccess::WRITE));  // clang-format on
+  void *data = helper_.mapBuffer(target_, 
+    OGLBufferMapAccessConvertor::toGLenum(flags));  // clang-format on
   this->unbind();
 
   return data;
 }
 
-auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, BufferAccess flags) -> void * {
+auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset)
+    -> void * {
   if (!helper_.isBuffer(getUid().value())) {
     return nullptr;
   }
 
+  auto flags = 0;
+  if (bitset.test(BufferMapRangeAccess::WRITE)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::WRITE);
+  }
+
+  if (bitset.test(BufferMapRangeAccess::READ)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::READ);
+  }
+
+  if (bitset.test(BufferMapRangeAccess::INVALIDATE_RANGE)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_RANGE);
+  }
+
+  if (bitset.test(BufferMapRangeAccess::INVALIDATE_BUFFER)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_BUFFER);
+  }
+
+  if (bitset.test(BufferMapRangeAccess::UNSYNCHRONIZED)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::UNSYNCHRONIZED);
+  }
+
   this->bind();
-  // clang-format off
-  void *data = helper_.mapBufferRange(target_, offset, length,
-      OGLGenericBuffer::accessToGLenum(flags));  // clang-format on
+  void *data = helper_.mapBufferRange(target_, offset, length, flags);
   this->unbind();
 
   return data;
@@ -136,6 +132,10 @@ void OGLGenericBuffer::unmap() {
   this->bind();
   helper_.unmapBuffer(target_);
   this->unbind();
+}
+
+void OGLGenericBuffer::bindRange(u32_t buffer, ptrdiff_t offset, ptrdiff_t size) {
+  helper_.bindBufferRange(target_, getUid().value(), buffer, offset, size);
 }
 
 void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid().value()); }

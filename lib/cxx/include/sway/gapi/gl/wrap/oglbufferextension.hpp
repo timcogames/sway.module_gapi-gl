@@ -12,11 +12,14 @@ public:
   static core::binding::TFunction<void(s32_t, u32_t *)> glGenBuffersARB;
   static core::binding::TFunction<void(s32_t, const u32_t *)> glDeleteBuffersARB;
   static core::binding::TFunction<void(u32_t, u32_t)> glBindBufferARB;
+  static core::binding::TFunction<void(u32_t, u32_t, u32_t, ptrdiff_t, ptrdiff_t)> glBindBufferRangeEXT;
   static core::binding::TFunction<void(u32_t, ptrdiff_t, const void *, u32_t)> glBufferDataARB;
   static core::binding::TFunction<void(u32_t, ptrdiff_t, ptrdiff_t, const void *)> glBufferSubDataARB;
   static core::binding::TFunction<void *(u32_t, s32_t, s32_t, u32_t)> glMapBufferRangeEXT;
   static core::binding::TFunction<void *(u32_t, u32_t)> glMapBufferARB;
+  static core::binding::TFunction<void *(u32_t, u32_t)> glMapBufferOES;
   static core::binding::TFunction<u8_t(u32_t)> glUnmapBufferARB;
+  static core::binding::TFunction<u8_t(u32_t)> glUnmapBufferOES;
   static core::binding::TFunction<u8_t(u32_t)> glIsBufferARB;
   static core::binding::TFunction<void(u32_t, u32_t, s32_t *)> glGetBufferParameterivARB;
 
