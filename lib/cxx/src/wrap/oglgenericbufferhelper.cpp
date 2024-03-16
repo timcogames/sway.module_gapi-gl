@@ -24,6 +24,8 @@ OGLGenericBufferHelper::OGLGenericBufferHelper() {
   getBufferParam_ = &OGLGenericBufferHelper::EMU_GetBufferParam;
 #else
 
+  flush_ = &OGLGenericBufferHelper::STD_FlushMappedBufferRange;
+
   const auto *extensions = OGLCapability::getExtensions();
   if (OGLCapability::isExtensionSupported(extensions, "GL_ARB_vertex_buffer_object")) {
     generateBuffers_ = &OGLGenericBufferHelper::ARB_GenerateBuffers;
@@ -132,6 +134,10 @@ void OGLGenericBufferHelper::STD_BufferSubData(
 void OGLGenericBufferHelper::ARB_BufferSubData(
     BufferTarget target, ptrdiff_t offset, ptrdiff_t size, const void *data) {
   OGLBufferExtension::glBufferSubDataARB(OGLBufferTargetConvertor::toGLenum(target), offset, size, data);
+}
+
+void OGLGenericBufferHelper::STD_FlushMappedBufferRange(BufferTarget target, ptrdiff_t offset, ptrdiff_t length) {
+  glFlushMappedBufferRange(OGLBufferTargetConvertor::toGLenum(target), offset, length);
 }
 
 auto OGLGenericBufferHelper::EMU_MapBuffer([[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t access)

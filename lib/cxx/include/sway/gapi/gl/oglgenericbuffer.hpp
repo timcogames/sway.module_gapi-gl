@@ -53,6 +53,8 @@ public:
    */
   MTHD_OVERRIDE(void updateSubdata(const void *src));
 
+  MTHD_OVERRIDE(void flush(s32_t offset, s32_t length));
+
   // clang-format off
   MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);  // clang-format on
 

@@ -1,5 +1,6 @@
 #include <sway/gapi/gl/oglbuffermapaccessconvertor.hpp>
 #include <sway/gapi/gl/oglbuffermaprangeaccessconvertor.hpp>
+#include <sway/gapi/gl/oglbuffertargetconvertor.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -80,6 +81,8 @@ void OGLGenericBuffer::updateSubdata(const void *src) {
   this->updateSubdata(desc);
 }
 
+void OGLGenericBuffer::flush(s32_t offset, s32_t length) { helper_.flush(target_, offset, length); }
+
 auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
   if (!helper_.isBuffer(getUid().value())) {
     return nullptr;
@@ -117,24 +120,33 @@ auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, core::detail::EnumCl
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_BUFFER);
   }
 
+  if (bitset.test(BufferMapRangeAccess::FLUSH_EXPLICIT)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::FLUSH_EXPLICIT);
+  }
+
   if (bitset.test(BufferMapRangeAccess::UNSYNCHRONIZED)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::UNSYNCHRONIZED);
   }
 
   this->bind();
-  void *data = helper_.mapBufferRange(target_, offset, length, flags);
-  this->unbind();
+  void *mapped = helper_.mapBufferRange(target_, offset, length, flags);
+  if (mapped == nullptr) {
+    std::cout << "[ERR]: Mapping buffer range" << std::endl;
+  }
 
-  return data;
+  return mapped;
 }
 
 void OGLGenericBuffer::unmap() {
-  this->bind();
-  helper_.unmapBuffer(target_);
+  if (helper_.unmapBuffer(target_) == GL_FALSE) {
+    std::cout << "[ERR]: Unmapping buffer" << std::endl;
+  }
+
   this->unbind();
 }
 
 void OGLGenericBuffer::bindRange(u32_t buffer, ptrdiff_t offset, ptrdiff_t size) {
+  // GL_TRANSFORM_FEEDBACK_BUFFER or GL_UNIFORM_BUFFER
   helper_.bindBufferRange(target_, getUid().value(), buffer, offset, size);
 }
 

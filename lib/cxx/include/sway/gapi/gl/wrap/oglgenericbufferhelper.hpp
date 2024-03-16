@@ -43,6 +43,9 @@ public:
   void STD_BufferSubData(BufferTarget target, ptrdiff_t offset, ptrdiff_t size, const void *data);
   void ARB_BufferSubData(BufferTarget target, ptrdiff_t offset, ptrdiff_t size, const void *data);
 
+  DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, flush, BufferTarget, ptrdiff_t, ptrdiff_t)
+  void STD_FlushMappedBufferRange(BufferTarget target, ptrdiff_t offset, ptrdiff_t length);
+
   DECLARE_GENERIC_MEMBER(void *, OGLGenericBufferHelper, mapBuffer, BufferTarget, u32_t)
   auto EMU_MapBuffer(BufferTarget target, u32_t access) -> void *;
   auto STD_MapBuffer(BufferTarget target, u32_t access) -> void *;
