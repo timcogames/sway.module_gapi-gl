@@ -1,3 +1,4 @@
+#include <sway/gapi/gl/oglpixelstoragemodeconvertor.hpp>
 #include <sway/gapi/gl/ogltexture.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -36,7 +37,9 @@ void OGLTexture::updateSubdata(TextureSubdataDescriptor desc) {
   this->unbind();
 }
 
-void OGLTexture::setUnpackAlignement(u32_t param) { glPixelStorei(GL_UNPACK_ALIGNMENT, param); }
+void OGLTexture::setPixelStorage(PixelStorageMode mode, u32_t param) {
+  glPixelStorei(OGLPixelStorageModeConvertor::toGLenum(mode), param);
+}
 
 void OGLTexture::setActive(s32_t slot) { helper_->setActiveTexture(GL_TEXTURE0_ARB + slot); }
 

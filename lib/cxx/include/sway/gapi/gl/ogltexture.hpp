@@ -22,7 +22,7 @@ public:
 
   MTHD_OVERRIDE(void updateSubdata(TextureSubdataDescriptor desc));
 
-  MTHD_OVERRIDE(void setUnpackAlignement(u32_t param));
+  MTHD_OVERRIDE(void setPixelStorage(PixelStorageMode mode, u32_t param));
 
   MTHD_OVERRIDE(void setActive(s32_t slot));
 

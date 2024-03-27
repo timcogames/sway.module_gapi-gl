@@ -93,7 +93,6 @@ auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
   void *data = helper_.mapBuffer(target_, 
     OGLBufferMapAccessConvertor::toGLenum(flags));  // clang-format on
   this->unbind();
-
   return data;
 }
 
@@ -133,11 +132,13 @@ auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, core::detail::EnumCl
   if (mapped == nullptr) {
     std::cout << "[ERR]: Mapping buffer range" << std::endl;
   }
+  this->unbind();
 
   return mapped;
 }
 
 void OGLGenericBuffer::unmap() {
+  this->bind();
   if (helper_.unmapBuffer(target_) == GL_FALSE) {
     std::cout << "[ERR]: Unmapping buffer" << std::endl;
   }

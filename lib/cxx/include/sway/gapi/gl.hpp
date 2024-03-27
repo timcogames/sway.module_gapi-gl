@@ -17,6 +17,7 @@
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 #include <sway/gapi/gl/oglgenericshader.hpp>
 #include <sway/gapi/gl/oglpixelformatconvertor.hpp>
+#include <sway/gapi/gl/oglpixelstoragemodeconvertor.hpp>
 #include <sway/gapi/gl/oglrasterizerstate.hpp>
 #include <sway/gapi/gl/oglshaderexceptions.hpp>
 #include <sway/gapi/gl/oglshaderprogram.hpp>
