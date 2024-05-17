@@ -108,7 +108,8 @@ void OGLCapability::initLimits_() {
   glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, &maxFragmentUniformComponents_);
   glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS, &maxFragmentUniformVectors_);
 
-  glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureImageUnits_);
+  glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureImageUnits_);  // GL_MAX_TEXTURE_UNITS_ARB
+  std::cout << "GL_MAX_TEXTURE_IMAGE_UNITS: " << maxTextureImageUnits_ << std::endl;
   glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxCombineTextureImageUnits_);
   glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxTextureMaxAnisotropyExt_);
 }

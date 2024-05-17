@@ -1,8 +1,10 @@
 #include <sway/gapi/gl/oglgenericshader.hpp>
 #include <sway/gapi/gl/oglshaderexceptions.hpp>
+#include <sway/gapi/gl/oglshaderpreprocessor.hpp>
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#include <sstream>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -31,9 +33,17 @@ auto OGLGenericShader::typeToGLenum(ShaderType type) -> GLenum {
 
 auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t {
   // try {
-  auto *instance = new OGLGenericShader(createInfo.type);
+  std::ostringstream preprocessedSource;
+  auto preprocessor =
+      std::make_shared<OGLShaderPreprocessor>(createInfo.type, core::Version(300, DONT_CARE, DONT_CARE, "es"));
+  preprocessor->evaluate(preprocessedSource);
+
+  auto dataSource = preprocessedSource.str() + createInfo.code;
+
+  auto instance = new OGLGenericShader(createInfo.type);
+  std::cout << dataSource.c_str() << std::endl;
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());
-  instance->compile(createInfo.code.c_str());
+  instance->compile(dataSource.c_str());
   return instance;
   //} catch (std::exception &exception) {
   //  fprintf(stderr, "ERROR: %s shader object creation failed.\n", stringize(createInfo.type).c_str());

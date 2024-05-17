@@ -96,34 +96,34 @@ auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
   return data;
 }
 
-auto OGLGenericBuffer::mapRange(s32_t offset, s32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset)
-    -> void * {
+auto OGLGenericBuffer::mapRange(
+    s32_t offset, s32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void * {
   if (!helper_.isBuffer(getUid().value())) {
     return nullptr;
   }
 
   auto flags = 0;
-  if (bitset.test(BufferMapRangeAccess::WRITE)) {
+  if (bitset.has(BufferMapRangeAccess::WRITE)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::WRITE);
   }
 
-  if (bitset.test(BufferMapRangeAccess::READ)) {
+  if (bitset.has(BufferMapRangeAccess::READ)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::READ);
   }
 
-  if (bitset.test(BufferMapRangeAccess::INVALIDATE_RANGE)) {
+  if (bitset.has(BufferMapRangeAccess::INVALIDATE_RANGE)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_RANGE);
   }
 
-  if (bitset.test(BufferMapRangeAccess::INVALIDATE_BUFFER)) {
+  if (bitset.has(BufferMapRangeAccess::INVALIDATE_BUFFER)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_BUFFER);
   }
 
-  if (bitset.test(BufferMapRangeAccess::FLUSH_EXPLICIT)) {
+  if (bitset.has(BufferMapRangeAccess::FLUSH_EXPLICIT)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::FLUSH_EXPLICIT);
   }
 
-  if (bitset.test(BufferMapRangeAccess::UNSYNCHRONIZED)) {
+  if (bitset.has(BufferMapRangeAccess::UNSYNCHRONIZED)) {
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::UNSYNCHRONIZED);
   }
 
