@@ -14,7 +14,7 @@ NAMESPACE_BEGIN(gapi)
 class ShaderSource {
 public:
   inline static std::string WHITESPACE{" "};
-  inline static std::string_view TABULATION = WHITESPACE + WHITESPACE;
+  inline static std::string TABULATION = WHITESPACE + WHITESPACE;
 
   void addVersion(const core::Version &version) {
     source_ << "#version" << WHITESPACE << version.getMajor();

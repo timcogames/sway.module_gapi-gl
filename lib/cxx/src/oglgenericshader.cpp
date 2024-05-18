@@ -15,17 +15,19 @@ auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Sha
   auto *preprocessor = static_cast<OGLShaderPreprocessor *>(createInfo.preprocessor);
   ShaderSource src;
 
+  src.addVersion(preprocessor->getVersion());
   if (createInfo.type == ShaderType::FRAG) {
-    src.addVersion(preprocessor->getVersion());
+    src.addDefaultPrecision();
   }
-  src.addDefaultPrecision();
 
   std::ostringstream preprocessedSource;
-  preprocessedSource << src.toStr();
+  // preprocessedSource << src.toStr();
 
-  preprocessor->evaluate(preprocessedSource);
+  // preprocessor->evaluate(preprocessedSource);
 
-  auto dataSource = preprocessedSource.str() + createInfo.code;
+  auto dataSource = src.toStr() + createInfo.code;
+
+  std::cout << dataSource.c_str() << std::endl;
 
   auto *instance = new OGLGenericShader(createInfo.type);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());
