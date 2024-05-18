@@ -12,12 +12,6 @@ NAMESPACE_BEGIN(gapi)
  */
 class OGLGenericShader final : public Shader {
 public:
-#pragma region "Преобразование внутренних типов к GLenum"
-
-  static auto typeToGLenum(ShaderType type) -> GLenum;
-
-#pragma endregion
-
   static auto createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t;
 
   /**

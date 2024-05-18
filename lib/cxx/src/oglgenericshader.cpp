@@ -1,4 +1,5 @@
 #include <sway/gapi/gl/oglgenericshader.hpp>
+#include <sway/gapi/gl/oglgenericshadertypeconvertor.hpp>
 #include <sway/gapi/gl/oglshaderexceptions.hpp>
 #include <sway/gapi/gl/oglshaderpreprocessor.hpp>
 
@@ -9,39 +10,24 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLGenericShader::typeToGLenum(ShaderType type) -> GLenum {
-#ifdef EMSCRIPTEN_PLATFORM
-  switch (type) {
-    case ShaderType::VERT:
-      return GL_VERTEX_SHADER;
-    case ShaderType::FRAG:
-      return GL_FRAGMENT_SHADER;
-    default:
-      return GL_INVALID_INDEX;
-  }
-#else
-  switch (type) {
-    case ShaderType::VERT:
-      return GL_VERTEX_SHADER_ARB;
-    case ShaderType::FRAG:
-      return GL_FRAGMENT_SHADER_ARB;
-    default:
-      return GL_INVALID_INDEX;
-  }
-#endif
-}
-
 auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t {
   // try {
+  auto *preprocessor = static_cast<OGLShaderPreprocessor *>(createInfo.preprocessor);
+  ShaderSource src;
+
+  if (createInfo.type == ShaderType::FRAG) {
+    src.addVersion(preprocessor->getVersion());
+  }
+  src.addDefaultPrecision();
+
   std::ostringstream preprocessedSource;
-  auto preprocessor =
-      std::make_shared<OGLShaderPreprocessor>(createInfo.type, core::Version(300, DONT_CARE, DONT_CARE, "es"));
+  preprocessedSource << src.toStr();
+
   preprocessor->evaluate(preprocessedSource);
 
   auto dataSource = preprocessedSource.str() + createInfo.code;
 
-  auto instance = new OGLGenericShader(createInfo.type);
-  std::cout << dataSource.c_str() << std::endl;
+  auto *instance = new OGLGenericShader(createInfo.type);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());
   instance->compile(dataSource.c_str());
   return instance;
@@ -56,7 +42,7 @@ OGLGenericShader::OGLGenericShader(ShaderType type)
     , helper_(new OGLGenericShaderHelper())
     , type_(type)
     , compiled_(false) {
-  auto objectId = helper_->createShader(OGLGenericShader::typeToGLenum(type_));
+  auto objectId = helper_->createShader(OGLGenericShaderTypeConvertor::toGLenum(type_));
   if (objectId != 0) {
     setUid(objectId);
   }
@@ -67,7 +53,7 @@ OGLGenericShader::OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderTy
     , helper_(&helper)
     , type_(type)
     , compiled_(false) {
-  auto objectId = helper_->createShader(OGLGenericShader::typeToGLenum(type_));
+  auto objectId = helper_->createShader(OGLGenericShaderTypeConvertor::toGLenum(type_));
   if (objectId != 0) {
     setUid(objectId);
   }

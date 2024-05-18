@@ -18,6 +18,8 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
       reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericShader::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShaderProgram =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLShaderProgram::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createShaderPreprocessor =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLShaderPreprocessor::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createIdGenerator =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLBufferIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
