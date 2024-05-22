@@ -63,7 +63,7 @@ public:
       case GL_SRC_ALPHA_SATURATE:
         return BlendFn::SRC_ALPHA_SATURATE;
       default:
-        return BlendFn::UNDEF;
+        return BlendFn::NONE;
     }
   }
 };

@@ -52,7 +52,7 @@ public:
       case GL_GREATER:
         return CompareFn::GREATER;
       default:
-        return CompareFn::UNDEF;
+        return CompareFn::NONE;
     }
   }
 };

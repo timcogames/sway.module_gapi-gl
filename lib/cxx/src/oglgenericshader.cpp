@@ -21,13 +21,13 @@ auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Sha
   }
 
   std::ostringstream preprocessedSource;
-  // preprocessedSource << src.toStr();
+  preprocessedSource << src.toStr();
 
-  // preprocessor->evaluate(preprocessedSource);
+  preprocessor->evaluate(preprocessedSource);
 
-  auto dataSource = src.toStr() + createInfo.code;
+  auto dataSource = preprocessedSource.str() + createInfo.code;
 
-  std::cout << dataSource.c_str() << std::endl;
+  // std::cout << dataSource.c_str() << std::endl;
 
   auto *instance = new OGLGenericShader(createInfo.type);
   // EM_ASM({ console.log('source: ' + UTF8ToString($0)); }, createInfo.code.c_str());

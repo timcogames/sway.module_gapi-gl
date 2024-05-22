@@ -29,7 +29,7 @@ struct OGLFrontFaceConvertor final {
       case GL_CCW:
         return FrontFace::COUNTER_CLOCK_WISE;
       default:
-        return FrontFace::UNDEF;
+        return FrontFace::NONE;
     }
   }
 };

@@ -36,7 +36,11 @@ public:
 
   MTHD_OVERRIDE(void setStencilFn(CompareFn func, s32_t ref, u32_t mask));
 
-  MTHD_OVERRIDE(void setStencilOp(gapi::StencilOp fail, gapi::StencilOp depthFail, gapi::StencilOp depthPass));
+  MTHD_OVERRIDE(void setStencilOp(StencilOp fail, StencilOp depthFail, StencilOp depthPass));
+
+  MTHD_OVERRIDE(void setPolygonMode(PolygonMode mode));
+
+private:
 };
 
 NAMESPACE_END(gapi)

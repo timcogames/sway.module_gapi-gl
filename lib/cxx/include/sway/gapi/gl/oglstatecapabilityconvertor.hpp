@@ -40,7 +40,7 @@ public:
       case GL_STENCIL_TEST:
         return StateCapability::STENCIL_TEST;
       default:
-        return StateCapability::UNDEF;
+        return StateCapability::NONE;
     }
   }
 };

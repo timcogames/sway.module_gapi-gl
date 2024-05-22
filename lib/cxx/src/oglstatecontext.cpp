@@ -42,9 +42,25 @@ void OGLStateContext::setStencilFn(CompareFn func, s32_t ref, u32_t mask) {
   glStencilFunc(OGLCompareFunctionConvertor::toGLenum(func), ref, mask);
 }
 
-void OGLStateContext::setStencilOp(gapi::StencilOp fail, gapi::StencilOp depthFail, gapi::StencilOp depthPass) {
+void OGLStateContext::setStencilOp(StencilOp fail, StencilOp depthFail, StencilOp depthPass) {
   glStencilOp(OGLStencilOperationConvertor::toGLenum(fail), OGLStencilOperationConvertor::toGLenum(depthFail),
       OGLStencilOperationConvertor::toGLenum(depthPass));
+}
+
+void OGLStateContext::setPolygonMode(PolygonMode mode) {
+#ifdef EMSCRIPTEN_PLATFORM
+#else
+  switch (mode) {
+    case PolygonMode::LINE:
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+      break;
+
+    case PolygonMode::NONE:
+    case PolygonMode::FILL:
+    default:
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
+#endif
 }
 
 NAMESPACE_END(gapi)

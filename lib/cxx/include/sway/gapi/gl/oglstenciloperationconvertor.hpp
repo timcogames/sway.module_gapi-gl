@@ -52,7 +52,7 @@ public:
       case GL_INVERT:
         return StencilOp::INVERT;
       default:
-        return StencilOp::UNDEF;
+        return StencilOp::NONE;
     }
   }
 };

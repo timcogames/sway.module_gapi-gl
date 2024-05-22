@@ -23,7 +23,7 @@ public:
       source_ << WHITESPACE << profile;
     }
 
-    source_ << std::endl;
+    source_ << std::endl << std::endl;
   }
 
   void addDefaultPrecision() {
