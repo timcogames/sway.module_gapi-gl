@@ -22,13 +22,13 @@ public:
   void STD_DisableVertexAttribArray(u32_t index);
   void ARB_DisableVertexAttribArray(u32_t index);
 
-  DECLARE_GENERIC_MEMBER(void, OGLVertexAttribLayoutHelper, setup, u32_t, s32_t, u32_t, u8_t, s32_t, const void *)
+  DECLARE_GENERIC_MEMBER(void, OGLVertexAttribLayoutHelper, setup, u32_t, i32_t, u32_t, u8_t, i32_t, const void *)
   void EMU_SetupVertexAttribPointer(
-      u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer);
+      u32_t index, i32_t size, u32_t type, u8_t normalized, i32_t stride, const void *pointer);
   void STD_SetupVertexAttribPointer(
-      u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer);
+      u32_t index, i32_t size, u32_t type, u8_t normalized, i32_t stride, const void *pointer);
   void ARB_SetupVertexAttribPointer(
-      u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer);
+      u32_t index, i32_t size, u32_t type, u8_t normalized, i32_t stride, const void *pointer);
 };
 
 NAMESPACE_END(gapi)

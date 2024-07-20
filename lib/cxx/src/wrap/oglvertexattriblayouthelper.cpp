@@ -45,16 +45,16 @@ void OGLVertexAttribLayoutHelper::ARB_DisableVertexAttribArray(u32_t index) {
 }
 
 void OGLVertexAttribLayoutHelper::EMU_SetupVertexAttribPointer([[maybe_unused]] u32_t index,
-    [[maybe_unused]] s32_t size, [[maybe_unused]] u32_t type, [[maybe_unused]] u8_t normalized,
-    [[maybe_unused]] s32_t stride, [[maybe_unused]] const void *pointer) {}
+    [[maybe_unused]] i32_t size, [[maybe_unused]] u32_t type, [[maybe_unused]] u8_t normalized,
+    [[maybe_unused]] i32_t stride, [[maybe_unused]] const void *pointer) {}
 
 void OGLVertexAttribLayoutHelper::STD_SetupVertexAttribPointer(
-    u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer) {
+    u32_t index, i32_t size, u32_t type, u8_t normalized, i32_t stride, const void *pointer) {
   glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 }
 
 void OGLVertexAttribLayoutHelper::ARB_SetupVertexAttribPointer(
-    u32_t index, s32_t size, u32_t type, u8_t normalized, s32_t stride, const void *pointer) {
+    u32_t index, i32_t size, u32_t type, u8_t normalized, i32_t stride, const void *pointer) {
   OGLVertexAttribLayoutExtension::glVertexAttribPointerARB(index, size, type, normalized, stride, pointer);
 }
 

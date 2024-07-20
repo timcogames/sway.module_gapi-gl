@@ -81,7 +81,7 @@ void OGLGenericBuffer::updateSubdata(const void *src) {
   this->updateSubdata(desc);
 }
 
-void OGLGenericBuffer::flush(s32_t offset, s32_t length) { helper_.flush(target_, offset, length); }
+void OGLGenericBuffer::flush(i32_t offset, i32_t length) { helper_.flush(target_, offset, length); }
 
 auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
   if (!helper_.isBuffer(getUid().value())) {
@@ -97,7 +97,7 @@ auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
 }
 
 auto OGLGenericBuffer::mapRange(
-    s32_t offset, s32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void * {
+    i32_t offset, i32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void * {
   if (!helper_.isBuffer(getUid().value())) {
     return nullptr;
   }

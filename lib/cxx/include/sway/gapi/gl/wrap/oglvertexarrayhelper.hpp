@@ -12,15 +12,15 @@ class OGLVertexArrayHelper {
 public:
   OGLVertexArrayHelper();
 
-  DECLARE_GENERIC_MEMBER(void, OGLVertexArrayHelper, generateVertexArrays, s32_t, u32_t *)
-  void EMU_GenerateVertexArrays(s32_t nbr, u32_t *arrays);
-  void STD_GenerateVertexArrays(s32_t nbr, u32_t *arrays);
-  void APPLE_GenerateVertexArrays(s32_t nbr, u32_t *arrays);
+  DECLARE_GENERIC_MEMBER(void, OGLVertexArrayHelper, generateVertexArrays, i32_t, u32_t *)
+  void EMU_GenerateVertexArrays(i32_t nbr, u32_t *arrays);
+  void STD_GenerateVertexArrays(i32_t nbr, u32_t *arrays);
+  void APPLE_GenerateVertexArrays(i32_t nbr, u32_t *arrays);
 
-  DECLARE_GENERIC_MEMBER(void, OGLVertexArrayHelper, deleteVertexArrays, s32_t, const u32_t *)
-  void EMU_DeleteVertexArrays(s32_t nbr, const u32_t *arrays);
-  void STD_DeleteVertexArrays(s32_t nbr, const u32_t *arrays);
-  void APPLE_DeleteVertexArrays(s32_t nbr, const u32_t *arrays);
+  DECLARE_GENERIC_MEMBER(void, OGLVertexArrayHelper, deleteVertexArrays, i32_t, const u32_t *)
+  void EMU_DeleteVertexArrays(i32_t nbr, const u32_t *arrays);
+  void STD_DeleteVertexArrays(i32_t nbr, const u32_t *arrays);
+  void APPLE_DeleteVertexArrays(i32_t nbr, const u32_t *arrays);
 
   DECLARE_GENERIC_MEMBER(void, OGLVertexArrayHelper, bindVertexArray, u32_t)
   void EMU_BindVertexArray(u32_t array);

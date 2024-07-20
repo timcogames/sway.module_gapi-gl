@@ -38,7 +38,7 @@ void OGLStateContext::setStencilEnable(bool enable) { setCapabilityEnable(StateC
 
 void OGLStateContext::setStencilMask(u32_t mask) { glStencilMask(mask); }
 
-void OGLStateContext::setStencilFn(CompareFn func, s32_t ref, u32_t mask) {
+void OGLStateContext::setStencilFn(CompareFn func, i32_t ref, u32_t mask) {
   glStencilFunc(OGLCompareFunctionConvertor::toGLenum(func), ref, mask);
 }
 

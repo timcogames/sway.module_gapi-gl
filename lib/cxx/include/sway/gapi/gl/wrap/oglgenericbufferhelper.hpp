@@ -52,10 +52,10 @@ public:
   auto ARB_MapBuffer(BufferTarget target, u32_t access) -> void *;
   auto OES_MapBuffer(BufferTarget target, u32_t access) -> void *;
 
-  DECLARE_GENERIC_MEMBER(void *, OGLGenericBufferHelper, mapBufferRange, BufferTarget, s32_t, s32_t, u32_t)
-  auto EMU_MapBufferRange(BufferTarget target, s32_t offset, s32_t length, u32_t access) -> void *;
-  auto STD_MapBufferRange(BufferTarget target, s32_t offset, s32_t length, u32_t access) -> void *;
-  auto EXT_MapBufferRange(BufferTarget target, s32_t offset, s32_t length, u32_t access) -> void *;
+  DECLARE_GENERIC_MEMBER(void *, OGLGenericBufferHelper, mapBufferRange, BufferTarget, i32_t, i32_t, u32_t)
+  auto EMU_MapBufferRange(BufferTarget target, i32_t offset, i32_t length, u32_t access) -> void *;
+  auto STD_MapBufferRange(BufferTarget target, i32_t offset, i32_t length, u32_t access) -> void *;
+  auto EXT_MapBufferRange(BufferTarget target, i32_t offset, i32_t length, u32_t access) -> void *;
 
   DECLARE_GENERIC_MEMBER(u8_t, OGLGenericBufferHelper, unmapBuffer, BufferTarget)
   auto EMU_UnmapBuffer(BufferTarget target) -> u8_t;
@@ -68,10 +68,10 @@ public:
   auto STD_IsBuffer(u32_t buffer) -> u8_t;
   auto ARB_IsBuffer(u32_t buffer) -> u8_t;
 
-  DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, getBufferParam, BufferTarget, u32_t, s32_t *)
-  void EMU_GetBufferParam(BufferTarget target, u32_t pname, s32_t *params);
-  void STD_GetBufferParam(BufferTarget target, u32_t pname, s32_t *params);
-  void ARB_GetBufferParam(BufferTarget target, u32_t pname, s32_t *params);
+  DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, getBufferParam, BufferTarget, u32_t, i32_t *)
+  void EMU_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params);
+  void STD_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params);
+  void ARB_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params);
 };
 
 NAMESPACE_END(gapi)

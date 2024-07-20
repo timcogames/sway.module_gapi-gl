@@ -41,7 +41,7 @@ void OGLTexture::setPixelStorage(PixelStorageMode mode, u32_t param) {
   glPixelStorei(OGLPixelStorageModeConvertor::toGLenum(mode), param);
 }
 
-void OGLTexture::setActive(s32_t slot) { helper_->setActiveTexture(GL_TEXTURE0_ARB + slot); }
+void OGLTexture::setActive(i32_t slot) { helper_->setActiveTexture(GL_TEXTURE0_ARB + slot); }
 
 void OGLTexture::bind() {
   // glEnable(GL_TEXTURE_2D);

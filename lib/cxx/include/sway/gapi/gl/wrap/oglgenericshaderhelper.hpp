@@ -18,12 +18,12 @@ public:
 
   PURE_VIRTUAL(void deleteShader(std::optional<u32_t>));
 
-  PURE_VIRTUAL(void shaderSource(std::optional<u32_t>, s32_t, lpcstr_t *, const s32_t *));
+  PURE_VIRTUAL(void shaderSource(std::optional<u32_t>, i32_t, lpcstr_t *, const i32_t *));
 
-  PURE_VIRTUAL(void compileShader(std::optional<u32_t>, s32_t *));
+  PURE_VIRTUAL(void compileShader(std::optional<u32_t>, i32_t *));
 
   // clang-format off
-  PURE_VIRTUAL(auto getAttribLocation(u32_t, lpcstr_t) -> s32_t);  // clang-format on
+  PURE_VIRTUAL(auto getAttribLocation(u32_t, lpcstr_t) -> i32_t);  // clang-format on
 };
 
 class OGLGenericShaderHelper : public OGLGenericShaderHelperIface, public OGLInfoHelper {
@@ -48,32 +48,32 @@ public:
   void ARB_DeleteShader(std::optional<u32_t> obj);
 
   DECL_GENERIC_CALLBACK_FUNC(
-      void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, s32_t, lpcstr_t *, const s32_t *)
-  MTHD_VIRTUAL(void shaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length) {
+      void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, i32_t, lpcstr_t *, const i32_t *)
+  MTHD_VIRTUAL(void shaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length) {
     return (this->*shaderSource_)(obj, count, string, length);
   });
 
-  void EMU_ShaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length);
-  void STD_ShaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length);
-  void ARB_ShaderSource(std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length);
+  void EMU_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length);
+  void STD_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length);
+  void ARB_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length);
 
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, s32_t *)
+  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, i32_t *)
   MTHD_VIRTUAL(
-      void compileShader(std::optional<u32_t> obj, s32_t *status) { return (this->*compileShader_)(obj, status); });
+      void compileShader(std::optional<u32_t> obj, i32_t *status) { return (this->*compileShader_)(obj, status); });
 
-  void EMU_CompileShader(std::optional<u32_t> obj, s32_t *status);
-  void STD_CompileShader(std::optional<u32_t> obj, s32_t *status);
-  void ARB_CompileShader(std::optional<u32_t> obj, s32_t *status);
+  void EMU_CompileShader(std::optional<u32_t> obj, i32_t *status);
+  void STD_CompileShader(std::optional<u32_t> obj, i32_t *status);
+  void ARB_CompileShader(std::optional<u32_t> obj, i32_t *status);
 
-  DECL_GENERIC_CALLBACK_FUNC(s32_t, OGLGenericShaderHelper, getAttribLocation, u32_t, lpcstr_t)
+  DECL_GENERIC_CALLBACK_FUNC(i32_t, OGLGenericShaderHelper, getAttribLocation, u32_t, lpcstr_t)
   // clang-format off
-  MTHD_VIRTUAL(auto getAttribLocation(u32_t program, lpcstr_t name) -> s32_t {  // clang-format on
+  MTHD_VIRTUAL(auto getAttribLocation(u32_t program, lpcstr_t name) -> i32_t {  // clang-format on
     return (this->*getAttribLocation_)(program, name);
   });
 
-  auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
-  auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t;
+  auto EMU_GetAttribLocation(u32_t program, lpcstr_t name) -> i32_t;
+  auto STD_GetAttribLocation(u32_t program, lpcstr_t name) -> i32_t;
+  auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> i32_t;
 };
 
 NAMESPACE_END(gapi)

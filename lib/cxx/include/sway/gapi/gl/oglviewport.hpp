@@ -30,7 +30,7 @@ public:
    * @param[in] w Значение ширины.
    * @param[in] h Значение высоты.
    */
-  MTHD_OVERRIDE(void set(s32_t x, s32_t y, s32_t w, s32_t h));
+  MTHD_OVERRIDE(void set(i32_t x, i32_t y, i32_t w, i32_t h));
 
   /**
    * @brief Устанавливает размер прямоугольной области.
@@ -38,7 +38,7 @@ public:
    * @param[in] w Значение ширины.
    * @param[in] h Значение высоты.
    */
-  MTHD_OVERRIDE(void set(s32_t w, s32_t h));
+  MTHD_OVERRIDE(void set(i32_t w, i32_t h));
 
   /**
    * @brief Получает размер прямоугольной области.

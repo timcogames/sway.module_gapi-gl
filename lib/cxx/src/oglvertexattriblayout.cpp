@@ -35,7 +35,7 @@ void OGLVertexAttribLayout::enable() {
     if (attrib.second.enabled) {
       helper_.enableArray((u32_t)attrib.second.location);
       helper_.setup((u32_t)attrib.second.location, attrib.second.numComponents, TypeUtils::toGL(attrib.second.format),
-          (s8_t)attrib.second.normalized, (s32_t)attribOffset_, attrib.second.pointer);
+          (s8_t)attrib.second.normalized, (i32_t)attribOffset_, attrib.second.pointer);
     }
   }
 }

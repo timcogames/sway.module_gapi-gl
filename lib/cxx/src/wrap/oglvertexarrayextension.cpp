@@ -3,8 +3,8 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-core::binding::TFunction<void(s32_t, u32_t *)> OGLVertexArrayExtension::glGenVertexArraysAPPLE = nullptr;
-core::binding::TFunction<void(s32_t, const u32_t *)> OGLVertexArrayExtension::glDeleteVertexArraysAPPLE = nullptr;
+core::binding::TFunction<void(i32_t, u32_t *)> OGLVertexArrayExtension::glGenVertexArraysAPPLE = nullptr;
+core::binding::TFunction<void(i32_t, const u32_t *)> OGLVertexArrayExtension::glDeleteVertexArraysAPPLE = nullptr;
 core::binding::TFunction<void(u32_t)> OGLVertexArrayExtension::glBindVertexArrayAPPLE = nullptr;
 core::binding::TFunction<bool(u32_t)> OGLVertexArrayExtension::glIsVertexArrayAPPLE = nullptr;
 

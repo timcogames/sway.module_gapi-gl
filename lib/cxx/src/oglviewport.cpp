@@ -13,12 +13,12 @@ OGLViewport::OGLViewport()
     : mode_(ViewportMode::ENABLED)
     , clearColor_({0.0F, 0.0F, 0.0F, 1.0F}) {}
 
-void OGLViewport::set(s32_t posX, s32_t posY, s32_t width, s32_t height) { glViewport(posX, posY, width, height); }
+void OGLViewport::set(i32_t posX, i32_t posY, i32_t width, i32_t height) { glViewport(posX, posY, width, height); }
 
-void OGLViewport::set(s32_t width, s32_t height) { set(0, 0, width, height); }
+void OGLViewport::set(i32_t width, i32_t height) { set(0, 0, width, height); }
 
 auto OGLViewport::get() const -> math::rect4i_t {
-  std::array<s32_t, 4> viewport;
+  std::array<i32_t, 4> viewport;
   glGetIntegerv(GL_VIEWPORT, viewport.data());
   return {viewport[0], viewport[1], viewport[2], viewport[3]};
 }

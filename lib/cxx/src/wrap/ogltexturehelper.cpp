@@ -54,11 +54,11 @@ OGLTextureHelper::OGLTextureHelper() {
 #endif
 }
 
-void OGLTextureHelper::EMU_GenerateTextures([[maybe_unused]] s32_t num, [[maybe_unused]] u32_t *textures) {}
+void OGLTextureHelper::EMU_GenerateTextures([[maybe_unused]] i32_t num, [[maybe_unused]] u32_t *textures) {}
 
-void OGLTextureHelper::STD_GenerateTextures(s32_t num, u32_t *textures) { glGenTextures(num, textures); }
+void OGLTextureHelper::STD_GenerateTextures(i32_t num, u32_t *textures) { glGenTextures(num, textures); }
 
-void OGLTextureHelper::EXT_GenerateTextures(s32_t num, u32_t *textures) {
+void OGLTextureHelper::EXT_GenerateTextures(i32_t num, u32_t *textures) {
   OGLTextureExtension::glGenTexturesEXT(num, textures);
 }
 
@@ -73,12 +73,12 @@ void OGLTextureHelper::EXT_BindTexture(TextureTarget target, std::optional<u32_t
   OGLTextureExtension::glBindTextureEXT(OGLTextureTargetConvertor::toGLenum(target), texId.value());
 }
 
-void OGLTextureHelper::EMU_TextureImage2D([[maybe_unused]] TextureTarget target, [[maybe_unused]] s32_t level,
-    [[maybe_unused]] PixelFormat internalFormat, [[maybe_unused]] math::size2i_t size, [[maybe_unused]] s32_t border,
+void OGLTextureHelper::EMU_TextureImage2D([[maybe_unused]] TextureTarget target, [[maybe_unused]] i32_t level,
+    [[maybe_unused]] PixelFormat internalFormat, [[maybe_unused]] math::size2i_t size, [[maybe_unused]] i32_t border,
     [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType type, [[maybe_unused]] const void *pixels) {}
 
-void OGLTextureHelper::STD_TextureImage2D(TextureTarget target, s32_t level, PixelFormat internalFormat,
-    math::size2i_t size, s32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels) {
+void OGLTextureHelper::STD_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat,
+    math::size2i_t size, i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels) {
   if (target != TextureTarget::TEX_2D) {
     return;
   }
@@ -87,8 +87,8 @@ void OGLTextureHelper::STD_TextureImage2D(TextureTarget target, s32_t level, Pix
       size.getW(), size.getH(), border, OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EXT_TextureImage2D(TextureTarget target, s32_t level, PixelFormat internalFormat,
-    math::size2i_t size, s32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels) {
+void OGLTextureHelper::EXT_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat,
+    math::size2i_t size, i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels) {
   if (target != TextureTarget::TEX_2D) {
     return;
   }
@@ -98,38 +98,38 @@ void OGLTextureHelper::EXT_TextureImage2D(TextureTarget target, s32_t level, Pix
       OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EMU_TexSubImage2D([[maybe_unused]] TextureTarget target, [[maybe_unused]] s32_t level,
-    [[maybe_unused]] s32_t xoffset, [[maybe_unused]] s32_t yoffset, [[maybe_unused]] s32_t width,
-    [[maybe_unused]] s32_t height, [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType type,
+void OGLTextureHelper::EMU_TexSubImage2D([[maybe_unused]] TextureTarget target, [[maybe_unused]] i32_t level,
+    [[maybe_unused]] i32_t xoffset, [[maybe_unused]] i32_t yoffset, [[maybe_unused]] i32_t width,
+    [[maybe_unused]] i32_t height, [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType type,
     [[maybe_unused]] const void *pixels) {}
 
-void OGLTextureHelper::STD_TexSubImage2D(TextureTarget target, s32_t level, s32_t xoffset, s32_t yoffset, s32_t width,
-    s32_t height, PixelFormat frm, core::ValueDataType type, const void *pixels) {
+void OGLTextureHelper::STD_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t width,
+    i32_t height, PixelFormat frm, core::ValueDataType type, const void *pixels) {
   glTexSubImage2D(OGLTextureTargetConvertor::toGLenum(target), level, xoffset, yoffset, width, height,
       OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EXT_TexSubImage2D(TextureTarget target, s32_t level, s32_t xoffset, s32_t yoffset, s32_t width,
-    s32_t height, PixelFormat frm, core::ValueDataType type, const void *pixels) {
+void OGLTextureHelper::EXT_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t width,
+    i32_t height, PixelFormat frm, core::ValueDataType type, const void *pixels) {
   OGLTextureExtension::glTexSubImage2DEXT(OGLTextureTargetConvertor::toGLenum(target), level, xoffset, yoffset, width,
       height, OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EMU_SetActiveTexture([[maybe_unused]] s32_t slot) {}
+void OGLTextureHelper::EMU_SetActiveTexture([[maybe_unused]] i32_t slot) {}
 
-void OGLTextureHelper::STD_SetActiveTexture(s32_t slot) { glActiveTexture(slot); }
+void OGLTextureHelper::STD_SetActiveTexture(i32_t slot) { glActiveTexture(slot); }
 
-void OGLTextureHelper::ARB_SetActiveTexture(s32_t slot) { OGLTextureExtension::glActiveTextureARB(slot); }
+void OGLTextureHelper::ARB_SetActiveTexture(i32_t slot) { OGLTextureExtension::glActiveTextureARB(slot); }
 
 void OGLTextureHelper::EMU_SetTextureParamI(
-    [[maybe_unused]] TextureTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] s32_t param) {}
+    [[maybe_unused]] TextureTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t param) {}
 
-void OGLTextureHelper::STD_SetTextureParamI(TextureTarget target, u32_t pname, s32_t param) {
+void OGLTextureHelper::STD_SetTextureParamI(TextureTarget target, u32_t pname, i32_t param) {
   glTexParameteri(OGLTextureTargetConvertor::toGLenum(target), pname, param);
 }
 
-void OGLTextureHelper::EXT_SetTextureParamI(TextureTarget target, u32_t pname, s32_t param) {
-  OGLTextureExtension::glTexParameterIivEXT(OGLTextureTargetConvertor::toGLenum(target), pname, (const s32_t *)&param);
+void OGLTextureHelper::EXT_SetTextureParamI(TextureTarget target, u32_t pname, i32_t param) {
+  OGLTextureExtension::glTexParameterIivEXT(OGLTextureTargetConvertor::toGLenum(target), pname, (const i32_t *)&param);
 }
 
 NAMESPACE_END(gapi)

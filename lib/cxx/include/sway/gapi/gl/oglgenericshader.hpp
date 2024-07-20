@@ -47,7 +47,7 @@ public:
    * @return Идентификатор атрибута.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> s32_t);  // clang-format on
+  MTHD_OVERRIDE(auto getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> i32_t);  // clang-format on
 
   /**
    * @brief Выполняет компиляцию шейдерного объекта.

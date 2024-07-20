@@ -53,13 +53,13 @@ public:
    */
   MTHD_OVERRIDE(void updateSubdata(const void *src));
 
-  MTHD_OVERRIDE(void flush(s32_t offset, s32_t length));
+  MTHD_OVERRIDE(void flush(i32_t offset, i32_t length));
 
   // clang-format off
   MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);  // clang-format on
 
   // clang-format off
-  MTHD_OVERRIDE(auto mapRange(s32_t offset, s32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);  // clang-format on
+  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);  // clang-format on
 
   MTHD_OVERRIDE(void unmap());
 
@@ -99,7 +99,7 @@ public:
    * @brief Получает количество элементов в массиве.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getCapacity() const -> s32_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getCapacity() const -> i32_t) {  // clang-format on
     return capacity_;
   }
 
@@ -107,7 +107,7 @@ public:
    * @brief Получает размер структуры данных.
    */
   // clang-format off
-  MTHD_OVERRIDE(auto getByteStride() const -> s32_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getByteStride() const -> i32_t) {  // clang-format on
     return byteStride_;
   }
 
@@ -115,8 +115,8 @@ private:
   OGLGenericBufferHelper helper_;
   BufferTarget target_;
   BufferUsage usage_;
-  s32_t capacity_;
-  s32_t byteStride_;
+  i32_t capacity_;
+  i32_t byteStride_;
 };
 
 NAMESPACE_END(gapi)

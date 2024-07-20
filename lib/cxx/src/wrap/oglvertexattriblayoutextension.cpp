@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(gapi)
 
 core::binding::TFunction<void(u32_t)> OGLVertexAttribLayoutExtension::glEnableVertexAttribArrayARB = nullptr;
 core::binding::TFunction<void(u32_t)> OGLVertexAttribLayoutExtension::glDisableVertexAttribArrayARB = nullptr;
-core::binding::TFunction<void(u32_t, s32_t, u32_t, u8_t, s32_t, const void *)>
+core::binding::TFunction<void(u32_t, i32_t, u32_t, u8_t, i32_t, const void *)>
     OGLVertexAttribLayoutExtension::glVertexAttribPointerARB = nullptr;
 
 void OGLVertexAttribLayoutExtension::define(

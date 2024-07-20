@@ -124,10 +124,10 @@ void OGLShaderProgram::unuse() {
 }
 
 auto OGLShaderProgram::isUsed() const -> bool {
-  s32_t current = 0;
+  i32_t current = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &current);
 
-  return (current == (s32_t)getUid().value());
+  return (current == (i32_t)getUid().value());
 }
 
 void OGLShaderProgram::setUniformVec4f(const std::string &uniform, const math::vec4f_t &vec) {
@@ -143,7 +143,7 @@ void OGLShaderProgram::setUniformMat4f(const std::string &uniform, const math::m
   uniformMat4fSet_[uniform].setData(mat.asArray());
 }
 
-void OGLShaderProgram::setUniform1i(const std::string &uniform, s32_t val) { uniform1iSet_[uniform] = val; }
+void OGLShaderProgram::setUniform1i(const std::string &uniform, i32_t val) { uniform1iSet_[uniform] = val; }
 
 void OGLShaderProgram::setUniform1f(const std::string &uniform, f32_t val) { uniform1fSet_[uniform] = val; }
 

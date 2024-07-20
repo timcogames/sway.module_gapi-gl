@@ -28,7 +28,7 @@ public:
 
 private:
   OGLGenericBufferHelper helper_;
-  s32_t chunkCapacity_;
+  i32_t chunkCapacity_;
   std::vector<u32_t> used_;
 };
 

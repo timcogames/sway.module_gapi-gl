@@ -30,7 +30,7 @@ public:
 
 private:
   OGLFramebufferHelper helper_;
-  s32_t maxColorAttachments_;
+  i32_t maxColorAttachments_;
   // bool fboSupported_;
   // bool fboUsed_;
 };

@@ -71,7 +71,7 @@ OGLGenericBufferHelper::OGLGenericBufferHelper() {
 }
 
 void OGLGenericBufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids) {
-  for (auto i = 0; i < (s32_t)num; ++i) {
+  for (auto i = 0; i < (i32_t)num; ++i) {
     ids[i] = i + latest + 1;
   }
 }
@@ -140,13 +140,13 @@ void OGLGenericBufferHelper::STD_FlushMappedBufferRange(BufferTarget target, ptr
   glFlushMappedBufferRange(OGLBufferTargetConvertor::toGLenum(target), offset, length);
 }
 
-auto OGLGenericBufferHelper::EMU_MapBuffer([[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t access)
-    -> void * {
+auto OGLGenericBufferHelper::EMU_MapBuffer(
+    [[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t access) -> void * {
   return nullptr;
 }
 
-auto OGLGenericBufferHelper::STD_MapBuffer([[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t access)
-    -> void * {
+auto OGLGenericBufferHelper::STD_MapBuffer(
+    [[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t access) -> void * {
   // return glMapBuffer(OGLBufferTargetConvertor::toGLenum(target), access);
   std::cout << "[WARN] STD_MapBuffer" << std::endl;
   return nullptr;
@@ -160,18 +160,18 @@ auto OGLGenericBufferHelper::OES_MapBuffer(BufferTarget target, u32_t access) ->
   return OGLBufferExtension::glMapBufferOES(OGLBufferTargetConvertor::toGLenum(target), access);
 }
 
-auto OGLGenericBufferHelper::EMU_MapBufferRange([[maybe_unused]] BufferTarget target, [[maybe_unused]] s32_t offset,
-    [[maybe_unused]] s32_t length, [[maybe_unused]] u32_t access) -> void * {
+auto OGLGenericBufferHelper::EMU_MapBufferRange([[maybe_unused]] BufferTarget target, [[maybe_unused]] i32_t offset,
+    [[maybe_unused]] i32_t length, [[maybe_unused]] u32_t access) -> void * {
   return nullptr;
 }
 
-auto OGLGenericBufferHelper::STD_MapBufferRange([[maybe_unused]] BufferTarget target, [[maybe_unused]] s32_t offset,
-    [[maybe_unused]] s32_t length, [[maybe_unused]] u32_t access) -> void * {
+auto OGLGenericBufferHelper::STD_MapBufferRange([[maybe_unused]] BufferTarget target, [[maybe_unused]] i32_t offset,
+    [[maybe_unused]] i32_t length, [[maybe_unused]] u32_t access) -> void * {
   return glMapBufferRange(OGLBufferTargetConvertor::toGLenum(target), offset, length, access);
 }
 
-auto OGLGenericBufferHelper::EXT_MapBufferRange(BufferTarget target, s32_t offset, s32_t length, u32_t access)
-    -> void * {
+auto OGLGenericBufferHelper::EXT_MapBufferRange(
+    BufferTarget target, i32_t offset, i32_t length, u32_t access) -> void * {
   return OGLBufferExtension::glMapBufferRangeEXT(OGLBufferTargetConvertor::toGLenum(target), offset, length, access);
 }
 
@@ -196,13 +196,13 @@ auto OGLGenericBufferHelper::STD_IsBuffer(u32_t buffer) -> u8_t { return glIsBuf
 auto OGLGenericBufferHelper::ARB_IsBuffer(u32_t buffer) -> u8_t { return OGLBufferExtension::glIsBufferARB(buffer); }
 
 void OGLGenericBufferHelper::EMU_GetBufferParam(
-    [[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] s32_t *params) {}
+    [[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t *params) {}
 
-void OGLGenericBufferHelper::STD_GetBufferParam(BufferTarget target, u32_t pname, s32_t *params) {
+void OGLGenericBufferHelper::STD_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params) {
   return glGetBufferParameteriv(OGLBufferTargetConvertor::toGLenum(target), pname, params);
 }
 
-void OGLGenericBufferHelper::ARB_GetBufferParam(BufferTarget target, u32_t pname, s32_t *params) {
+void OGLGenericBufferHelper::ARB_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params) {
   return OGLBufferExtension::glGetBufferParameterivARB(OGLBufferTargetConvertor::toGLenum(target), pname, params);
 }
 

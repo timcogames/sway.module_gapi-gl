@@ -8,14 +8,14 @@ NAMESPACE_BEGIN(gapi)
 
 struct DrawElements {
   u32_t mode;
-  s32_t count;
+  i32_t count;
   u32_t type;
 };
 
 struct DrawArrays {
   u32_t mode;
-  s32_t first;
-  s32_t count;
+  i32_t first;
+  i32_t count;
 };
 
 class OGLDrawCall : public DrawCall {

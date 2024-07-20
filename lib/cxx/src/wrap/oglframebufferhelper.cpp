@@ -41,24 +41,24 @@ OGLFramebufferHelper::OGLFramebufferHelper() {
 #endif
 }
 
-void OGLFramebufferHelper::EMU_GenerateFramebuffers([[maybe_unused]] s32_t num, [[maybe_unused]] u32_t *framebuffers) {}
+void OGLFramebufferHelper::EMU_GenerateFramebuffers([[maybe_unused]] i32_t num, [[maybe_unused]] u32_t *framebuffers) {}
 
-void OGLFramebufferHelper::STD_GenerateFramebuffers(s32_t num, u32_t *framebuffers) {
+void OGLFramebufferHelper::STD_GenerateFramebuffers(i32_t num, u32_t *framebuffers) {
   // glGenFramebuffers(num, framebuffers);
 }
 
-void OGLFramebufferHelper::EXT_GenerateFramebuffers(s32_t num, u32_t *framebuffers) {
+void OGLFramebufferHelper::EXT_GenerateFramebuffers(i32_t num, u32_t *framebuffers) {
   OGLFramebufferExtension::glGenFramebuffersEXT(num, framebuffers);
 }
 
 void OGLFramebufferHelper::EMU_DeleteFramebuffers(
-    [[maybe_unused]] s32_t num, [[maybe_unused]] const u32_t *framebuffers) {}
+    [[maybe_unused]] i32_t num, [[maybe_unused]] const u32_t *framebuffers) {}
 
-void OGLFramebufferHelper::STD_DeleteFramebuffers(s32_t num, const u32_t *framebuffers) {
+void OGLFramebufferHelper::STD_DeleteFramebuffers(i32_t num, const u32_t *framebuffers) {
   // glDeleteFramebuffers(num, framebuffers);
 }
 
-void OGLFramebufferHelper::EXT_DeleteFramebuffers(s32_t num, const u32_t *framebuffers) {
+void OGLFramebufferHelper::EXT_DeleteFramebuffers(i32_t num, const u32_t *framebuffers) {
   OGLFramebufferExtension::glDeleteFramebuffersEXT(num, framebuffers);
 }
 
@@ -85,15 +85,15 @@ auto OGLFramebufferHelper::EXT_IsFramebuffer(u32_t framebuffer) -> bool {
 }
 
 void OGLFramebufferHelper::EMU_FramebufferTexture2D([[maybe_unused]] u32_t target, [[maybe_unused]] u32_t attachment,
-    [[maybe_unused]] u32_t textarget, [[maybe_unused]] std::optional<u32_t> texture, [[maybe_unused]] s32_t level) {}
+    [[maybe_unused]] u32_t textarget, [[maybe_unused]] std::optional<u32_t> texture, [[maybe_unused]] i32_t level) {}
 
 void OGLFramebufferHelper::STD_FramebufferTexture2D(
-    u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, s32_t level) {
+    u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, i32_t level) {
   // glFramebufferTexture2D(target, attachment, textarget, texture.value(), level);
 }
 
 void OGLFramebufferHelper::EXT_FramebufferTexture2D(
-    u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, s32_t level) {
+    u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, i32_t level) {
   OGLFramebufferExtension::glFramebufferTexture2DEXT(target, attachment, textarget, texture.value(), level);
 }
 
@@ -122,15 +122,15 @@ auto OGLFramebufferHelper::EXT_CheckFramebufferStatus(u32_t target) -> u32_t {
 }
 
 void OGLFramebufferHelper::EMU_GetFramebufferAttachmentParamI([[maybe_unused]] u32_t target,
-    [[maybe_unused]] u32_t attachment, [[maybe_unused]] u32_t pname, [[maybe_unused]] s32_t *params) {}
+    [[maybe_unused]] u32_t attachment, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t *params) {}
 
 void OGLFramebufferHelper::STD_GetFramebufferAttachmentParamI(
-    u32_t target, u32_t attachment, u32_t pname, s32_t *params) {
+    u32_t target, u32_t attachment, u32_t pname, i32_t *params) {
   // glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
 }
 
 void OGLFramebufferHelper::EXT_GetFramebufferAttachmentParamI(
-    u32_t target, u32_t attachment, u32_t pname, s32_t *params) {
+    u32_t target, u32_t attachment, u32_t pname, i32_t *params) {
   OGLFramebufferExtension::glGetFramebufferAttachmentParameterivEXT(target, attachment, pname, params);
 }
 

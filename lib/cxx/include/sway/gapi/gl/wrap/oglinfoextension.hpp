@@ -9,8 +9,8 @@ NAMESPACE_BEGIN(gapi)
 
 class OGLInfoExtension {
 public:
-  static core::binding::TFunction<void(u32_t, u32_t, s32_t *)> glGetObjectParameterivARB;
-  static core::binding::TFunction<void(u32_t, s32_t, s32_t *, lpstr_t)> glGetInfoLogARB;
+  static core::binding::TFunction<void(u32_t, u32_t, i32_t *)> glGetObjectParameterivARB;
+  static core::binding::TFunction<void(u32_t, i32_t, i32_t *, lpstr_t)> glGetInfoLogARB;
 
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
 };

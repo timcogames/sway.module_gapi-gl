@@ -3,16 +3,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-core::binding::TFunction<void(s32_t, u32_t *)> OGLFramebufferExtension::glGenFramebuffersEXT = nullptr;
-core::binding::TFunction<void(s32_t, const u32_t *)> OGLFramebufferExtension::glDeleteFramebuffersEXT = nullptr;
+core::binding::TFunction<void(i32_t, u32_t *)> OGLFramebufferExtension::glGenFramebuffersEXT = nullptr;
+core::binding::TFunction<void(i32_t, const u32_t *)> OGLFramebufferExtension::glDeleteFramebuffersEXT = nullptr;
 core::binding::TFunction<void(u32_t, u32_t)> OGLFramebufferExtension::glBindFramebufferEXT = nullptr;
 core::binding::TFunction<bool(u32_t)> OGLFramebufferExtension::glIsFramebufferEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t, s32_t)> OGLFramebufferExtension::glFramebufferTexture2DEXT =
+core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t, i32_t)> OGLFramebufferExtension::glFramebufferTexture2DEXT =
     nullptr;
 core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t)> OGLFramebufferExtension::glFramebufferRenderbufferEXT =
     nullptr;
 core::binding::TFunction<u32_t(u32_t)> OGLFramebufferExtension::glCheckFramebufferStatusEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, u32_t, s32_t *)>
+core::binding::TFunction<void(u32_t, u32_t, u32_t, i32_t *)>
     OGLFramebufferExtension::glGetFramebufferAttachmentParameterivEXT = nullptr;
 
 void OGLFramebufferExtension::define(

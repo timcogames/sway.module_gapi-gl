@@ -34,7 +34,7 @@ public:
 
   MTHD_OVERRIDE(void setStencilMask(u32_t mask));
 
-  MTHD_OVERRIDE(void setStencilFn(CompareFn func, s32_t ref, u32_t mask));
+  MTHD_OVERRIDE(void setStencilFn(CompareFn func, i32_t ref, u32_t mask));
 
   MTHD_OVERRIDE(void setStencilOp(StencilOp fail, StencilOp depthFail, StencilOp depthPass));
 

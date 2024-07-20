@@ -30,19 +30,19 @@ OGLVertexArrayHelper::OGLVertexArrayHelper() {
 #endif
 }
 
-void OGLVertexArrayHelper::EMU_GenerateVertexArrays([[maybe_unused]] s32_t nbr, [[maybe_unused]] u32_t *arrays) {}
+void OGLVertexArrayHelper::EMU_GenerateVertexArrays([[maybe_unused]] i32_t nbr, [[maybe_unused]] u32_t *arrays) {}
 
-void OGLVertexArrayHelper::STD_GenerateVertexArrays(s32_t nbr, u32_t *arrays) { glGenVertexArrays(nbr, arrays); }
+void OGLVertexArrayHelper::STD_GenerateVertexArrays(i32_t nbr, u32_t *arrays) { glGenVertexArrays(nbr, arrays); }
 
-void OGLVertexArrayHelper::APPLE_GenerateVertexArrays(s32_t nbr, u32_t *arrays) {
+void OGLVertexArrayHelper::APPLE_GenerateVertexArrays(i32_t nbr, u32_t *arrays) {
   //  glGenVertexArraysAPPLE(nbr, arrays);
 }
 
-void OGLVertexArrayHelper::EMU_DeleteVertexArrays([[maybe_unused]] s32_t nbr, [[maybe_unused]] const u32_t *arrays) {}
+void OGLVertexArrayHelper::EMU_DeleteVertexArrays([[maybe_unused]] i32_t nbr, [[maybe_unused]] const u32_t *arrays) {}
 
-void OGLVertexArrayHelper::STD_DeleteVertexArrays(s32_t nbr, const u32_t *arrays) { glDeleteVertexArrays(nbr, arrays); }
+void OGLVertexArrayHelper::STD_DeleteVertexArrays(i32_t nbr, const u32_t *arrays) { glDeleteVertexArrays(nbr, arrays); }
 
-void OGLVertexArrayHelper::APPLE_DeleteVertexArrays(s32_t nbr, const u32_t *arrays) {
+void OGLVertexArrayHelper::APPLE_DeleteVertexArrays(i32_t nbr, const u32_t *arrays) {
   // glDeleteVertexArraysAPPLE(nbr, arrays);
 }
 

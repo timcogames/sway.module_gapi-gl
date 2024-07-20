@@ -24,7 +24,7 @@ public:
 
   MTHD_OVERRIDE(void setPixelStorage(PixelStorageMode mode, u32_t param));
 
-  MTHD_OVERRIDE(void setActive(s32_t slot));
+  MTHD_OVERRIDE(void setActive(i32_t slot));
 
   MTHD_OVERRIDE(void bind());
 

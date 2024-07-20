@@ -59,24 +59,24 @@ private:
   std::string vendor_;
   std::string version_;
   std::string shadingLanguageVersion_;
-  s32_t majorVersion_;
-  s32_t minorVersion_;
+  i32_t majorVersion_;
+  i32_t minorVersion_;
 
-  s32_t maxVertexAttributes_;
-  s32_t maxVertexOutputComponents_;
-  s32_t maxVertexTextureImageUnits_;
-  s32_t maxVertexUniformComponents_;
-  s32_t maxVertexUniformVectors_;
+  i32_t maxVertexAttributes_;
+  i32_t maxVertexOutputComponents_;
+  i32_t maxVertexTextureImageUnits_;
+  i32_t maxVertexUniformComponents_;
+  i32_t maxVertexUniformVectors_;
 
-  s32_t maxDrawBuffers_;
+  i32_t maxDrawBuffers_;
 
-  s32_t maxFragmentInputComponents_;
-  s32_t maxFragmentUniformComponents_;
-  s32_t maxFragmentUniformVectors_;
+  i32_t maxFragmentInputComponents_;
+  i32_t maxFragmentUniformComponents_;
+  i32_t maxFragmentUniformVectors_;
 
-  s32_t maxTextureImageUnits_;
-  s32_t maxCombineTextureImageUnits_;
-  s32_t maxTextureMaxAnisotropyExt_;
+  i32_t maxTextureImageUnits_;
+  i32_t maxCombineTextureImageUnits_;
+  i32_t maxTextureMaxAnisotropyExt_;
 };
 
 NAMESPACE_END(gapi)

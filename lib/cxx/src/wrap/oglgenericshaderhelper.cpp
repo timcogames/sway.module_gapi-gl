@@ -55,42 +55,42 @@ void OGLGenericShaderHelper::ARB_DeleteShader(std::optional<u32_t> obj) {
   OGLGenericShaderExtension::glDeleteObjectARB(obj.value());
 }
 
-void OGLGenericShaderHelper::EMU_ShaderSource([[maybe_unused]] std::optional<u32_t> obj, [[maybe_unused]] s32_t count,
-    [[maybe_unused]] lpcstr_t *string, [[maybe_unused]] const s32_t *length) {}
+void OGLGenericShaderHelper::EMU_ShaderSource([[maybe_unused]] std::optional<u32_t> obj, [[maybe_unused]] i32_t count,
+    [[maybe_unused]] lpcstr_t *string, [[maybe_unused]] const i32_t *length) {}
 
 void OGLGenericShaderHelper::STD_ShaderSource(
-    std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length) {
+    std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length) {
   glShaderSource(obj.value(), count, string, length);
 }
 
 void OGLGenericShaderHelper::ARB_ShaderSource(
-    std::optional<u32_t> obj, s32_t count, lpcstr_t *string, const s32_t *length) {
+    std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length) {
   OGLGenericShaderExtension::glShaderSourceARB(obj.value(), count, string, length);
 }
 
 void OGLGenericShaderHelper::EMU_CompileShader(
-    [[maybe_unused]] std::optional<u32_t> obj, [[maybe_unused]] s32_t *status) {}
+    [[maybe_unused]] std::optional<u32_t> obj, [[maybe_unused]] i32_t *status) {}
 
-void OGLGenericShaderHelper::STD_CompileShader(std::optional<u32_t> obj, s32_t *status) {
+void OGLGenericShaderHelper::STD_CompileShader(std::optional<u32_t> obj, i32_t *status) {
   glCompileShader(obj.value());
   glGetShaderiv(obj.value(), GL_COMPILE_STATUS, status);
 }
 
-void OGLGenericShaderHelper::ARB_CompileShader(std::optional<u32_t> obj, s32_t *status) {
+void OGLGenericShaderHelper::ARB_CompileShader(std::optional<u32_t> obj, i32_t *status) {
   OGLGenericShaderExtension::glCompileShaderARB(obj.value());
   OGLInfoHelper::ARB_GetObjectParameter(obj.value(), GL_OBJECT_COMPILE_STATUS_ARB, status);
 }
 
-auto OGLGenericShaderHelper::EMU_GetAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
-    -> s32_t {
+auto OGLGenericShaderHelper::EMU_GetAttribLocation(
+    [[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name) -> i32_t {
   return 0;
 }
 
-auto OGLGenericShaderHelper::STD_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
+auto OGLGenericShaderHelper::STD_GetAttribLocation(u32_t program, lpcstr_t name) -> i32_t {
   return glGetAttribLocation(program, name);
 }
 
-auto OGLGenericShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> s32_t {
+auto OGLGenericShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> i32_t {
   return OGLGenericShaderExtension::glGetAttribLocationARB(program, name);
 }
 

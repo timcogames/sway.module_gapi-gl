@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(gapi)
 // enum class VideoDriverType { GL, GLES, WEBGL };
 // class VideoDriver {
 // public:
-//   VideoDriver(VideoDriverType type, s32_t major, s32_t minor, lpcstr_t extra = "\0")
+//   VideoDriver(VideoDriverType type, i32_t major, i32_t minor, lpcstr_t extra = "\0")
 //       : type_(type)
 //       , ver_(core::Version(major, minor, DONT_CARE, extra)) {}
 
@@ -45,8 +45,8 @@ NAMESPACE_BEGIN(gapi)
 
 class TypeUtils {
 public:
-  static auto getIntParams(u32_t name) -> s32_t * {
-    s32_t *params = nullptr;
+  static auto getIntParams(u32_t name) -> i32_t * {
+    i32_t *params = nullptr;
     glGetIntegerv(name, params);
     return params;
   }

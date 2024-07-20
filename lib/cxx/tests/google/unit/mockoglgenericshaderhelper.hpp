@@ -18,11 +18,11 @@ public:
 
   MOCK_METHOD(void, deleteShader, (std::optional<u32_t>));
 
-  MOCK_METHOD(void, shaderSource, (std::optional<u32_t>, s32_t, lpcstr_t *, const s32_t *));
+  MOCK_METHOD(void, shaderSource, (std::optional<u32_t>, i32_t, lpcstr_t *, const i32_t *));
 
-  MOCK_METHOD(void, compileShader, (std::optional<u32_t>, s32_t *));
+  MOCK_METHOD(void, compileShader, (std::optional<u32_t>, i32_t *));
 
-  MOCK_METHOD(s32_t, getAttribLocation, (u32_t, lpcstr_t));
+  MOCK_METHOD(i32_t, getAttribLocation, (u32_t, lpcstr_t));
 };
 
 #endif  // SWAY_GAPI_TESTS_GOOGLE_UNIT_MOCKOGLGENERICSHADERHELPER_HPP

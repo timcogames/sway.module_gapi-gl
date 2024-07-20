@@ -11,15 +11,15 @@ class OGLFramebufferHelper {
 public:
   OGLFramebufferHelper();
 
-  DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, generateFramebuffers, s32_t, u32_t *)
-  void EMU_GenerateFramebuffers(s32_t num, u32_t *framebuffers);
-  void STD_GenerateFramebuffers(s32_t num, u32_t *framebuffers);
-  void EXT_GenerateFramebuffers(s32_t num, u32_t *framebuffers);
+  DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, generateFramebuffers, i32_t, u32_t *)
+  void EMU_GenerateFramebuffers(i32_t num, u32_t *framebuffers);
+  void STD_GenerateFramebuffers(i32_t num, u32_t *framebuffers);
+  void EXT_GenerateFramebuffers(i32_t num, u32_t *framebuffers);
 
-  DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, deleteFramebuffers, s32_t, const u32_t *)
-  void EMU_DeleteFramebuffers(s32_t num, const u32_t *framebuffers);
-  void STD_DeleteFramebuffers(s32_t num, const u32_t *framebuffers);
-  void EXT_DeleteFramebuffers(s32_t num, const u32_t *framebuffers);
+  DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, deleteFramebuffers, i32_t, const u32_t *)
+  void EMU_DeleteFramebuffers(i32_t num, const u32_t *framebuffers);
+  void STD_DeleteFramebuffers(i32_t num, const u32_t *framebuffers);
+  void EXT_DeleteFramebuffers(i32_t num, const u32_t *framebuffers);
 
   DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, bindFramebuffer, u32_t, std::optional<u32_t>)
   void EMU_BindFramebuffer(u32_t target, std::optional<u32_t> framebuffer);
@@ -32,13 +32,13 @@ public:
   auto EXT_IsFramebuffer(u32_t framebuffer) -> bool;
 
   DECLARE_GENERIC_MEMBER(
-      void, OGLFramebufferHelper, framebufferTexture2D, u32_t, u32_t, u32_t, std::optional<u32_t>, s32_t)
+      void, OGLFramebufferHelper, framebufferTexture2D, u32_t, u32_t, u32_t, std::optional<u32_t>, i32_t)
   void EMU_FramebufferTexture2D(
-      u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, s32_t level);
+      u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, i32_t level);
   void STD_FramebufferTexture2D(
-      u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, s32_t level);
+      u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, i32_t level);
   void EXT_FramebufferTexture2D(
-      u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, s32_t level);
+      u32_t target, u32_t attachment, u32_t textarget, std::optional<u32_t> texture, i32_t level);
 
   DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, framebufferRenderbuffer, u32_t, u32_t, u32_t, std::optional<u32_t>)
   void EMU_FramebufferRenderbuffer(
@@ -53,10 +53,10 @@ public:
   auto STD_CheckFramebufferStatus(u32_t target) -> u32_t;
   auto EXT_CheckFramebufferStatus(u32_t target) -> u32_t;
 
-  DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, getFramebufferAttachmentParamI, u32_t, u32_t, u32_t, s32_t *)
-  void EMU_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, s32_t *params);
-  void STD_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, s32_t *params);
-  void EXT_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, s32_t *params);
+  DECLARE_GENERIC_MEMBER(void, OGLFramebufferHelper, getFramebufferAttachmentParamI, u32_t, u32_t, u32_t, i32_t *)
+  void EMU_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, i32_t *params);
+  void STD_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, i32_t *params);
+  void EXT_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, i32_t *params);
 };
 
 NAMESPACE_END(gapi)

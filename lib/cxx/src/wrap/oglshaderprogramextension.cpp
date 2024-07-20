@@ -4,18 +4,18 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 core::binding::TFunction<u32_t()> OGLShaderProgramExtension::glCreateProgramObjectARB = nullptr;
-core::binding::TFunction<void(s32_t, const u32_t *)> OGLShaderProgramExtension::glDeleteProgramsARB = nullptr;
+core::binding::TFunction<void(i32_t, const u32_t *)> OGLShaderProgramExtension::glDeleteProgramsARB = nullptr;
 core::binding::TFunction<void(u32_t, u32_t)> OGLShaderProgramExtension::glAttachObjectARB = nullptr;
 core::binding::TFunction<void(u32_t, u32_t)> OGLShaderProgramExtension::glDetachObjectARB = nullptr;
 core::binding::TFunction<void(u32_t)> OGLShaderProgramExtension::glLinkProgramARB = nullptr;
 core::binding::TFunction<void(u32_t)> OGLShaderProgramExtension::glValidateProgramARB = nullptr;
 core::binding::TFunction<void(u32_t)> OGLShaderProgramExtension::glUseProgramObjectARB = nullptr;
-core::binding::TFunction<s32_t(u32_t, lpcstr_t)> OGLShaderProgramExtension::glGetUniformLocationARB = nullptr;
-core::binding::TFunction<void(s32_t, s32_t)> OGLShaderProgramExtension::glUniform1iARB = nullptr;
-core::binding::TFunction<void(s32_t, f32_t)> OGLShaderProgramExtension::glUniform1fARB = nullptr;
-core::binding::TFunction<void(s32_t, f32_t, f32_t, f32_t, f32_t)> OGLShaderProgramExtension::glUniform4fARB = nullptr;
-core::binding::TFunction<void(s32_t, s32_t, f32_t *)> OGLShaderProgramExtension::glUniform4fvARB = nullptr;
-core::binding::TFunction<void(s32_t, s32_t, bool, const f32_t *)> OGLShaderProgramExtension::glUniformMatrix4fvARB =
+core::binding::TFunction<i32_t(u32_t, lpcstr_t)> OGLShaderProgramExtension::glGetUniformLocationARB = nullptr;
+core::binding::TFunction<void(i32_t, i32_t)> OGLShaderProgramExtension::glUniform1iARB = nullptr;
+core::binding::TFunction<void(i32_t, f32_t)> OGLShaderProgramExtension::glUniform1fARB = nullptr;
+core::binding::TFunction<void(i32_t, f32_t, f32_t, f32_t, f32_t)> OGLShaderProgramExtension::glUniform4fARB = nullptr;
+core::binding::TFunction<void(i32_t, i32_t, f32_t *)> OGLShaderProgramExtension::glUniform4fvARB = nullptr;
+core::binding::TFunction<void(i32_t, i32_t, bool, const f32_t *)> OGLShaderProgramExtension::glUniformMatrix4fvARB =
     nullptr;
 
 void OGLShaderProgramExtension::define(

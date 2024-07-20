@@ -19,7 +19,7 @@ public:
   OGLShaderException(u32_t objectId)
       : core::runtime::Exception([this, objectId]() -> std::string {
         std::string result;
-        s32_t logLength;
+        i32_t logLength;
 
 #ifdef EMSCRIPTEN_PLATFORM
         glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &logLength);

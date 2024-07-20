@@ -123,7 +123,7 @@ public:
 
   MTHD_OVERRIDE(void setUniformMat4f(const std::string &uniform, const math::mat4f_t &mat));
 
-  MTHD_OVERRIDE(void setUniform1i(const std::string &uniform, s32_t val));
+  MTHD_OVERRIDE(void setUniform1i(const std::string &uniform, i32_t val));
 
   MTHD_OVERRIDE(void setUniform1f(const std::string &uniform, f32_t val));
 
