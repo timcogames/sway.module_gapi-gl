@@ -14,9 +14,7 @@ struct OGLStateEnableable : public StateEnableable<TConcreteData> {
   OGLStateEnableable(OGLStateHelper *helper)
       : helper_(helper) {}
 
-  // clang-format off
-  MTHD_OVERRIDE(auto capture() -> TConcreteData) {  // clang-format on
-  }
+  MTHD_OVERRIDE(auto capture() -> TConcreteData) {}
 
   MTHD_OVERRIDE(void apply(StateContext *state, const TConcreteData &data)) {}
 

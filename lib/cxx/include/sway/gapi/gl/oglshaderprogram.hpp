@@ -42,8 +42,7 @@ public:
    */
   MTHD_OVERRIDE(void detach(std::pair<ShaderType, ShaderPtr_t> pair, bool erasing));
 
-  // clang-format off
-  MTHD_OVERRIDE(auto getShader(ShaderType type) -> ShaderPtr_t);  // clang-format on
+  MTHD_OVERRIDE(auto getShader(ShaderType type) -> ShaderPtr_t);
 
   /**
    * @brief Компонует программный объект.
@@ -57,8 +56,7 @@ public:
    *
    * @sa link()
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto isLinked() const -> bool) {  // clang-format on
+  MTHD_OVERRIDE(auto isLinked() const -> bool) {
     return linked_;
   }
 
@@ -74,8 +72,7 @@ public:
    *
    * @sa validate()
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto isValidated() const -> bool) {  // clang-format on
+  MTHD_OVERRIDE(auto isValidated() const -> bool) {
     return validated_;
   }
 
@@ -102,8 +99,7 @@ public:
    * @sa use(),
    *     unuse()
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto isUsed() const -> bool);  // clang-format on
+  MTHD_OVERRIDE(auto isUsed() const -> bool);
 
   /**
    * @brief Передает значение uniform-переменной в шейдер.

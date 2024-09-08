@@ -25,8 +25,7 @@ public:
   /**
    * @brief Возвращает версию OpenGL.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getVersion() const -> core::Version);  // clang-format on
+  MTHD_OVERRIDE(auto getVersion() const -> core::Version);
 
   [[nodiscard]]
   auto toStr() const -> std::string;

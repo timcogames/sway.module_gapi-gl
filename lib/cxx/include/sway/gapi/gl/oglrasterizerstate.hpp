@@ -14,8 +14,7 @@ struct OGLRasterizerState : public OGLStateEnableable<RasterizerDescriptor> {
   OGLRasterizerState(OGLStateHelper *helper)
       : OGLStateEnableable<RasterizerDescriptor>(helper) {}
 
-  // clang-format off
-  MTHD_OVERRIDE(auto capture() -> RasterizerDescriptor) {  // clang-format on
+  MTHD_OVERRIDE(auto capture() -> RasterizerDescriptor) {
     return (struct RasterizerDescriptor){
         // .mode = OGLCullFaceConvertor::current(),
         // .ccw = OGLFrontFaceConvertor::current()

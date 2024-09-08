@@ -43,14 +43,12 @@ public:
   /**
    * @brief Получает размер прямоугольной области.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto get() const -> math::rect4i_t);  // clang-format on
+  MTHD_OVERRIDE(auto get() const -> math::rect4i_t);
 
   /**
    * @brief Получает соотношение сторон.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto aspect() const -> f32_t);  // clang-format on
+  MTHD_OVERRIDE(auto aspect() const -> f32_t);
 
   MTHD_OVERRIDE(void clear());
 

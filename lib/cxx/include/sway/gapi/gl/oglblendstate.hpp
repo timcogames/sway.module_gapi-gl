@@ -33,8 +33,7 @@ struct OGLBlendState : public OGLStateEnableable<BlendStateData> {
   OGLBlendState(OGLStateHelper *helper)
       : OGLStateEnableable<BlendStateData>(helper) {}
 
-  // clang-format off
-  MTHD_OVERRIDE(auto capture() -> BlendStateData) {  // clang-format on
+  MTHD_OVERRIDE(auto capture() -> BlendStateData) {
     // glGetIntegerv(GL_BLEND_SRC_RGB, (GLint *)&factor.src.rgb);
     // glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint *)&factor.src.alpha);
     // glGetIntegerv(GL_BLEND_DST_RGB, (GLint *)&factor.dst.rgb);

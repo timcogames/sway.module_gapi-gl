@@ -25,8 +25,7 @@ struct OGLStencilState : public OGLStateEnableable<StencilStateData> {
   OGLStencilState(OGLStateHelper *helper)
       : OGLStateEnableable<StencilStateData>(helper) {}
 
-  // clang-format off
-  MTHD_OVERRIDE(auto capture() -> StencilStateData) {  // clang-format on
+  MTHD_OVERRIDE(auto capture() -> StencilStateData) {
     // GLint *funcPtr = nullptr;
     // glGetIntegerv(GL_STENCIL_FUNC, funcPtr);
 

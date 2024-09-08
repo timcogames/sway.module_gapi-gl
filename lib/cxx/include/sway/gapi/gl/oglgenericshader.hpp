@@ -35,8 +35,7 @@ public:
    *
    * @return Тип шейдера.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getType() const -> ShaderType) {  // clang-format on
+  MTHD_OVERRIDE(auto getType() const -> ShaderType) {
     return type_;
   }
 
@@ -46,8 +45,7 @@ public:
    * @param[in] name Имя атрибута в вершинном шейдере.
    * @return Идентификатор атрибута.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> i32_t);  // clang-format on
+  MTHD_OVERRIDE(auto getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> i32_t);
 
   /**
    * @brief Выполняет компиляцию шейдерного объекта.
@@ -61,8 +59,7 @@ public:
    *
    * @return Если компиляция прошла успешно 'true', иначе 'false'.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto isCompiled() const -> bool) {  // clang-format on
+  MTHD_OVERRIDE(auto isCompiled() const -> bool) {
     return compiled_;
   }
 

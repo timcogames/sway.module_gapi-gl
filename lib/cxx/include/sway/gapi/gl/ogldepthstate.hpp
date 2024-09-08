@@ -23,8 +23,7 @@ struct OGLDepthState : public OGLStateEnableable<DepthStateData> {
   OGLDepthState(OGLStateHelper *helper)
       : OGLStateEnableable<DepthStateData>(helper) {}
 
-  // clang-format off
-  MTHD_OVERRIDE(auto capture() -> DepthStateData) {  // clang-format on
+  MTHD_OVERRIDE(auto capture() -> DepthStateData) {
 
     // GLint *funcPtr = nullptr;
     // glGetIntegerv(GL_DEPTH_FUNC, funcPtr);

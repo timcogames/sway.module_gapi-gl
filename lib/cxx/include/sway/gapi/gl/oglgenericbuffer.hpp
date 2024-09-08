@@ -34,8 +34,7 @@ public:
    *
    * @param[in] data Первоначальный данные.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto allocate(const void *data) -> bool);  // clang-format on
+  MTHD_OVERRIDE(auto allocate(const void *data) -> bool);
 
   /**
    * @brief Изменяет данные в уже существующем буфере.
@@ -55,11 +54,10 @@ public:
 
   MTHD_OVERRIDE(void flush(i32_t offset, i32_t length));
 
-  // clang-format off
-  MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);  // clang-format on
+  MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);
 
-  // clang-format off
-  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);  // clang-format on
+  MTHD_OVERRIDE(auto mapRange(
+                    i32_t offset, i32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);
 
   MTHD_OVERRIDE(void unmap());
 
@@ -82,32 +80,28 @@ public:
   /**
    * @brief Получает целевой тип буфера.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget) {  // clang-format on
+  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget) {
     return target_;
   }
 
   /**
    * @brief Получает режим работы с данными.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage) {  // clang-format on
+  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage) {
     return usage_;
   }
 
   /**
    * @brief Получает количество элементов в массиве.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getCapacity() const -> i32_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getCapacity() const -> i32_t) {
     return capacity_;
   }
 
   /**
    * @brief Получает размер структуры данных.
    */
-  // clang-format off
-  MTHD_OVERRIDE(auto getByteStride() const -> i32_t) {  // clang-format on
+  MTHD_OVERRIDE(auto getByteStride() const -> i32_t) {
     return byteStride_;
   }
 
