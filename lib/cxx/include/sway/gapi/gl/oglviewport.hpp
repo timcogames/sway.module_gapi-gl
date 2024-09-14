@@ -52,7 +52,7 @@ public:
 
   MTHD_OVERRIDE(void setClearColor(const math::col4f_t &col));
 
-  MTHD_OVERRIDE(void clear());
+  MTHD_OVERRIDE(void clear(ClearFlag flags));
 
   auto getMode() const -> ViewportMode { return mode_; }
 
