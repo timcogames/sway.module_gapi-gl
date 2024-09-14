@@ -50,6 +50,8 @@ public:
    */
   MTHD_OVERRIDE(auto aspect() const -> f32_t);
 
+  MTHD_OVERRIDE(void setClearColor(const math::col4f_t &col));
+
   MTHD_OVERRIDE(void clear());
 
   auto getMode() const -> ViewportMode { return mode_; }

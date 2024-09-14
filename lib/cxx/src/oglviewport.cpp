@@ -11,7 +11,7 @@ auto OGLViewport::createInstance() -> ViewportPtr_t {
 
 OGLViewport::OGLViewport()
     : mode_(ViewportMode::ENABLED)
-    , clearColor_({0.0F, 0.0F, 0.0F, 1.0F}) {}
+    , clearColor_({1.0F, 1.0F, 1.0F, 1.0F}) {}
 
 void OGLViewport::set(i32_t posX, i32_t posY, i32_t width, i32_t height) { glViewport(posX, posY, width, height); }
 
@@ -26,6 +26,10 @@ auto OGLViewport::get() const -> math::rect4i_t {
 auto OGLViewport::aspect() const -> f32_t {
   math::rect4i_t const rect = get();
   return (f32_t)rect.getW() / (f32_t)rect.getH();
+}
+
+void OGLViewport::setClearColor(const math::col4f_t &col) {
+  clearColor_ = math::col4f_t(col.getR() / 255.0F, col.getG() / 255.0F, col.getB() / 255.0F, 1.0F);
 }
 
 void OGLViewport::clear() {

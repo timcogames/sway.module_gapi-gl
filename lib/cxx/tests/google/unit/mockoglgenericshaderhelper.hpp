@@ -12,7 +12,7 @@
 
 using namespace sway;
 
-class MockOGLGenericShaderHelper : public gapi::OGLGenericShaderHelper {
+class MockOGLGenericShaderHelper : public gapi::OGLGenericShaderHelperIface {
 public:
   MOCK_METHOD(u32_t, createShader, (u32_t));
 

@@ -10,12 +10,12 @@ using namespace sway;
 
 TEST(ShaderPreprocessor, addDefine) {
   std::ostringstream out;
-  auto preprocessor = gapi::OGLShaderPreprocessor::createInstance(core::Version(120, DONT_CARE, DONT_CARE, "core"));
+  auto preprocessor = gapi::OGLShaderPreprocessor::createInstance(120, "core");
 
   preprocessor->addDefine("ITEM1", "1");
   preprocessor->addDefine("ITEM2", "2");
   preprocessor->addDefine("ITEM3", "3");
-  preprocessor->evaluate(out);
+  static_cast<gapi::OGLShaderPreprocessor *>(preprocessor)->evaluate(out);
 
   std::string expected("#version 120 core\n"
                        "#define ITEM1 1\n"
