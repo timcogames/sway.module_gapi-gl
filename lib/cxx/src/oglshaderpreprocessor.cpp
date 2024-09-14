@@ -8,8 +8,8 @@ auto OGLShaderPreprocessor::createInstance(u32_t major, lpcstr_t profile) -> Sha
   return instance;
 }
 
-OGLShaderPreprocessor::OGLShaderPreprocessor(const core::Version &version)
-    : version_(version) {}
+OGLShaderPreprocessor::OGLShaderPreprocessor(const core::Version &ver)
+    : version_(std::move(ver)) {}
 
 void OGLShaderPreprocessor::addDefine(const std::string &name, const std::string &val) {
   if (name.empty()) {
@@ -24,8 +24,6 @@ auto OGLShaderPreprocessor::hasDefined(const std::string &name) const -> bool {
 }
 
 void OGLShaderPreprocessor::evaluate(std::ostream &into) {
-  into << "#version " << version_.getMajor() << " " << version_.getExtra() << std::endl;
-
   for (const auto &item : definitions_) {
     into << "#define " << item.first << " " << item.second << std::endl;
   }
