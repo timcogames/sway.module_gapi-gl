@@ -96,4 +96,4 @@ add_executable(${MODULE_TRIANGLE_LIB_TARGET} ${MODULE_TRIANGLE_SOURCES})
 set_target_properties(${MODULE_TRIANGLE_LIB_TARGET} PROPERTIES OUTPUT_NAME ${MODULE_TRIANGLE_PROJ_NAME})
 
 enable_cxx17(${MODULE_TRIANGLE_LIB_TARGET})
-target_link_libraries(${MODULE_TRIANGLE_LIB_TARGET} GL GLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_gapi_gl_obj module_pltf module_gapi_gl_dependences)
+target_link_libraries(${MODULE_TRIANGLE_LIB_TARGET} -lGL -lGLESv2 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} module_gapi_gl_obj module_pltf module_gapi_gl_dependences)

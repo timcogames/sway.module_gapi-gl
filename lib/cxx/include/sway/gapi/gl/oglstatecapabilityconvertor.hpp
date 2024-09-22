@@ -16,6 +16,8 @@ public:
         return GL_BLEND;
       case StateCapability::CULL_FACE:
         return GL_CULL_FACE;
+      case StateCapability::ALPHA_TEST:
+        return GL_ALPHA_TEST;
       case StateCapability::DEPTH_TEST:
         return GL_DEPTH_TEST;
       case StateCapability::SCISSOR_TEST:

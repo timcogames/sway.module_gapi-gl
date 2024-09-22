@@ -18,6 +18,13 @@ void OGLStateContext::setCapabilityEnable(StateCapability cap, bool enable) {
   (enable ? glEnable : glDisable)(OGLStateCapabilityConvertor::toGLenum(cap));
 }
 
+void OGLStateContext::setAlphaEnable(bool enable) { setCapabilityEnable(StateCapability::ALPHA_TEST, enable); }
+
+void OGLStateContext::setAlphaFunc(CompareFn func, f32_t ref) {
+  // glAlphaFunc(OGLCompareFunctionConvertor::toGLenum(func), ref);
+  std::cout << "[setAlphaFunc]: No Implementation" << std::endl;
+}
+
 void OGLStateContext::setBlendEnable(bool enable) { setCapabilityEnable(StateCapability::BLEND, enable); }
 
 void OGLStateContext::setBlendFn(BlendFn src, BlendFn dst) {
@@ -25,6 +32,8 @@ void OGLStateContext::setBlendFn(BlendFn src, BlendFn dst) {
 }
 
 void OGLStateContext::setDepthEnable(bool enable) { setCapabilityEnable(StateCapability::DEPTH_TEST, enable); }
+
+void OGLStateContext::setClearDepth(f64_t depth) { glClearDepth(depth); }
 
 void OGLStateContext::setDepthFn(CompareFn func) { glDepthFunc(OGLCompareFunctionConvertor::toGLenum(func)); }
 
@@ -35,6 +44,8 @@ void OGLStateContext::setColorMask(bool red, bool green, bool blue, bool alpha) 
 }
 
 void OGLStateContext::setStencilEnable(bool enable) { setCapabilityEnable(StateCapability::STENCIL_TEST, enable); }
+
+void OGLStateContext::setClearStencil(i32_t idx) { glClearStencil(idx); }
 
 void OGLStateContext::setStencilMask(u32_t mask) { glStencilMask(mask); }
 

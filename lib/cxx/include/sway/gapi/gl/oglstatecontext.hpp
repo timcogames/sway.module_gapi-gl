@@ -18,11 +18,17 @@ public:
 
   MTHD_OVERRIDE(void setCapabilityEnable(StateCapability cap, bool enable));
 
+  MTHD_OVERRIDE(void setAlphaEnable(bool enable));
+
+  MTHD_OVERRIDE(void setAlphaFunc(CompareFn func, f32_t ref));
+
   MTHD_OVERRIDE(void setBlendEnable(bool enable));
 
   MTHD_OVERRIDE(void setBlendFn(BlendFn src, BlendFn dst));
 
   MTHD_OVERRIDE(void setDepthEnable(bool enable));
+
+  MTHD_OVERRIDE(void setClearDepth(f64_t depth));
 
   MTHD_OVERRIDE(void setDepthFn(CompareFn func));
 
@@ -31,6 +37,8 @@ public:
   MTHD_OVERRIDE(void setColorMask(bool red, bool green, bool blue, bool alpha));
 
   MTHD_OVERRIDE(void setStencilEnable(bool enable));
+
+  MTHD_OVERRIDE(void setClearStencil(i32_t idx));
 
   MTHD_OVERRIDE(void setStencilMask(u32_t mask));
 
