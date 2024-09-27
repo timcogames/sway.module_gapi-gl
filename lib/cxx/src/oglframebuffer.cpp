@@ -39,31 +39,36 @@ OGLFramebuffer::OGLFramebuffer() {
   setUid(objname);
 }
 
-OGLFramebuffer::~OGLFramebuffer() {
-  auto objname = getUid().value();
+OGLFramebuffer::~OGLFramebuffer() { destroy(); }
 
-  if (helper_.isFramebuffer(objname)) {
-    helper_.deleteFramebuffers(1, &objname);
+void OGLFramebuffer::destroy() {
+  auto uid = getUid().value();
+  if (!helper_.isFramebuffer(uid)) {
+    return;
   }
-}
 
-void OGLFramebuffer::attach(FramebufferAttachment attachment, TexturePtr_t texture, int mipLevels) {
-  helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, getUid());
-  helper_.framebufferTexture2D(
-      GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, texture->getUid(), mipLevels);
-  helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
-}
-
-void OGLFramebuffer::attach(FramebufferAttachment attachment, RenderbufferPtr_t renderbuffer) {
-  helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, getUid());
-  helper_.framebufferRenderbuffer(
-      GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, renderbuffer->getUid());
-  helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, 0);
+  helper_.deleteFramebuffers(1, &uid);
 }
 
 void OGLFramebuffer::bind() { helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, getUid()); }
 
 void OGLFramebuffer::unbind() { helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, 0); }
+
+void OGLFramebuffer::attach(FramebufferAttachment attachment, TexturePtr_t tex, i32_t mipLevels) {
+  bind();
+  helper_.framebufferTexture2D(
+      GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, tex->getUid(), mipLevels);
+  unbind();
+}
+
+void OGLFramebuffer::attach(FramebufferAttachment attachment, RenderBufferPtr_t buf) {
+  bind();
+  helper_.framebufferRenderbuffer(
+      GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, buf->getUid());
+  unbind();
+}
+
+void OGLFramebuffer::drawBuffers(i32_t num, const u32_t *bufs) { glDrawBuffers(num, bufs); }
 
 NAMESPACE_END(gapi)
 NAMESPACE_END(sway)

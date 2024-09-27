@@ -22,7 +22,7 @@ void OGLStateContext::setAlphaEnable(bool enable) { setCapabilityEnable(StateCap
 
 void OGLStateContext::setAlphaFunc(CompareFn func, f32_t ref) {
   // glAlphaFunc(OGLCompareFunctionConvertor::toGLenum(func), ref);
-  std::cout << "[setAlphaFunc]: No Implementation" << std::endl;
+  std::cout << "[setAlphaFunc]: Deprecated" << std::endl;
 }
 
 void OGLStateContext::setBlendEnable(bool enable) { setCapabilityEnable(StateCapability::BLEND, enable); }

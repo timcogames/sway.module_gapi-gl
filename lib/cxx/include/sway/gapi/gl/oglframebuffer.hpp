@@ -20,13 +20,17 @@ public:
 
   virtual ~OGLFramebuffer();
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, TexturePtr_t texture, int mipLevels));
+  void destroy();
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, RenderbufferPtr_t renderbuffer));
+  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, TexturePtr_t tex, i32_t mipLevels));
+
+  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, RenderBufferPtr_t buf));
 
   MTHD_OVERRIDE(void bind());
 
   MTHD_OVERRIDE(void unbind());
+
+  MTHD_OVERRIDE(void drawBuffers(i32_t num, const u32_t *bufs));
 
 private:
   OGLFramebufferHelper helper_;

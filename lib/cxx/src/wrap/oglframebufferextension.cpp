@@ -15,17 +15,16 @@ core::binding::TFunction<u32_t(u32_t)> OGLFramebufferExtension::glCheckFramebuff
 core::binding::TFunction<void(u32_t, u32_t, u32_t, i32_t *)>
     OGLFramebufferExtension::glGetFramebufferAttachmentParameterivEXT = nullptr;
 
-void OGLFramebufferExtension::define(
-    const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &extensions) {
-  glGenFramebuffersEXT = extensions({{"GL_EXT_direct_state_access", "glGenFramebuffersEXT"}});
-  glDeleteFramebuffersEXT = extensions({{"GL_EXT_direct_state_access", "glDeleteFramebuffersEXT"}});
-  glBindFramebufferEXT = extensions({{"GL_EXT_direct_state_access", "glBindFramebufferEXT"}});
-  glIsFramebufferEXT = extensions({{"GL_EXT_direct_state_access", "glIsFramebufferEXT"}});
-  glFramebufferTexture2DEXT = extensions({{"GL_EXT_direct_state_access", "glFramebufferTexture2DEXT"}});
-  glFramebufferRenderbufferEXT = extensions({{"GL_EXT_direct_state_access", "glFramebufferRenderbufferEXT"}});
-  glCheckFramebufferStatusEXT = extensions({{"GL_EXT_direct_state_access", "glCheckFramebufferStatusEXT"}});
+void OGLFramebufferExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+  glGenFramebuffersEXT = exts({{"GL_EXT_direct_state_access", "glGenFramebuffersEXT"}});
+  glDeleteFramebuffersEXT = exts({{"GL_EXT_direct_state_access", "glDeleteFramebuffersEXT"}});
+  glBindFramebufferEXT = exts({{"GL_EXT_direct_state_access", "glBindFramebufferEXT"}});
+  glIsFramebufferEXT = exts({{"GL_EXT_direct_state_access", "glIsFramebufferEXT"}});
+  glFramebufferTexture2DEXT = exts({{"GL_EXT_direct_state_access", "glFramebufferTexture2DEXT"}});
+  glFramebufferRenderbufferEXT = exts({{"GL_EXT_direct_state_access", "glFramebufferRenderbufferEXT"}});
+  glCheckFramebufferStatusEXT = exts({{"GL_EXT_direct_state_access", "glCheckFramebufferStatusEXT"}});
   glGetFramebufferAttachmentParameterivEXT =
-      extensions({{"GL_EXT_direct_state_access", "glGetFramebufferAttachmentParameterivEXT"}});
+      exts({{"GL_EXT_direct_state_access", "glGetFramebufferAttachmentParameterivEXT"}});
 }
 
 NAMESPACE_END(gapi)

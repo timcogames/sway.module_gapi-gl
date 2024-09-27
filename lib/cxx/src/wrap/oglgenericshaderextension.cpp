@@ -10,13 +10,12 @@ core::binding::TFunction<void(u32_t, i32_t, lpcstr_t *, const i32_t *)> OGLGener
 core::binding::TFunction<void(u32_t)> OGLGenericShaderExtension::glCompileShaderARB = nullptr;
 core::binding::TFunction<i32_t(u32_t, lpcstr_t)> OGLGenericShaderExtension::glGetAttribLocationARB = nullptr;
 
-void OGLGenericShaderExtension::define(
-    const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &extensions) {
-  glCreateShaderObjectARB = extensions({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});
-  glDeleteObjectARB = extensions({{"GL_ARB_shader_objects", "glDeleteObjectARB"}});
-  glShaderSourceARB = extensions({{"GL_ARB_shader_objects", "glShaderSourceARB"}});
-  glCompileShaderARB = extensions({{"GL_ARB_shader_objects", "glCompileShaderARB"}});
-  glGetAttribLocationARB = extensions({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
+void OGLGenericShaderExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+  glCreateShaderObjectARB = exts({{"GL_ARB_shader_objects", "glCreateShaderObjectARB"}});
+  glDeleteObjectARB = exts({{"GL_ARB_shader_objects", "glDeleteObjectARB"}});
+  glShaderSourceARB = exts({{"GL_ARB_shader_objects", "glShaderSourceARB"}});
+  glCompileShaderARB = exts({{"GL_ARB_shader_objects", "glCompileShaderARB"}});
+  glGetAttribLocationARB = exts({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
 }
 
 NAMESPACE_END(gapi)

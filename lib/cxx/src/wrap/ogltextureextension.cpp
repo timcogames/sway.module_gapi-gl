@@ -12,13 +12,13 @@ core::binding::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u
 core::binding::TFunction<void(u32_t)> OGLTextureExtension::glActiveTextureARB = nullptr;
 core::binding::TFunction<void(u32_t, u32_t, const i32_t *)> OGLTextureExtension::glTexParameterIivEXT = nullptr;
 
-void OGLTextureExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &extensions) {
-  glGenTexturesEXT = extensions({{"GL_EXT_texture_object", "glGenTexturesEXT"}});
-  glBindTextureEXT = extensions({{"GL_EXT_texture_object", "glBindTextureEXT"}});
-  glTextureImage2DEXT = extensions({{"GL_EXT_direct_state_access", "glTextureImage2DEXT"}});
-  glTexSubImage2DEXT = extensions({{"GL_EXT_subtexture", "glTexSubImage2DEXT"}});
-  glActiveTextureARB = extensions({{"GL_ARB_multitexture", "glActiveTextureARB"}});
-  glTexParameterIivEXT = extensions({{"GL_EXT_texture_integer", "glTexParameterIivEXT"}});
+void OGLTextureExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+  glGenTexturesEXT = exts({{"GL_EXT_texture_object", "glGenTexturesEXT"}});
+  glBindTextureEXT = exts({{"GL_EXT_texture_object", "glBindTextureEXT"}});
+  glTextureImage2DEXT = exts({{"GL_EXT_direct_state_access", "glTextureImage2DEXT"}});
+  glTexSubImage2DEXT = exts({{"GL_EXT_subtexture", "glTexSubImage2DEXT"}});
+  glActiveTextureARB = exts({{"GL_ARB_multitexture", "glActiveTextureARB"}});
+  glTexParameterIivEXT = exts({{"GL_EXT_texture_integer", "glTexParameterIivEXT"}});
 }
 
 NAMESPACE_END(gapi)

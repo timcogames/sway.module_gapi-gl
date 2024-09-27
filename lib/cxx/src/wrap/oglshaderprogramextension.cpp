@@ -18,21 +18,20 @@ core::binding::TFunction<void(i32_t, i32_t, f32_t *)> OGLShaderProgramExtension:
 core::binding::TFunction<void(i32_t, i32_t, bool, const f32_t *)> OGLShaderProgramExtension::glUniformMatrix4fvARB =
     nullptr;
 
-void OGLShaderProgramExtension::define(
-    const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &extensions) {
-  glCreateProgramObjectARB = extensions({{"GL_ARB_shader_objects", "glCreateProgramObjectARB"}});
-  glDeleteProgramsARB = extensions({{"GL_ARB_fragment_program", "glDeleteProgramsARB"}});
-  glAttachObjectARB = extensions({{"GL_ARB_shader_objects", "glAttachObjectARB"}});
-  glDetachObjectARB = extensions({{"GL_ARB_shader_objects", "glDetachObjectARB"}});
-  glLinkProgramARB = extensions({{"GL_ARB_shader_objects", "glLinkProgramARB"}});
-  glValidateProgramARB = extensions({{"GL_ARB_shader_objects", "glValidateProgramARB"}});
-  glUseProgramObjectARB = extensions({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
-  glGetUniformLocationARB = extensions({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
-  glUniform1iARB = extensions({{"GL_ARB_shader_objects", "glUniform1iARB"}});
-  glUniform1fARB = extensions({{"GL_ARB_shader_objects", "glUniform1fARB"}});
-  glUniform4fARB = extensions({{"GL_ARB_shader_objects", "glUniform4fARB"}});
-  glUniform4fvARB = extensions({{"GL_ARB_shader_objects", "glUniform4fvARB"}});
-  glUniformMatrix4fvARB = extensions({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
+void OGLShaderProgramExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+  glCreateProgramObjectARB = exts({{"GL_ARB_shader_objects", "glCreateProgramObjectARB"}});
+  glDeleteProgramsARB = exts({{"GL_ARB_fragment_program", "glDeleteProgramsARB"}});
+  glAttachObjectARB = exts({{"GL_ARB_shader_objects", "glAttachObjectARB"}});
+  glDetachObjectARB = exts({{"GL_ARB_shader_objects", "glDetachObjectARB"}});
+  glLinkProgramARB = exts({{"GL_ARB_shader_objects", "glLinkProgramARB"}});
+  glValidateProgramARB = exts({{"GL_ARB_shader_objects", "glValidateProgramARB"}});
+  glUseProgramObjectARB = exts({{"GL_ARB_shader_objects", "glUseProgramObjectARB"}});
+  glGetUniformLocationARB = exts({{"GL_ARB_shader_objects", "glGetUniformLocationARB"}});
+  glUniform1iARB = exts({{"GL_ARB_shader_objects", "glUniform1iARB"}});
+  glUniform1fARB = exts({{"GL_ARB_shader_objects", "glUniform1fARB"}});
+  glUniform4fARB = exts({{"GL_ARB_shader_objects", "glUniform4fARB"}});
+  glUniform4fvARB = exts({{"GL_ARB_shader_objects", "glUniform4fvARB"}});
+  glUniformMatrix4fvARB = exts({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
 }
 
 NAMESPACE_END(gapi)

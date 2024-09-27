@@ -19,20 +19,20 @@ core::binding::TFunction<u8_t(u32_t)> OGLBufferExtension::glUnmapBufferOES = nul
 core::binding::TFunction<u8_t(u32_t)> OGLBufferExtension::glIsBufferARB = nullptr;
 core::binding::TFunction<void(u32_t, u32_t, i32_t *)> OGLBufferExtension::glGetBufferParameterivARB = nullptr;
 
-void OGLBufferExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &extensions) {
-  glGenBuffersARB = extensions({{"GL_ARB_vertex_buffer_object", "glGenBuffersARB"}});
-  glDeleteBuffersARB = extensions({{"GL_ARB_vertex_buffer_object", "glDeleteBuffersARB"}});
-  glBindBufferARB = extensions({{"GL_ARB_vertex_buffer_object", "glBindBufferARB"}});
-  glBindBufferRangeEXT = extensions({{"GL_EXT_transform_feedback", "glBindBufferRangeEXT"}});
-  glBufferDataARB = extensions({{"GL_ARB_vertex_buffer_object", "glBufferDataARB"}});
-  glBufferSubDataARB = extensions({{"GL_ARB_vertex_buffer_object", "glBufferSubDataARB"}});
-  glMapBufferRangeEXT = extensions({{"GL_EXT_map_buffer_range", "glMapBufferRangeEXT"}});
-  glMapBufferARB = extensions({{"GL_ARB_vertex_buffer_object", "glMapBufferARB"}});
-  glMapBufferOES = extensions({{"GL_OES_mapbuffer", "glMapBufferOES"}});
-  glUnmapBufferARB = extensions({{"GL_ARB_vertex_buffer_object", "glUnmapBufferARB"}});
-  glUnmapBufferOES = extensions({{"GL_OES_mapbuffer", "glUnmapBufferOES"}});
-  glIsBufferARB = extensions({{"GL_ARB_vertex_buffer_object", "glIsBufferARB"}});
-  glGetBufferParameterivARB = extensions({{"GL_ARB_vertex_buffer_object", "glGetBufferParameterivARB"}});
+void OGLBufferExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+  glGenBuffersARB = exts({{"GL_ARB_vertex_buffer_object", "glGenBuffersARB"}});
+  glDeleteBuffersARB = exts({{"GL_ARB_vertex_buffer_object", "glDeleteBuffersARB"}});
+  glBindBufferARB = exts({{"GL_ARB_vertex_buffer_object", "glBindBufferARB"}});
+  glBindBufferRangeEXT = exts({{"GL_EXT_transform_feedback", "glBindBufferRangeEXT"}});
+  glBufferDataARB = exts({{"GL_ARB_vertex_buffer_object", "glBufferDataARB"}});
+  glBufferSubDataARB = exts({{"GL_ARB_vertex_buffer_object", "glBufferSubDataARB"}});
+  glMapBufferRangeEXT = exts({{"GL_EXT_map_buffer_range", "glMapBufferRangeEXT"}});
+  glMapBufferARB = exts({{"GL_ARB_vertex_buffer_object", "glMapBufferARB"}});
+  glMapBufferOES = exts({{"GL_OES_mapbuffer", "glMapBufferOES"}});
+  glUnmapBufferARB = exts({{"GL_ARB_vertex_buffer_object", "glUnmapBufferARB"}});
+  glUnmapBufferOES = exts({{"GL_OES_mapbuffer", "glUnmapBufferOES"}});
+  glIsBufferARB = exts({{"GL_ARB_vertex_buffer_object", "glIsBufferARB"}});
+  glGetBufferParameterivARB = exts({{"GL_ARB_vertex_buffer_object", "glGetBufferParameterivARB"}});
 }
 
 NAMESPACE_END(gapi)
