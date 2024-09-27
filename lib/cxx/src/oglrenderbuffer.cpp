@@ -15,13 +15,13 @@ OGLRenderBuffer::OGLRenderBuffer() {
 
 OGLRenderBuffer::~OGLRenderBuffer() { destroy(); }
 
-void OGLRenderBuffer::bind() { helper_->bindRenderBuffer(GL_RENDERBUFFER_EXT, getUid()); }
+void OGLRenderBuffer::bind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, getUid()); }
 
-void OGLRenderBuffer::unbind() { helper_->bindRenderBuffer(GL_RENDERBUFFER_EXT, 0); }
+void OGLRenderBuffer::unbind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, 0); }
 
 void OGLRenderBuffer::store(const math::size2i_t &size) {
   bind();
-  helper_->setRenderBufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, size);
+  helper_.setRenderBufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, size);
   unbind();
 }
 

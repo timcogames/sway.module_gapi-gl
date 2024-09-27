@@ -20,6 +20,7 @@
 #include <sway/gapi/gl/oglpixelformatconvertor.hpp>
 #include <sway/gapi/gl/oglpixelstoragemodeconvertor.hpp>
 #include <sway/gapi/gl/oglrasterizerstate.hpp>
+#include <sway/gapi/gl/oglrenderbuffer.hpp>
 #include <sway/gapi/gl/oglshaderexceptions.hpp>
 #include <sway/gapi/gl/oglshaderpreprocessor.hpp>
 #include <sway/gapi/gl/oglshaderprogram.hpp>

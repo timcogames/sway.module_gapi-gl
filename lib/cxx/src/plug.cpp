@@ -26,6 +26,8 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
       reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createFramebuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLFramebuffer::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createRenderBuffer =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLRenderBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexArray =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexArray::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexAttribLayout =

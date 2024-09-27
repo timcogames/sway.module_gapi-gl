@@ -35,13 +35,11 @@ OGLRenderBufferHelper::OGLRenderBufferHelper() {
 #endif
 }
 
-auto OGLRenderBufferHelper::EMU_GenerateRenderBuffers([[maybe_unused]] i32_t num) -> std::vector<u32_t> {
-  return nullptr;
-}
+auto OGLRenderBufferHelper::EMU_GenerateRenderBuffers([[maybe_unused]] i32_t num) -> std::vector<u32_t> { return {}; }
 
 auto OGLRenderBufferHelper::STD_GenerateRenderBuffers([[maybe_unused]] i32_t num) -> std::vector<u32_t> {
   // glGenRenderbuffers(num, bufs);
-  return nullptr;
+  return {};
 }
 
 auto OGLRenderBufferHelper::EXT_GenerateRenderBuffers(i32_t num) -> std::vector<u32_t> {
@@ -50,7 +48,7 @@ auto OGLRenderBufferHelper::EXT_GenerateRenderBuffers(i32_t num) -> std::vector<
 
   std::vector<u32_t> out;
   for (auto i = 0; i < num; ++i) {
-    out.push(bufs[i]);
+    out.push_back(bufs[i]);
   }
 
   SAFE_DELETE_ARRAY(bufs);
@@ -94,11 +92,11 @@ void OGLRenderBufferHelper::EMU_SetRenderBufferStorage(
 
 void OGLRenderBufferHelper::STD_SetRenderBufferStorage(
     [[maybe_unused]] u32_t target, [[maybe_unused]] u32_t frmt, [[maybe_unused]] const math::size2i_t &size) {
-  // glRenderbufferStorage(target, frmt, size->getW(), size->getH());
+  // glRenderbufferStorage(target, frmt, size.getW(), size.getH());
 }
 
 void OGLRenderBufferHelper::EXT_SetRenderBufferStorage(u32_t target, u32_t frmt, const math::size2i_t &size) {
-  OGLRenderBufferExtension::glRenderbufferStorageEXT(target, frmt, size->getW(), size->getH());
+  OGLRenderBufferExtension::glRenderbufferStorageEXT(target, frmt, size.getW(), size.getH());
 }
 
 void OGLRenderBufferHelper::EMU_GetRenderBufferParameter(
