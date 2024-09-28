@@ -56,16 +56,14 @@ void OGLGenericShaderHelper::ARB_DeleteShader(std::optional<u32_t> obj) {
 }
 
 void OGLGenericShaderHelper::EMU_ShaderSource([[maybe_unused]] std::optional<u32_t> obj, [[maybe_unused]] i32_t count,
-    [[maybe_unused]] lpcstr_t *string, [[maybe_unused]] const i32_t *length) {}
+    [[maybe_unused]] lpcstr_t *str, [[maybe_unused]] const i32_t *len) {}
 
-void OGLGenericShaderHelper::STD_ShaderSource(
-    std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length) {
-  glShaderSource(obj.value(), count, string, length);
+void OGLGenericShaderHelper::STD_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len) {
+  glShaderSource(obj.value(), count, str, len);
 }
 
-void OGLGenericShaderHelper::ARB_ShaderSource(
-    std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length) {
-  OGLGenericShaderExtension::glShaderSourceARB(obj.value(), count, string, length);
+void OGLGenericShaderHelper::ARB_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len) {
+  OGLGenericShaderExtension::glShaderSourceARB(obj.value(), count, str, len);
 }
 
 void OGLGenericShaderHelper::EMU_CompileShader(

@@ -199,11 +199,11 @@ void OGLGenericBufferHelper::EMU_GetBufferParam(
     [[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t *params) {}
 
 void OGLGenericBufferHelper::STD_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params) {
-  return glGetBufferParameteriv(OGLBufferTargetConvertor::toGLenum(target), pname, params);
+  glGetBufferParameteriv(OGLBufferTargetConvertor::toGLenum(target), pname, params);
 }
 
 void OGLGenericBufferHelper::ARB_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params) {
-  return OGLBufferExtension::glGetBufferParameterivARB(OGLBufferTargetConvertor::toGLenum(target), pname, params);
+  OGLBufferExtension::glGetBufferParameterivARB(OGLBufferTargetConvertor::toGLenum(target), pname, params);
 }
 
 NAMESPACE_END(gapi)

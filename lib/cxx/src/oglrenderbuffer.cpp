@@ -19,9 +19,15 @@ void OGLRenderBuffer::bind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, get
 
 void OGLRenderBuffer::unbind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, 0); }
 
-void OGLRenderBuffer::store(const math::size2i_t &size) {
+void OGLRenderBuffer::store(PixelFormat fmt, const math::size2i_t &size, i32_t samples) {
   bind();
-  helper_.setRenderBufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, size);
+
+  if (samples == 0) {
+    helper_.setRenderBufferStorage(GL_RENDERBUFFER_EXT, fmt, size);
+  } else {
+    helper_.setRenderBufferStorageMultisample(GL_RENDERBUFFER_EXT, samples, fmt, size);
+  }
+
   unbind();
 }
 

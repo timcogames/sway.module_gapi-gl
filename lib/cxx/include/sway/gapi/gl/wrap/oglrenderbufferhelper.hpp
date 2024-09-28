@@ -32,10 +32,23 @@ public:
   auto STD_IsRenderBuffer(std::optional<u32_t> buf) -> bool;
   auto EXT_IsRenderBuffer(std::optional<u32_t> buf) -> bool;
 
-  DECLARE_GENERIC_MEMBER(void, OGLRenderBufferHelper, setRenderBufferStorage, u32_t, u32_t, const math::size2i_t &)
-  void EMU_SetRenderBufferStorage(u32_t target, u32_t frmt, const math::size2i_t &size);
-  void STD_SetRenderBufferStorage(u32_t target, u32_t frmt, const math::size2i_t &size);
-  void EXT_SetRenderBufferStorage(u32_t target, u32_t frmt, const math::size2i_t &size);
+  DECLARE_GENERIC_MEMBER(
+      void, OGLRenderBufferHelper, setRenderBufferStorage, u32_t, PixelFormat, const math::size2i_t &)
+  void EMU_SetRenderBufferStorage(u32_t target, PixelFormat fmt, const math::size2i_t &size);
+  void STD_SetRenderBufferStorage(u32_t target, PixelFormat fmt, const math::size2i_t &size);
+  void EXT_SetRenderBufferStorage(u32_t target, PixelFormat fmt, const math::size2i_t &size);
+
+  DECLARE_GENERIC_MEMBER(
+      void, OGLRenderBufferHelper, setRenderBufferStorageMultisample, u32_t, i32_t, PixelFormat, const math::size2i_t &)
+  void EMU_SetRenderBufferStorageMultisample(u32_t target, i32_t samples, PixelFormat fmt, const math::size2i_t &size);
+  void STD_SetRenderBufferStorageMultisample(u32_t target, i32_t samples, PixelFormat fmt, const math::size2i_t &size);
+  void EXT_SetRenderBufferStorageMultisample(u32_t target, i32_t samples, PixelFormat fmt, const math::size2i_t &size);
+
+  DECLARE_GENERIC_MEMBER(
+      void, OGLRenderBufferHelper, blitFrameBuffer, const math::rect4i_t &, const math::rect4i_t &, u32_t, u32_t)
+  void EMU_BlitFrameBuffer(const math::rect4i_t &src, const math::rect4i_t &dst, u32_t mask, u32_t filter);
+  void STD_BlitFrameBuffer(const math::rect4i_t &src, const math::rect4i_t &dst, u32_t mask, u32_t filter);
+  void EXT_BlitFrameBuffer(const math::rect4i_t &src, const math::rect4i_t &dst, u32_t mask, u32_t filter);
 
   DECLARE_GENERIC_MEMBER(void, OGLRenderBufferHelper, getRenderBufferParameter, u32_t, u32_t, i32_t *)
   void EMU_GetRenderBufferParameter(u32_t target, u32_t pname, i32_t *params);

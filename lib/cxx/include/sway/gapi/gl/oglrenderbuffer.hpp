@@ -22,7 +22,7 @@ public:
 
   MTHD_OVERRIDE(void unbind());
 
-  MTHD_OVERRIDE(void store(const math::size2i_t &size));
+  MTHD_OVERRIDE(void store(PixelFormat fmt, const math::size2i_t &size, i32_t samples));
 
   void generate();
 

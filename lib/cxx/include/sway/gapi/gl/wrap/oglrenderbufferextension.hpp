@@ -14,6 +14,9 @@ public:
   static core::binding::TFunction<void(u32_t, u32_t)> glBindRenderbufferEXT;
   static core::binding::TFunction<bool(u32_t)> glIsRenderbufferEXT;
   static core::binding::TFunction<void(u32_t, u32_t, i32_t, i32_t)> glRenderbufferStorageEXT;
+  static core::binding::TFunction<void(u32_t, i32_t, u32_t, i32_t, i32_t)> glRenderbufferStorageMultisampleEXT;
+  static core::binding::TFunction<void(i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t)>
+      glBlitFramebufferEXT;
   static core::binding::TFunction<void(u32_t, u32_t, i32_t *)> glGetRenderbufferParameterivEXT;
 
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
