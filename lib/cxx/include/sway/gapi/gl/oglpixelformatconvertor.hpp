@@ -22,11 +22,15 @@ struct OGLPixelFormatConvertor final {
         return GL_RGB8;
       case PixelFormat::RGBA:
         return GL_RGBA;
+      case PixelFormat::RGBA4:
+        return GL_RGBA4;
       case PixelFormat::RGBA8:
         return GL_RGBA8;
       case PixelFormat::RGBA32F:
       case PixelFormat::HDR:
         return GL_RGBA32F;
+      case PixelFormat::D16:
+        return GL_DEPTH_COMPONENT16;
       case PixelFormat::D24:
         return GL_DEPTH_COMPONENT24;
       case PixelFormat::D24S8:
@@ -58,12 +62,16 @@ struct OGLPixelFormatConvertor final {
         return PixelFormat::RGB8;
       case GL_RGBA:
         return PixelFormat::RGBA;
+      case GL_RGBA4:
+        return PixelFormat::RGBA4;
       case GL_RGBA8:
         return PixelFormat::RGBA8;
       case GL_RGBA32F:
         return PixelFormat::RGBA32F;
       // case GL_RGBA32F:
       //   return PixelFormat::HDR;
+      case GL_DEPTH_COMPONENT16:
+        return PixelFormat::D16;
       case GL_DEPTH_COMPONENT24:
         return PixelFormat::D24;
       case GL_DEPTH24_STENCIL8:
