@@ -30,6 +30,7 @@
 #include <sway/gapi/gl/oglstenciloperationconvertor.hpp>
 #include <sway/gapi/gl/oglstencilstate.hpp>
 #include <sway/gapi/gl/ogltexture.hpp>
+#include <sway/gapi/gl/ogltextureidgenerator.hpp>
 #include <sway/gapi/gl/ogltexturesampler.hpp>
 #include <sway/gapi/gl/ogltexturetargetconvertor.hpp>
 #include <sway/gapi/gl/ogluniform.hpp>

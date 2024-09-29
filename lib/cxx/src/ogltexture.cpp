@@ -4,18 +4,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
-auto OGLTexture::createInstance(const TextureCreateInfo &createInfo) -> TexturePtr_t {
-  auto *instance = new OGLTexture(createInfo.target);
+auto OGLTexture::createInstance(IdGeneratorPtr_t idgen, const TextureCreateInfo &createInfo) -> TexturePtr_t {
+  auto *instance = new OGLTexture(idgen, createInfo.target);
   instance->create(createInfo);
   return instance;
 }
 
-OGLTexture::OGLTexture(TextureTarget target)
+OGLTexture::OGLTexture(IdGeneratorPtr_t idgen, TextureTarget target)
     : helper_(new OGLTextureHelper())
     , target_(target) {
-  u32_t objname;
-  helper_->generateTextures(0, 1, &objname);
-  setUid(objname);
+  setUid(idgen->getNextUid());
 }
 
 // RGBA/UNSIGNED_BYTE or RGBA32F/FLOAT formats

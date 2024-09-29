@@ -15,38 +15,38 @@ class OGLTextureHelper {
 public:
   OGLTextureHelper();
 
-  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, generateTextures, u32_t, i32_t, u32_t *)
-  void EMU_GenerateTextures(u32_t latest, i32_t num, u32_t *uids);
-  void STD_GenerateTextures(u32_t latest, i32_t num, u32_t *uids);
-  void EXT_GenerateTextures(u32_t latest, i32_t num, u32_t *uids);
+  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, generateTextures, u32_t, i32_t, ObjectUid_t *)
+  void EMU_GenerateTextures(u32_t latest, i32_t num, ObjectUid_t *uids);
+  void STD_GenerateTextures(u32_t latest, i32_t num, ObjectUid_t *uids);
+  void EXT_GenerateTextures(u32_t latest, i32_t num, ObjectUid_t *uids);
 
-  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, deleteTextures, i32_t, u32_t *)
-  void EMU_DeleteTextures(i32_t num, u32_t *uids);
-  void STD_DeleteTextures(i32_t num, u32_t *uids);
-  void EXT_DeleteTextures(i32_t num, u32_t *uids);
+  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, deleteTextures, i32_t, ObjectUid_t *)
+  void EMU_DeleteTextures(i32_t num, ObjectUid_t *uids);
+  void STD_DeleteTextures(i32_t num, ObjectUid_t *uids);
+  void EXT_DeleteTextures(i32_t num, ObjectUid_t *uids);
 
-  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, bindTexture, TextureTarget, std::optional<u32_t>)
-  void EMU_BindTexture(TextureTarget target, std::optional<u32_t> texId);
-  void STD_BindTexture(TextureTarget target, std::optional<u32_t> texId);
-  void EXT_BindTexture(TextureTarget target, std::optional<u32_t> texId);
+  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, bindTexture, TextureTarget, ObjectUidOpt_t)
+  void EMU_BindTexture(TextureTarget target, ObjectUidOpt_t uid);
+  void STD_BindTexture(TextureTarget target, ObjectUidOpt_t uid);
+  void EXT_BindTexture(TextureTarget target, ObjectUidOpt_t uid);
 
   DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, textureImage2D, TextureTarget, i32_t, PixelFormat, math::size2i_t,
       i32_t, PixelFormat, core::ValueDataType, const void *)
   void EMU_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat, math::size2i_t size,
-      i32_t border, PixelFormat format, core::ValueDataType type, const void *pixels);
+      i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels);
   void STD_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat, math::size2i_t size,
-      i32_t border, PixelFormat format, core::ValueDataType type, const void *pixels);
+      i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels);
   void EXT_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat, math::size2i_t size,
-      i32_t border, PixelFormat format, core::ValueDataType type, const void *pixels);
+      i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels);
 
   DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, texSubImage2D, TextureTarget, i32_t, i32_t, i32_t, i32_t, i32_t,
       PixelFormat, core::ValueDataType, const void *)
-  void EMU_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t width, i32_t height,
-      PixelFormat format, core::ValueDataType type, const void *pixels);
-  void STD_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t width, i32_t height,
-      PixelFormat format, core::ValueDataType type, const void *pixels);
-  void EXT_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t width, i32_t height,
-      PixelFormat format, core::ValueDataType type, const void *pixels);
+  void EMU_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t wdt, i32_t hgt,
+      PixelFormat frm, core::ValueDataType type, const void *pixels);
+  void STD_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t wdt, i32_t hgt,
+      PixelFormat frm, core::ValueDataType type, const void *pixels);
+  void EXT_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t wdt, i32_t hgt,
+      PixelFormat frm, core::ValueDataType type, const void *pixels);
 
   DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, setActiveTexture, i32_t)
   void EMU_SetActiveTexture(i32_t slot);

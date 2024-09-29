@@ -5,6 +5,7 @@
 #include <sway/gapi/buffertargets.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
+#include <sway/gapi/typedefs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -25,36 +26,36 @@ public:
   virtual ~OGLGenericBufferHelper() = default;
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, generateBuffers, u32_t, u32_t, u32_t *)
-  MTHD_VIRTUAL(void generateBuffers(u32_t latest, u32_t num, u32_t *uids) { 
+  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, generateBuffers, u32_t, u32_t, ObjectUid_t *)
+  MTHD_VIRTUAL(void generateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids) { 
      (this->*generateBuffers_)(latest, num, uids); 
   });
   // clang-format on
 
-  void EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *uids);
-  void STD_GenerateBuffers(u32_t latest, u32_t num, u32_t *uids);
-  void ARB_GenerateBuffers(u32_t latest, u32_t num, u32_t *uids);
+  void EMU_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids);
+  void STD_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids);
+  void ARB_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids);
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, deleteBuffers, u32_t, u32_t *)
-  MTHD_VIRTUAL(void deleteBuffers(u32_t num, u32_t *uids) { 
+  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, deleteBuffers, u32_t, ObjectUid_t *)
+  MTHD_VIRTUAL(void deleteBuffers(u32_t num, ObjectUid_t *uids) { 
      (this->*deleteBuffers_)(num, uids); 
   });
   // clang-format on
 
-  void EMU_DeleteBuffers(u32_t num, u32_t *uids);
-  void STD_DeleteBuffers(u32_t num, u32_t *uids);
-  void ARB_DeleteBuffers(u32_t num, u32_t *uids);
+  void EMU_DeleteBuffers(u32_t num, ObjectUid_t *uids);
+  void STD_DeleteBuffers(u32_t num, ObjectUid_t *uids);
+  void ARB_DeleteBuffers(u32_t num, ObjectUid_t *uids);
 
-  DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bindBuffer, BufferTarget, std::optional<u32_t>)
-  void EMU_BindBuffer(BufferTarget target, std::optional<u32_t> uid);
-  void STD_BindBuffer(BufferTarget target, std::optional<u32_t> uid);
-  void ARB_BindBuffer(BufferTarget target, std::optional<u32_t> uid);
+  DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bindBuffer, BufferTarget, ObjectUidOpt_t)
+  void EMU_BindBuffer(BufferTarget target, ObjectUidOpt_t uid);
+  void STD_BindBuffer(BufferTarget target, ObjectUidOpt_t uid);
+  void ARB_BindBuffer(BufferTarget target, ObjectUidOpt_t uid);
 
   DECLARE_GENERIC_MEMBER(
-      void, OGLGenericBufferHelper, bindBufferRange, BufferTarget, std::optional<u32_t>, u32_t, ptrdiff_t, ptrdiff_t)
-  void STD_BindBufferRange(BufferTarget target, std::optional<u32_t> uid, u32_t buf, ptrdiff_t offset, ptrdiff_t size);
-  void EXT_BindBufferRange(BufferTarget target, std::optional<u32_t> uid, u32_t buf, ptrdiff_t offset, ptrdiff_t size);
+      void, OGLGenericBufferHelper, bindBufferRange, BufferTarget, ObjectUidOpt_t, u32_t, ptrdiff_t, ptrdiff_t)
+  void STD_BindBufferRange(BufferTarget target, ObjectUidOpt_t uid, u32_t buf, ptrdiff_t offset, ptrdiff_t size);
+  void EXT_BindBufferRange(BufferTarget target, ObjectUidOpt_t uid, u32_t buf, ptrdiff_t offset, ptrdiff_t size);
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, bufferData, BufferTarget, ptrdiff_t, const void *, u32_t)
   void EMU_BufferData(BufferTarget target, ptrdiff_t size, const void *data, u32_t usage);
@@ -86,10 +87,10 @@ public:
   auto ARB_UnmapBuffer(BufferTarget target) -> u8_t;
   auto OES_UnmapBuffer(BufferTarget target) -> u8_t;
 
-  DECLARE_GENERIC_MEMBER(u8_t, OGLGenericBufferHelper, isBuffer, std::optional<u32_t>)
-  auto EMU_IsBuffer(std::optional<u32_t> uid) -> u8_t;
-  auto STD_IsBuffer(std::optional<u32_t> uid) -> u8_t;
-  auto ARB_IsBuffer(std::optional<u32_t> uid) -> u8_t;
+  DECLARE_GENERIC_MEMBER(u8_t, OGLGenericBufferHelper, isBuffer, ObjectUidOpt_t)
+  auto EMU_IsBuffer(ObjectUidOpt_t uid) -> u8_t;
+  auto STD_IsBuffer(ObjectUidOpt_t uid) -> u8_t;
+  auto ARB_IsBuffer(ObjectUidOpt_t uid) -> u8_t;
 
   DECLARE_GENERIC_MEMBER(void, OGLGenericBufferHelper, getBufferParam, BufferTarget, u32_t, i32_t *)
   void EMU_GetBufferParam(BufferTarget target, u32_t pname, i32_t *params);

@@ -9,10 +9,11 @@
 
 using namespace sway;
 
+gapi::IdGenerator::SharedPtr_t bufIdgen = nullptr;
+gapi::IdGenerator::SharedPtr_t texIdgen = nullptr;
 std::shared_ptr<gapi::ConcreatePluginFunctionSet> functions = nullptr;
 std::shared_ptr<gapi::Capability> capability = nullptr;
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
-std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
 std::shared_ptr<gapi::Texture> texture = nullptr;
 std::shared_ptr<gapi::TextureSampler> textureSampler = nullptr;
@@ -84,11 +85,11 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   std::array<u32_t, 3> indices = {0, 1, 2};
   eboCreateInfo.data = indices.data();
 
-  idGenerator = functions->createIdGenerator();
+  bufIdgen = functions->createBufferIdGenerator();
 
   gapi::BufferSet bufset;
-  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
-  bufset.ebo = functions->createBuffer(idGenerator, eboCreateInfo);
+  bufset.vbo = functions->createBuffer(bufIdgen, vboCreateInfo);
+  bufset.ebo = functions->createBuffer(bufIdgen, eboCreateInfo);
 
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
@@ -119,7 +120,9 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   createInfo.mipLevels = 0;
   // createInfo.sampleCount
 
-  texture = functions->createTexture(createInfo);
+  texIdgen = functions->createTextureIdGenerator();
+
+  texture = functions->createTexture(texIdgen, createInfo);
   textureSampler = functions->createTextureSampler(texture);
   // texture->bind();
   textureSampler->setWrapMode(gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);

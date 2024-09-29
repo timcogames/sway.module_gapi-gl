@@ -19,7 +19,7 @@ std::shared_ptr<pltf::EMSLooper> looper = nullptr;
 
 gapi::BufferSet bufset;
 gapi::ShaderProgram *program = nullptr;
-gapi::IdGenerator *idGenerator = nullptr;
+gapi::IdGenerator::Ptr_t bufIdgen = nullptr;
 gapi::VertexAttribLayout *vlayout = nullptr;
 gapi::DrawCall *drawCall = nullptr;
 
@@ -91,9 +91,9 @@ auto main() -> int {
   std::array<f32_t, 9> vertices = {-0.5F, -0.5F, 0.0F, 0.5F, -0.5F, 0.0F, 0.0F, 0.5F, 0.0F};
   vboCreateInfo.data = vertices.data();
 
-  idGenerator = functions->createIdGenerator();
+  bufIdgen = functions->createBufferIdGenerator();
 
-  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
+  bufset.vbo = functions->createBuffer(bufIdgen, vboCreateInfo);
   vlayout = functions->createVertexAttribLayout(program);
   vlayout->addAttribute(gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));
 

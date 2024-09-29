@@ -41,8 +41,6 @@ auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idgen, const BufferCreate
   return nullptr;
 }
 
-using BufferObjectIdType = u32_t;
-
 OGLGenericBuffer::OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc)
     : Buffer(desc)
     , target_(desc.target)
@@ -145,9 +143,9 @@ void OGLGenericBuffer::unmap() {
   this->unbind();
 }
 
-void OGLGenericBuffer::bindRange(u32_t buffer, ptrdiff_t offset, ptrdiff_t size) {
+void OGLGenericBuffer::bindRange(u32_t buf, ptrdiff_t offset, ptrdiff_t size) {
   // GL_TRANSFORM_FEEDBACK_BUFFER or GL_UNIFORM_BUFFER
-  helper_.bindBufferRange(target_, getUid().value(), buffer, offset, size);
+  helper_.bindBufferRange(target_, getUid().value(), buf, offset, size);
 }
 
 void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid()); }

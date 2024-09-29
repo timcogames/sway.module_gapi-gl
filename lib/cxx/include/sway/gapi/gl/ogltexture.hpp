@@ -1,22 +1,28 @@
 #ifndef SWAY_GAPI_GL_OGLTEXTURE_HPP
 #define SWAY_GAPI_GL_OGLTEXTURE_HPP
 
-#include <sway/gapi.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
+#include <sway/gapi/idgenerator.hpp>
+#include <sway/gapi/pixelstoragemodes.hpp>
 #include <sway/gapi/texturecreateinfo.hpp>
 #include <sway/gapi/texturesubdatadescriptor.hpp>
+#include <sway/gapi/texturetargets.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 class OGLTexture : public Texture {
 public:
-  static auto createInstance(const TextureCreateInfo &createInfo) -> TexturePtr_t;
+  static auto createInstance(IdGeneratorPtr_t idgen, const TextureCreateInfo &createInfo) -> TexturePtr_t;
 
-  OGLTexture(TextureTarget target);
+#pragma region "Ctors/Dtor"
+
+  OGLTexture(IdGeneratorPtr_t idgen, TextureTarget target);
 
   virtual ~OGLTexture() = default;
+
+#pragma endregion
 
   MTHD_OVERRIDE(void create(const TextureCreateInfo &createInfo));
 

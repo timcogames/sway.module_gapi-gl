@@ -15,18 +15,16 @@ OGLTextureIdGenerator::~OGLTextureIdGenerator() {
   used_.clear();
 }
 
-auto OGLTextureIdGenerator::getNextUid() -> TextureIdType {
+auto OGLTextureIdGenerator::getNextUid() -> ObjectUid_t {
   if (this->empty()) {
-    auto *bufferIds = new TextureIdType[chunkCapacity_];
-
-    helper_.generateTextures(
-        used_.empty() ? 0 : *std::max_element(used_.begin(), used_.end()), chunkCapacity_, bufferIds);
+    auto *uids = new ObjectUid_t[chunkCapacity_];
+    helper_.generateTextures(used_.empty() ? 0 : *std::max_element(used_.begin(), used_.end()), chunkCapacity_, uids);
 
     for (auto i = 0; i < chunkCapacity_; ++i) {
-      this->push(bufferIds[i]);
+      this->push(uids[i]);
     }
 
-    SAFE_DELETE_ARRAY(bufferIds);
+    SAFE_DELETE_ARRAY(uids);
   }
 
   used_.push_back(this->front());

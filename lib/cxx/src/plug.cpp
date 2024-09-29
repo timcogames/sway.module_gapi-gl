@@ -20,7 +20,7 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
       reinterpret_cast<core::binding::ProcAddress_t>(OGLShaderProgram::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShaderPreprocessor =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLShaderPreprocessor::createInstance);
-  static_cast<ConcreatePluginFunctionSet *>(functions)->createIdGenerator =
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createBufferIdGenerator =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLBufferIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBuffer::createInstance);
@@ -32,6 +32,8 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
       reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexArray::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexAttribLayout =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLVertexAttribLayout::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createTextureIdGenerator =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLTextureIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createTexture =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLTexture::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createTextureSampler =

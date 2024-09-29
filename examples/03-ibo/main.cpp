@@ -12,7 +12,7 @@ using namespace sway;
 std::shared_ptr<gapi::ConcreatePluginFunctionSet> functions = nullptr;
 std::shared_ptr<gapi::Capability> capability = nullptr;
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
-std::shared_ptr<gapi::IdGenerator> idGenerator = nullptr;
+gapi::IdGenerator::SharedPtr_t bufIdgen = nullptr;
 std::shared_ptr<gapi::VertexAttribLayout> vtxAttribLayout = nullptr;
 std::shared_ptr<gapi::DrawCall> drawCall = nullptr;
 
@@ -73,11 +73,11 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   std::array<u32_t, 3> indices = {0, 1, 2};
   eboCreateInfo.data = indices.data();
 
-  idGenerator = functions->createIdGenerator();
+  bufIdgen = functions->createBufferIdGenerator();
 
   gapi::BufferSet bufset;
-  bufset.vbo = functions->createBuffer(idGenerator, vboCreateInfo);
-  bufset.ebo = functions->createBuffer(idGenerator, eboCreateInfo);
+  bufset.vbo = functions->createBuffer(bufIdgen, vboCreateInfo);
+  bufset.ebo = functions->createBuffer(bufIdgen, eboCreateInfo);
   vtxAttribLayout = functions->createVertexAttribLayout(program);
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec3f_t>(gapi::VertexSemantic::POS, false, true));

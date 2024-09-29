@@ -1,9 +1,16 @@
 #ifndef SWAY_GAPI_GL_OGLGENERICBUFFER_HPP
 #define SWAY_GAPI_GL_OGLGENERICBUFFER_HPP
 
-#include <sway/gapi/gl/oglbufferidgenerator.hpp>
+#include <sway/gapi/buffercreateinfo.hpp>
+#include <sway/gapi/bufferdescriptor.hpp>
+#include <sway/gapi/buffermapaccesses.hpp>
+#include <sway/gapi/buffermaprangeaccesses.hpp>
+#include <sway/gapi/buffersubdatadescriptor.hpp>
+#include <sway/gapi/buffertargets.hpp>
+#include <sway/gapi/bufferusages.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
+#include <sway/gapi/idgenerator.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
@@ -21,6 +28,8 @@ public:
 
   static auto createInstance(IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo) -> BufferPtr_t;
 
+#pragma region "Ctors/Dtor"
+
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
@@ -28,6 +37,8 @@ public:
   OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc);
 
   virtual ~OGLGenericBuffer() { std::cout << "DCTOR" << std::endl; }
+
+#pragma endregion
 
   /**
    * @brief Устанавливает данные в аппаратный буфер.

@@ -4,18 +4,14 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
 #include <sway/gapi/idgenerator.hpp>
-
-#include <queue>
+#include <sway/gapi/typedefs.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(gapi)
 
 #define BUFFER_IDS_CHUNK_CAPACITY 10
 
-using BufferIdType = u32_t;
-using BufferIdContainer = std::deque<BufferIdType>;
-
-class OGLBufferIdGenerator : public std::queue<BufferIdType, BufferIdContainer>, public IdGenerator {
+class OGLBufferIdGenerator : public ObjectUidQueue_t, public IdGenerator {
 public:
 #pragma region "Static methods"
 
@@ -34,12 +30,12 @@ public:
 #pragma endregion
 
   [[nodiscard]]
-  auto getNextUid() -> BufferIdType;
+  auto getNextUid() -> ObjectUid_t;
 
 private:
   OGLGenericBufferHelperIface *helper_;
+  ObjectUidVec_t used_;
   i32_t chunkCapacity_;
-  std::vector<u32_t> used_;
 };
 
 NAMESPACE_END(gapi)
