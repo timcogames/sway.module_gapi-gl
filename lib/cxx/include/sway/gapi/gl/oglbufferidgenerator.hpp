@@ -17,17 +17,27 @@ using BufferIdContainer = std::deque<BufferIdType>;
 
 class OGLBufferIdGenerator : public std::queue<BufferIdType, BufferIdContainer>, public IdGenerator {
 public:
+#pragma region "Static methods"
+
   static auto createInstance() -> IdGeneratorPtr_t;
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   OGLBufferIdGenerator();
 
+  OGLBufferIdGenerator(OGLGenericBufferHelperIface &helper);
+
   virtual ~OGLBufferIdGenerator();
 
+#pragma endregion
+
   [[nodiscard]]
-  auto newGuid() -> BufferIdType;
+  auto getNextUid() -> BufferIdType;
 
 private:
-  OGLGenericBufferHelper helper_;
+  OGLGenericBufferHelperIface *helper_;
   i32_t chunkCapacity_;
   std::vector<u32_t> used_;
 };

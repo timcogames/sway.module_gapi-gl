@@ -1,3 +1,5 @@
+#include "./unit/mockoglbufferidgenhelper.hpp"
+
 #include <sway/core.hpp>
 #include <sway/gapi/gl.hpp>
 
@@ -8,11 +10,14 @@
 
 using namespace sway;
 
-TEST(BufferIdGenerator, newGuid) {
-  // auto idGenerator = gapi::OGLBufferIdGenerator::createInstance();
-  // for (auto i = 0; i < 12; ++i) {
-  //   idGenerator->newGuid();
-  // }
+TEST(BufferIdGenerator, get_next_uid) {
+  testing::NiceMock<MockOGLBufferIdgenHelper> mock;
+  EXPECT_CALL(mock, generateBuffers(testing::_, testing::_, testing::_)).Times(2);
 
-  // ASSERT_EQ(idGenerator->newGuid(), 13);
+  gapi::OGLBufferIdGenerator idgen(mock);
+  for (auto i = 0; i < 12; ++i) {
+    idgen.getNextUid();
+  }
+
+  ASSERT_EQ(idgen.getNextUid(), 13);
 }

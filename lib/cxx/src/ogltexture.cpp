@@ -14,7 +14,7 @@ OGLTexture::OGLTexture(TextureTarget target)
     : helper_(new OGLTextureHelper())
     , target_(target) {
   u32_t objname;
-  helper_->generateTextures(1, &objname);
+  helper_->generateTextures(0, 1, &objname);
   setUid(objname);
 }
 
@@ -24,17 +24,17 @@ void OGLTexture::create(const TextureCreateInfo &createInfo) {
     return;
   }
 
-  this->bind();
+  bind();
   helper_->textureImage2D(target_, createInfo.mipLevels, createInfo.internalFormat, createInfo.size, 0,
       createInfo.format, createInfo.dataType, createInfo.pixels);
-  this->unbind();
+  unbind();
 }
 
 void OGLTexture::updateSubdata(TextureSubdataDescriptor desc) {
-  this->bind();
+  bind();
   helper_->texSubImage2D(target_, desc.level, desc.offset.getX(), desc.offset.getY(), desc.size.getW(),
       desc.size.getH(), desc.format, desc.type, desc.pixels);
-  this->unbind();
+  unbind();
 }
 
 void OGLTexture::setPixelStorage(PixelStorageMode mode, u32_t param) {

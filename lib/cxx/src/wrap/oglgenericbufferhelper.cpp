@@ -70,46 +70,47 @@ OGLGenericBufferHelper::OGLGenericBufferHelper() {
 #endif
 }
 
-void OGLGenericBufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *ids) {
+void OGLGenericBufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, u32_t *uids) {
   for (auto i = 0; i < (i32_t)num; ++i) {
-    ids[i] = i + latest + 1;
+    uids[i] = i + latest + 1;
   }
 }
 
-void OGLGenericBufferHelper::STD_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *ids) {
-  glGenBuffers(num, ids);
+void OGLGenericBufferHelper::STD_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *uids) {
+  glGenBuffers(num, uids);
 }
 
-void OGLGenericBufferHelper::ARB_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *ids) {
-  OGLBufferExtension::glGenBuffersARB(num, ids);
+void OGLGenericBufferHelper::ARB_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, u32_t *uids) {
+  OGLBufferExtension::glGenBuffersARB(num, uids);
 }
 
-void OGLGenericBufferHelper::EMU_DeleteBuffers([[maybe_unused]] u32_t num, [[maybe_unused]] u32_t *ids) {}
+void OGLGenericBufferHelper::EMU_DeleteBuffers([[maybe_unused]] u32_t num, [[maybe_unused]] u32_t *uids) {}
 
-void OGLGenericBufferHelper::STD_DeleteBuffers(u32_t num, u32_t *ids) { glDeleteBuffers(num, ids); }
+void OGLGenericBufferHelper::STD_DeleteBuffers(u32_t num, u32_t *uids) { glDeleteBuffers(num, uids); }
 
-void OGLGenericBufferHelper::ARB_DeleteBuffers(u32_t num, u32_t *ids) {
-  OGLBufferExtension::glDeleteBuffersARB(num, ids);
+void OGLGenericBufferHelper::ARB_DeleteBuffers(u32_t num, u32_t *uids) {
+  OGLBufferExtension::glDeleteBuffersARB(num, uids);
 }
 
-void OGLGenericBufferHelper::EMU_BindBuffer([[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t buffer) {}
+void OGLGenericBufferHelper::EMU_BindBuffer(
+    [[maybe_unused]] BufferTarget target, [[maybe_unused]] std::optional<u32_t> uid) {}
 
-void OGLGenericBufferHelper::STD_BindBuffer(BufferTarget target, u32_t buffer) {
-  glBindBuffer(OGLBufferTargetConvertor::toGLenum(target), buffer);
+void OGLGenericBufferHelper::STD_BindBuffer(BufferTarget target, std::optional<u32_t> uid) {
+  glBindBuffer(OGLBufferTargetConvertor::toGLenum(target), uid.value());
 }
 
-void OGLGenericBufferHelper::ARB_BindBuffer(BufferTarget target, u32_t buffer) {
-  OGLBufferExtension::glBindBufferARB(OGLBufferTargetConvertor::toGLenum(target), buffer);
+void OGLGenericBufferHelper::ARB_BindBuffer(BufferTarget target, std::optional<u32_t> uid) {
+  OGLBufferExtension::glBindBufferARB(OGLBufferTargetConvertor::toGLenum(target), uid.value());
 }
 
 void OGLGenericBufferHelper::STD_BindBufferRange(
-    BufferTarget target, u32_t index, u32_t buffer, ptrdiff_t offset, ptrdiff_t size) {
-  glBindBufferRange(OGLBufferTargetConvertor::toGLenum(target), index, buffer, offset, size);
+    BufferTarget target, std::optional<u32_t> uid, u32_t buf, ptrdiff_t offset, ptrdiff_t size) {
+  glBindBufferRange(OGLBufferTargetConvertor::toGLenum(target), uid.value(), buf, offset, size);
 }
 
 void OGLGenericBufferHelper::EXT_BindBufferRange(
-    BufferTarget target, u32_t index, u32_t buffer, ptrdiff_t offset, ptrdiff_t size) {
-  OGLBufferExtension::glBindBufferRangeEXT(OGLBufferTargetConvertor::toGLenum(target), index, buffer, offset, size);
+    BufferTarget target, std::optional<u32_t> uid, u32_t buf, ptrdiff_t offset, ptrdiff_t size) {
+  OGLBufferExtension::glBindBufferRangeEXT(OGLBufferTargetConvertor::toGLenum(target), uid.value(), buf, offset, size);
 }
 
 void OGLGenericBufferHelper::EMU_BufferData([[maybe_unused]] BufferTarget target, [[maybe_unused]] ptrdiff_t size,
@@ -189,11 +190,13 @@ auto OGLGenericBufferHelper::OES_UnmapBuffer(BufferTarget target) -> u8_t {
   return OGLBufferExtension::glUnmapBufferOES(OGLBufferTargetConvertor::toGLenum(target));
 }
 
-auto OGLGenericBufferHelper::EMU_IsBuffer([[maybe_unused]] u32_t buffer) -> u8_t { return GL_TRUE; }
+auto OGLGenericBufferHelper::EMU_IsBuffer([[maybe_unused]] std::optional<u32_t> uid) -> u8_t { return GL_TRUE; }
 
-auto OGLGenericBufferHelper::STD_IsBuffer(u32_t buffer) -> u8_t { return glIsBuffer(buffer); }
+auto OGLGenericBufferHelper::STD_IsBuffer(std::optional<u32_t> uid) -> u8_t { return glIsBuffer(uid.value()); }
 
-auto OGLGenericBufferHelper::ARB_IsBuffer(u32_t buffer) -> u8_t { return OGLBufferExtension::glIsBufferARB(buffer); }
+auto OGLGenericBufferHelper::ARB_IsBuffer(std::optional<u32_t> uid) -> u8_t {
+  return OGLBufferExtension::glIsBufferARB(uid.value());
+}
 
 void OGLGenericBufferHelper::EMU_GetBufferParam(
     [[maybe_unused]] BufferTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t *params) {}

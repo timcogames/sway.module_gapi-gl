@@ -19,13 +19,13 @@ public:
 
 #pragma endregion
 
-  static auto createInstance(IdGeneratorPtr_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t;
+  static auto createInstance(IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo) -> BufferPtr_t;
 
   /**
    * @brief Конструктор класса.
    *        Выполняет инициализацию нового экземпляра класса.
    */
-  OGLGenericBuffer(IdGeneratorPtr_t idQueue, const BufferDescriptor &desc);
+  OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc);
 
   virtual ~OGLGenericBuffer() { std::cout << "DCTOR" << std::endl; }
 
@@ -52,12 +52,12 @@ public:
    */
   MTHD_OVERRIDE(void updateSubdata(const void *src));
 
-  MTHD_OVERRIDE(void flush(i32_t offset, i32_t length));
+  MTHD_OVERRIDE(void flush(i32_t offset, i32_t len));
 
   MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);
 
   MTHD_OVERRIDE(auto mapRange(
-                    i32_t offset, i32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);
+                    i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);
 
   MTHD_OVERRIDE(void unmap());
 

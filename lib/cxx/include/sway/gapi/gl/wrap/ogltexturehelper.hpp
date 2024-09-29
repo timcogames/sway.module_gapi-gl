@@ -15,10 +15,15 @@ class OGLTextureHelper {
 public:
   OGLTextureHelper();
 
-  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, generateTextures, i32_t, u32_t *)
-  void EMU_GenerateTextures(i32_t num, u32_t *textures);
-  void STD_GenerateTextures(i32_t num, u32_t *textures);
-  void EXT_GenerateTextures(i32_t num, u32_t *textures);
+  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, generateTextures, u32_t, i32_t, u32_t *)
+  void EMU_GenerateTextures(u32_t latest, i32_t num, u32_t *uids);
+  void STD_GenerateTextures(u32_t latest, i32_t num, u32_t *uids);
+  void EXT_GenerateTextures(u32_t latest, i32_t num, u32_t *uids);
+
+  DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, deleteTextures, i32_t, u32_t *)
+  void EMU_DeleteTextures(i32_t num, u32_t *uids);
+  void STD_DeleteTextures(i32_t num, u32_t *uids);
+  void EXT_DeleteTextures(i32_t num, u32_t *uids);
 
   DECLARE_GENERIC_MEMBER(void, OGLTextureHelper, bindTexture, TextureTarget, std::optional<u32_t>)
   void EMU_BindTexture(TextureTarget target, std::optional<u32_t> texId);

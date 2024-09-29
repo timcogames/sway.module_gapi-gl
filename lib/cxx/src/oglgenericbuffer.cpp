@@ -32,8 +32,8 @@ auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
 #endif
 }
 
-auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idQueue, const BufferCreateInfo &createInfo) -> BufferPtr_t {
-  auto *instance = new OGLGenericBuffer(idQueue, createInfo.desc);
+auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo) -> BufferPtr_t {
+  auto *instance = new OGLGenericBuffer(idgen, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
   }
@@ -43,20 +43,20 @@ auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idQueue, const BufferCrea
 
 using BufferObjectIdType = u32_t;
 
-OGLGenericBuffer::OGLGenericBuffer(IdGeneratorPtr_t idQueue, const BufferDescriptor &desc)
+OGLGenericBuffer::OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc)
     : Buffer(desc)
     , target_(desc.target)
     , usage_(desc.usage)
     , capacity_(desc.capacity)
     , byteStride_(desc.byteStride) {
-  setUid(idQueue->newGuid());
+  setUid(idgen->getNextUid());
 }
 
 auto OGLGenericBuffer::allocate(const void *data) -> bool {
   auto dataSize = capacity_ * byteStride_;
   auto allocedSize = 0;
 
-  this->bind();
+  bind();
   helper_.bufferData(target_, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
   helper_.getBufferParam(target_, GL_BUFFER_SIZE_ARB, &allocedSize);
 
@@ -64,13 +64,13 @@ auto OGLGenericBuffer::allocate(const void *data) -> bool {
 }
 
 void OGLGenericBuffer::updateSubdata(BufferSubdataDescriptor desc) {
-  if (!helper_.isBuffer(getUid().value())) {
+  if (!helper_.isBuffer(getUid())) {
     return;
   }
 
-  this->bind();
+  bind();
   helper_.bufferSubData(target_, desc.offset, desc.size, desc.data);
-  this->unbind();
+  unbind();
 }
 
 void OGLGenericBuffer::updateSubdata(const void *src) {
@@ -81,24 +81,23 @@ void OGLGenericBuffer::updateSubdata(const void *src) {
   this->updateSubdata(desc);
 }
 
-void OGLGenericBuffer::flush(i32_t offset, i32_t length) { helper_.flush(target_, offset, length); }
+void OGLGenericBuffer::flush(i32_t offset, i32_t len) { helper_.flush(target_, offset, len); }
 
 auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
-  if (!helper_.isBuffer(getUid().value())) {
+  if (!helper_.isBuffer(getUid())) {
     return nullptr;
   }
 
-  this->bind();
-  // clang-format off
-  void *data = helper_.mapBuffer(target_, 
-    OGLBufferMapAccessConvertor::toGLenum(flags));  // clang-format on
-  this->unbind();
+  bind();
+  void *data = helper_.mapBuffer(target_, OGLBufferMapAccessConvertor::toGLenum(flags));
+  unbind();
+
   return data;
 }
 
 auto OGLGenericBuffer::mapRange(
-    i32_t offset, i32_t length, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void * {
-  if (!helper_.isBuffer(getUid().value())) {
+    i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void * {
+  if (!helper_.isBuffer(getUid())) {
     return nullptr;
   }
 
@@ -127,12 +126,12 @@ auto OGLGenericBuffer::mapRange(
     flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::UNSYNCHRONIZED);
   }
 
-  this->bind();
-  void *mapped = helper_.mapBufferRange(target_, offset, length, flags);
+  bind();
+  void *mapped = helper_.mapBufferRange(target_, offset, len, flags);
   if (mapped == nullptr) {
     std::cout << "[ERR]: Mapping buffer range" << std::endl;
   }
-  this->unbind();
+  unbind();
 
   return mapped;
 }
@@ -151,7 +150,7 @@ void OGLGenericBuffer::bindRange(u32_t buffer, ptrdiff_t offset, ptrdiff_t size)
   helper_.bindBufferRange(target_, getUid().value(), buffer, offset, size);
 }
 
-void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid().value()); }
+void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid()); }
 
 void OGLGenericBuffer::unbind() { helper_.bindBuffer(target_, 0); }
 

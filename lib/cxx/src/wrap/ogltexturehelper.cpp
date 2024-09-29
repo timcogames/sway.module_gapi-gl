@@ -10,6 +10,7 @@ NAMESPACE_BEGIN(gapi)
 OGLTextureHelper::OGLTextureHelper() {
 #ifdef _STUB
   generateTextures_ = &OGLTextureHelper::EMU_GenerateTextures;
+  deleteTextures_ = &OGLTextureHelper::EMU_DeleteTextures;
   bindTexture_ = &OGLTextureHelper::EMU_BindTexture;
   textureImage2D_ = &OGLTextureHelper::EMU_TextureImage2D;
   texSubImage2D_ = &OGLTextureHelper::EMU_TexSubImage2D;
@@ -21,9 +22,11 @@ OGLTextureHelper::OGLTextureHelper() {
 
   if (OGLCapability::isExtensionSupported(extensions, "GL_EXT_texture_object")) {
     generateTextures_ = &OGLTextureHelper::EXT_GenerateTextures;
+    deleteTextures_ = &OGLTextureHelper::EXT_DeleteTextures;
     bindTexture_ = &OGLTextureHelper::EXT_BindTexture;
   } else {
     generateTextures_ = &OGLTextureHelper::STD_GenerateTextures;
+    deleteTextures_ = &OGLTextureHelper::STD_DeleteTextures;
     bindTexture_ = &OGLTextureHelper::STD_BindTexture;
   }
 
@@ -54,12 +57,25 @@ OGLTextureHelper::OGLTextureHelper() {
 #endif
 }
 
-void OGLTextureHelper::EMU_GenerateTextures([[maybe_unused]] i32_t num, [[maybe_unused]] u32_t *textures) {}
+void OGLTextureHelper::EMU_GenerateTextures(
+    [[maybe_unused]] u32_t latest, [[maybe_unused]] i32_t num, [[maybe_unused]] u32_t *uids) {
+  for (auto i = 0; i < num; ++i) {
+    uids[i] = i + latest + 1;
+  }
+}
 
-void OGLTextureHelper::STD_GenerateTextures(i32_t num, u32_t *textures) { glGenTextures(num, textures); }
+void OGLTextureHelper::STD_GenerateTextures(u32_t latest, i32_t num, u32_t *uids) { glGenTextures(num, uids); }
 
-void OGLTextureHelper::EXT_GenerateTextures(i32_t num, u32_t *textures) {
-  OGLTextureExtension::glGenTexturesEXT(num, textures);
+void OGLTextureHelper::EXT_GenerateTextures(u32_t latest, i32_t num, u32_t *uids) {
+  OGLTextureExtension::glGenTexturesEXT(num, uids);
+}
+
+void OGLTextureHelper::EMU_DeleteTextures([[maybe_unused]] i32_t num, [[maybe_unused]] u32_t *uids) {}
+
+void OGLTextureHelper::STD_DeleteTextures(i32_t num, u32_t *uids) { glDeleteTextures(num, uids); }
+
+void OGLTextureHelper::EXT_DeleteTextures(i32_t num, u32_t *uids) {
+  OGLTextureExtension::glDeleteTexturesEXT(num, uids);
 }
 
 void OGLTextureHelper::EMU_BindTexture(

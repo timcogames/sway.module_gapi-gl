@@ -10,6 +10,7 @@ NAMESPACE_BEGIN(gapi)
 class OGLTextureExtension {
 public:
   static core::binding::TFunction<void(i32_t, u32_t *)> glGenTexturesEXT;
+  static core::binding::TFunction<void(i32_t, u32_t *)> glDeleteTexturesEXT;
   static core::binding::TFunction<void(u32_t, u32_t)> glBindTextureEXT;
   static core::binding::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, const void *)>
       glTextureImage2DEXT;
