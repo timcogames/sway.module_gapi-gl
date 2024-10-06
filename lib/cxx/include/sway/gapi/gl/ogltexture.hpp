@@ -9,8 +9,8 @@
 #include <sway/gapi/texturesubdatadescriptor.hpp>
 #include <sway/gapi/texturetargets.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLTexture : public Texture {
 public:
@@ -18,7 +18,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  OGLTexture(IdGeneratorPtr_t idgen, TextureTarget target);
+  OGLTexture(IdGeneratorPtr_t idgen, TextureTarget::Enum target);
 
   virtual ~OGLTexture() = default;
 
@@ -28,7 +28,7 @@ public:
 
   MTHD_OVERRIDE(void updateSubdata(TextureSubdataDescriptor desc));
 
-  MTHD_OVERRIDE(void setPixelStorage(PixelStorageMode mode, u32_t param));
+  MTHD_OVERRIDE(void setPixelStorage(PixelStorageMode::Enum mode, u32_t param));
 
   MTHD_OVERRIDE(void setActive(i32_t slot));
 
@@ -36,14 +36,14 @@ public:
 
   MTHD_OVERRIDE(void unbind());
 
-  MTHD_OVERRIDE(auto getTarget() -> TextureTarget) { return target_; }
+  MTHD_OVERRIDE(auto getTarget() -> TextureTarget::Enum) { return target_; }
 
 private:
   OGLTextureHelper *helper_;
-  TextureTarget target_;
+  TextureTarget::Enum target_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLTEXTURE_HPP

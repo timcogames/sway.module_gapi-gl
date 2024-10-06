@@ -6,8 +6,8 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLShaderProgram::createInstance() -> ShaderProgramPtr_t {
   auto *instance = new OGLShaderProgram();
@@ -41,14 +41,14 @@ void OGLShaderProgram::attach(ShaderPtr_t shader) {
   helper_->attachShader(getUid(), shader->getUid());
 }
 
-void OGLShaderProgram::detach(std::pair<ShaderType, ShaderPtr_t> pair, bool erasing) {
+void OGLShaderProgram::detach(std::pair<ShaderType::Enum, ShaderPtr_t> pair, bool erasing) {
   helper_->detachShader(getUid(), pair.second->getUid());
   if (erasing) {
     shaders_.erase(pair.first);
   }
 }
 
-auto OGLShaderProgram::getShader(ShaderType type) -> ShaderPtr_t {
+auto OGLShaderProgram::getShader(ShaderType::Enum type) -> ShaderPtr_t {
   auto iter = shaders_.find(type);
   if (iter != shaders_.end()) {
     return iter->second;
@@ -147,5 +147,5 @@ void OGLShaderProgram::setUniform1i(const std::string &uniform, i32_t val) { uni
 
 void OGLShaderProgram::setUniform1f(const std::string &uniform, f32_t val) { uniform1fSet_[uniform] = val; }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

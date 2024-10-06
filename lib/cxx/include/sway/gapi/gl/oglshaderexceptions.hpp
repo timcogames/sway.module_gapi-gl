@@ -7,8 +7,8 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLShaderException : public core::runtime::Exception {
 public:
@@ -84,7 +84,7 @@ public:
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLSHADEREXCEPTIONS_HPP

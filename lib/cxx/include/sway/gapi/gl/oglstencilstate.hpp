@@ -9,16 +9,16 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglstatehelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct StencilStateData : public StateEnableableData {
-  CompareFn func;
+  CompareFn::Enum func;
   u32_t ref;
   u32_t mask;
-  StencilOp fail;
-  StencilOp depthFail;
-  StencilOp depthPass;
+  StencilOp::Enum fail;
+  StencilOp::Enum depthFail;
+  StencilOp::Enum depthPass;
 };
 
 struct OGLStencilState : public OGLStateEnableable<StencilStateData> {
@@ -66,7 +66,7 @@ struct OGLStencilState : public OGLStateEnableable<StencilStateData> {
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLSTENCILSTATE_HPP

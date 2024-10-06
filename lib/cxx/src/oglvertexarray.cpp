@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/oglvertexarray.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLVertexArray::createInstance() -> VertexArrayPtr_t {
   auto *instance = new OGLVertexArray();
@@ -20,5 +20,5 @@ void OGLVertexArray::bind() { helper_.bindVertexArray(objname_); }
 
 void OGLVertexArray::unbind() { helper_.bindVertexArray(0); }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

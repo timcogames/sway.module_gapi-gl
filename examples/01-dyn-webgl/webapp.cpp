@@ -1,6 +1,6 @@
 #include "webapp.hpp"
 
-NAMESPACE_BEGIN(sway)
+NS_BEGIN_SWAY()
 
 void loadGapiPlugin(lpcstr_t plugname) {
   auto *plug = new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW);
@@ -63,4 +63,4 @@ void WebApp::dispose() {
 
 void WebAppDestroy(WebApp *app) { app->dispose(); }
 
-NAMESPACE_END(sway)
+NS_END()  // namespace sway

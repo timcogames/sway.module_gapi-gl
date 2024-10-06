@@ -37,7 +37,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   capability = functions->createCapability();
 
   gapi::ShaderCreateInfo vsoCreateInfo;
-  vsoCreateInfo.type = gapi::ShaderType::VERT;
+  vsoCreateInfo.type = gapi::ShaderType::Enum::VERT;
   vsoCreateInfo.code = "attribute vec3 attrib_pos;"
                        "attribute vec2 attrib_texcoord_0;"
                        "varying vec2 io_texcoord;"
@@ -47,7 +47,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
                        "}";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
-  fsoCreateInfo.type = gapi::ShaderType::FRAG;
+  fsoCreateInfo.type = gapi::ShaderType::Enum::FRAG;
   fsoCreateInfo.code = "varying vec2 io_texcoord;"
                        "uniform sampler2D ufrm_diffuse;"
                        "void main() {"
@@ -66,8 +66,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   }
 
   gapi::BufferCreateInfo vboCreateInfo;
-  vboCreateInfo.desc.target = gapi::BufferTarget::ARRAY;
-  vboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
+  vboCreateInfo.desc.target = gapi::BufferTarget::Enum::ARRAY;
+  vboCreateInfo.desc.usage = gapi::BufferUsage::Enum::STATIC;
   vboCreateInfo.desc.byteStride = sizeof(math::VertexTexCoord);
   vboCreateInfo.desc.capacity = 3;
   std::array<f32_t, 9 /*pos*/ + 6 /*texcoord*/> vertices = {
@@ -78,8 +78,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   vboCreateInfo.data = vertices.data();
 
   gapi::BufferCreateInfo eboCreateInfo;
-  eboCreateInfo.desc.target = gapi::BufferTarget::ELEMENT_ARRAY;
-  eboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
+  eboCreateInfo.desc.target = gapi::BufferTarget::Enum::ELEMENT_ARRAY;
+  eboCreateInfo.desc.usage = gapi::BufferUsage::Enum::STATIC;
   eboCreateInfo.desc.byteStride = sizeof(u32_t);
   eboCreateInfo.desc.capacity = 3;
   std::array<u32_t, 3> indices = {0, 1, 2};
@@ -110,7 +110,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   }
 
   gapi::TextureCreateInfo createInfo;
-  createInfo.target = gapi::TextureTarget::TEX_2D;
+  createInfo.target = gapi::TextureTarget::Enum::TEX_2D;
   createInfo.size = size;
   // createInfo.arraySize
   createInfo.format = gapi::PixelFormat::RGBA;
@@ -125,8 +125,9 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   texture = functions->createTexture(texIdgen, createInfo);
   textureSampler = functions->createTextureSampler(texture);
   // texture->bind();
-  textureSampler->setWrapMode(gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT, gapi::TextureWrap::REPEAT);
-  textureSampler->setFilterMode(gapi::TextureFilter::NEAREST, gapi::TextureFilter::NEAREST);
+  textureSampler->setWrapMode(
+      gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT, gapi::TextureWrap::Enum::REPEAT);
+  textureSampler->setFilterMode(gapi::TextureFilter::Enum::NEAREST, gapi::TextureFilter::Enum::NEAREST);
   // texture->unbind();
 
   drawCall = functions->createDrawCall();
@@ -146,7 +147,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     bufset.ebo->bind();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, bufset, core::ValueDataType::UINT);
+    drawCall->execute(gapi::TopologyType::Enum::TRIANGLE_LIST, bufset, core::ValueDataType::UINT);
 
     bufset.ebo->unbind();
 

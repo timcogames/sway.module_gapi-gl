@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLTextureIdGenerator::createInstance() -> IdGeneratorPtr_t { return new OGLTextureIdGenerator(); }
 
@@ -33,5 +33,5 @@ auto OGLTextureIdGenerator::getNextUid() -> ObjectUid_t {
   return used_.back();
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

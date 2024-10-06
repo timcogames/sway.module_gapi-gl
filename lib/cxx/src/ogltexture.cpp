@@ -1,8 +1,8 @@
 #include <sway/gapi/gl/oglpixelstoragemodeconvertor.hpp>
 #include <sway/gapi/gl/ogltexture.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLTexture::createInstance(IdGeneratorPtr_t idgen, const TextureCreateInfo &createInfo) -> TexturePtr_t {
   auto *instance = new OGLTexture(idgen, createInfo.target);
@@ -10,7 +10,7 @@ auto OGLTexture::createInstance(IdGeneratorPtr_t idgen, const TextureCreateInfo 
   return instance;
 }
 
-OGLTexture::OGLTexture(IdGeneratorPtr_t idgen, TextureTarget target)
+OGLTexture::OGLTexture(IdGeneratorPtr_t idgen, TextureTarget::Enum target)
     : helper_(new OGLTextureHelper())
     , target_(target) {
   setUid(idgen->getNextUid());
@@ -35,7 +35,7 @@ void OGLTexture::updateSubdata(TextureSubdataDescriptor desc) {
   unbind();
 }
 
-void OGLTexture::setPixelStorage(PixelStorageMode mode, u32_t param) {
+void OGLTexture::setPixelStorage(PixelStorageMode::Enum mode, u32_t param) {
   glPixelStorei(OGLPixelStorageModeConvertor::toGLenum(mode), param);
 }
 
@@ -51,5 +51,5 @@ void OGLTexture::unbind() {
   // glDisable(GL_TEXTURE_2D);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

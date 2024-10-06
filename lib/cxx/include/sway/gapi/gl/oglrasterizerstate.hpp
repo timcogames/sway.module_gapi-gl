@@ -7,8 +7,8 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglstatehelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct OGLRasterizerState : public OGLStateEnableable<RasterizerDescriptor> {
   OGLRasterizerState(OGLStateHelper *helper)
@@ -27,11 +27,12 @@ struct OGLRasterizerState : public OGLStateEnableable<RasterizerDescriptor> {
     // }
 
     glCullFace(OGLCullFaceConvertor::toGLenum(desc.mode));
-    glFrontFace(OGLFrontFaceConvertor::toGLenum(desc.ccw ? FrontFace::COUNTER_CLOCK_WISE : FrontFace::CLOCK_WISE));
+    glFrontFace(
+        OGLFrontFaceConvertor::toGLenum(desc.ccw ? FrontFace::Enum::COUNTER_CLOCK_WISE : FrontFace::Enum::CLOCK_WISE));
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLRASTERIZERSTATE_HPP

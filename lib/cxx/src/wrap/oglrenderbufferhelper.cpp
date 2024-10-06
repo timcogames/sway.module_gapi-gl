@@ -3,8 +3,8 @@
 #include <sway/gapi/gl/wrap/oglrenderbufferextension.hpp>
 #include <sway/gapi/gl/wrap/oglrenderbufferhelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 OGLRenderBufferHelper::OGLRenderBufferHelper() {
 #ifdef _STUB
@@ -153,5 +153,5 @@ void OGLRenderBufferHelper::EXT_GetRenderBufferParameter(u32_t target, u32_t pna
   OGLRenderBufferExtension::glGetRenderbufferParameterivEXT(target, pname, params);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

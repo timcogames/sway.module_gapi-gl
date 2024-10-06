@@ -5,8 +5,8 @@
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLStateContext : public StateContext {
 public:
@@ -16,21 +16,21 @@ public:
 
   virtual ~OGLStateContext() = default;
 
-  MTHD_OVERRIDE(void setCapabilityEnable(StateCapability cap, bool enable));
+  MTHD_OVERRIDE(void setCapabilityEnable(StateCapability::Enum cap, bool enable));
 
   MTHD_OVERRIDE(void setAlphaEnable(bool enable));
 
-  MTHD_OVERRIDE(void setAlphaFunc(CompareFn func, f32_t ref));
+  MTHD_OVERRIDE(void setAlphaFunc(CompareFn::Enum func, f32_t ref));
 
   MTHD_OVERRIDE(void setBlendEnable(bool enable));
 
-  MTHD_OVERRIDE(void setBlendFn(BlendFn src, BlendFn dst));
+  MTHD_OVERRIDE(void setBlendFn(BlendFn::Enum src, BlendFn::Enum dst));
 
   MTHD_OVERRIDE(void setDepthEnable(bool enable));
 
   MTHD_OVERRIDE(void setClearDepth(f64_t depth));
 
-  MTHD_OVERRIDE(void setDepthFn(CompareFn func));
+  MTHD_OVERRIDE(void setDepthFn(CompareFn::Enum func));
 
   MTHD_OVERRIDE(void setDepthMask(bool enable));
 
@@ -42,16 +42,14 @@ public:
 
   MTHD_OVERRIDE(void setStencilMask(u32_t mask));
 
-  MTHD_OVERRIDE(void setStencilFn(CompareFn func, i32_t ref, u32_t mask));
+  MTHD_OVERRIDE(void setStencilFn(CompareFn::Enum func, i32_t ref, u32_t mask));
 
-  MTHD_OVERRIDE(void setStencilOp(StencilOp fail, StencilOp depthFail, StencilOp depthPass));
+  MTHD_OVERRIDE(void setStencilOp(StencilOp::Enum fail, StencilOp::Enum depthFail, StencilOp::Enum depthPass));
 
-  MTHD_OVERRIDE(void setPolygonMode(PolygonMode mode));
-
-private:
+  MTHD_OVERRIDE(void setPolygonMode(PolygonMode::Enum mode));
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLSTATECONTEXT_HPP

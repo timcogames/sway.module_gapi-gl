@@ -5,59 +5,59 @@
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLCompareFunctionConvertor final {
 public:
-  static auto toGLenum(CompareFn func) -> GLenum {
+  static auto toGLenum(CompareFn::Enum func) -> GLenum {
     switch (func) {
-      case CompareFn::NEVER:
+      case CompareFn::Enum::NEVER:
         return GL_NEVER;
-      case CompareFn::ALWAYS:
+      case CompareFn::Enum::ALWAYS:
         return GL_ALWAYS;
-      case CompareFn::LESS:
+      case CompareFn::Enum::LESS:
         return GL_LESS;
-      case CompareFn::LESS_OR_EQUAL:
+      case CompareFn::Enum::LESS_OR_EQUAL:
         return GL_LEQUAL;
-      case CompareFn::EQUAL:
+      case CompareFn::Enum::EQUAL:
         return GL_EQUAL;
-      case CompareFn::NOT_EQUAL:
+      case CompareFn::Enum::NOT_EQUAL:
         return GL_NOTEQUAL;
-      case CompareFn::GREATER_OR_EQUAL:
+      case CompareFn::Enum::GREATER_OR_EQUAL:
         return GL_GEQUAL;
-      case CompareFn::GREATER:
+      case CompareFn::Enum::GREATER:
         return GL_GREATER;
       default:
         return 0;
     }
   }
 
-  static auto fromGLenum(GLenum func) -> CompareFn {
+  static auto fromGLenum(GLenum func) -> CompareFn::Enum {
     switch (func) {
       case GL_NEVER:
-        return CompareFn::NEVER;
+        return CompareFn::Enum::NEVER;
       case GL_ALWAYS:
-        return CompareFn::ALWAYS;
+        return CompareFn::Enum::ALWAYS;
       case GL_LESS:
-        return CompareFn::LESS;
+        return CompareFn::Enum::LESS;
       case GL_LEQUAL:
-        return CompareFn::LESS_OR_EQUAL;
+        return CompareFn::Enum::LESS_OR_EQUAL;
       case GL_EQUAL:
-        return CompareFn::EQUAL;
+        return CompareFn::Enum::EQUAL;
       case GL_NOTEQUAL:
-        return CompareFn::NOT_EQUAL;
+        return CompareFn::Enum::NOT_EQUAL;
       case GL_GEQUAL:
-        return CompareFn::GREATER_OR_EQUAL;
+        return CompareFn::Enum::GREATER_OR_EQUAL;
       case GL_GREATER:
-        return CompareFn::GREATER;
+        return CompareFn::Enum::GREATER;
       default:
-        return CompareFn::NONE;
+        return CompareFn::Enum::NONE;
     }
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLCOMPAREFUNCTIONCONVERTOR_HPP

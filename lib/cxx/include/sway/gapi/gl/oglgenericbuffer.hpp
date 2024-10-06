@@ -12,8 +12,8 @@
 #include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
 #include <sway/gapi/idgenerator.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 /**
  * @brief Представление аппаратного буфера.
@@ -22,7 +22,7 @@ class OGLGenericBuffer final : public Buffer {
 public:
 #pragma region "Преобразование внутренних типов к GLenum"
 
-  static auto usageToGLenum(BufferUsage usage) -> GLenum;
+  static auto usageToGLenum(BufferUsage::Enum usage) -> GLenum;
 
 #pragma endregion
 
@@ -65,10 +65,10 @@ public:
 
   MTHD_OVERRIDE(void flush(i32_t offset, i32_t len));
 
-  MTHD_OVERRIDE(auto map(BufferMapAccess flags) -> void *);
+  MTHD_OVERRIDE(auto map(BufferMapAccess::Enum flags) -> void *);
 
-  MTHD_OVERRIDE(auto mapRange(
-                    i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void *);
+  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t len,
+                    core::detail::EnumClassBitset<BufferMapRangeAccess::Enum> bitset) -> void *);
 
   MTHD_OVERRIDE(void unmap());
 
@@ -91,14 +91,14 @@ public:
   /**
    * @brief Получает целевой тип буфера.
    */
-  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget) {
+  MTHD_OVERRIDE(auto getTarget() const -> BufferTarget::Enum) {
     return target_;
   }
 
   /**
    * @brief Получает режим работы с данными.
    */
-  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage) {
+  MTHD_OVERRIDE(auto getUsage() const -> BufferUsage::Enum) {
     return usage_;
   }
 
@@ -118,13 +118,13 @@ public:
 
 private:
   OGLGenericBufferHelper helper_;
-  BufferTarget target_;
-  BufferUsage usage_;
+  BufferTarget::Enum target_;
+  BufferUsage::Enum usage_;
   i32_t capacity_;
   i32_t byteStride_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLGENERICBUFFER_HPP

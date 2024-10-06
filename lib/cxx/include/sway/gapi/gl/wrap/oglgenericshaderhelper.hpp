@@ -6,8 +6,8 @@
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 #include <sway/gapi/gl/wrap/oglinfohelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLGenericShaderHelperIface {
 public:
@@ -86,7 +86,7 @@ public:
   auto ARB_GetAttribLocation(u32_t program, lpcstr_t name) -> i32_t;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLGENERICSHADERHELPER_HPP

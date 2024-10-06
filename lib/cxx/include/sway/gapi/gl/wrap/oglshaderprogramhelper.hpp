@@ -8,8 +8,8 @@
 
 #include <variant>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLShaderProgramHelper : public OGLInfoHelper {
 public:
@@ -81,7 +81,7 @@ public:
   void ARB_SetUniformMatrix4f(i32_t loc, i32_t count, bool transpose, const f32_t *val);
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLSHADERPROGRAMHELPER_HPP

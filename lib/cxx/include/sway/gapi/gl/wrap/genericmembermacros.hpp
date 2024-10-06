@@ -5,8 +5,8 @@
 
 #include <utility>  //std::forward
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 #define DECLARE_GENERIC_MEMBER(funcret, classname, funcname, ...)    \
 private:                                                             \
@@ -24,7 +24,7 @@ private:                                                              \
   typedef funcret (classname::*funcname##CallbackFunc)(__VA_ARGS__);  \
   funcname##CallbackFunc funcname##_;
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_WRAP_GENERICMEMBERMACROS_HPP

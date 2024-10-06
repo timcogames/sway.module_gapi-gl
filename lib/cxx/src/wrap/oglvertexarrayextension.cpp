@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/oglvertexarrayextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<void(i32_t, u32_t *)> OGLVertexArrayExtension::glGenVertexArraysAPPLE = nullptr;
 core::binding::TFunction<void(i32_t, const u32_t *)> OGLVertexArrayExtension::glDeleteVertexArraysAPPLE = nullptr;
@@ -15,5 +15,5 @@ void OGLVertexArrayExtension::define(const std::function<core::binding::ProcAddr
   glIsVertexArrayAPPLE = exts({{"GL_APPLE_vertex_array_object", "glIsVertexArrayAPPLE"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

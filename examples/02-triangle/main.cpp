@@ -32,14 +32,14 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   auto capability = functions->createCapability();
 
   gapi::ShaderCreateInfo vsoCreateInfo;
-  vsoCreateInfo.type = gapi::ShaderType::VERT;
+  vsoCreateInfo.type = gapi::ShaderType::Enum::VERT;
   vsoCreateInfo.code = "attribute vec3 attrib_pos;"
                        "void main() {"
                        "  gl_Position = vec4(attrib_pos, 1.0);"
                        "}";
 
   gapi::ShaderCreateInfo fsoCreateInfo;
-  fsoCreateInfo.type = gapi::ShaderType::FRAG;
+  fsoCreateInfo.type = gapi::ShaderType::Enum::FRAG;
   fsoCreateInfo.code = "void main() {"
                        "  gl_FragColor = vec4(1.0, 0.5, 0.2, 1.0);"
                        "}";
@@ -56,8 +56,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   }
 
   gapi::BufferCreateInfo vboCreateInfo;
-  vboCreateInfo.desc.target = gapi::BufferTarget::ARRAY;
-  vboCreateInfo.desc.usage = gapi::BufferUsage::STATIC;
+  vboCreateInfo.desc.target = gapi::BufferTarget::Enum::ARRAY;
+  vboCreateInfo.desc.usage = gapi::BufferUsage::Enum::STATIC;
   vboCreateInfo.desc.byteStride = sizeof(math::VertexPosition);
   vboCreateInfo.desc.capacity = 3;
   std::array<f32_t, 9> vertices = {-0.5F, -0.5F, 0.0F, 0.5F, -0.5F, 0.0F, 0.0F, 0.5F, 0.0F};
@@ -81,7 +81,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     bufset.vbo->bind();
     vtxAttribLayout->enable();
 
-    drawCall->execute(gapi::TopologyType::TRIANGLE_LIST, bufset,
+    drawCall->execute(gapi::TopologyType::Enum::TRIANGLE_LIST, bufset,
         core::ValueDataType::BYTE /* Не используется (у нас только вершиный буфер) */);
 
     vtxAttribLayout->disable();

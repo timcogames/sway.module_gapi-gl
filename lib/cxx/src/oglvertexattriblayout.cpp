@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/oglvertexattriblayout.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLVertexAttribLayout::createInstance(ShaderProgramPtr_t program) -> VertexAttribLayoutPtr_t {
   auto *instance = new OGLVertexAttribLayout(program);
@@ -18,7 +18,7 @@ OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramPtr_t program)
 OGLVertexAttribLayout::~OGLVertexAttribLayout() { attribs_.clear(); }
 
 void OGLVertexAttribLayout::addAttribute(VertexAttribDescriptor desc) {
-  auto vtxShader = program_->getShader(ShaderType::VERT);
+  auto vtxShader = program_->getShader(ShaderType::Enum::VERT);
   auto const alias = stringize(desc.semantic);
 
   desc.location = vtxShader->getAttribLocation(program_->getUid(), alias.c_str());
@@ -48,5 +48,5 @@ void OGLVertexAttribLayout::disable() {
   }
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

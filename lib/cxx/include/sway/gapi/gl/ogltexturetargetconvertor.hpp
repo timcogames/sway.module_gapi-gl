@@ -4,42 +4,42 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct OGLTextureTargetConvertor final {
-  static auto toGLenum(TextureTarget target) -> GLenum {
+  static auto toGLenum(TextureTarget::Enum target) -> GLenum {
     switch (target) {
-      case TextureTarget::TEX_2D:
+      case TextureTarget::Enum::TEX_2D:
         return GL_TEXTURE_2D;
-      case TextureTarget::TEX_2D_ARRAY:
+      case TextureTarget::Enum::TEX_2D_ARRAY:
         return GL_TEXTURE_2D_ARRAY;
-      case TextureTarget::RECT:
+      case TextureTarget::Enum::RECT:
         return GL_TEXTURE_RECTANGLE_ARB;
-      case TextureTarget::CUBE_MAP:
+      case TextureTarget::Enum::CUBE_MAP:
         return GL_TEXTURE_CUBE_MAP;
       default:
         return 0;
     }
   }
 
-  static auto fromGLenum(GLenum target) -> TextureTarget {
+  static auto fromGLenum(GLenum target) -> TextureTarget::Enum {
     switch (target) {
       case GL_TEXTURE_2D:
-        return TextureTarget::TEX_2D;
+        return TextureTarget::Enum::TEX_2D;
       case GL_TEXTURE_2D_ARRAY:
-        return TextureTarget::TEX_2D_ARRAY;
+        return TextureTarget::Enum::TEX_2D_ARRAY;
       case GL_TEXTURE_RECTANGLE_ARB:
-        return TextureTarget::RECT;
+        return TextureTarget::Enum::RECT;
       case GL_TEXTURE_CUBE_MAP:
-        return TextureTarget::CUBE_MAP;
+        return TextureTarget::Enum::CUBE_MAP;
       default:
-        return TextureTarget::Unknown;
+        return TextureTarget::Enum::NONE;
     }
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLTEXTURETARGETCONVERTOR_HPP

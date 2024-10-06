@@ -22,6 +22,6 @@ protected:
 TEST_F(GenericShaderTest, ctor_comps) {
   setup();
 
-  gapi::OGLGenericShader shader(mock_, gapi::ShaderType::VERT);
+  gapi::OGLGenericShader shader(mock_, gapi::ShaderType::Enum::VERT);
   EXPECT_EQ(shader.getUid().value(), objectId_);
 }

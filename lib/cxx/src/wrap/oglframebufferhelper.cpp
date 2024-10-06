@@ -2,8 +2,8 @@
 #include <sway/gapi/gl/wrap/oglframebufferextension.hpp>
 #include <sway/gapi/gl/wrap/oglframebufferhelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 OGLFramebufferHelper::OGLFramebufferHelper() {
 #ifdef _STUB
@@ -134,5 +134,5 @@ void OGLFramebufferHelper::EXT_GetFramebufferAttachmentParamI(
   OGLFramebufferExtension::glGetFramebufferAttachmentParameterivEXT(target, attachment, pname, params);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

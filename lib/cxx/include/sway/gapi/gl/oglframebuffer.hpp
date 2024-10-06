@@ -7,12 +7,12 @@
 #include <sway/gapi/gl/wrap/oglframebufferhelper.hpp>
 #include <sway/gapi/renderbuffer.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLFramebuffer : public Framebuffer {
 public:
-  static auto attachmentToGLenum(FramebufferAttachment attachment) -> u32_t;
+  static auto attachmentToGLenum(FramebufferAttachment::Enum attachment) -> u32_t;
 
   static auto createInstance() -> FramebufferPtr_t;
 
@@ -22,9 +22,9 @@ public:
 
   void destroy();
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, TexturePtr_t tex, i32_t mipLevels));
+  MTHD_OVERRIDE(void attach(FramebufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels));
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment attachment, RenderBufferPtr_t buf));
+  MTHD_OVERRIDE(void attach(FramebufferAttachment::Enum attachment, RenderBufferPtr_t buf));
 
   MTHD_OVERRIDE(void bind());
 
@@ -39,7 +39,7 @@ private:
   // bool fboUsed_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLFRAMEBUFFER_HPP

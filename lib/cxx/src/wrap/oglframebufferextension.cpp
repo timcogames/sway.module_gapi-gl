@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/oglframebufferextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<void(i32_t, u32_t *)> OGLFramebufferExtension::glGenFramebuffersEXT = nullptr;
 core::binding::TFunction<void(i32_t, const u32_t *)> OGLFramebufferExtension::glDeleteFramebuffersEXT = nullptr;
@@ -27,5 +27,5 @@ void OGLFramebufferExtension::define(const std::function<core::binding::ProcAddr
       exts({{"GL_EXT_direct_state_access", "glGetFramebufferAttachmentParameterivEXT"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

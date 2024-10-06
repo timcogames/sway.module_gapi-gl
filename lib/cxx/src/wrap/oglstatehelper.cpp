@@ -4,8 +4,8 @@
 
 #include <GLES2/gl2.h>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 OGLStateHelper::OGLStateHelper() {
 #ifdef _STUB
@@ -48,5 +48,5 @@ void OGLStateHelper::EXT_BlendEquationSeparate(u32_t rgb, u32_t alpha) {
   OGLStateExtension::glBlendEquationSeparateEXT(rgb, alpha);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

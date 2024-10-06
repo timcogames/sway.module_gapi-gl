@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/oglrenderbuffer.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLRenderBuffer::createInstance() -> RenderBufferPtr_t {
   auto instance = new OGLRenderBuffer();
@@ -42,5 +42,5 @@ void OGLRenderBuffer::destroy() {
   helper_.deleteRenderBuffers(1, &uid);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

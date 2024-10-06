@@ -6,8 +6,8 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/oglvertexattriblayouthelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLVertexAttribLayout final : public VertexAttribLayout {
 public:
@@ -52,7 +52,7 @@ private:
   int maxVertexAttribs_;  // Максимальное количество атрибутов.
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP

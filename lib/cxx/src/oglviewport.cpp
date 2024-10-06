@@ -1,8 +1,8 @@
 #include <sway/gapi/gl/oglclearflagconvertor.hpp>
 #include <sway/gapi/gl/oglviewport.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLViewport::createInstance() -> ViewportPtr_t {
   auto instance = new OGLViewport();
@@ -10,7 +10,7 @@ auto OGLViewport::createInstance() -> ViewportPtr_t {
 }
 
 OGLViewport::OGLViewport()
-    : mode_(ViewportMode::ENABLED)
+    : mode_(ViewportMode::Enum::ENABLED)
     , clearColor_({0.0F, 0.0F, 0.0F, 1.0F}) {}
 
 void OGLViewport::set(i32_t posX, i32_t posY, i32_t width, i32_t height) { glViewport(posX, posY, width, height); }
@@ -37,5 +37,5 @@ void OGLViewport::clear(ClearFlag flags) {
   glClear(OGLClearFlagConvertor::toGLbitfield(flags));
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

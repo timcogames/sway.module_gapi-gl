@@ -5,59 +5,59 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/stenciloperations.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLStencilOperationConvertor final {
 public:
-  static auto toGLenum(StencilOp operation) -> GLenum {
+  static auto toGLenum(StencilOp::Enum operation) -> GLenum {
     switch (operation) {
-      case StencilOp::KEEP:
+      case StencilOp::Enum::KEEP:
         return GL_KEEP;
-      case StencilOp::ZERO:
+      case StencilOp::Enum::ZERO:
         return GL_ZERO;
-      case StencilOp::REPLACE:
+      case StencilOp::Enum::REPLACE:
         return GL_REPLACE;
-      case StencilOp::INCREMENT:
+      case StencilOp::Enum::INCREMENT:
         return GL_INCR;
-      case StencilOp::INCREMENT_WRAP:
+      case StencilOp::Enum::INCREMENT_WRAP:
         return GL_INCR_WRAP;
-      case StencilOp::DECREMENT:
+      case StencilOp::Enum::DECREMENT:
         return GL_DECR;
-      case StencilOp::DECREMENT_WRAP:
+      case StencilOp::Enum::DECREMENT_WRAP:
         return GL_DECR_WRAP;
-      case StencilOp::INVERT:
+      case StencilOp::Enum::INVERT:
         return GL_INVERT;
       default:
         return 0;
     }
   }
 
-  static auto fromGLenum(GLenum operation) -> StencilOp {
+  static auto fromGLenum(GLenum operation) -> StencilOp::Enum {
     switch (operation) {
       case GL_KEEP:
-        return StencilOp::KEEP;
+        return StencilOp::Enum::KEEP;
       case GL_ZERO:
-        return StencilOp::ZERO;
+        return StencilOp::Enum::ZERO;
       case GL_REPLACE:
-        return StencilOp::REPLACE;
+        return StencilOp::Enum::REPLACE;
       case GL_INCR:
-        return StencilOp::INCREMENT;
+        return StencilOp::Enum::INCREMENT;
       case GL_INCR_WRAP:
-        return StencilOp::INCREMENT_WRAP;
+        return StencilOp::Enum::INCREMENT_WRAP;
       case GL_DECR:
-        return StencilOp::DECREMENT;
+        return StencilOp::Enum::DECREMENT;
       case GL_DECR_WRAP:
-        return StencilOp::DECREMENT_WRAP;
+        return StencilOp::Enum::DECREMENT_WRAP;
       case GL_INVERT:
-        return StencilOp::INVERT;
+        return StencilOp::Enum::INVERT;
       default:
-        return StencilOp::NONE;
+        return StencilOp::Enum::NONE;
     }
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLSTENCILOPERATIONCONVERTOR_HPP

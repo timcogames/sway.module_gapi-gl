@@ -6,8 +6,8 @@
 #include <sway/gapi/idgenerator.hpp>
 #include <sway/gapi/typedefs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 #define BUFFER_IDS_CHUNK_CAPACITY 10
 
@@ -38,7 +38,7 @@ private:
   i32_t chunkCapacity_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLBUFFERIDGENERATOR_HPP

@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/ogltextureextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glGenTexturesEXT = nullptr;
 core::binding::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glDeleteTexturesEXT = nullptr;
@@ -23,5 +23,5 @@ void OGLTextureExtension::define(const std::function<core::binding::ProcAddress_
   glTexParameterIivEXT = exts({{"GL_EXT_texture_integer", "glTexParameterIivEXT"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

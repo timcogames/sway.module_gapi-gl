@@ -3,8 +3,8 @@
 
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct DrawElements {
   u32_t mode;
@@ -25,7 +25,7 @@ public:
   /**
    * @brief Переводит тип топологии (режим отображение примитива) в GL.
    */
-  static GLenum topologyToGLenum(TopologyType topology);
+  static GLenum topologyToGLenum(TopologyType::Enum topology);
 
 #pragma endregion
 
@@ -42,7 +42,7 @@ public:
    * @param[in] bufset Набор буферных объектов.
    * @param[in] type Тип значений в индексах.
    */
-  MTHD_OVERRIDE(void execute(TopologyType topology, BufferSet bufset, core::ValueDataType type));
+  MTHD_OVERRIDE(void execute(TopologyType::Enum topology, BufferSet bufset, core::ValueDataType::Enum type));
 
 private:
   /**
@@ -67,7 +67,7 @@ private:
   };
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLDRAWCALL_HPP

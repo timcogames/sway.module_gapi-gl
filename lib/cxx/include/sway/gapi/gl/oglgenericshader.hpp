@@ -4,8 +4,8 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglgenericshaderhelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 /**
  * @brief Представление шейдерного объекта.
@@ -20,9 +20,9 @@ public:
    *
    * @param[in] type Тип создаваемого шейдера.
    */
-  OGLGenericShader(ShaderType type);
+  OGLGenericShader(ShaderType::Enum type);
 
-  OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType type);
+  OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType::Enum type);
 
   /**
    * @brief Деструктор класса.
@@ -35,7 +35,7 @@ public:
    *
    * @return Тип шейдера.
    */
-  MTHD_OVERRIDE(auto getType() const -> ShaderType) {
+  MTHD_OVERRIDE(auto getType() const -> ShaderType::Enum) {
     return type_;
   }
 
@@ -65,11 +65,11 @@ public:
 
 private:
   OGLGenericShaderHelperIface *helper_;
-  ShaderType type_;  // Тип шейдера.
+  ShaderType::Enum type_;  // Тип шейдера.
   bool compiled_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLGENERICSHADER_HPP

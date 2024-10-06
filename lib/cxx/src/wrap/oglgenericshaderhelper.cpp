@@ -4,8 +4,8 @@
 
 #include <GLES2/gl2.h>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 OGLGenericShaderHelper::OGLGenericShaderHelper() {
 #ifdef _STUB
@@ -92,5 +92,5 @@ auto OGLGenericShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name)
   return OGLGenericShaderExtension::glGetAttribLocationARB(program, name);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

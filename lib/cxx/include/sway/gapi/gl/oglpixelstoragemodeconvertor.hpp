@@ -5,15 +5,15 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct OGLPixelStorageModeConvertor final {
-  static auto toGLenum(PixelStorageMode face) -> GLenum {
+  static auto toGLenum(PixelStorageMode::Enum face) -> GLenum {
     switch (face) {
-      case PixelStorageMode::UNPACK_ALIGNMENT:
+      case PixelStorageMode::Enum::UNPACK_ALIGNMENT:
         return GL_UNPACK_ALIGNMENT;
-      case PixelStorageMode::UNPACK_ROW_LENGTH:
+      case PixelStorageMode::Enum::UNPACK_ROW_LENGTH:
         return GL_UNPACK_ROW_LENGTH;
       default:
         return 0;
@@ -21,7 +21,7 @@ struct OGLPixelStorageModeConvertor final {
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLPIXELSTORAGEMODECONVERTOR_HPP

@@ -8,8 +8,8 @@
 #include <ostream>  // std::ostream
 #include <string>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class ShaderSource {
 public:
@@ -53,7 +53,7 @@ public:
 
   MTHD_OVERRIDE(void addDefine(const std::string &name, const std::string &val = std::string()));
 
-  MTHD_OVERRIDE(auto hasDefined(const std::string &name) const->bool);
+  MTHD_OVERRIDE(auto hasDefined(const std::string &name) const -> bool);
 
   void evaluate(std::ostream &into);
 
@@ -64,7 +64,7 @@ private:
   CompilerDefinitionContainer_t definitions_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLSHADERPREPROCESSOR_HPP

@@ -5,8 +5,8 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLVertexAttribLayoutHelper {
 public:
@@ -31,7 +31,7 @@ public:
       u32_t index, i32_t size, u32_t type, u8_t normalized, i32_t stride, const void *pointer);
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLVERTEXATTRIBLAYOUTHELPER_HPP

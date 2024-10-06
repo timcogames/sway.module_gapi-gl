@@ -4,8 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 // enum class VideoDriverType { GL, GLES, WEBGL };
 // class VideoDriver {
@@ -57,23 +57,23 @@ public:
     return param;
   }
 
-  static auto toGL(core::ValueDataType type) -> u32_t {
+  static auto toGL(core::ValueDataType::Enum type) -> u32_t {
     switch (type) {
-      case core::ValueDataType::BYTE:
+      case core::ValueDataType::Enum::BYTE:
         return GL_BYTE;
-      case core::ValueDataType::SHORT:
+      case core::ValueDataType::Enum::SHORT:
         return GL_SHORT;
-      case core::ValueDataType::INT:
+      case core::ValueDataType::Enum::INT:
         return GL_INT;
-      case core::ValueDataType::UBYTE:
+      case core::ValueDataType::Enum::UBYTE:
         return GL_UNSIGNED_BYTE;
-      case core::ValueDataType::USHORT:
+      case core::ValueDataType::Enum::USHORT:
         return GL_UNSIGNED_SHORT;
-      case core::ValueDataType::UINT:
+      case core::ValueDataType::Enum::UINT:
         return GL_UNSIGNED_INT;
-      case core::ValueDataType::FLOAT:
+      case core::ValueDataType::Enum::FLOAT:
         return GL_FLOAT;
-      case core::ValueDataType::DOUBLE:
+      case core::ValueDataType::Enum::DOUBLE:
         return GL_DOUBLE;
       default:
         return 0;
@@ -81,7 +81,7 @@ public:
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_TYPEUTILS_HPP

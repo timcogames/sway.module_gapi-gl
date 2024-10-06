@@ -4,8 +4,8 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/viewportmodes.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLViewport : public Viewport {
 public:
@@ -54,14 +54,14 @@ public:
 
   MTHD_OVERRIDE(void clear(ClearFlag flags));
 
-  auto getMode() const -> ViewportMode { return mode_; }
+  auto getMode() const -> ViewportMode::Enum { return mode_; }
 
 private:
-  ViewportMode mode_;
+  ViewportMode::Enum mode_;
   math::col4f_t clearColor_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLVIEWPORT_HPP

@@ -5,30 +5,30 @@
 #include <sway/gapi/buffermapaccesses.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLBufferMapAccessConvertor final {
 public:
-  static auto toGLenum(BufferMapAccess access) -> GLenum {
+  static auto toGLenum(BufferMapAccess::Enum access) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
     switch (access) {
-      case BufferMapAccess::READ:
+      case BufferMapAccess::Enum::READ:
         return GL_READ_ONLY;
-      case BufferMapAccess::WRITE:
+      case BufferMapAccess::Enum::WRITE:
         return GL_WRITE_ONLY;
-      case BufferMapAccess::READ_WRITE:
+      case BufferMapAccess::Enum::READ_WRITE:
         return GL_READ_WRITE;
       default:
         return 0;
     }
 #else
     switch (access) {
-      case BufferMapAccess::READ:
+      case BufferMapAccess::Enum::READ:
         return GL_READ_ONLY_ARB;
-      case BufferMapAccess::WRITE:
+      case BufferMapAccess::Enum::WRITE:
         return GL_WRITE_ONLY_ARB;
-      case BufferMapAccess::READ_WRITE:
+      case BufferMapAccess::Enum::READ_WRITE:
         return GL_READ_WRITE_ARB;
       default:
         return 0;
@@ -37,7 +37,7 @@ public:
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLBUFFERMAPACCESSCONVERTOR_HPP

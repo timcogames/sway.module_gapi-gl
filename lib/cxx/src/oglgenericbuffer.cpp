@@ -3,28 +3,28 @@
 #include <sway/gapi/gl/oglbuffertargetconvertor.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
-auto OGLGenericBuffer::usageToGLenum(BufferUsage usage) -> GLenum {
+auto OGLGenericBuffer::usageToGLenum(BufferUsage::Enum usage) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
   switch (usage) {
-    case BufferUsage::STATIC:
+    case BufferUsage::Enum::STATIC:
       return GL_STATIC_DRAW;
-    case BufferUsage::DYNAMIC:
+    case BufferUsage::Enum::DYNAMIC:
       return GL_DYNAMIC_DRAW;
-    case BufferUsage::STREAM:
+    case BufferUsage::Enum::STREAM:
       return GL_STREAM_DRAW;
     default:
       return 0;
   }
 #else
   switch (usage) {
-    case BufferUsage::STATIC:
+    case BufferUsage::Enum::STATIC:
       return GL_STATIC_DRAW_ARB;
-    case BufferUsage::DYNAMIC:
+    case BufferUsage::Enum::DYNAMIC:
       return GL_DYNAMIC_DRAW_ARB;
-    case BufferUsage::STREAM:
+    case BufferUsage::Enum::STREAM:
       return GL_STREAM_DRAW_ARB;
     default:
       return 0;
@@ -81,7 +81,7 @@ void OGLGenericBuffer::updateSubdata(const void *src) {
 
 void OGLGenericBuffer::flush(i32_t offset, i32_t len) { helper_.flush(target_, offset, len); }
 
-auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
+auto OGLGenericBuffer::map(BufferMapAccess::Enum flags) -> void * {
   if (!helper_.isBuffer(getUid())) {
     return nullptr;
   }
@@ -94,34 +94,34 @@ auto OGLGenericBuffer::map(BufferMapAccess flags) -> void * {
 }
 
 auto OGLGenericBuffer::mapRange(
-    i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess> bitset) -> void * {
+    i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess::Enum> bitset) -> void * {
   if (!helper_.isBuffer(getUid())) {
     return nullptr;
   }
 
   auto flags = 0;
-  if (bitset.has(BufferMapRangeAccess::WRITE)) {
-    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::WRITE);
+  if (bitset.has(BufferMapRangeAccess::Enum::WRITE)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::Enum::WRITE);
   }
 
-  if (bitset.has(BufferMapRangeAccess::READ)) {
-    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::READ);
+  if (bitset.has(BufferMapRangeAccess::Enum::READ)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::Enum::READ);
   }
 
-  if (bitset.has(BufferMapRangeAccess::INVALIDATE_RANGE)) {
-    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_RANGE);
+  if (bitset.has(BufferMapRangeAccess::Enum::INVALIDATE_RANGE)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::Enum::INVALIDATE_RANGE);
   }
 
-  if (bitset.has(BufferMapRangeAccess::INVALIDATE_BUFFER)) {
-    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::INVALIDATE_BUFFER);
+  if (bitset.has(BufferMapRangeAccess::Enum::INVALIDATE_BUFFER)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::Enum::INVALIDATE_BUFFER);
   }
 
-  if (bitset.has(BufferMapRangeAccess::FLUSH_EXPLICIT)) {
-    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::FLUSH_EXPLICIT);
+  if (bitset.has(BufferMapRangeAccess::Enum::FLUSH_EXPLICIT)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::Enum::FLUSH_EXPLICIT);
   }
 
-  if (bitset.has(BufferMapRangeAccess::UNSYNCHRONIZED)) {
-    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::UNSYNCHRONIZED);
+  if (bitset.has(BufferMapRangeAccess::Enum::UNSYNCHRONIZED)) {
+    flags |= OGLBufferMapRangeAccessConvertor::toGLenum(BufferMapRangeAccess::Enum::UNSYNCHRONIZED);
   }
 
   bind();
@@ -152,5 +152,5 @@ void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid()); }
 
 void OGLGenericBuffer::unbind() { helper_.bindBuffer(target_, 0); }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

@@ -4,8 +4,8 @@
 #include <sway/core/binding/procaddress.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLFramebufferExtension {
 public:
@@ -21,7 +21,7 @@ public:
   static void define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &);
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLFRAMEBUFFEREXTENSION_HPP

@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/oglbufferextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<void(i32_t, u32_t *)> OGLBufferExtension::glGenBuffersARB = nullptr;
 core::binding::TFunction<void(i32_t, const u32_t *)> OGLBufferExtension::glDeleteBuffersARB = nullptr;
@@ -35,5 +35,5 @@ void OGLBufferExtension::define(const std::function<core::binding::ProcAddress_t
   glGetBufferParameterivARB = exts({{"GL_ARB_vertex_buffer_object", "glGetBufferParameterivARB"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

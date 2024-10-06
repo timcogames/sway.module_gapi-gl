@@ -5,26 +5,26 @@
 #include <sway/gapi/buffertargets.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLGenericShaderTypeConvertor final {
 public:
-  static auto toGLenum(ShaderType type) -> GLenum {
+  static auto toGLenum(ShaderType::Enum type) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
     switch (type) {
-      case ShaderType::VERT:
+      case ShaderType::Enum::VERT:
         return GL_VERTEX_SHADER;
-      case ShaderType::FRAG:
+      case ShaderType::Enum::FRAG:
         return GL_FRAGMENT_SHADER;
       default:
         return GL_INVALID_INDEX;
     }
 #else
     switch (type) {
-      case ShaderType::VERT:
+      case ShaderType::Enum::VERT:
         return GL_VERTEX_SHADER_ARB;
-      case ShaderType::FRAG:
+      case ShaderType::Enum::FRAG:
         return GL_FRAGMENT_SHADER_ARB;
       default:
         return GL_INVALID_INDEX;
@@ -33,7 +33,7 @@ public:
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLGENERICSHADERTYPECONVERTOR_HPP

@@ -18,7 +18,7 @@
 #include <emscripten/threading.h>
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
+NS_BEGIN_SWAY()
 
 class WebApp {
 public:
@@ -47,6 +47,6 @@ private:
 
 void WebAppDestroy(WebApp *app);
 
-NAMESPACE_END(sway)
+NS_END()  // namespace sway
 
 #endif  // SWAY_WEBAPP_HPP

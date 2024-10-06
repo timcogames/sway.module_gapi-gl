@@ -2,22 +2,22 @@
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
-auto OGLDrawCall::topologyToGLenum(TopologyType topology) -> GLenum {
+auto OGLDrawCall::topologyToGLenum(TopologyType::Enum topology) -> GLenum {
   switch (topology) {
-    case TopologyType::POINT_LIST:
+    case TopologyType::Enum::POINT_LIST:
       return GL_POINTS;
-    case TopologyType::LINE_LIST:
+    case TopologyType::Enum::LINE_LIST:
       return GL_LINES;
-    case TopologyType::LINE_STRIP:
+    case TopologyType::Enum::LINE_STRIP:
       return GL_LINE_STRIP;
-    case TopologyType::TRIANGLE_LIST:
+    case TopologyType::Enum::TRIANGLE_LIST:
       return GL_TRIANGLES;
-    case TopologyType::TRIANGLE_STRIP:
+    case TopologyType::Enum::TRIANGLE_STRIP:
       return GL_TRIANGLE_STRIP;
-    case TopologyType::TRIANGLE_FAN:
+    case TopologyType::Enum::TRIANGLE_FAN:
       return GL_TRIANGLE_FAN;
     default:
       return 0;
@@ -29,7 +29,7 @@ auto OGLDrawCall::createInstance() -> DrawCallPtr_t {
   return instance;
 }
 
-void OGLDrawCall::execute(TopologyType topology, BufferSet bufset, core::ValueDataType type) {
+void OGLDrawCall::execute(TopologyType::Enum topology, BufferSet bufset, core::ValueDataType::Enum type) {
   if (bufset.ebo) {
     drawCbFunc_ = std::bind(&OGLDrawCall::drawIndexed_, this, std::placeholders::_1);
     drawElements_.mode = OGLDrawCall::topologyToGLenum(topology);
@@ -69,5 +69,5 @@ void OGLDrawCall::drawIndexed_(BufferPtr_t ebo) {
   ebo->unbind();
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

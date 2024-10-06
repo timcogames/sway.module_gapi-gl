@@ -5,26 +5,26 @@
 #include <sway/gapi/buffertargets.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLBufferTargetConvertor final {
 public:
-  static auto toGLenum(BufferTarget target) -> GLenum {
+  static auto toGLenum(BufferTarget::Enum target) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
     switch (target) {
-      case BufferTarget::ARRAY:
+      case BufferTarget::Enum::ARRAY:
         return GL_ARRAY_BUFFER;
-      case BufferTarget::ELEMENT_ARRAY:
+      case BufferTarget::Enum::ELEMENT_ARRAY:
         return GL_ELEMENT_ARRAY_BUFFER;
       default:
         return 0;
     }
 #else
     switch (target) {
-      case BufferTarget::ARRAY:
+      case BufferTarget::Enum::ARRAY:
         return GL_ARRAY_BUFFER_ARB;
-      case BufferTarget::ELEMENT_ARRAY:
+      case BufferTarget::Enum::ELEMENT_ARRAY:
         return GL_ELEMENT_ARRAY_BUFFER_ARB;
       default:
         return 0;
@@ -33,7 +33,7 @@ public:
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLBUFFERTARGETCONVERTOR_HPP

@@ -4,8 +4,8 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct OGLPixelFormatConvertor final {
   static auto toGLenum(PixelFormat fmt) -> GLenum {
@@ -90,7 +90,7 @@ struct OGLPixelFormatConvertor final {
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLPIXELFORMATCONVERTOR_HPP

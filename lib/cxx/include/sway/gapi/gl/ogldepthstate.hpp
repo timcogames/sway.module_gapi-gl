@@ -8,11 +8,11 @@
 #include <bitset>
 #include <limits>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 struct DepthStateData : public StateEnableableData {
-  CompareFn func;
+  CompareFn::Enum func;
   bool mask;
   // math::vec2d_t range;
   f64_t near;
@@ -56,7 +56,7 @@ struct OGLDepthState : public OGLStateEnableable<DepthStateData> {
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLDEPTHSTATE_HPP

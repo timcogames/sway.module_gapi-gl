@@ -7,8 +7,8 @@
 #include <GLES2/gl2ext.h>
 #include <sstream>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t {
   // try {
@@ -16,7 +16,7 @@ auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Sha
   ShaderSource src;
 
   src.addVersion(preprocessor->getVersion());
-  if (createInfo.type == ShaderType::FRAG) {
+  if (createInfo.type == ShaderType::Enum::FRAG) {
     src.addDefaultPrecision();
   }
 
@@ -39,7 +39,7 @@ auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> Sha
   //}
 }
 
-OGLGenericShader::OGLGenericShader(ShaderType type)
+OGLGenericShader::OGLGenericShader(ShaderType::Enum type)
     : Shader(type)
     , helper_(new OGLGenericShaderHelper())
     , type_(type)
@@ -50,7 +50,7 @@ OGLGenericShader::OGLGenericShader(ShaderType type)
   }
 }
 
-OGLGenericShader::OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType type)
+OGLGenericShader::OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType::Enum type)
     : Shader(type)
     , helper_(&helper)
     , type_(type)
@@ -77,5 +77,5 @@ void OGLGenericShader::compile(lpcstr_t src) {
   }
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

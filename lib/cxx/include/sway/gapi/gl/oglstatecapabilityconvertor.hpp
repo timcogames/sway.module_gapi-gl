@@ -5,49 +5,49 @@
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 class OGLStateCapabilityConvertor final {
 public:
-  static auto toGLenum(StateCapability cap) -> GLenum {
+  static auto toGLenum(StateCapability::Enum cap) -> GLenum {
     switch (cap) {
-      case StateCapability::BLEND:
+      case StateCapability::Enum::BLEND:
         return GL_BLEND;
-      case StateCapability::CULL_FACE:
+      case StateCapability::Enum::CULL_FACE:
         return GL_CULL_FACE;
-      case StateCapability::ALPHA_TEST:
+      case StateCapability::Enum::ALPHA_TEST:
         return GL_ALPHA_TEST;
-      case StateCapability::DEPTH_TEST:
+      case StateCapability::Enum::DEPTH_TEST:
         return GL_DEPTH_TEST;
-      case StateCapability::SCISSOR_TEST:
+      case StateCapability::Enum::SCISSOR_TEST:
         return GL_SCISSOR_TEST;
-      case StateCapability::STENCIL_TEST:
+      case StateCapability::Enum::STENCIL_TEST:
         return GL_STENCIL_TEST;
       default:
         return 0;
     }
   }
 
-  static auto fromGLenum(GLenum cap) -> StateCapability {
+  static auto fromGLenum(GLenum cap) -> StateCapability::Enum {
     switch (cap) {
       case GL_BLEND:
-        return StateCapability::BLEND;
+        return StateCapability::Enum::BLEND;
       case GL_CULL_FACE:
-        return StateCapability::CULL_FACE;
+        return StateCapability::Enum::CULL_FACE;
       case GL_DEPTH_TEST:
-        return StateCapability::DEPTH_TEST;
+        return StateCapability::Enum::DEPTH_TEST;
       case GL_SCISSOR_TEST:
-        return StateCapability::SCISSOR_TEST;
+        return StateCapability::Enum::SCISSOR_TEST;
       case GL_STENCIL_TEST:
-        return StateCapability::STENCIL_TEST;
+        return StateCapability::Enum::STENCIL_TEST;
       default:
-        return StateCapability::NONE;
+        return StateCapability::Enum::NONE;
     }
   }
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLSTATECAPABILITYCONVERTOR_HPP

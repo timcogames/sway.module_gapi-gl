@@ -4,8 +4,8 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglshaderprogramhelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 template <typename TValueType>
 struct OGLMatUniform : public Uniform {
@@ -21,7 +21,7 @@ private:
   OGLShaderProgramHelper helper_;
 };
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
 
 #endif  // SWAY_GAPI_GL_OGLMATUNIFORM_HPP

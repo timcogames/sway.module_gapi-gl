@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/oglgenericshaderextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<u32_t(u32_t)> OGLGenericShaderExtension::glCreateShaderObjectARB = nullptr;
 core::binding::TFunction<void(u32_t)> OGLGenericShaderExtension::glDeleteObjectARB = nullptr;
@@ -18,5 +18,5 @@ void OGLGenericShaderExtension::define(const std::function<core::binding::ProcAd
   glGetAttribLocationARB = exts({{"GL_ARB_vertex_shader", "glGetAttribLocationARB"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

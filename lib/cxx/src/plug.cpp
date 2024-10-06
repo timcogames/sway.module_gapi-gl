@@ -1,8 +1,8 @@
 #include <sway/core.hpp>
 #include <sway/gapi/gl.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 EXTERN_C_BEGIN
 
@@ -48,5 +48,5 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
 
 EXTERN_C_END
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/oglvertexattriblayoutextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<void(u32_t)> OGLVertexAttribLayoutExtension::glEnableVertexAttribArrayARB = nullptr;
 core::binding::TFunction<void(u32_t)> OGLVertexAttribLayoutExtension::glDisableVertexAttribArrayARB = nullptr;
@@ -15,5 +15,5 @@ void OGLVertexAttribLayoutExtension::define(
   glVertexAttribPointerARB = exts({{"GL_ARB_vertex_program", "glVertexAttribPointerARB"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

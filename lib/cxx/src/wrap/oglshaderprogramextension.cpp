@@ -1,7 +1,7 @@
 #include <sway/gapi/gl/wrap/oglshaderprogramextension.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 core::binding::TFunction<u32_t()> OGLShaderProgramExtension::glCreateProgramObjectARB = nullptr;
 core::binding::TFunction<void(i32_t, const u32_t *)> OGLShaderProgramExtension::glDeleteProgramsARB = nullptr;
@@ -34,5 +34,5 @@ void OGLShaderProgramExtension::define(const std::function<core::binding::ProcAd
   glUniformMatrix4fvARB = exts({{"GL_ARB_shader_objects", "glUniformMatrix4fvARB"}});
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway

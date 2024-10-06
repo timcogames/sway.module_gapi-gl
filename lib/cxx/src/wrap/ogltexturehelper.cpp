@@ -4,8 +4,8 @@
 #include <sway/gapi/gl/wrap/ogltextureextension.hpp>
 #include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(gapi)
+NS_BEGIN_SWAY()
+NS_BEGIN(gapi)
 
 OGLTextureHelper::OGLTextureHelper() {
 #ifdef _STUB
@@ -78,23 +78,25 @@ void OGLTextureHelper::EXT_DeleteTextures(i32_t num, ObjectUid_t *uids) {
   OGLTextureExtension::glDeleteTexturesEXT(num, uids);
 }
 
-void OGLTextureHelper::EMU_BindTexture([[maybe_unused]] TextureTarget target, [[maybe_unused]] ObjectUidOpt_t uid) {}
+void OGLTextureHelper::EMU_BindTexture(
+    [[maybe_unused]] TextureTarget::Enum target, [[maybe_unused]] ObjectUidOpt_t uid) {}
 
-void OGLTextureHelper::STD_BindTexture(TextureTarget target, ObjectUidOpt_t uid) {
+void OGLTextureHelper::STD_BindTexture(TextureTarget::Enum target, ObjectUidOpt_t uid) {
   glBindTexture(OGLTextureTargetConvertor::toGLenum(target), uid.value());
 }
 
-void OGLTextureHelper::EXT_BindTexture(TextureTarget target, ObjectUidOpt_t uid) {
+void OGLTextureHelper::EXT_BindTexture(TextureTarget::Enum target, ObjectUidOpt_t uid) {
   OGLTextureExtension::glBindTextureEXT(OGLTextureTargetConvertor::toGLenum(target), uid.value());
 }
 
-void OGLTextureHelper::EMU_TextureImage2D([[maybe_unused]] TextureTarget target, [[maybe_unused]] i32_t level,
+void OGLTextureHelper::EMU_TextureImage2D([[maybe_unused]] TextureTarget::Enum target, [[maybe_unused]] i32_t level,
     [[maybe_unused]] PixelFormat internalFormat, [[maybe_unused]] math::size2i_t size, [[maybe_unused]] i32_t border,
-    [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType type, [[maybe_unused]] const void *pixels) {}
+    [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType::Enum type,
+    [[maybe_unused]] const void *pixels) {}
 
-void OGLTextureHelper::STD_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat,
-    math::size2i_t size, i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels) {
-  if (target != TextureTarget::TEX_2D) {
+void OGLTextureHelper::STD_TextureImage2D(TextureTarget::Enum target, i32_t level, PixelFormat internalFormat,
+    math::size2i_t size, i32_t border, PixelFormat frm, core::ValueDataType::Enum type, const void *pixels) {
+  if (target != TextureTarget::Enum::TEX_2D) {
     return;
   }
 
@@ -102,9 +104,9 @@ void OGLTextureHelper::STD_TextureImage2D(TextureTarget target, i32_t level, Pix
       size.getW(), size.getH(), border, OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EXT_TextureImage2D(TextureTarget target, i32_t level, PixelFormat internalFormat,
-    math::size2i_t size, i32_t border, PixelFormat frm, core::ValueDataType type, const void *pixels) {
-  if (target != TextureTarget::TEX_2D) {
+void OGLTextureHelper::EXT_TextureImage2D(TextureTarget::Enum target, i32_t level, PixelFormat internalFormat,
+    math::size2i_t size, i32_t border, PixelFormat frm, core::ValueDataType::Enum type, const void *pixels) {
+  if (target != TextureTarget::Enum::TEX_2D) {
     return;
   }
 
@@ -113,19 +115,19 @@ void OGLTextureHelper::EXT_TextureImage2D(TextureTarget target, i32_t level, Pix
       OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EMU_TexSubImage2D([[maybe_unused]] TextureTarget target, [[maybe_unused]] i32_t level,
+void OGLTextureHelper::EMU_TexSubImage2D([[maybe_unused]] TextureTarget::Enum target, [[maybe_unused]] i32_t level,
     [[maybe_unused]] i32_t xoffset, [[maybe_unused]] i32_t yoffset, [[maybe_unused]] i32_t wdt,
-    [[maybe_unused]] i32_t hgt, [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType type,
+    [[maybe_unused]] i32_t hgt, [[maybe_unused]] PixelFormat frm, [[maybe_unused]] core::ValueDataType::Enum type,
     [[maybe_unused]] const void *pixels) {}
 
-void OGLTextureHelper::STD_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t wdt,
-    i32_t hgt, PixelFormat frm, core::ValueDataType type, const void *pixels) {
+void OGLTextureHelper::STD_TexSubImage2D(TextureTarget::Enum target, i32_t level, i32_t xoffset, i32_t yoffset,
+    i32_t wdt, i32_t hgt, PixelFormat frm, core::ValueDataType::Enum type, const void *pixels) {
   glTexSubImage2D(OGLTextureTargetConvertor::toGLenum(target), level, xoffset, yoffset, wdt, hgt,
       OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
 
-void OGLTextureHelper::EXT_TexSubImage2D(TextureTarget target, i32_t level, i32_t xoffset, i32_t yoffset, i32_t wdt,
-    i32_t hgt, PixelFormat frm, core::ValueDataType type, const void *pixels) {
+void OGLTextureHelper::EXT_TexSubImage2D(TextureTarget::Enum target, i32_t level, i32_t xoffset, i32_t yoffset,
+    i32_t wdt, i32_t hgt, PixelFormat frm, core::ValueDataType::Enum type, const void *pixels) {
   OGLTextureExtension::glTexSubImage2DEXT(OGLTextureTargetConvertor::toGLenum(target), level, xoffset, yoffset, wdt,
       hgt, OGLPixelFormatConvertor::toGLenum(frm), TypeUtils::toGL(type), pixels);
 }
@@ -137,15 +139,15 @@ void OGLTextureHelper::STD_SetActiveTexture(i32_t slot) { glActiveTexture(slot);
 void OGLTextureHelper::ARB_SetActiveTexture(i32_t slot) { OGLTextureExtension::glActiveTextureARB(slot); }
 
 void OGLTextureHelper::EMU_SetTextureParamI(
-    [[maybe_unused]] TextureTarget target, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t param) {}
+    [[maybe_unused]] TextureTarget::Enum target, [[maybe_unused]] u32_t pname, [[maybe_unused]] i32_t param) {}
 
-void OGLTextureHelper::STD_SetTextureParamI(TextureTarget target, u32_t pname, i32_t param) {
+void OGLTextureHelper::STD_SetTextureParamI(TextureTarget::Enum target, u32_t pname, i32_t param) {
   glTexParameteri(OGLTextureTargetConvertor::toGLenum(target), pname, param);
 }
 
-void OGLTextureHelper::EXT_SetTextureParamI(TextureTarget target, u32_t pname, i32_t param) {
+void OGLTextureHelper::EXT_SetTextureParamI(TextureTarget::Enum target, u32_t pname, i32_t param) {
   OGLTextureExtension::glTexParameterIivEXT(OGLTextureTargetConvertor::toGLenum(target), pname, (const i32_t *)&param);
 }
 
-NAMESPACE_END(gapi)
-NAMESPACE_END(sway)
+NS_END()  // namespace gapi
+NS_END()  // namespace sway
