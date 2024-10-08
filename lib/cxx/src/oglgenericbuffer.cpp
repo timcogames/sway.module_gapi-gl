@@ -57,6 +57,7 @@ auto OGLGenericBuffer::allocate(const void *data) -> bool {
   bind();
   helper_.bufferData(target_, dataSize, data, OGLGenericBuffer::usageToGLenum(usage_));
   helper_.getBufferParam(target_, GL_BUFFER_SIZE_ARB, &allocedSize);
+  unbind();
 
   return allocedSize == dataSize;
 }
@@ -88,7 +89,7 @@ auto OGLGenericBuffer::map(BufferMapAccess::Enum flags) -> void * {
 
   bind();
   void *data = helper_.mapBuffer(target_, OGLBufferMapAccessConvertor::toGLenum(flags));
-  unbind();
+  // unbind();
 
   return data;
 }
@@ -129,13 +130,13 @@ auto OGLGenericBuffer::mapRange(
   if (mapped == nullptr) {
     std::cout << "[ERR]: Mapping buffer range" << std::endl;
   }
-  unbind();
+  // unbind();
 
   return mapped;
 }
 
 void OGLGenericBuffer::unmap() {
-  this->bind();
+  // this->bind();
   if (helper_.unmapBuffer(target_) == GL_FALSE) {
     std::cout << "[ERR]: Unmapping buffer" << std::endl;
   }

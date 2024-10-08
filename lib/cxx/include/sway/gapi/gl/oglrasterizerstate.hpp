@@ -11,14 +11,25 @@ NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
 struct OGLRasterizerState : public OGLStateEnableable<RasterizerDescriptor> {
+  static auto createInstance() -> StateEnableable<RasterizerDescriptor> * {
+    auto *instance = new OGLRasterizerState();
+    instance->capture();
+    return instance;
+  }
+
+  OGLRasterizerState()
+      : OGLStateEnableable<RasterizerDescriptor>() {}
+
   OGLRasterizerState(OGLStateHelper *helper)
       : OGLStateEnableable<RasterizerDescriptor>(helper) {}
 
   MTHD_OVERRIDE(auto capture() -> RasterizerDescriptor) {
-    return (struct RasterizerDescriptor){
-        // .mode = OGLCullFaceConvertor::current(),
-        // .ccw = OGLFrontFaceConvertor::current()
+    // clang-format off
+    return (struct RasterizerDescriptor) {
+      .mode = OGLCullFaceConvertor::current(),
+      .ccw = OGLFrontFaceConvertor::current() == FrontFace::Enum::COUNTER_CLOCK_WISE ? true : false
     };
+    // clang-format on
   }
 
   MTHD_OVERRIDE(void apply(StateContext *state, const RasterizerDescriptor &desc)) {

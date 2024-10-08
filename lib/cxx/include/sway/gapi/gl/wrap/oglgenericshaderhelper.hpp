@@ -54,14 +54,14 @@ public:
 
   // clang-format off
   DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, i32_t, lpcstr_t *, const i32_t *)
-  MTHD_VIRTUAL(void shaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length) {
-    return (this->*shaderSource_)(obj, count, string, length);
+  MTHD_VIRTUAL(void shaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len) {
+    return (this->*shaderSource_)(obj, count, str, len);
   });
   // clang-format on
 
-  void EMU_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length);
-  void STD_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length);
-  void ARB_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *string, const i32_t *length);
+  void EMU_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len);
+  void STD_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len);
+  void ARB_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len);
 
   // clang-format off
   DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, i32_t *)

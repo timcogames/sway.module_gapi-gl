@@ -44,6 +44,8 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
       reinterpret_cast<core::binding::ProcAddress_t>(OGLViewport::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createStateContext =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLStateContext::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createRasterizerState =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLRasterizerState::createInstance);
 }
 
 EXTERN_C_END

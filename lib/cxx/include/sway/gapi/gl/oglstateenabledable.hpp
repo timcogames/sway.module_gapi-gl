@@ -9,14 +9,17 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
-template <typename TConcreteData>
-struct OGLStateEnableable : public StateEnableable<TConcreteData> {
+template <typename CONCRETE_DATA>
+struct OGLStateEnableable : public StateEnableable<CONCRETE_DATA> {
+  OGLStateEnableable()
+      : helper_(new OGLStateHelper()) {}
+
   OGLStateEnableable(OGLStateHelper *helper)
       : helper_(helper) {}
 
-  MTHD_OVERRIDE(auto capture() -> TConcreteData) {}
+  MTHD_OVERRIDE(auto capture() -> CONCRETE_DATA) {}
 
-  MTHD_OVERRIDE(void apply(StateContext *state, const TConcreteData &data)) {}
+  MTHD_OVERRIDE(void apply(StateContext *state, const CONCRETE_DATA &data)) {}
 
 protected:
   OGLStateHelper *helper_;
