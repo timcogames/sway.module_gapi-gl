@@ -30,7 +30,7 @@ auto OGLDrawCall::createInstance() -> DrawCallPtr_t {
 }
 
 void OGLDrawCall::execute(TopologyType::Enum topology, BufferSet bufset, core::ValueDataType::Enum type) {
-  if (bufset.ebo) {
+  if (bufset.ebo != nullptr) {
     drawCbFunc_ = std::bind(&OGLDrawCall::drawIndexed_, this, std::placeholders::_1);
     drawElements_.mode = OGLDrawCall::topologyToGLenum(topology);
     drawElements_.count = bufset.ebo->getCapacity();

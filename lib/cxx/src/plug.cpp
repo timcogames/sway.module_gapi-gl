@@ -21,11 +21,13 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
   static_cast<ConcreatePluginFunctionSet *>(functions)->createShaderPreprocessor =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLShaderPreprocessor::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBufferIdGenerator =
-      reinterpret_cast<core::binding::ProcAddress_t>(OGLBufferIdGenerator::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBufferIdGenerator::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBuffer::createInstance);
-  static_cast<ConcreatePluginFunctionSet *>(functions)->createFramebuffer =
-      reinterpret_cast<core::binding::ProcAddress_t>(OGLFramebuffer::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createFrameBufferIdGenerator =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLFrameBufferIdGenerator::createInstance);
+  static_cast<ConcreatePluginFunctionSet *>(functions)->createFrameBuffer =
+      reinterpret_cast<core::binding::ProcAddress_t>(OGLFrameBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createRenderBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLRenderBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createVertexArray =

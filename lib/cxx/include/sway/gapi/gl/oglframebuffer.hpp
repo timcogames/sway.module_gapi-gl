@@ -5,26 +5,27 @@
 #include <sway/gapi/framebufferattachments.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglframebufferhelper.hpp>
+#include <sway/gapi/idgenerator.hpp>
 #include <sway/gapi/renderbuffer.hpp>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
-class OGLFramebuffer : public Framebuffer {
+class OGLFrameBuffer : public FrameBuffer {
 public:
-  static auto attachmentToGLenum(FramebufferAttachment::Enum attachment) -> u32_t;
+  static auto attachmentToGLenum(FrameBufferAttachment::Enum attachment) -> u32_t;
 
-  static auto createInstance() -> FramebufferPtr_t;
+  static auto createInstance(IdGeneratorPtr_t idgen) -> FrameBufferPtr_t;
 
-  OGLFramebuffer();
+  OGLFrameBuffer(IdGeneratorPtr_t idgen);
 
-  virtual ~OGLFramebuffer();
+  virtual ~OGLFrameBuffer();
 
   void destroy();
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels));
+  MTHD_OVERRIDE(void attach(FrameBufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels));
 
-  MTHD_OVERRIDE(void attach(FramebufferAttachment::Enum attachment, RenderBufferPtr_t buf));
+  MTHD_OVERRIDE(void attach(FrameBufferAttachment::Enum attachment, RenderBufferPtr_t buf));
 
   MTHD_OVERRIDE(void bind());
 
@@ -33,7 +34,7 @@ public:
   MTHD_OVERRIDE(void drawBuffers(i32_t num, const u32_t *bufs));
 
 private:
-  OGLFramebufferHelper helper_;
+  OGLFrameBufferHelper helper_;
   i32_t maxColorAttachments_;
   // bool fboSupported_;
   // bool fboUsed_;

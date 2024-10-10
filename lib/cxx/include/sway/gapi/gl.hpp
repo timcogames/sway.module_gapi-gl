@@ -4,7 +4,6 @@
 #include <sway/gapi/gl/oglblendequationconvertor.hpp>
 #include <sway/gapi/gl/oglblendfunctionconvertor.hpp>
 #include <sway/gapi/gl/oglblendstate.hpp>
-#include <sway/gapi/gl/oglbufferidgenerator.hpp>
 #include <sway/gapi/gl/oglbuffertargetconvertor.hpp>
 #include <sway/gapi/gl/oglcapability.hpp>
 #include <sway/gapi/gl/oglclearflagconvertor.hpp>
@@ -13,8 +12,10 @@
 #include <sway/gapi/gl/ogldepthstate.hpp>
 #include <sway/gapi/gl/ogldrawcall.hpp>
 #include <sway/gapi/gl/oglframebuffer.hpp>
+#include <sway/gapi/gl/oglframebufferidgenerator.hpp>
 #include <sway/gapi/gl/oglfrontfaceconvertor.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
+#include <sway/gapi/gl/oglgenericbufferidgenerator.hpp>
 #include <sway/gapi/gl/oglgenericshader.hpp>
 #include <sway/gapi/gl/oglgenericshadertypeconvertor.hpp>
 #include <sway/gapi/gl/oglpixelformatconvertor.hpp>

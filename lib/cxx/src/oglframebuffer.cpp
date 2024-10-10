@@ -3,72 +3,76 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
-auto OGLFramebuffer::createInstance() -> FramebufferPtr_t {
-  auto instance = new OGLFramebuffer();
+auto OGLFrameBuffer::createInstance(IdGeneratorPtr_t idgen) -> FrameBufferPtr_t {
+  auto *instance = new OGLFrameBuffer(idgen);
   return instance;
 }
 
-auto OGLFramebuffer::attachmentToGLenum(FramebufferAttachment::Enum attachment) -> u32_t {
+auto OGLFrameBuffer::attachmentToGLenum(FrameBufferAttachment::Enum attachment) -> u32_t {
   switch (attachment) {
-    case FramebufferAttachment::Enum::DEPTH_STENCIL:
+    case FrameBufferAttachment::Enum::DEPTH_STENCIL:
       return GL_DEPTH_STENCIL_ATTACHMENT;
-    case FramebufferAttachment::Enum::DEPTH:
+    case FrameBufferAttachment::Enum::DEPTH:
       return GL_DEPTH_ATTACHMENT;
-    case FramebufferAttachment::Enum::STENCIL:
+    case FrameBufferAttachment::Enum::STENCIL:
       return GL_STENCIL_ATTACHMENT;
-    case FramebufferAttachment::Enum::COL_1:
+    case FrameBufferAttachment::Enum::COL_1:
       return GL_COLOR_ATTACHMENT0;
-    case FramebufferAttachment::Enum::COL_2:
+    case FrameBufferAttachment::Enum::COL_2:
       return GL_COLOR_ATTACHMENT1;
-    case FramebufferAttachment::Enum::COL_3:
+    case FrameBufferAttachment::Enum::COL_3:
       return GL_COLOR_ATTACHMENT2;
-    case FramebufferAttachment::Enum::COL_4:
+    case FrameBufferAttachment::Enum::COL_4:
       return GL_COLOR_ATTACHMENT3;
-    case FramebufferAttachment::Enum::COL_5:
+    case FrameBufferAttachment::Enum::COL_5:
       return GL_COLOR_ATTACHMENT4;
     default:
       return GL_COLOR_ATTACHMENT0;
   }
 }
 
-OGLFramebuffer::OGLFramebuffer() {
+OGLFrameBuffer::OGLFrameBuffer(IdGeneratorPtr_t idgen) {
   glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxColorAttachments_);
-
-  u32_t objname;
-  helper_.generateFramebuffers(1, &objname);
-  setUid(objname);
+  std::cout << "GL_MAX_COLOR_ATTACHMENTS: " << maxColorAttachments_ << std::endl;
+  setUid(idgen->getNextUid());
 }
 
-OGLFramebuffer::~OGLFramebuffer() { destroy(); }
+OGLFrameBuffer::~OGLFrameBuffer() { destroy(); }
 
-void OGLFramebuffer::destroy() {
-  auto uid = getUid().value();
-  if (!helper_.isFramebuffer(uid)) {
-    return;
-  }
+void OGLFrameBuffer::destroy() {
+  // auto uid = getUid().value();
+  // if (!helper_.isFramebuffer(uid)) {
+  //   return;
+  // }
 
-  helper_.deleteFramebuffers(1, &uid);
+  // helper_.deleteFramebuffers(1, &uid);
 }
 
-void OGLFramebuffer::bind() { helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, getUid()); }
+void OGLFrameBuffer::bind() { helper_.bindFramebuffer(GL_FRAMEBUFFER, getUid()); }
 
-void OGLFramebuffer::unbind() { helper_.bindFramebuffer(GL_FRAMEBUFFER_EXT, 0); }
+void OGLFrameBuffer::unbind() { helper_.bindFramebuffer(GL_FRAMEBUFFER, 0); }
 
-void OGLFramebuffer::attach(FramebufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels) {
-  bind();
+void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels) {
+  // bind();
   helper_.framebufferTexture2D(
-      GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, tex->getUid(), mipLevels);
-  unbind();
+      GL_FRAMEBUFFER, OGLFrameBuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, tex->getUid(), mipLevels);
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    std::cout << "ERROR: Failed to initialize FB" << std::endl;
+  }
+  // unbind();
 }
 
-void OGLFramebuffer::attach(FramebufferAttachment::Enum attachment, RenderBufferPtr_t buf) {
-  bind();
+void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, RenderBufferPtr_t buf) {
+  // bind();
   helper_.framebufferRenderbuffer(
-      GL_FRAMEBUFFER_EXT, OGLFramebuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, buf->getUid());
-  unbind();
+      GL_FRAMEBUFFER, OGLFrameBuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, buf->getUid());
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    std::cout << "ERROR: Failed to initialize FB" << std::endl;
+  }
+  // unbind();
 }
 
-void OGLFramebuffer::drawBuffers(i32_t num, const u32_t *bufs) { glDrawBuffers(num, bufs); }
+void OGLFrameBuffer::drawBuffers(i32_t num, const u32_t *bufs) { glDrawBuffers(num, bufs); }
 
 NS_END()  // namespace gapi
 NS_END()  // namespace sway

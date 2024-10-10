@@ -8,21 +8,21 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
-#define DECLARE_GENERIC_MEMBER(funcret, classname, funcname, ...)    \
-private:                                                             \
-  typedef funcret (classname::*funcname##CallbackFunc)(__VA_ARGS__); \
-  funcname##CallbackFunc funcname##_;                                \
-                                                                     \
-public:                                                              \
-  template <typename... Args>                                        \
-  funcret funcname(Args... args) {                                   \
-    return (this->*funcname##_)(std::forward<Args>(args)...);        \
+#define DECLARE_GENERIC_MEMBER(RET, OBJ, FUNC_NAME, ...)       \
+private:                                                       \
+  typedef RET (OBJ::*FUNC_NAME##CallbackFunc)(__VA_ARGS__);    \
+  FUNC_NAME##CallbackFunc FUNC_NAME##_;                        \
+                                                               \
+public:                                                        \
+  template <typename... ARGS>                                  \
+  RET FUNC_NAME(ARGS... args) {                                \
+    return (this->*FUNC_NAME##_)(std::forward<ARGS>(args)...); \
   }
 
-#define DECL_GENERIC_CALLBACK_FUNC(funcret, classname, funcname, ...) \
-private:                                                              \
-  typedef funcret (classname::*funcname##CallbackFunc)(__VA_ARGS__);  \
-  funcname##CallbackFunc funcname##_;
+#define DECL_GENERIC_CALLBACK_FUNC(RET, OBJ, FUNC_NAME, ...) \
+private:                                                     \
+  typedef RET (OBJ::*FUNC_NAME##CallbackFunc)(__VA_ARGS__);  \
+  FUNC_NAME##CallbackFunc FUNC_NAME##_;
 
 NS_END()  // namespace gapi
 NS_END()  // namespace sway

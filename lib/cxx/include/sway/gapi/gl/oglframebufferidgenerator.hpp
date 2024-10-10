@@ -1,8 +1,8 @@
-#ifndef SWAY_GAPI_GL_OGLBUFFERIDGENERATOR_HPP
-#define SWAY_GAPI_GL_OGLBUFFERIDGENERATOR_HPP
+#ifndef SWAY_GAPI_GL_OGLFRAMEBUFFERIDGENERATOR_HPP
+#define SWAY_GAPI_GL_OGLFRAMEBUFFERIDGENERATOR_HPP
 
 #include <sway/gapi/gl/prereqs.hpp>
-#include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
+#include <sway/gapi/gl/wrap/oglframebufferhelper.hpp>
 #include <sway/gapi/idgenerator.hpp>
 #include <sway/gapi/typedefs.hpp>
 
@@ -11,7 +11,7 @@ NS_BEGIN(gapi)
 
 #define BUFFER_IDS_CHUNK_CAPACITY 10
 
-class OGLBufferIdGenerator : public ObjectUidQueue_t, public IdGenerator {
+class OGLFrameBufferIdGenerator : public ObjectUidQueue_t, public IdGenerator {
 public:
 #pragma region "Static methods"
 
@@ -21,11 +21,11 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  OGLBufferIdGenerator();
+  OGLFrameBufferIdGenerator();
 
-  OGLBufferIdGenerator(OGLGenericBufferHelperIface &helper);
+  OGLFrameBufferIdGenerator(OGLFrameBufferHelperIface &helper);
 
-  virtual ~OGLBufferIdGenerator();
+  virtual ~OGLFrameBufferIdGenerator();
 
 #pragma endregion
 
@@ -33,7 +33,7 @@ public:
   auto getNextUid() -> ObjectUid_t;
 
 private:
-  OGLGenericBufferHelperIface *helper_;
+  OGLFrameBufferHelperIface *helper_;
   ObjectUidVec_t used_;
   i32_t chunkCapacity_;
 };
@@ -41,4 +41,4 @@ private:
 NS_END()  // namespace gapi
 NS_END()  // namespace sway
 
-#endif  // SWAY_GAPI_GL_OGLBUFFERIDGENERATOR_HPP
+#endif  // SWAY_GAPI_GL_OGLFRAMEBUFFERIDGENERATOR_HPP

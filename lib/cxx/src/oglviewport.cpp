@@ -29,7 +29,7 @@ auto OGLViewport::aspect() const -> f32_t {
 }
 
 void OGLViewport::setClearColor(const math::col4f_t &col) {
-  clearColor_ = math::col4f_t(col.getR() / 255.0F, col.getG() / 255.0F, col.getB() / 255.0F, 1.0F);
+  clearColor_ = math::col4f_t(col.getR() / 255.0F, col.getG() / 255.0F, col.getB() / 255.0F, col.getA() / 255.0F);
 }
 
 void OGLViewport::clear(ClearFlag flags) {

@@ -1,26 +1,26 @@
-#include <sway/gapi/gl/oglbufferidgenerator.hpp>
+#include <sway/gapi/gl/oglgenericbufferidgenerator.hpp>
 
 #include <algorithm>
 
 NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
-auto OGLBufferIdGenerator::createInstance() -> IdGeneratorPtr_t { return new OGLBufferIdGenerator(); }
+auto OGLGenericBufferIdGenerator::createInstance() -> IdGeneratorPtr_t { return new OGLGenericBufferIdGenerator(); }
 
-OGLBufferIdGenerator::OGLBufferIdGenerator()
+OGLGenericBufferIdGenerator::OGLGenericBufferIdGenerator()
     : helper_(new OGLGenericBufferHelper())
     , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
-OGLBufferIdGenerator::OGLBufferIdGenerator(OGLGenericBufferHelperIface &helper)
+OGLGenericBufferIdGenerator::OGLGenericBufferIdGenerator(OGLGenericBufferHelperIface &helper)
     : helper_(&helper)
     , chunkCapacity_(BUFFER_IDS_CHUNK_CAPACITY) {}
 
-OGLBufferIdGenerator::~OGLBufferIdGenerator() {
+OGLGenericBufferIdGenerator::~OGLGenericBufferIdGenerator() {
   helper_->deleteBuffers(used_.size(), used_.data());
   used_.clear();
 }
 
-auto OGLBufferIdGenerator::getNextUid() -> ObjectUid_t {
+auto OGLGenericBufferIdGenerator::getNextUid() -> ObjectUid_t {
   if (this->empty()) {
     auto *uids = new ObjectUid_t[chunkCapacity_];
     helper_->generateBuffers(used_.empty() ? 0 : *std::max_element(used_.begin(), used_.end()), chunkCapacity_, uids);

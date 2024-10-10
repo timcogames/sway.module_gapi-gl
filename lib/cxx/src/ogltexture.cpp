@@ -25,7 +25,7 @@ void OGLTexture::create(const TextureCreateInfo &createInfo) {
   bind();
   helper_->textureImage2D(target_, createInfo.mipLevels, createInfo.internalFormat, createInfo.size, 0,
       createInfo.format, createInfo.dataType, createInfo.pixels);
-  unbind();
+  // unbind();
 }
 
 void OGLTexture::updateSubdata(TextureSubdataDescriptor desc) {
