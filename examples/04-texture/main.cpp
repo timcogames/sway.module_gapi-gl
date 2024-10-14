@@ -97,17 +97,30 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   vtxAttribLayout->addAttribute(
       gapi::VertexAttribDescriptor::merge<math::vec2f_t>(gapi::VertexSemantic::TEXCOORD_0, false, true));
 
+  auto depth = 4;
   auto size = math::size2i_t(64, 64);
-  std::vector<u8_t> image(size.getW() * size.getH() * 4);
+  std::vector<u8_t> image(size.getW() * size.getH() * depth);
   for (auto y = 0; y < size.getH(); y++) {
     for (auto x = 0; x < size.getW(); x++) {
       auto col = (((x & 0x8) == 0) ^ ((y & 0x8) == 0)) * 255;
-      image[(y * size.getW() + x) * 4 + 0] = (u8_t)col;
-      image[(y * size.getW() + x) * 4 + 1] = (u8_t)col;
-      image[(y * size.getW() + x) * 4 + 2] = (u8_t)col;
-      image[(y * size.getW() + x) * 4 + 3] = 255;
+      image[(y * size.getW() + x) * depth + 0] = (u8_t)col;
+      image[(y * size.getW() + x) * depth + 1] = (u8_t)col;
+      image[(y * size.getW() + x) * depth + 2] = (u8_t)col;
+      image[(y * size.getW() + x) * depth + 3] = 255;
     }
   }
+
+  // s8_t *texdata = new s8_t[depth * wdt * hgt];
+  // for (auto y = 0; y < hgt; ++y) {
+  //   for (auto x = 0; x < wdt; ++x) {
+  //     i32_t c = (((y & 0x8) == 0) ^ ((x & 0x8)) == 0) * 255;
+
+  //     texdata[y * wdt * depth + x * depth + 0] = c;  // red
+  //     texdata[y * wdt * depth + x * depth + 1] = c;  // green
+  //     texdata[y * wdt * depth + x * depth + 2] = c;  // blue
+  //     texdata[y * wdt * depth + x * depth + 3] = 255;  // alpha
+  //   }
+  // }
 
   gapi::TextureCreateInfo createInfo;
   createInfo.target = gapi::TextureTarget::Enum::TEX_2D;
@@ -119,6 +132,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   createInfo.pixels = (s8_t *)image.data();
   createInfo.mipLevels = 0;
   // createInfo.sampleCount
+
+  // SAFE_DELETE_ARRAY(texdata);
 
   texIdgen = functions->createTextureIdGenerator();
 
