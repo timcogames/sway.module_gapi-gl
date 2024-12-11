@@ -10,23 +10,41 @@ NS_BEGIN(gapi)
 
 class OGLVertexArray final : public VertexArray {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> VertexArrayPtr_t;
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
+  /**
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLVertexArray();
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  virtual ~OGLVertexArray();
+  DTOR_VIRTUAL(OGLVertexArray);
+
+#pragma endregion
+
+#pragma region "Overridden VertexArray methods"
 
   MTHD_OVERRIDE(void bind());
 
   MTHD_OVERRIDE(void unbind());
+
+#pragma endregion
 
 private:
   OGLVertexArrayHelper helper_;

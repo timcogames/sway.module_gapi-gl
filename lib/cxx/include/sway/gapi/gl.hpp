@@ -12,12 +12,12 @@
 #include <sway/gapi/gl/ogldepthstate.hpp>
 #include <sway/gapi/gl/ogldrawcall.hpp>
 #include <sway/gapi/gl/oglframebuffer.hpp>
-#include <sway/gapi/gl/oglframebufferidgenerator.hpp>
 #include <sway/gapi/gl/oglfrontfaceconvertor.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 #include <sway/gapi/gl/oglgenericbufferidgenerator.hpp>
 #include <sway/gapi/gl/oglgenericshader.hpp>
 #include <sway/gapi/gl/oglgenericshadertypeconvertor.hpp>
+#include <sway/gapi/gl/oglidgenerator.hpp>
 #include <sway/gapi/gl/oglpixelformatconvertor.hpp>
 #include <sway/gapi/gl/oglpixelstoragemodeconvertor.hpp>
 #include <sway/gapi/gl/oglrasterizerstate.hpp>

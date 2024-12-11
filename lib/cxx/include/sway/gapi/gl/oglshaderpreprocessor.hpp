@@ -45,15 +45,37 @@ public:
   using CompilerDefinitionContainer_t = std::map<std::string, std::string>;
   using ParameterContainer_t = std::map<std::string, std::string>;
 
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(u32_t major, lpcstr_t profile) -> ShaderPreprocessor::Ptr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   OGLShaderPreprocessor(const core::Version &version);
 
-  virtual ~OGLShaderPreprocessor() = default;
+  DTOR_VIRTUAL_DEFAULT(OGLShaderPreprocessor);
+
+#pragma endregion
+
+#pragma region "Overridden ShaderPreprocessor methods"
 
   MTHD_OVERRIDE(void addDefine(const std::string &name, const std::string &val = std::string()));
 
   MTHD_OVERRIDE(auto hasDefined(const std::string &name) const -> bool);
+
+#pragma endregion
 
   void evaluate(std::ostream &into);
 

@@ -10,19 +10,41 @@ NS_BEGIN(gapi)
 
 class OGLTextureSampler : public TextureSampler {
 public:
+#pragma region "Static methods"
+
   static auto filterToGLenum(TextureFilter::Enum filter) -> GLenum;
 
   static auto wrapToGLenum(TextureWrap::Enum wrap) -> GLenum;
 
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(TexturePtr_t texture) -> TextureSamplerPtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   OGLTextureSampler(TexturePtr_t texture);
 
-  virtual ~OGLTextureSampler();
+  DTOR_VIRTUAL(OGLTextureSampler);
+
+#pragma endregion
+
+#pragma region "Overridden TextureSampler methods"
 
   MTHD_OVERRIDE(void setWrapMode(TextureWrap::Enum wrapS, TextureWrap::Enum wrapT, TextureWrap::Enum wrapR));
 
   MTHD_OVERRIDE(void setFilterMode(TextureFilter::Enum minFilter, TextureFilter::Enum magFilter));
+
+#pragma endregion
 
 private:
   OGLTextureHelper *helper_;

@@ -14,15 +14,31 @@ NS_BEGIN(gapi)
 
 class OGLTexture : public Texture {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(IdGeneratorPtr_t idgen, const TextureCreateInfo &createInfo) -> TexturePtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
 
 #pragma region "Ctors/Dtor"
 
   OGLTexture(IdGeneratorPtr_t idgen, TextureTarget::Enum target);
 
-  virtual ~OGLTexture() = default;
+  DTOR_VIRTUAL_DEFAULT(OGLTexture);
 
 #pragma endregion
+
+#pragma region "Overridden Texture methods"
 
   MTHD_OVERRIDE(void create(const TextureCreateInfo &createInfo));
 
@@ -37,6 +53,8 @@ public:
   MTHD_OVERRIDE(void unbind());
 
   MTHD_OVERRIDE(auto getTarget() -> TextureTarget::Enum) { return target_; }
+
+#pragma endregion
 
 private:
   OGLTextureHelper *helper_;

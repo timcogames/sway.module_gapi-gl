@@ -20,23 +20,42 @@ struct DrawArrays {
 
 class OGLDrawCall : public DrawCall {
 public:
-#pragma region "Преобразование внутренних типов к GLenum"
+#pragma region "Static methods"
 
   /**
-   * @brief Переводит тип топологии (режим отображение примитива) в GL.
+   * \~russian @brief Преобразует TopologyType в соответствующий GLenum.
+   *
+   * @param[in] topology Внутренний тип TopologyType.
+   * @return GLenum
    */
-  static GLenum topologyToGLenum(TopologyType::Enum topology);
+  static auto topologyToGLenum(TopologyType::Enum topology) -> GLenum;
 
 #pragma endregion
 
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> DrawCallPtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma region "Ctors/Dtor"
 
   OGLDrawCall() = default;
 
-  virtual ~OGLDrawCall() = default;
+  DTOR_VIRTUAL_DEFAULT(OGLDrawCall);
+
+#pragma endregion
+
+#pragma region "Overridden DrawCall methods"
 
   /**
-   * @brief Выполняет отрисовку примитива.
+   * \~russian @brief Выполняет отрисовку примитива.
    *
    * @param[in] topology Топология примитива.
    * @param[in] bufset Набор буферных объектов.
@@ -44,16 +63,18 @@ public:
    */
   MTHD_OVERRIDE(void execute(TopologyType::Enum topology, BufferSet bufset, core::ValueDataType::Enum type));
 
+#pragma endregion
+
 private:
   /**
-   * @brief Выводит примитивы по данным в массивах.
+   * \~russian @brief Выводит примитивы по данным в массивах.
    *
    * @sa drawIndexed_(BufferPtr_t)
    */
   void draw_(BufferPtr_t ebo);
 
   /**
-   * @brief Выводит индексные примитивы по данным в массивах.
+   * \~russian @brief Выводит индексные примитивы по данным в массивах.
    *
    * @sa draw_(BufferPtr_t)
    */

@@ -13,8 +13,8 @@ NS_BEGIN(gapi)
 class OGLShaderException : public core::runtime::Exception {
 public:
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderException(u32_t objectId)
       : core::runtime::Exception([this, objectId]() -> std::string {
@@ -51,8 +51,8 @@ private:
 class OGLShaderCompilationException : public OGLShaderException {
 public:
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderCompilationException(u32_t objectId)
       : OGLShaderException(objectId) {
@@ -63,8 +63,8 @@ public:
 class OGLShaderProgramLinkageException : public OGLShaderException {
 public:
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderProgramLinkageException(u32_t objectId)
       : OGLShaderException(objectId) {
@@ -75,8 +75,8 @@ public:
 class OGLShaderProgramValidationException : public OGLShaderException {
 public:
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderProgramValidationException(u32_t objectId)
       : OGLShaderException(objectId) {

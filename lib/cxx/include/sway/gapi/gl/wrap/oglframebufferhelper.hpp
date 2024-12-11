@@ -7,42 +7,11 @@
 NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
-class OGLFrameBufferHelperIface {
-public:
-  DTOR_VIRTUAL_DEFAULT(OGLFrameBufferHelperIface);
-
-  PURE_VIRTUAL(void generateFramebuffers(u32_t latest, i32_t num, u32_t *uids));
-
-  PURE_VIRTUAL(void deleteFramebuffers(i32_t num, u32_t *uids));
-};
-
-class OGLFrameBufferHelper : public OGLFrameBufferHelperIface {
+class OGLFrameBufferHelper {
 public:
   OGLFrameBufferHelper();
 
   DTOR_VIRTUAL_DEFAULT(OGLFrameBufferHelper);
-
-  // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLFrameBufferHelper, generateFramebuffers, u32_t, i32_t, ObjectUid_t *)
-  MTHD_VIRTUAL(void generateFramebuffers(u32_t latest, i32_t num, ObjectUid_t *uids) { 
-     (this->*generateFramebuffers_)(latest, num, uids); 
-  });
-  // clang-format on
-
-  void EMU_GenerateFramebuffers(u32_t latest, i32_t num, ObjectUid_t *uids);
-  void STD_GenerateFramebuffers(u32_t latest, i32_t num, ObjectUid_t *uids);
-  void EXT_GenerateFramebuffers(u32_t latest, i32_t num, ObjectUid_t *uids);
-
-  // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLFrameBufferHelper, deleteFramebuffers, i32_t,const ObjectUid_t *)
-  MTHD_VIRTUAL(void deleteFramebuffers(i32_t num, ObjectUid_t *uids) { 
-     (this->*deleteFramebuffers_)(num, uids); 
-  });
-  // clang-format on
-
-  void EMU_DeleteFramebuffers(i32_t num, const ObjectUid_t *uids);
-  void STD_DeleteFramebuffers(i32_t num, const ObjectUid_t *uids);
-  void EXT_DeleteFramebuffers(i32_t num, const ObjectUid_t *uids);
 
   DECLARE_GENERIC_MEMBER(void, OGLFrameBufferHelper, bindFramebuffer, u32_t, std::optional<u32_t>)
   void EMU_BindFramebuffer(u32_t target, std::optional<u32_t> framebuffer);

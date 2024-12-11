@@ -15,14 +15,31 @@ NS_BEGIN(gapi)
 
 class OGLTextureIdGenerator : public ObjectUidQueue_t, public IdGenerator {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> IdGeneratorPtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   OGLTextureIdGenerator();
 
-  virtual ~OGLTextureIdGenerator();
+  DTOR_VIRTUAL(OGLTextureIdGenerator);
 
-  [[nodiscard]]
-  auto getNextUid() -> ObjectUid_t;
+#pragma endregion
+
+  [[nodiscard]] auto getNextUid() -> ObjectUid_t;
 
 private:
   OGLTextureHelper helper_;

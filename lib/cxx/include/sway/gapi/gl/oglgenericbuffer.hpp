@@ -16,39 +16,57 @@ NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
 /**
- * @brief Представление аппаратного буфера.
+ * \~russian @brief Представление аппаратного буфера.
  */
 class OGLGenericBuffer final : public Buffer {
 public:
-#pragma region "Преобразование внутренних типов к GLenum"
+#pragma region "Static methods"
 
-  static auto usageToGLenum(BufferUsage::Enum usage) -> GLenum;
+  /**
+   * \~russian @brief Преобразует BufferUsage в соответствующий GLenum.
+   *
+   * @param[in] usage Внутренний тип BufferUsage
+   * @return GLenum
+   */
+  static auto usageToGLenum(BufferUsage::Enum usage) -> GLenum { return OGLBufferUsageConvertor::toGLenum(usage); }
 
 #pragma endregion
 
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo) -> BufferPtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
 
 #pragma region "Ctors/Dtor"
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc);
 
-  virtual ~OGLGenericBuffer() { std::cout << "DCTOR" << std::endl; }
+  DTOR_VIRTUAL_DEFAULT(OGLGenericBuffer);
 
 #pragma endregion
 
+#pragma region "Overridden Buffer methods"
+
   /**
-   * @brief Устанавливает данные в аппаратный буфер.
+   * \~russian @brief Устанавливает данные в аппаратный буфер.
    *
    * @param[in] data Первоначальный данные.
    */
   MTHD_OVERRIDE(auto allocate(const void *data) -> bool);
 
   /**
-   * @brief Изменяет данные в уже существующем буфере.
+   * \~russian @brief Изменяет данные в уже существующем буфере.
    *
    * @param[in] desc Описание конкретной заполняемой области.
    * @sa updateSubdata(const void *)
@@ -56,7 +74,7 @@ public:
   MTHD_OVERRIDE(void updateSubdata(BufferSubdataDescriptor desc));
 
   /**
-   * @brief Изменяет данные в уже существующем буфере.
+   * \~russian @brief Изменяет данные в уже существующем буфере.
    *
    * @param[in] src Область памяти, содержащая новые значения.
    * @sa updateSubdata(u32_t, u32_t, const void *)
@@ -67,54 +85,56 @@ public:
 
   MTHD_OVERRIDE(auto map(BufferMapAccess::Enum flags) -> void *);
 
-  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t len,
-                    core::detail::EnumClassBitset<BufferMapRangeAccess::Enum> bitset) -> void *);
+  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess::Enum> bitset)
+          -> void *);
 
   MTHD_OVERRIDE(void unmap());
 
   MTHD_OVERRIDE(void bindRange(u32_t buffer, ptrdiff_t offset, ptrdiff_t size));
 
   /**
-   * @brief Делает буфер текущим.
+   * \~russian @brief Делает буфер текущим.
    *
    * @sa unbind()
    */
   MTHD_OVERRIDE(void bind());
 
   /**
-   * @brief Делает текущим пустой буфер.
+   * \~russian @brief Делает текущим пустой буфер.
    *
    * @sa bind()
    */
   MTHD_OVERRIDE(void unbind());
 
   /**
-   * @brief Получает целевой тип буфера.
+   * \~russian @brief Получает целевой тип буфера.
    */
   MTHD_OVERRIDE(auto getTarget() const -> BufferTarget::Enum) {
     return target_;
   }
 
   /**
-   * @brief Получает режим работы с данными.
+   * \~russian @brief Получает режим работы с данными.
    */
   MTHD_OVERRIDE(auto getUsage() const -> BufferUsage::Enum) {
     return usage_;
   }
 
   /**
-   * @brief Получает количество элементов в массиве.
+   * \~russian @brief Получает количество элементов в массиве.
    */
   MTHD_OVERRIDE(auto getCapacity() const -> i32_t) {
     return capacity_;
   }
 
   /**
-   * @brief Получает размер структуры данных.
+   * \~russian @brief Получает размер структуры данных.
    */
   MTHD_OVERRIDE(auto getByteStride() const -> i32_t) {
     return byteStride_;
   }
+
+#pragma endregion
 
 private:
   OGLGenericBufferHelper helper_;

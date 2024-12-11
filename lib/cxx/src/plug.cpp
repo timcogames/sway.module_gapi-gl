@@ -25,7 +25,8 @@ D_MODULE_GAPI_GL_INTERFACE_EXPORT_API void pluginInitialize(core::PluginFunction
   static_cast<ConcreatePluginFunctionSet *>(functions)->createBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLGenericBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createFrameBufferIdGenerator =
-      reinterpret_cast<core::binding::ProcAddress_t>(OGLFrameBufferIdGenerator::createInstance);
+      reinterpret_cast<core::binding::ProcAddress_t>(
+          OGLIdGenerator<IdGeneratorType::Enum::FRAME_BUFFER>::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createFrameBuffer =
       reinterpret_cast<core::binding::ProcAddress_t>(OGLFrameBuffer::createInstance);
   static_cast<ConcreatePluginFunctionSet *>(functions)->createRenderBuffer =

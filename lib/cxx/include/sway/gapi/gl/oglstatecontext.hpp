@@ -10,11 +10,31 @@ NS_BEGIN(gapi)
 
 class OGLStateContext : public StateContext {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> StateContextPtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   OGLStateContext();
 
-  virtual ~OGLStateContext() = default;
+  DTOR_VIRTUAL_DEFAULT(OGLStateContext);
+
+#pragma endregion
+
+#pragma region "Overridden StateContext methods"
 
   MTHD_OVERRIDE(void setCapabilityEnable(StateCapability::Enum cap, bool enable));
 
@@ -47,6 +67,8 @@ public:
   MTHD_OVERRIDE(void setStencilOp(StencilOp::Enum fail, StencilOp::Enum depthFail, StencilOp::Enum depthPass));
 
   MTHD_OVERRIDE(void setPolygonMode(PolygonMode::Enum mode));
+
+#pragma endregion
 };
 
 NS_END()  // namespace gapi

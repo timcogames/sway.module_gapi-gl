@@ -8,26 +8,42 @@ NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
 /**
- * @brief Представление шейдерной программы.
+ * \~russian @brief Представление шейдерной программы.
  */
 class OGLShaderProgram final : public ShaderProgram {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> ShaderProgramPtr_t;
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
+  /**
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderProgram();
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  virtual ~OGLShaderProgram();
+  DTOR_VIRTUAL(OGLShaderProgram);
+
+#pragma endregion
+
+#pragma region "Overridden ShaderProgram methods"
 
   /**
-   * @brief Связывает шейдерный объект с программным объектом.
+   * \~russian @brief Связывает шейдерный объект с программным объектом.
    *
    * @param[in] shader Указатель на связываемый шейдерный объект.
    * @sa detach(std::pair<ShaderType::Enum, ShaderPtr_t>)
@@ -35,7 +51,7 @@ public:
   MTHD_OVERRIDE(void attach(ShaderPtr_t shader));
 
   /**
-   * @brief Отсоединяет шейдерный объект от программного объекта.
+   * \~russian @brief Отсоединяет шейдерный объект от программного объекта.
    *
    * @param[in] objectId Указатель на отвязываемый шейдерный объект.
    * @sa attach(ShaderPtr_t)
@@ -45,14 +61,14 @@ public:
   MTHD_OVERRIDE(auto getShader(ShaderType::Enum type) -> ShaderPtr_t);
 
   /**
-   * @brief Компонует программный объект.
+   * \~russian @brief Компонует программный объект.
    *
    * @sa isLinked() const
    */
   MTHD_OVERRIDE(void link());
 
   /**
-   * @brief Возвращает статус компоновки.
+   * \~russian @brief Возвращает статус компоновки.
    *
    * @sa link()
    */
@@ -61,14 +77,14 @@ public:
   }
 
   /**
-   * @brief Проверяет скомпоновонный объект на корректность.
+   * \~russian @brief Проверяет скомпоновонный объект на корректность.
    *
    * @sa isValidated() const
    */
   MTHD_OVERRIDE(void validate());
 
   /**
-   * @brief Возвращает статус корректности скомпоновоного объекта.
+   * \~russian @brief Возвращает статус корректности скомпоновоного объекта.
    *
    * @sa validate()
    */
@@ -77,7 +93,7 @@ public:
   }
 
   /**
-   * @brief Делает шейдерную программу активной.
+   * \~russian @brief Делает шейдерную программу активной.
    *
    * @sa unuse(),
    *     isUsed() const
@@ -85,7 +101,7 @@ public:
   MTHD_OVERRIDE(void use());
 
   /**
-   * @brief Деактивирует шейдерную программу.
+   * \~russian @brief Деактивирует шейдерную программу.
    *
    * @sa use(),
    *     isUsed() const
@@ -93,8 +109,8 @@ public:
   MTHD_OVERRIDE(void unuse());
 
   /**
-   * @brief Возвращает логическое значение, которое определяет,
-   *        является ли шейдерная программа активной в текущем состоянии рендеринга.
+   * \~russian @brief Возвращает логическое значение, которое определяет,
+   *                  является ли шейдерная программа активной в текущем состоянии рендеринга.
    *
    * @sa use(),
    *     unuse()
@@ -102,7 +118,7 @@ public:
   MTHD_OVERRIDE(auto isUsed() const -> bool);
 
   /**
-   * @brief Передает значение uniform-переменной в шейдер.
+   * \~russian @brief Передает значение uniform-переменной в шейдер.
    *
    * @param[in] uniform Имя uniform-переменной.
    * @param[in] vec Значение uniform-переменной.
@@ -110,7 +126,7 @@ public:
   MTHD_OVERRIDE(void setUniformVec4f(const std::string &uniform, const math::vec4f_t &vec));
 
   /**
-   * @brief Передает значение uniform-переменной в шейдер.
+   * \~russian @brief Передает значение uniform-переменной в шейдер.
    *
    * @param[in] uniform Имя uniform-переменной.
    * @param[in] col Значение uniform-переменной.
@@ -122,6 +138,8 @@ public:
   MTHD_OVERRIDE(void setUniform1i(const std::string &uniform, i32_t val));
 
   MTHD_OVERRIDE(void setUniform1f(const std::string &uniform, f32_t val));
+
+#pragma endregion
 
 private:
   OGLShaderProgramHelper *helper_;

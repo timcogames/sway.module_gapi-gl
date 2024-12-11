@@ -14,7 +14,7 @@ class OGLGenericBufferHelperIface {
 public:
   virtual ~OGLGenericBufferHelperIface() = default;
 
-  PURE_VIRTUAL(void generateBuffers(u32_t latest, u32_t num, u32_t *uids));
+  PURE_VIRTUAL(void generateBuffers(ObjectUid_t latest, u32_t num, ObjectUid_t *uids));
 
   PURE_VIRTUAL(void deleteBuffers(u32_t num, u32_t *uids));
 };
@@ -26,18 +26,18 @@ public:
   virtual ~OGLGenericBufferHelper() = default;
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, generateBuffers, u32_t, u32_t, ObjectUid_t *)
-  MTHD_VIRTUAL(void generateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids) { 
+  DECLARE_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, generateBuffers, ObjectUid_t, u32_t, ObjectUid_t *)
+  MTHD_VIRTUAL(void generateBuffers(ObjectUid_t latest, u32_t num, ObjectUid_t *uids) { 
      (this->*generateBuffers_)(latest, num, uids); 
   });
   // clang-format on
 
-  void EMU_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids);
-  void STD_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids);
-  void ARB_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids);
+  void EMU_GenerateBuffers(ObjectUid_t latest, u32_t num, ObjectUid_t *uids);
+  void STD_GenerateBuffers(ObjectUid_t latest, u32_t num, ObjectUid_t *uids);
+  void ARB_GenerateBuffers(ObjectUid_t latest, u32_t num, ObjectUid_t *uids);
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, deleteBuffers, u32_t, ObjectUid_t *)
+  DECLARE_GENERIC_CALLBACK_FUNC(void, OGLGenericBufferHelper, deleteBuffers, u32_t, ObjectUid_t *)
   MTHD_VIRTUAL(void deleteBuffers(u32_t num, ObjectUid_t *uids) { 
      (this->*deleteBuffers_)(num, uids); 
   });

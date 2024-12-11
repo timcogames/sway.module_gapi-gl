@@ -19,22 +19,36 @@ using UniformStackPtr_t = struct UniformStack *;
 
 class OGLUniform final : public UniformStack {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(std::optional<u32_t> programId, const std::string &name) -> UniformStackPtr_t;
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
+  /**
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLUniform(std::optional<u32_t> programId, const std::string &name) {
     // glGetActiveUniform
     auto location = helper_.getUniformLocation(programId.value(), name.c_str());
   }
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  virtual ~OGLUniform() = default;
+  DTOR_VIRTUAL_DEFAULT(OGLUniform);
+
+#pragma endregion
 
 private:
   OGLShaderProgramHelper helper_;

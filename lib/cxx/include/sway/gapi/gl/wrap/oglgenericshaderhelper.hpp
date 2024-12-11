@@ -31,7 +31,7 @@ public:
   virtual ~OGLGenericShaderHelper() = default;
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(u32_t, OGLGenericShaderHelper, createShader, u32_t)
+  DECLARE_GENERIC_CALLBACK_FUNC(u32_t, OGLGenericShaderHelper, createShader, u32_t)
   MTHD_VIRTUAL(auto createShader(u32_t type) -> u32_t { 
     return (this->*createShader_)(type); 
   });
@@ -42,7 +42,7 @@ public:
   auto ARB_CreateShader(u32_t type) -> u32_t;
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, deleteShader, std::optional<u32_t>)
+  DECLARE_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, deleteShader, std::optional<u32_t>)
   MTHD_VIRTUAL(void deleteShader(std::optional<u32_t> obj) { 
     return (this->*deleteShader_)(obj); 
   });
@@ -53,7 +53,7 @@ public:
   void ARB_DeleteShader(std::optional<u32_t> obj);
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, i32_t, lpcstr_t *, const i32_t *)
+  DECLARE_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, shaderSource, std::optional<u32_t>, i32_t, lpcstr_t *, const i32_t *)
   MTHD_VIRTUAL(void shaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len) {
     return (this->*shaderSource_)(obj, count, str, len);
   });
@@ -64,7 +64,7 @@ public:
   void ARB_ShaderSource(std::optional<u32_t> obj, i32_t count, lpcstr_t *str, const i32_t *len);
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, i32_t *)
+  DECLARE_GENERIC_CALLBACK_FUNC(void, OGLGenericShaderHelper, compileShader, std::optional<u32_t>, i32_t *)
   MTHD_VIRTUAL(void compileShader(std::optional<u32_t> obj, i32_t *status) { 
     return (this->*compileShader_)(obj, status); 
   });
@@ -75,7 +75,7 @@ public:
   void ARB_CompileShader(std::optional<u32_t> obj, i32_t *status);
 
   // clang-format off
-  DECL_GENERIC_CALLBACK_FUNC(i32_t, OGLGenericShaderHelper, getAttribLocation, u32_t, lpcstr_t)
+  DECLARE_GENERIC_CALLBACK_FUNC(i32_t, OGLGenericShaderHelper, getAttribLocation, u32_t, lpcstr_t)
   MTHD_VIRTUAL(auto getAttribLocation(u32_t program, lpcstr_t name) -> i32_t { 
     return (this->*getAttribLocation_)(program, name);
   });

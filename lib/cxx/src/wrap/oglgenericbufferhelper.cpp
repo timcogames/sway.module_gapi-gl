@@ -70,17 +70,17 @@ OGLGenericBufferHelper::OGLGenericBufferHelper() {
 #endif
 }
 
-void OGLGenericBufferHelper::EMU_GenerateBuffers(u32_t latest, u32_t num, ObjectUid_t *uids) {
+void OGLGenericBufferHelper::EMU_GenerateBuffers(ObjectUid_t latest, u32_t num, ObjectUid_t *uids) {
   for (auto i = 0; i < (i32_t)num; ++i) {
     uids[i] = i + latest + 1;
   }
 }
 
-void OGLGenericBufferHelper::STD_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, ObjectUid_t *uids) {
+void OGLGenericBufferHelper::STD_GenerateBuffers([[maybe_unused]] ObjectUid_t latest, u32_t num, ObjectUid_t *uids) {
   glGenBuffers(num, uids);
 }
 
-void OGLGenericBufferHelper::ARB_GenerateBuffers([[maybe_unused]] u32_t latest, u32_t num, ObjectUid_t *uids) {
+void OGLGenericBufferHelper::ARB_GenerateBuffers([[maybe_unused]] ObjectUid_t latest, u32_t num, ObjectUid_t *uids) {
   OGLBufferExtension::glGenBuffersARB(num, uids);
 }
 

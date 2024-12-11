@@ -11,36 +11,50 @@ NS_BEGIN(gapi)
 
 class OGLVertexAttribLayout final : public VertexAttribLayout {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(ShaderProgramPtr_t program) -> VertexAttribLayoutPtr_t;
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
+  /**
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] progId Идентификатор шейдерной программы.
    */
   OGLVertexAttribLayout(ShaderProgramPtr_t program);
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  virtual ~OGLVertexAttribLayout();
+  DTOR_VIRTUAL(OGLVertexAttribLayout);
+
+#pragma endregion
 
   /**
-   * @brief Добавляет вершинный атрибут.
+   * \~russian @brief Добавляет вершинный атрибут.
    *
    * @param[in] desc Описание вершинного атрибута.
    */
   MTHD_OVERRIDE(void addAttribute(VertexAttribDescriptor desc));
 
   /**
-   * @brief Включает чтение атрибутов.
+   * \~russian @brief Включает чтение атрибутов.
    */
   MTHD_OVERRIDE(void enable());
 
   /**
-   * @brief Отключает чтение атрибутов.
+   * \~russian @brief Отключает чтение атрибутов.
    */
   MTHD_OVERRIDE(void disable());
 

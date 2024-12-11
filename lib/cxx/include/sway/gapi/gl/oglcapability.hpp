@@ -9,26 +9,44 @@ NS_BEGIN(gapi)
 
 class OGLCapability : public Capability {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> CapabilityPtr_t;
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
+  /**
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLCapability();
 
-  /**
-   * @brief Деструктор класса.
-   */
-  virtual ~OGLCapability() = default;
+  DTOR_VIRTUAL_DEFAULT(OGLCapability);
+
+#pragma endregion
+
+#pragma region "Overridden Capability methods"
 
   /**
-   * @brief Возвращает версию OpenGL.
+   * \~russian @brief Возвращает версию OpenGL.
    */
   MTHD_OVERRIDE(auto getVersion() const -> core::Version);
 
-  [[nodiscard]]
-  auto toStr() const -> std::string;
+#pragma endregion
+
+  [[nodiscard]] auto toStr() const -> std::string;
 
   static auto getExtensions() -> lpcstr_t { return reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS)); }
 
@@ -43,12 +61,12 @@ public:
 
 private:
   /**
-   * @brief Инициализирует версию.
+   * \~russian @brief Инициализирует версию.
    */
   void initializeVersion_();
 
   /**
-   * @brief Инициализирует расширения.
+   * \~russian @brief Инициализирует расширения.
    */
   void initializeExtensions_();
 

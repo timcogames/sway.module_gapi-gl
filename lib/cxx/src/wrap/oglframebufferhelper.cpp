@@ -7,8 +7,6 @@ NS_BEGIN(gapi)
 
 OGLFrameBufferHelper::OGLFrameBufferHelper() {
 #ifdef _STUB
-  generateFramebuffers_ = &OGLFrameBufferHelper::EMU_GenerateFramebuffers;
-  deleteFramebuffers_ = &OGLFrameBufferHelper::EMU_DeleteFramebuffers;
   bindFramebuffer_ = &OGLFrameBufferHelper::EMU_BindFramebuffer;
   isFramebuffer_ = &OGLFrameBufferHelper::EMU_IsFramebuffer;
   framebufferTexture2D_ = &OGLFrameBufferHelper::EMU_FramebufferTexture2D;
@@ -19,8 +17,6 @@ OGLFrameBufferHelper::OGLFrameBufferHelper() {
 
   const auto *extensions = OGLCapability::getExtensions();
   if (OGLCapability::isExtensionSupported(extensions, "GL_EXT_direct_state_access")) {
-    generateFramebuffers_ = &OGLFrameBufferHelper::EXT_GenerateFramebuffers;
-    deleteFramebuffers_ = &OGLFrameBufferHelper::EXT_DeleteFramebuffers;
     bindFramebuffer_ = &OGLFrameBufferHelper::EXT_BindFramebuffer;
     isFramebuffer_ = &OGLFrameBufferHelper::EXT_IsFramebuffer;
     framebufferTexture2D_ = &OGLFrameBufferHelper::EXT_FramebufferTexture2D;
@@ -28,8 +24,6 @@ OGLFrameBufferHelper::OGLFrameBufferHelper() {
     checkFramebufferStatus_ = &OGLFrameBufferHelper::EXT_CheckFramebufferStatus;
     getFramebufferAttachmentParamI_ = &OGLFrameBufferHelper::EXT_GetFramebufferAttachmentParamI;
   } else {
-    generateFramebuffers_ = &OGLFrameBufferHelper::STD_GenerateFramebuffers;
-    deleteFramebuffers_ = &OGLFrameBufferHelper::STD_DeleteFramebuffers;
     bindFramebuffer_ = &OGLFrameBufferHelper::STD_BindFramebuffer;
     isFramebuffer_ = &OGLFrameBufferHelper::STD_IsFramebuffer;
     framebufferTexture2D_ = &OGLFrameBufferHelper::STD_FramebufferTexture2D;
@@ -39,31 +33,6 @@ OGLFrameBufferHelper::OGLFrameBufferHelper() {
   }
 
 #endif
-}
-
-void OGLFrameBufferHelper::EMU_GenerateFramebuffers(u32_t latest, i32_t num, u32_t *uids) {
-  for (auto i = 0; i < (i32_t)num; ++i) {
-    uids[i] = i + latest + 1;
-  }
-}
-
-void OGLFrameBufferHelper::STD_GenerateFramebuffers([[maybe_unused]] u32_t latest, i32_t num, u32_t *uids) {
-  glGenFramebuffers(num, uids);
-}
-
-void OGLFrameBufferHelper::EXT_GenerateFramebuffers([[maybe_unused]] u32_t latest, i32_t num, u32_t *uids) {
-  OGLFramebufferExtension::glGenFramebuffersEXT(num, uids);
-}
-
-void OGLFrameBufferHelper::EMU_DeleteFramebuffers(
-    [[maybe_unused]] i32_t num, [[maybe_unused]] const u32_t *framebuffers) {}
-
-void OGLFrameBufferHelper::STD_DeleteFramebuffers(i32_t num, const u32_t *framebuffers) {
-  glDeleteFramebuffers(num, framebuffers);
-}
-
-void OGLFrameBufferHelper::EXT_DeleteFramebuffers(i32_t num, const u32_t *framebuffers) {
-  OGLFramebufferExtension::glDeleteFramebuffersEXT(num, framebuffers);
 }
 
 void OGLFrameBufferHelper::EMU_BindFramebuffer(

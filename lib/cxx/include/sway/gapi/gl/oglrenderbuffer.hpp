@@ -12,17 +12,39 @@ NS_BEGIN(gapi)
 
 class OGLRenderBuffer : public RenderBuffer {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance() -> RenderBufferPtr_t;
+
+  /**
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
 
   OGLRenderBuffer();
 
-  virtual ~OGLRenderBuffer();
+  DTOR_VIRTUAL(OGLRenderBuffer);
+
+#pragma endregion
+
+#pragma region "Overridden RenderBuffer methods"
 
   MTHD_OVERRIDE(void bind());
 
   MTHD_OVERRIDE(void unbind());
 
   MTHD_OVERRIDE(void store(PixelFormat fmt, const math::size2i_t &size, i32_t samples));
+
+#pragma endregion
 
   void generate();
 

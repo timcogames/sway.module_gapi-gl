@@ -8,15 +8,31 @@ NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
 /**
- * @brief Представление шейдерного объекта.
+ * \~russian @brief Представление шейдерного объекта.
  */
 class OGLGenericShader final : public Shader {
 public:
+#pragma region "Static methods"
+
+  /**
+   * @name creators
+   * @{
+   */
+
   static auto createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t;
 
   /**
-   * @brief Конструктор класса.
-   *        Выполняет инициализацию нового экземпляра класса.
+   * end of creators group
+   * @}
+   */
+
+#pragma endregion
+
+#pragma region "Ctors/Dtor"
+
+  /**
+   * \~russian @brief Конструктор класса.
+   *                  Выполняет инициализацию нового экземпляра класса.
    *
    * @param[in] type Тип создаваемого шейдера.
    */
@@ -24,14 +40,14 @@ public:
 
   OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderType::Enum type);
 
-  /**
-   * @brief Деструктор класса.
-   *        Освобождает захваченные ресурсы.
-   */
-  virtual ~OGLGenericShader();
+  DTOR_VIRTUAL(OGLGenericShader);
+
+#pragma endregion
+
+#pragma region "Overridden Shader methods"
 
   /**
-   * @brief Получает тип шейдера.
+   * \~russian @brief Получает тип шейдера.
    *
    * @return Тип шейдера.
    */
@@ -40,7 +56,7 @@ public:
   }
 
   /**
-   * @brief Получает ссылку на идентификатор атрибута.
+   * \~russian @brief Получает ссылку на идентификатор атрибута.
    *
    * @param[in] name Имя атрибута в вершинном шейдере.
    * @return Идентификатор атрибута.
@@ -48,20 +64,22 @@ public:
   MTHD_OVERRIDE(auto getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> i32_t);
 
   /**
-   * @brief Выполняет компиляцию шейдерного объекта.
+   * \~russian @brief Выполняет компиляцию шейдерного объекта.
    *
    * @param[in] src Исходный код шейдера.
    */
   MTHD_OVERRIDE(void compile(lpcstr_t src));
 
   /**
-   * @brief Возвращает статус компиляции.
+   * \~russian @brief Возвращает статус компиляции.
    *
    * @return Если компиляция прошла успешно 'true', иначе 'false'.
    */
   MTHD_OVERRIDE(auto isCompiled() const -> bool) {
     return compiled_;
   }
+
+#pragma endregion
 
 private:
   OGLGenericShaderHelperIface *helper_;
