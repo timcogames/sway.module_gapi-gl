@@ -4,7 +4,7 @@ NS_BEGIN_SWAY()
 NS_BEGIN(gapi)
 
 auto OGLShaderPreprocessor::createInstance(u32_t major, lpcstr_t profile) -> ShaderPreprocessor::Ptr_t {
-  auto instance = new OGLShaderPreprocessor(core::Version(major, DONT_CARE, DONT_CARE, profile));
+  auto instance = new OGLShaderPreprocessor(core::Version(major, GLOB_DONT_CARE, GLOB_DONT_CARE, profile));
   return instance;
 }
 

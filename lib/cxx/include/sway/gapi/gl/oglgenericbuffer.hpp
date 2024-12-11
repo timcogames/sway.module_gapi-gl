@@ -28,7 +28,7 @@ public:
    * @param[in] usage Внутренний тип BufferUsage
    * @return GLenum
    */
-  static auto usageToGLenum(BufferUsage::Enum usage) -> GLenum { return OGLBufferUsageConvertor::toGLenum(usage); }
+  static auto usageToGLenum(BufferUsage::Enum usage) -> GLenum;
 
 #pragma endregion
 
