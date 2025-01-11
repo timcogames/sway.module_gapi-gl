@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/wrap/ogltextureextension.hpp>
 #include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLTextureHelper::OGLTextureHelper() {
 #ifdef _STUB
@@ -149,5 +148,4 @@ void OGLTextureHelper::EXT_SetTextureParamI(TextureTarget::Enum target, u32_t pn
   OGLTextureExtension::glTexParameterIivEXT(OGLTextureTargetConvertor::toGLenum(target), pname, (const i32_t *)&param);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

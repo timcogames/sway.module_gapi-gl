@@ -3,8 +3,7 @@
 
 #include <sway/gapi/gl/prereqs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct DrawElements {
   u32_t mode;
@@ -37,7 +36,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> DrawCallPtr_t;
+  static auto createInstance() -> typedefs::DrawCallPtr_t;
 
   /**
    * end of creators group
@@ -71,14 +70,14 @@ private:
    *
    * @sa drawIndexed_(BufferPtr_t)
    */
-  void draw_(BufferPtr_t ebo);
+  void draw_(typedefs::BufferPtr_t ebo);
 
   /**
    * \~russian @brief Выводит индексные примитивы по данным в массивах.
    *
    * @sa draw_(BufferPtr_t)
    */
-  void drawIndexed_(BufferPtr_t ebo);
+  void drawIndexed_(typedefs::BufferPtr_t ebo);
 
   DrawCbFunc_t drawCbFunc_;
 
@@ -88,7 +87,6 @@ private:
   };
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLDRAWCALL_HPP

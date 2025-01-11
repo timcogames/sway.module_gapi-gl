@@ -7,8 +7,7 @@
 #include <sway/gapi/idgeneratortypes.hpp>
 #include <sway/gapi/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 #define BUFFER_IDS_CHUNK_CAPACITY 10
 
@@ -22,7 +21,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> IdGeneratorPtr_t;
+  static auto createInstance() -> typedefs::IdGeneratorPtr_t;
 
   /**
    * end of creators group
@@ -49,8 +48,7 @@ private:
   i32_t chunkCapacity_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #include <sway/gapi/gl/oglidgenerator.inl>
 

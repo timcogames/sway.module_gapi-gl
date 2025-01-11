@@ -10,8 +10,7 @@
 
 #include <dlfcn.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 void *dlGetProcAddress(lpcstr_t name) {
   static void *handle = nullptr;
@@ -32,7 +31,7 @@ void *dlGetProcAddress(lpcstr_t name) {
   return dlsym(handle, (lpcstr_t)name);
 }
 
-auto OGLCapability::createInstance() -> CapabilityPtr_t {
+auto OGLCapability::createInstance() -> typedefs::CapabilityPtr_t {
   auto *instance = new OGLCapability();
   return instance;
 }
@@ -75,10 +74,10 @@ void OGLCapability::initializeVersion_() {
 void OGLCapability::initializeExtensions_() {
   const auto *exts = reinterpret_cast<lpcstr_t>(glGetString(GL_EXTENSIONS));
   printf("OpenGL extensions:\n%s\n", exts);
-  auto func = [&](ExtensionInitList_t probes) -> core::binding::ProcAddress_t {
+  auto func = [&](ExtensionInitList_t probes) -> core::ProcAddress_t {
     for (const auto &probe : probes) {
       if (strstr(exts, probe.first) != nullptr) {
-        return reinterpret_cast<core::binding::ProcAddress_t>(dlGetProcAddress((const char *)probe.second));
+        return reinterpret_cast<core::ProcAddress_t>(dlGetProcAddress((const char *)probe.second));
       }
     }
 
@@ -114,5 +113,4 @@ void OGLCapability::initLimits_() {
   glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxTextureMaxAnisotropyExt_);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

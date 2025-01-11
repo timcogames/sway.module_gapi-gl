@@ -6,8 +6,7 @@
 #include <sway/gapi/gl/oglstateenabledable.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct BlendAttrib {
   u32_t rgb;
@@ -72,7 +71,6 @@ struct OGLBlendState : public OGLStateEnableable<BlendStateData> {
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLBLENDSTATE_HPP

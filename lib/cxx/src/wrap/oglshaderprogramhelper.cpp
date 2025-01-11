@@ -4,8 +4,7 @@
 
 #include <GLES2/gl2.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLShaderProgramHelper::OGLShaderProgramHelper() {
 #ifdef _STUB
@@ -190,5 +189,4 @@ void OGLShaderProgramHelper::ARB_SetUniformMatrix4f(i32_t loc, i32_t count, bool
   OGLShaderProgramExtension::glUniformMatrix4fvARB(loc, count, transpose, val);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

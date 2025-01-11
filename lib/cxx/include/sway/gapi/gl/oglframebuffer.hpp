@@ -8,8 +8,7 @@
 #include <sway/gapi/idgenerator.hpp>
 #include <sway/gapi/renderbuffer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLFrameBuffer : public FrameBuffer {
 public:
@@ -22,7 +21,7 @@ public:
    * @{
    */
 
-  static auto createInstance(IdGeneratorPtr_t idgen) -> FrameBufferPtr_t;
+  static auto createInstance(typedefs::IdGeneratorPtr_t idgen) -> typedefs::FrameBufferPtr_t;
 
   /**
    * end of creators group
@@ -33,7 +32,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  OGLFrameBuffer(IdGeneratorPtr_t idgen);
+  OGLFrameBuffer(typedefs::IdGeneratorPtr_t idgen);
 
   DTOR_VIRTUAL(OGLFrameBuffer);
 
@@ -43,9 +42,9 @@ public:
 
 #pragma region "Overridden FrameBuffer methods"
 
-  MTHD_OVERRIDE(void attach(FrameBufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels));
+  MTHD_OVERRIDE(void attach(FrameBufferAttachment::Enum attachment, typedefs::TexturePtr_t tex, i32_t mipLevels));
 
-  MTHD_OVERRIDE(void attach(FrameBufferAttachment::Enum attachment, RenderBufferPtr_t buf));
+  MTHD_OVERRIDE(void attach(FrameBufferAttachment::Enum attachment, typedefs::RenderBufferPtr_t buf));
 
   MTHD_OVERRIDE(void bind());
 
@@ -62,7 +61,6 @@ private:
   // bool fboUsed_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLFRAMEBUFFER_HPP

@@ -4,10 +4,9 @@
 #include <sway/gapi/gl/oglstatecontext.hpp>
 #include <sway/gapi/gl/oglstenciloperationconvertor.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLStateContext::createInstance() -> StateContextPtr_t {
+auto OGLStateContext::createInstance() -> typedefs::StateContextPtr_t {
   auto *instance = new OGLStateContext();
   return instance;
 }
@@ -76,5 +75,4 @@ void OGLStateContext::setPolygonMode(PolygonMode::Enum mode) {
 #endif
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

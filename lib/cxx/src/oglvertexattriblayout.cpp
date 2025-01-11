@@ -1,14 +1,13 @@
 #include <sway/gapi/gl/oglvertexattriblayout.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLVertexAttribLayout::createInstance(ShaderProgramPtr_t program) -> VertexAttribLayoutPtr_t {
+auto OGLVertexAttribLayout::createInstance(typedefs::ShaderProgramPtr_t program) -> typedefs::VertexAttribLayoutPtr_t {
   auto *instance = new OGLVertexAttribLayout(program);
   return instance;
 }
 
-OGLVertexAttribLayout::OGLVertexAttribLayout(ShaderProgramPtr_t program)
+OGLVertexAttribLayout::OGLVertexAttribLayout(typedefs::ShaderProgramPtr_t program)
     : program_(program)
     , attribOffset_(0) {
   // Получаем максимальный номер для положения вершинного атрибута.
@@ -21,7 +20,7 @@ void OGLVertexAttribLayout::addAttribute(VertexAttribDescriptor desc) {
   auto vtxShader = program_->getShader(ShaderType::Enum::VERT);
   auto const alias = stringize(desc.semantic);
 
-  desc.location = vtxShader->getAttribLocation(program_->getUid(), alias.c_str());
+  desc.location = vtxShader->getAttribLocation(program_->getUniqueId(), alias.c_str());
   desc.pointer = BUFFER_OFFSET(attribOffset_);
 
   if (desc.location >= 0 && desc.location <= maxVertexAttribs_) {
@@ -48,5 +47,4 @@ void OGLVertexAttribLayout::disable() {
   }
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

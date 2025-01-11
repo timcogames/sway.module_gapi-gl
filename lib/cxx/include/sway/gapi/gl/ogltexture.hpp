@@ -9,8 +9,7 @@
 #include <sway/gapi/texturesubdatadescriptor.hpp>
 #include <sway/gapi/texturetargets.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLTexture : public Texture {
 public:
@@ -21,7 +20,8 @@ public:
    * @{
    */
 
-  static auto createInstance(IdGeneratorPtr_t idgen, const TextureCreateInfo &createInfo) -> TexturePtr_t;
+  static auto createInstance(typedefs::IdGeneratorPtr_t idgen, const TextureCreateInfo &createInfo)
+      -> typedefs::TexturePtr_t;
 
   /**
    * end of creators group
@@ -32,7 +32,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  OGLTexture(IdGeneratorPtr_t idgen, TextureTarget::Enum target);
+  OGLTexture(typedefs::IdGeneratorPtr_t idgen, TextureTarget::Enum target);
 
   DTOR_VIRTUAL_DEFAULT(OGLTexture);
 
@@ -61,7 +61,6 @@ private:
   TextureTarget::Enum target_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLTEXTURE_HPP

@@ -5,8 +5,7 @@
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLStateContext : public StateContext {
 public:
@@ -17,7 +16,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> StateContextPtr_t;
+  static auto createInstance() -> typedefs::StateContextPtr_t;
 
   /**
    * end of creators group
@@ -71,7 +70,6 @@ public:
 #pragma endregion
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSTATECONTEXT_HPP

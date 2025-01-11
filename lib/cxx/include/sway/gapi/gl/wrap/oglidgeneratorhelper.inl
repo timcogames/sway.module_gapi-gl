@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/wrap/oglidgeneratorhelper.hpp>
 #include <sway/gapi/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLIdGeneratorHelper<IdGeneratorType::Enum::FRAME_BUFFER>::OGLIdGeneratorHelper() {
 #ifdef _STUB
@@ -54,5 +53,4 @@ void OGLIdGeneratorHelper<IdGeneratorType::Enum::FRAME_BUFFER>::EXT_release(i32_
   OGLFramebufferExtension::glDeleteFramebuffersEXT(num, uids);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

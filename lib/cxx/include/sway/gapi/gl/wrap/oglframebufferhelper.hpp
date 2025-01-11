@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLFrameBufferHelper {
 public:
@@ -51,7 +50,6 @@ public:
   void EXT_GetFramebufferAttachmentParamI(u32_t target, u32_t attachment, u32_t pname, i32_t *params);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLFRAMEBUFFERHELPER_HPP

@@ -8,8 +8,7 @@
 
 #include <variant>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLShaderProgramHelper : public OGLInfoHelper {
 public:
@@ -81,7 +80,6 @@ public:
   void ARB_SetUniformMatrix4f(i32_t loc, i32_t count, bool transpose, const f32_t *val);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLSHADERPROGRAMHELPER_HPP

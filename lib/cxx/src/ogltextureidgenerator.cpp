@@ -2,10 +2,9 @@
 
 #include <algorithm>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLTextureIdGenerator::createInstance() -> IdGeneratorPtr_t { return new OGLTextureIdGenerator(); }
+auto OGLTextureIdGenerator::createInstance() -> typedefs::IdGeneratorPtr_t { return new OGLTextureIdGenerator(); }
 
 OGLTextureIdGenerator::OGLTextureIdGenerator()
     : chunkCapacity_(TEXTURE_IDS_CHUNK_CAPACITY) {}
@@ -33,5 +32,4 @@ auto OGLTextureIdGenerator::getNextUid() -> ObjectUid_t {
   return used_.back();
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

@@ -1,21 +1,18 @@
 #include <sway/gapi/gl/wrap/oglframebufferextension.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-core::binding::TFunction<void(i32_t, u32_t *)> OGLFramebufferExtension::glGenFramebuffersEXT = nullptr;
-core::binding::TFunction<void(i32_t, const u32_t *)> OGLFramebufferExtension::glDeleteFramebuffersEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t)> OGLFramebufferExtension::glBindFramebufferEXT = nullptr;
-core::binding::TFunction<bool(u32_t)> OGLFramebufferExtension::glIsFramebufferEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t, i32_t)> OGLFramebufferExtension::glFramebufferTexture2DEXT =
+core::TFunction<void(i32_t, u32_t *)> OGLFramebufferExtension::glGenFramebuffersEXT = nullptr;
+core::TFunction<void(i32_t, const u32_t *)> OGLFramebufferExtension::glDeleteFramebuffersEXT = nullptr;
+core::TFunction<void(u32_t, u32_t)> OGLFramebufferExtension::glBindFramebufferEXT = nullptr;
+core::TFunction<bool(u32_t)> OGLFramebufferExtension::glIsFramebufferEXT = nullptr;
+core::TFunction<void(u32_t, u32_t, u32_t, u32_t, i32_t)> OGLFramebufferExtension::glFramebufferTexture2DEXT = nullptr;
+core::TFunction<void(u32_t, u32_t, u32_t, u32_t)> OGLFramebufferExtension::glFramebufferRenderbufferEXT = nullptr;
+core::TFunction<u32_t(u32_t)> OGLFramebufferExtension::glCheckFramebufferStatusEXT = nullptr;
+core::TFunction<void(u32_t, u32_t, u32_t, i32_t *)> OGLFramebufferExtension::glGetFramebufferAttachmentParameterivEXT =
     nullptr;
-core::binding::TFunction<void(u32_t, u32_t, u32_t, u32_t)> OGLFramebufferExtension::glFramebufferRenderbufferEXT =
-    nullptr;
-core::binding::TFunction<u32_t(u32_t)> OGLFramebufferExtension::glCheckFramebufferStatusEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, u32_t, i32_t *)>
-    OGLFramebufferExtension::glGetFramebufferAttachmentParameterivEXT = nullptr;
 
-void OGLFramebufferExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+void OGLFramebufferExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glGenFramebuffersEXT = exts({{"GL_EXT_direct_state_access", "glGenFramebuffersEXT"}});
   glDeleteFramebuffersEXT = exts({{"GL_EXT_direct_state_access", "glDeleteFramebuffersEXT"}});
   glBindFramebufferEXT = exts({{"GL_EXT_direct_state_access", "glBindFramebufferEXT"}});
@@ -27,5 +24,4 @@ void OGLFramebufferExtension::define(const std::function<core::binding::ProcAddr
       exts({{"GL_EXT_direct_state_access", "glGetFramebufferAttachmentParameterivEXT"}});
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

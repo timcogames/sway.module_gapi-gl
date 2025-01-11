@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglgenericshaderhelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 /**
  * \~russian @brief Представление шейдерного объекта.
@@ -19,7 +18,7 @@ public:
    * @{
    */
 
-  static auto createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t;
+  static auto createInstance(const ShaderCreateInfo &createInfo) -> typedefs::ShaderPtr_t;
 
   /**
    * end of creators group
@@ -87,7 +86,6 @@ private:
   bool compiled_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLGENERICSHADER_HPP

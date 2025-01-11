@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglshaderprogramextension.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLCapability : public Capability {
 public:
@@ -16,7 +15,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> CapabilityPtr_t;
+  static auto createInstance() -> typedefs::CapabilityPtr_t;
 
   /**
    * end of creators group
@@ -96,7 +95,6 @@ private:
   i32_t maxTextureMaxAnisotropyExt_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLCAPABILITY_HPP

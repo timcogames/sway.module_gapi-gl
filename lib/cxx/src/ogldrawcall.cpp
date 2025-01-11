@@ -2,8 +2,7 @@
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 auto OGLDrawCall::topologyToGLenum(TopologyType::Enum topology) -> GLenum {
   switch (topology) {
@@ -24,7 +23,7 @@ auto OGLDrawCall::topologyToGLenum(TopologyType::Enum topology) -> GLenum {
   }
 }
 
-auto OGLDrawCall::createInstance() -> DrawCallPtr_t {
+auto OGLDrawCall::createInstance() -> typedefs::DrawCallPtr_t {
   auto *instance = new OGLDrawCall();
   return instance;
 }
@@ -51,7 +50,7 @@ void OGLDrawCall::execute(TopologyType::Enum topology, BufferSet bufset, core::V
   }
 }
 
-void OGLDrawCall::draw_([[maybe_unused]] BufferPtr_t ebo) {
+void OGLDrawCall::draw_([[maybe_unused]] typedefs::BufferPtr_t ebo) {
   if (drawArrays_.mode == GL_LINES) {
     glLineWidth(8);
   }
@@ -59,7 +58,7 @@ void OGLDrawCall::draw_([[maybe_unused]] BufferPtr_t ebo) {
   glDrawArrays(drawArrays_.mode, drawArrays_.first, drawArrays_.count);
 }
 
-void OGLDrawCall::drawIndexed_(BufferPtr_t ebo) {
+void OGLDrawCall::drawIndexed_(typedefs::BufferPtr_t ebo) {
   ebo->bind();
   // if (OGLGenericBufferExtension::isBuffer(ebo->getUid().value())) {
   //   // OK
@@ -69,5 +68,4 @@ void OGLDrawCall::drawIndexed_(BufferPtr_t ebo) {
   ebo->unbind();
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

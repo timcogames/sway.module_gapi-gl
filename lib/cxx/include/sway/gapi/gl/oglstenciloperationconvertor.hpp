@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/stenciloperations.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLStencilOperationConvertor final {
 public:
@@ -57,7 +56,6 @@ public:
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSTENCILOPERATIONCONVERTOR_HPP

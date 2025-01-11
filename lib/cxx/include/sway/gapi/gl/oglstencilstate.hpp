@@ -9,8 +9,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglstatehelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct StencilStateData : public StateEnableableData {
   CompareFn::Enum func;
@@ -66,7 +65,6 @@ struct OGLStencilState : public OGLStateEnableable<StencilStateData> {
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSTENCILSTATE_HPP

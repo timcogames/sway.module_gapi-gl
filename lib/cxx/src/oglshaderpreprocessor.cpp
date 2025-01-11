@@ -1,9 +1,8 @@
 #include <sway/gapi/gl/oglshaderpreprocessor.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLShaderPreprocessor::createInstance(u32_t major, lpcstr_t profile) -> ShaderPreprocessor::Ptr_t {
+auto OGLShaderPreprocessor::createInstance(u32_t major, lpcstr_t profile) -> typedefs::ShaderPreprocessorPtr_t {
   auto instance = new OGLShaderPreprocessor(core::Version(major, GLOB_DONT_CARE, GLOB_DONT_CARE, profile));
   return instance;
 }
@@ -29,5 +28,4 @@ void OGLShaderPreprocessor::evaluate(std::ostream &into) {
   }
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

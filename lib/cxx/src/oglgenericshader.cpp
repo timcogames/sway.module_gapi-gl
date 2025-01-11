@@ -7,10 +7,9 @@
 #include <GLES2/gl2ext.h>
 #include <sstream>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> ShaderPtr_t {
+auto OGLGenericShader::createInstance(const ShaderCreateInfo &createInfo) -> typedefs::ShaderPtr_t {
   // try {
   auto *preprocessor = static_cast<OGLShaderPreprocessor *>(createInfo.preprocessor);
   ShaderSource src;
@@ -46,7 +45,7 @@ OGLGenericShader::OGLGenericShader(ShaderType::Enum type)
     , compiled_(false) {
   auto objectId = helper_->createShader(OGLGenericShaderTypeConvertor::toGLenum(type_));
   if (objectId != 0) {
-    setUid(objectId);
+    setUniqueId(objectId);
   }
 }
 
@@ -57,11 +56,11 @@ OGLGenericShader::OGLGenericShader(OGLGenericShaderHelperIface &helper, ShaderTy
     , compiled_(false) {
   auto objectId = helper_->createShader(OGLGenericShaderTypeConvertor::toGLenum(type_));
   if (objectId != 0) {
-    setUid(objectId);
+    setUniqueId(objectId);
   }
 }
 
-OGLGenericShader::~OGLGenericShader() { helper_->deleteShader(getUid()); }
+OGLGenericShader::~OGLGenericShader() { helper_->deleteShader(getUniqueId()); }
 
 auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t name) -> i32_t {
   return helper_->getAttribLocation(progId.value(), name);
@@ -69,13 +68,12 @@ auto OGLGenericShader::getAttribLocation(std::optional<u32_t> progId, lpcstr_t n
 
 void OGLGenericShader::compile(lpcstr_t src) {
   int status;  // Состояние шагов компилирования.
-  helper_->shaderSource(getUid(), 1, &src, nullptr);
-  helper_->compileShader(getUid(), &status);
+  helper_->shaderSource(getUniqueId(), 1, &src, nullptr);
+  helper_->compileShader(getUniqueId(), &status);
   compiled_ = (status == GL_TRUE);
   if (!compiled_) {
-    throw OGLShaderCompilationException(getUid().value());
+    throw OGLShaderCompilationException(getUniqueId().value());
   }
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

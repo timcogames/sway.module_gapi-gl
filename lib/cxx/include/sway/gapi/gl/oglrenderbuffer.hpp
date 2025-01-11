@@ -7,8 +7,7 @@
 #include <sway/gapi/gl/wrap/oglrenderbufferhelper.hpp>
 #include <sway/gapi/renderbuffer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLRenderBuffer : public RenderBuffer {
 public:
@@ -19,7 +18,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> RenderBufferPtr_t;
+  static auto createInstance() -> typedefs::RenderBufferPtr_t;
 
   /**
    * end of creators group
@@ -55,7 +54,6 @@ private:
   i32_t maxRenderBufferSize_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLRENDERBUFFER_HPP

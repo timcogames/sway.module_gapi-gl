@@ -5,8 +5,7 @@
 #include <sway/gapi/buffermapaccesses.hpp>
 #include <sway/gapi/gl/prereqs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLBufferMapAccessConvertor final {
 public:
@@ -37,7 +36,6 @@ public:
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLBUFFERMAPACCESSCONVERTOR_HPP

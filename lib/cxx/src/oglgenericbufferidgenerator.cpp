@@ -2,10 +2,11 @@
 
 #include <algorithm>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLGenericBufferIdGenerator::createInstance() -> IdGeneratorPtr_t { return new OGLGenericBufferIdGenerator(); }
+auto OGLGenericBufferIdGenerator::createInstance() -> typedefs::IdGeneratorPtr_t {
+  return new OGLGenericBufferIdGenerator();
+}
 
 OGLGenericBufferIdGenerator::OGLGenericBufferIdGenerator()
     : helper_(new OGLGenericBufferHelper())
@@ -25,6 +26,7 @@ auto OGLGenericBufferIdGenerator::getNextUid() -> ObjectUid_t {
     auto *uids = new ObjectUid_t[chunkCapacity_];
     helper_->generateBuffers(used_.empty() ? 0 : *std::max_element(used_.begin(), used_.end()), chunkCapacity_, uids);
 
+    // std::generate_n
     for (auto i = 0; i < chunkCapacity_; ++i) {
       this->push(uids[i]);
     }
@@ -38,5 +40,4 @@ auto OGLGenericBufferIdGenerator::getNextUid() -> ObjectUid_t {
   return used_.back();
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

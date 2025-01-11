@@ -12,8 +12,7 @@
 #include <sway/gapi/gl/wrap/oglgenericbufferhelper.hpp>
 #include <sway/gapi/idgenerator.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 /**
  * \~russian @brief Представление аппаратного буфера.
@@ -37,7 +36,8 @@ public:
    * @{
    */
 
-  static auto createInstance(IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo) -> BufferPtr_t;
+  static auto createInstance(typedefs::IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo)
+      -> typedefs::BufferPtr_t;
 
   /**
    * end of creators group
@@ -50,7 +50,7 @@ public:
    * \~russian @brief Конструктор класса.
    *                  Выполняет инициализацию нового экземпляра класса.
    */
-  OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc);
+  OGLGenericBuffer(typedefs::IdGeneratorPtr_t idgen, const BufferDescriptor &desc);
 
   DTOR_VIRTUAL_DEFAULT(OGLGenericBuffer);
 
@@ -85,7 +85,7 @@ public:
 
   MTHD_OVERRIDE(auto map(BufferMapAccess::Enum flags) -> void *);
 
-  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess::Enum> bitset)
+  MTHD_OVERRIDE(auto mapRange(i32_t offset, i32_t len, core::EnumClassBitset<BufferMapRangeAccess::Enum> bitset)
           -> void *);
 
   MTHD_OVERRIDE(void unmap());
@@ -144,7 +144,6 @@ private:
   i32_t byteStride_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLGENERICBUFFER_HPP

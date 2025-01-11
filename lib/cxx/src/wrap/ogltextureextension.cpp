@@ -1,19 +1,18 @@
 #include <sway/gapi/gl/wrap/ogltextureextension.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-core::binding::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glGenTexturesEXT = nullptr;
-core::binding::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glDeleteTexturesEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t)> OGLTextureExtension::glBindTextureEXT = nullptr;
-core::binding::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, const void *)>
+core::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glGenTexturesEXT = nullptr;
+core::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glDeleteTexturesEXT = nullptr;
+core::TFunction<void(u32_t, u32_t)> OGLTextureExtension::glBindTextureEXT = nullptr;
+core::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, const void *)>
     OGLTextureExtension::glTextureImage2DEXT = nullptr;
-core::binding::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t, const void *)>
+core::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t, const void *)>
     OGLTextureExtension::glTexSubImage2DEXT = nullptr;
-core::binding::TFunction<void(u32_t)> OGLTextureExtension::glActiveTextureARB = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, const i32_t *)> OGLTextureExtension::glTexParameterIivEXT = nullptr;
+core::TFunction<void(u32_t)> OGLTextureExtension::glActiveTextureARB = nullptr;
+core::TFunction<void(u32_t, u32_t, const i32_t *)> OGLTextureExtension::glTexParameterIivEXT = nullptr;
 
-void OGLTextureExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+void OGLTextureExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glGenTexturesEXT = exts({{"GL_EXT_texture_object", "glGenTexturesEXT"}});
   glDeleteTexturesEXT = exts({{"GL_EXT_texture_object", "glDeleteTexturesEXT"}});
   glBindTextureEXT = exts({{"GL_EXT_texture_object", "glBindTextureEXT"}});
@@ -23,5 +22,4 @@ void OGLTextureExtension::define(const std::function<core::binding::ProcAddress_
   glTexParameterIivEXT = exts({{"GL_EXT_texture_integer", "glTexParameterIivEXT"}});
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

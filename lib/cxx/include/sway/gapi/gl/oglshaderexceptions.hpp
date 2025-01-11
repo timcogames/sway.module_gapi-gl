@@ -7,17 +7,16 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-class OGLShaderException : public core::runtime::Exception {
+class OGLShaderException : public core::Exception {
 public:
   /**
    * \~russian @brief Конструктор класса.
    *                  Выполняет инициализацию нового экземпляра класса.
    */
   OGLShaderException(u32_t objectId)
-      : core::runtime::Exception([this, objectId]() -> std::string {
+      : core::Exception([this, objectId]() -> std::string {
         std::string result;
         i32_t logLength;
 
@@ -84,7 +83,6 @@ public:
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSHADEREXCEPTIONS_HPP

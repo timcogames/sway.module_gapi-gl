@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/viewportmodes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLViewport : public Viewport {
 public:
@@ -16,7 +15,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> ViewportPtr_t;
+  static auto createInstance() -> typedefs::ViewportPtr_t;
 
   /**
    * end of creators group
@@ -80,7 +79,6 @@ private:
   math::col4f_t clearColor_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLVIEWPORT_HPP

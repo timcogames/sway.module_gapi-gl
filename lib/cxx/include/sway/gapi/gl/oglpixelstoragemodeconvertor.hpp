@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct OGLPixelStorageModeConvertor final {
   static auto toGLenum(PixelStorageMode::Enum face) -> GLenum {
@@ -21,7 +20,6 @@ struct OGLPixelStorageModeConvertor final {
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLPIXELSTORAGEMODECONVERTOR_HPP

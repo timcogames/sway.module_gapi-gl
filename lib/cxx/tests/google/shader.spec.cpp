@@ -23,5 +23,5 @@ TEST_F(GenericShaderTest, ctor_comps) {
   setup();
 
   gapi::OGLGenericShader shader(mock_, gapi::ShaderType::Enum::VERT);
-  EXPECT_EQ(shader.getUid().value(), objectId_);
+  EXPECT_EQ(shader.getUniqueId().value(), objectId_);
 }

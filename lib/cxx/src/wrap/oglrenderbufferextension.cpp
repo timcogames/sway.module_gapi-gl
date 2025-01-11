@@ -1,21 +1,19 @@
 #include <sway/gapi/gl/wrap/oglrenderbufferextension.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-core::binding::TFunction<void(i32_t, u32_t *)> OGLRenderBufferExtension::glGenRenderbuffersEXT = nullptr;
-core::binding::TFunction<void(i32_t, const u32_t *)> OGLRenderBufferExtension::glDeleteRenderbuffersEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t)> OGLRenderBufferExtension::glBindRenderbufferEXT = nullptr;
-core::binding::TFunction<bool(u32_t)> OGLRenderBufferExtension::glIsRenderbufferEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, i32_t, i32_t)> OGLRenderBufferExtension::glRenderbufferStorageEXT = nullptr;
-core::binding::TFunction<void(u32_t, i32_t, u32_t, i32_t, i32_t)>
-    OGLRenderBufferExtension::glRenderbufferStorageMultisampleEXT = nullptr;
-core::binding::TFunction<void(i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t)>
-    OGLRenderBufferExtension::glBlitFramebufferEXT = nullptr;
-core::binding::TFunction<void(u32_t, u32_t, i32_t *)> OGLRenderBufferExtension::glGetRenderbufferParameterivEXT =
+core::TFunction<void(i32_t, u32_t *)> OGLRenderBufferExtension::glGenRenderbuffersEXT = nullptr;
+core::TFunction<void(i32_t, const u32_t *)> OGLRenderBufferExtension::glDeleteRenderbuffersEXT = nullptr;
+core::TFunction<void(u32_t, u32_t)> OGLRenderBufferExtension::glBindRenderbufferEXT = nullptr;
+core::TFunction<bool(u32_t)> OGLRenderBufferExtension::glIsRenderbufferEXT = nullptr;
+core::TFunction<void(u32_t, u32_t, i32_t, i32_t)> OGLRenderBufferExtension::glRenderbufferStorageEXT = nullptr;
+core::TFunction<void(u32_t, i32_t, u32_t, i32_t, i32_t)> OGLRenderBufferExtension::glRenderbufferStorageMultisampleEXT =
     nullptr;
+core::TFunction<void(i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t)>
+    OGLRenderBufferExtension::glBlitFramebufferEXT = nullptr;
+core::TFunction<void(u32_t, u32_t, i32_t *)> OGLRenderBufferExtension::glGetRenderbufferParameterivEXT = nullptr;
 
-void OGLRenderBufferExtension::define(const std::function<core::binding::ProcAddress_t(ExtensionInitList_t)> &exts) {
+void OGLRenderBufferExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glGenRenderbuffersEXT = exts({{"GL_EXT_direct_state_access", "glGenRenderbuffersEXT"}});
   glDeleteRenderbuffersEXT = exts({{"GL_EXT_direct_state_access", "glDeleteRenderbuffersEXT"}});
   glBindRenderbufferEXT = exts({{"GL_EXT_direct_state_access", "glBindRenderbufferEXT"}});
@@ -26,5 +24,4 @@ void OGLRenderBufferExtension::define(const std::function<core::binding::ProcAdd
   glGetRenderbufferParameterivEXT = exts({{"GL_EXT_direct_state_access", "glGetRenderbufferParameterivEXT"}});
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

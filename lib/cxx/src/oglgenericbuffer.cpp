@@ -3,8 +3,7 @@
 #include <sway/gapi/gl/oglbuffertargetconvertor.hpp>
 #include <sway/gapi/gl/oglgenericbuffer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 auto OGLGenericBuffer::usageToGLenum(BufferUsage::Enum usage) -> GLenum {
 #ifdef EMSCRIPTEN_PLATFORM
@@ -32,7 +31,8 @@ auto OGLGenericBuffer::usageToGLenum(BufferUsage::Enum usage) -> GLenum {
 #endif
 }
 
-auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo) -> BufferPtr_t {
+auto OGLGenericBuffer::createInstance(typedefs::IdGeneratorPtr_t idgen, const BufferCreateInfo &createInfo)
+    -> typedefs::BufferPtr_t {
   auto *instance = new OGLGenericBuffer(idgen, createInfo.desc);
   if (instance->allocate(createInfo.data)) {
     return instance;
@@ -41,13 +41,13 @@ auto OGLGenericBuffer::createInstance(IdGeneratorPtr_t idgen, const BufferCreate
   return nullptr;
 }
 
-OGLGenericBuffer::OGLGenericBuffer(IdGeneratorPtr_t idgen, const BufferDescriptor &desc)
+OGLGenericBuffer::OGLGenericBuffer(typedefs::IdGeneratorPtr_t idgen, const BufferDescriptor &desc)
     : Buffer(desc)
     , target_(desc.target)
     , usage_(desc.usage)
     , capacity_(desc.capacity)
     , byteStride_(desc.byteStride) {
-  setUid(idgen->getNextUid());
+  setUniqueId(idgen->getNextUid());
 }
 
 auto OGLGenericBuffer::allocate(const void *data) -> bool {
@@ -63,7 +63,7 @@ auto OGLGenericBuffer::allocate(const void *data) -> bool {
 }
 
 void OGLGenericBuffer::updateSubdata(BufferSubdataDescriptor desc) {
-  if (!helper_.isBuffer(getUid())) {
+  if (!helper_.isBuffer(getUniqueId())) {
     return;
   }
 
@@ -83,7 +83,7 @@ void OGLGenericBuffer::updateSubdata(const void *src) {
 void OGLGenericBuffer::flush(i32_t offset, i32_t len) { helper_.flush(target_, offset, len); }
 
 auto OGLGenericBuffer::map(BufferMapAccess::Enum flags) -> void * {
-  if (!helper_.isBuffer(getUid())) {
+  if (!helper_.isBuffer(getUniqueId())) {
     return nullptr;
   }
 
@@ -94,9 +94,9 @@ auto OGLGenericBuffer::map(BufferMapAccess::Enum flags) -> void * {
   return data;
 }
 
-auto OGLGenericBuffer::mapRange(
-    i32_t offset, i32_t len, core::detail::EnumClassBitset<BufferMapRangeAccess::Enum> bitset) -> void * {
-  if (!helper_.isBuffer(getUid())) {
+auto OGLGenericBuffer::mapRange(i32_t offset, i32_t len, core::EnumClassBitset<BufferMapRangeAccess::Enum> bitset)
+    -> void * {
+  if (!helper_.isBuffer(getUniqueId())) {
     return nullptr;
   }
 
@@ -146,12 +146,11 @@ void OGLGenericBuffer::unmap() {
 
 void OGLGenericBuffer::bindRange(u32_t buf, ptrdiff_t offset, ptrdiff_t size) {
   // GL_TRANSFORM_FEEDBACK_BUFFER or GL_UNIFORM_BUFFER
-  helper_.bindBufferRange(target_, getUid().value(), buf, offset, size);
+  helper_.bindBufferRange(target_, getUniqueId().value(), buf, offset, size);
 }
 
-void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUid()); }
+void OGLGenericBuffer::bind() { helper_.bindBuffer(target_, getUniqueId()); }
 
 void OGLGenericBuffer::unbind() { helper_.bindBuffer(target_, 0); }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

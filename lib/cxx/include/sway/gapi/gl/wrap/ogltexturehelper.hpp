@@ -8,8 +8,7 @@
 #include <sway/gapi/texturetargets.hpp>
 #include <sway/math.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLTextureHelper {
 public:
@@ -59,7 +58,6 @@ public:
   void EXT_SetTextureParamI(TextureTarget::Enum target, u32_t pname, i32_t param);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLTEXTUREHELPER_HPP

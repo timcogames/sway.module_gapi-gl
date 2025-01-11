@@ -8,8 +8,7 @@
 #include <bitset>
 #include <limits>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct DepthStateData : public StateEnableableData {
   CompareFn::Enum func;
@@ -56,7 +55,6 @@ struct OGLDepthState : public OGLStateEnableable<DepthStateData> {
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLDEPTHSTATE_HPP

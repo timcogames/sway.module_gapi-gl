@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 #include <sway/gapi/idgeneratortypes.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct OGLIdGeneratorHelperBase {
   PURE_VIRTUAL(void generate(ObjectUid_t latest, i32_t num, ObjectUid_t *uids));
@@ -49,8 +48,7 @@ public:
   inline void EXT_release(i32_t num, const ObjectUid_t *uids);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #include <sway/gapi/gl/wrap/oglidgeneratorhelper.inl>
 

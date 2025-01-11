@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLStateHelper {
 public:
@@ -22,7 +21,6 @@ public:
   void EXT_BlendEquationSeparate(u32_t rgb, u32_t alpha);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLSTATEHELPER_HPP

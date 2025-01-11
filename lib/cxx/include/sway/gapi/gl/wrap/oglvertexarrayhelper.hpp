@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLVertexArrayHelper {
 public:
@@ -33,7 +32,6 @@ public:
   auto APPLE_IsVertexArray(u32_t array) -> bool;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLVERTEXARRAYHELPER_HPP

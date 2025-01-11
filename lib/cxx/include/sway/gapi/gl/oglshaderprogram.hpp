@@ -4,8 +4,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/oglshaderprogramhelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 /**
  * \~russian @brief Представление шейдерной программы.
@@ -19,7 +18,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> ShaderProgramPtr_t;
+  static auto createInstance() -> typedefs::ShaderProgramPtr_t;
 
   /**
    * end of creators group
@@ -48,7 +47,7 @@ public:
    * @param[in] shader Указатель на связываемый шейдерный объект.
    * @sa detach(std::pair<ShaderType::Enum, ShaderPtr_t>)
    */
-  MTHD_OVERRIDE(void attach(ShaderPtr_t shader));
+  MTHD_OVERRIDE(void attach(typedefs::ShaderPtr_t shader));
 
   /**
    * \~russian @brief Отсоединяет шейдерный объект от программного объекта.
@@ -56,9 +55,9 @@ public:
    * @param[in] objectId Указатель на отвязываемый шейдерный объект.
    * @sa attach(ShaderPtr_t)
    */
-  MTHD_OVERRIDE(void detach(std::pair<ShaderType::Enum, ShaderPtr_t> pair, bool erasing));
+  MTHD_OVERRIDE(void detach(std::pair<ShaderType::Enum, typedefs::ShaderPtr_t> pair, bool erasing));
 
-  MTHD_OVERRIDE(auto getShader(ShaderType::Enum type) -> ShaderPtr_t);
+  MTHD_OVERRIDE(auto getShader(ShaderType::Enum type) -> typedefs::ShaderPtr_t);
 
   /**
    * \~russian @brief Компонует программный объект.
@@ -143,7 +142,7 @@ public:
 
 private:
   OGLShaderProgramHelper *helper_;
-  std::map<ShaderType::Enum, ShaderPtr_t> shaders_;
+  std::map<ShaderType::Enum, typedefs::ShaderPtr_t> shaders_;
   UniformVec4fUmap_t uniformVec4fSet_;
   UniformMat4fUmap_t uniformMat4fSet_;
   Uniform1iUmap_t uniform1iSet_;
@@ -152,7 +151,6 @@ private:
   bool validated_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSHADERPROGRAM_HPP

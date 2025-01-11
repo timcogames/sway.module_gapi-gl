@@ -2,11 +2,10 @@
 
 #include <algorithm>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 template <IdGeneratorType::Enum TYPE>
-auto OGLIdGenerator<TYPE>::createInstance() -> IdGeneratorPtr_t {
+auto OGLIdGenerator<TYPE>::createInstance() -> typedefs::IdGeneratorPtr_t {
   return new OGLIdGenerator();
 }
 
@@ -45,5 +44,4 @@ auto OGLIdGenerator<TYPE>::getNextUid() -> ObjectUid_t {
   return used_.back();
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

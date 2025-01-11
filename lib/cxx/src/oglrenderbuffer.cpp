@@ -1,9 +1,8 @@
 #include <sway/gapi/gl/oglrenderbuffer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLRenderBuffer::createInstance() -> RenderBufferPtr_t {
+auto OGLRenderBuffer::createInstance() -> typedefs::RenderBufferPtr_t {
   auto instance = new OGLRenderBuffer();
   return instance;
 }
@@ -15,7 +14,7 @@ OGLRenderBuffer::OGLRenderBuffer() {
 
 OGLRenderBuffer::~OGLRenderBuffer() { destroy(); }
 
-void OGLRenderBuffer::bind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, getUid()); }
+void OGLRenderBuffer::bind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, getUniqueId()); }
 
 void OGLRenderBuffer::unbind() { helper_.bindRenderBuffer(GL_RENDERBUFFER_EXT, 0); }
 
@@ -31,16 +30,15 @@ void OGLRenderBuffer::store(PixelFormat fmt, const math::size2i_t &size, i32_t s
   // unbind();
 }
 
-void OGLRenderBuffer::generate() { setUid(helper_.generateRenderBuffers(1)[GLOB_IDX_INITIAL]); }
+void OGLRenderBuffer::generate() { setUniqueId(helper_.generateRenderBuffers(1)[GLOB_IDX_INITIAL]); }
 
 void OGLRenderBuffer::destroy() {
-  if (!helper_.isRenderBuffer(getUid())) {
+  if (!helper_.isRenderBuffer(getUniqueId())) {
     return;
   }
 
-  auto uid = getUid().value();
+  auto uid = getUniqueId().value();
   helper_.deleteRenderBuffers(1, &uid);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

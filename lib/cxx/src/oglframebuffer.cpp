@@ -1,9 +1,8 @@
 #include <sway/gapi/gl/oglframebuffer.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLFrameBuffer::createInstance(IdGeneratorPtr_t idgen) -> FrameBufferPtr_t {
+auto OGLFrameBuffer::createInstance(typedefs::IdGeneratorPtr_t idgen) -> typedefs::FrameBufferPtr_t {
   auto *instance = new OGLFrameBuffer(idgen);
   return instance;
 }
@@ -31,16 +30,16 @@ auto OGLFrameBuffer::attachmentToGLenum(FrameBufferAttachment::Enum attachment) 
   }
 }
 
-OGLFrameBuffer::OGLFrameBuffer(IdGeneratorPtr_t idgen) {
+OGLFrameBuffer::OGLFrameBuffer(typedefs::IdGeneratorPtr_t idgen) {
   glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxColorAttachments_);
   std::cout << "GL_MAX_COLOR_ATTACHMENTS: " << maxColorAttachments_ << std::endl;
-  setUid(idgen->getNextUid());
+  setUniqueId(idgen->getNextUid());
 }
 
 OGLFrameBuffer::~OGLFrameBuffer() { destroy(); }
 
 void OGLFrameBuffer::destroy() {
-  // auto uid = getUid().value();
+  // auto uid = getUniqueId().value();
   // if (!helper_.isFramebuffer(uid)) {
   //   return;
   // }
@@ -48,24 +47,24 @@ void OGLFrameBuffer::destroy() {
   // helper_.deleteFramebuffers(1, &uid);
 }
 
-void OGLFrameBuffer::bind() { helper_.bindFramebuffer(GL_FRAMEBUFFER, getUid()); }
+void OGLFrameBuffer::bind() { helper_.bindFramebuffer(GL_FRAMEBUFFER, getUniqueId()); }
 
 void OGLFrameBuffer::unbind() { helper_.bindFramebuffer(GL_FRAMEBUFFER, 0); }
 
-void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, TexturePtr_t tex, i32_t mipLevels) {
+void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, typedefs::TexturePtr_t tex, i32_t mipLevels) {
   // bind();
   helper_.framebufferTexture2D(
-      GL_FRAMEBUFFER, OGLFrameBuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, tex->getUid(), mipLevels);
+      GL_FRAMEBUFFER, OGLFrameBuffer::attachmentToGLenum(attachment), GL_TEXTURE_2D, tex->getUniqueId(), mipLevels);
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
     std::cout << "ERROR: Failed to initialize FB" << std::endl;
   }
   // unbind();
 }
 
-void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, RenderBufferPtr_t buf) {
+void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, typedefs::RenderBufferPtr_t buf) {
   // bind();
   helper_.framebufferRenderbuffer(
-      GL_FRAMEBUFFER, OGLFrameBuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, buf->getUid());
+      GL_FRAMEBUFFER, OGLFrameBuffer::attachmentToGLenum(attachment), GL_RENDERBUFFER_EXT, buf->getUniqueId());
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
     std::cout << "ERROR: Failed to initialize FB" << std::endl;
   }
@@ -74,5 +73,4 @@ void OGLFrameBuffer::attach(FrameBufferAttachment::Enum attachment, RenderBuffer
 
 void OGLFrameBuffer::drawBuffers(i32_t num, const u32_t *bufs) { glDrawBuffers(num, bufs); }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

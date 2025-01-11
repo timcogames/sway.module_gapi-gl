@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/oglvertexarrayhelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLVertexArray final : public VertexArray {
 public:
@@ -17,7 +16,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> VertexArrayPtr_t;
+  static auto createInstance() -> typedefs::VertexArrayPtr_t;
 
   /**
    * end of creators group
@@ -51,7 +50,6 @@ private:
   u32_t objname_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLVERTEXARRAY_HPP

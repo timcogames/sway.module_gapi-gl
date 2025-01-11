@@ -4,8 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct OGLTextureTargetConvertor final {
   static auto toGLenum(TextureTarget::Enum target) -> GLenum {
@@ -39,7 +38,6 @@ struct OGLTextureTargetConvertor final {
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLTEXTURETARGETCONVERTOR_HPP

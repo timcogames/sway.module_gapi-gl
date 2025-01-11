@@ -1,7 +1,6 @@
 #include <sway/gapi/gl/ogltexturesampler.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 auto OGLTextureSampler::filterToGLenum(TextureFilter::Enum filter) -> GLenum {
   switch (filter) {
@@ -33,12 +32,12 @@ auto OGLTextureSampler::wrapToGLenum(TextureWrap::Enum wrap) -> GLenum {
   }
 }
 
-auto OGLTextureSampler::createInstance(TexturePtr_t texture) -> TextureSamplerPtr_t {
+auto OGLTextureSampler::createInstance(typedefs::TexturePtr_t texture) -> typedefs::TextureSamplerPtr_t {
   auto *instance = new OGLTextureSampler(texture);
   return instance;
 }
 
-OGLTextureSampler::OGLTextureSampler(TexturePtr_t texture)
+OGLTextureSampler::OGLTextureSampler(typedefs::TexturePtr_t texture)
     : helper_(new OGLTextureHelper())
     , texture_(texture) {}
 
@@ -59,5 +58,4 @@ void OGLTextureSampler::setFilterMode(TextureFilter::Enum minFilter, TextureFilt
   texture_->unbind();
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

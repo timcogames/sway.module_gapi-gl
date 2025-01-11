@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/typeutils.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 struct OGLCullFaceConvertor final {
   static auto current() -> CullFace {
@@ -36,7 +35,6 @@ struct OGLCullFaceConvertor final {
   }
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLCULLFACECONVERTOR_HPP

@@ -6,8 +6,7 @@
 #include <sway/gapi/gl/typeutils.hpp>
 #include <sway/gapi/gl/wrap/oglvertexattriblayouthelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLVertexAttribLayout final : public VertexAttribLayout {
 public:
@@ -18,7 +17,7 @@ public:
    * @{
    */
 
-  static auto createInstance(ShaderProgramPtr_t program) -> VertexAttribLayoutPtr_t;
+  static auto createInstance(typedefs::ShaderProgramPtr_t program) -> typedefs::VertexAttribLayoutPtr_t;
 
   /**
    * end of creators group
@@ -35,7 +34,7 @@ public:
    *
    * @param[in] progId Идентификатор шейдерной программы.
    */
-  OGLVertexAttribLayout(ShaderProgramPtr_t program);
+  OGLVertexAttribLayout(typedefs::ShaderProgramPtr_t program);
 
   DTOR_VIRTUAL(OGLVertexAttribLayout);
 
@@ -60,13 +59,12 @@ public:
 
 private:
   OGLVertexAttribLayoutHelper helper_;
-  ShaderProgramPtr_t program_;
+  typedefs::ShaderProgramPtr_t program_;
   VertexAttribDescUmap_t attribs_;
   u32_t attribOffset_;
   int maxVertexAttribs_;  // Максимальное количество атрибутов.
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLVERTEXATTRIBLAYOUT_HPP

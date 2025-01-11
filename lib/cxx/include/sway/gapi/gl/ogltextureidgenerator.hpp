@@ -8,8 +8,7 @@
 
 #include <queue>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 #define TEXTURE_IDS_CHUNK_CAPACITY 10
 
@@ -22,7 +21,7 @@ public:
    * @{
    */
 
-  static auto createInstance() -> IdGeneratorPtr_t;
+  static auto createInstance() -> typedefs::IdGeneratorPtr_t;
 
   /**
    * end of creators group
@@ -47,7 +46,6 @@ private:
   i32_t chunkCapacity_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLTEXTUREIDGENERATOR_HPP

@@ -4,8 +4,7 @@
 
 #include <GLES2/gl2.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLInfoHelper::OGLInfoHelper() {
 #ifdef _STUB
@@ -45,5 +44,4 @@ void OGLInfoHelper::ARB_GetInfoLog(u32_t obj, i32_t maxLength, i32_t *length, lp
   OGLInfoExtension::glGetInfoLogARB(obj, maxLength, length, infoLog);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

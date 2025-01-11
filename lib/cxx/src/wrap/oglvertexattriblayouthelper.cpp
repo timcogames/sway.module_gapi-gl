@@ -4,8 +4,7 @@
 
 #include <GLES2/gl2.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLVertexAttribLayoutHelper::OGLVertexAttribLayoutHelper() {
 #ifdef _STUB
@@ -58,5 +57,4 @@ void OGLVertexAttribLayoutHelper::ARB_SetupVertexAttribPointer(
   OGLVertexAttribLayoutExtension::glVertexAttribPointerARB(index, size, type, normalized, stride, pointer);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

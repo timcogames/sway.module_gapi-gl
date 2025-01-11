@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 #include <sway/math.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLRenderBufferHelper {
 public:
@@ -56,7 +55,6 @@ public:
   void EXT_GetRenderBufferParameter(u32_t target, u32_t pname, i32_t *params);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLRENDERBUFFERHELPER_HPP

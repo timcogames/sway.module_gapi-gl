@@ -8,8 +8,7 @@
 #include <ostream>  // std::ostream
 #include <string>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class ShaderSource {
 public:
@@ -52,7 +51,7 @@ public:
    * @{
    */
 
-  static auto createInstance(u32_t major, lpcstr_t profile) -> ShaderPreprocessor::Ptr_t;
+  static auto createInstance(u32_t major, lpcstr_t profile) -> typedefs::ShaderPreprocessorPtr_t;
 
   /**
    * end of creators group
@@ -86,7 +85,6 @@ private:
   CompilerDefinitionContainer_t definitions_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSHADERPREPROCESSOR_HPP

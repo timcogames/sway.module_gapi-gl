@@ -7,8 +7,7 @@
 #include <sway/gapi/gl/wrap/genericmembermacros.hpp>
 #include <sway/gapi/typedefs.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLGenericBufferHelperIface {
 public:
@@ -99,7 +98,6 @@ public:
   void ARB_GetBufferParam(BufferTarget::Enum target, u32_t pname, i32_t *params);
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_WRAP_OGLGENERICBUFFERHELPER_HPP

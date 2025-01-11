@@ -4,8 +4,7 @@
 
 #include <GLES2/gl2.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLGenericShaderHelper::OGLGenericShaderHelper() {
 #ifdef _STUB
@@ -79,8 +78,8 @@ void OGLGenericShaderHelper::ARB_CompileShader(std::optional<u32_t> obj, i32_t *
   OGLInfoHelper::ARB_GetObjectParameter(obj.value(), GL_OBJECT_COMPILE_STATUS_ARB, status);
 }
 
-auto OGLGenericShaderHelper::EMU_GetAttribLocation(
-    [[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name) -> i32_t {
+auto OGLGenericShaderHelper::EMU_GetAttribLocation([[maybe_unused]] u32_t program, [[maybe_unused]] lpcstr_t name)
+    -> i32_t {
   return 0;
 }
 
@@ -92,5 +91,4 @@ auto OGLGenericShaderHelper::ARB_GetAttribLocation(u32_t program, lpcstr_t name)
   return OGLGenericShaderExtension::glGetAttribLocationARB(program, name);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

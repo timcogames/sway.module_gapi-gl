@@ -5,8 +5,7 @@
 #include <sway/gapi/gl/prereqs.hpp>
 #include <sway/gapi/gl/wrap/ogltexturehelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 class OGLTextureSampler : public TextureSampler {
 public:
@@ -21,7 +20,7 @@ public:
    * @{
    */
 
-  static auto createInstance(TexturePtr_t texture) -> TextureSamplerPtr_t;
+  static auto createInstance(typedefs::TexturePtr_t texture) -> typedefs::TextureSamplerPtr_t;
 
   /**
    * end of creators group
@@ -32,7 +31,7 @@ public:
 
 #pragma region "Ctors/Dtor"
 
-  OGLTextureSampler(TexturePtr_t texture);
+  OGLTextureSampler(typedefs::TexturePtr_t texture);
 
   DTOR_VIRTUAL(OGLTextureSampler);
 
@@ -48,10 +47,9 @@ public:
 
 private:
   OGLTextureHelper *helper_;
-  TexturePtr_t texture_;
+  typedefs::TexturePtr_t texture_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLTEXTURESAMPLER_HPP

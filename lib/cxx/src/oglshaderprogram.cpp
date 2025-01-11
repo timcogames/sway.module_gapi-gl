@@ -6,10 +6,9 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLShaderProgram::createInstance() -> ShaderProgramPtr_t {
+auto OGLShaderProgram::createInstance() -> typedefs::ShaderProgramPtr_t {
   auto *instance = new OGLShaderProgram();
   return instance;
 }
@@ -20,7 +19,7 @@ OGLShaderProgram::OGLShaderProgram()
     , validated_(false) {
   auto objectId = helper_->createProgram();
   if (objectId != 0) {
-    setUid(objectId);
+    setUniqueId(objectId);
   }
 }
 
@@ -29,26 +28,26 @@ OGLShaderProgram::~OGLShaderProgram() {
   std::for_each(shaders_.begin(), shaders_.end(), [this](auto pair) { detach(pair, false); });
   shaders_.clear();
 
-  auto programId = getUid().value();
+  auto programId = getUniqueId().value();
   helper_->deleteProgram(1, &programId);
 
   SAFE_DELETE_OBJECT(helper_);
 }
 
-void OGLShaderProgram::attach(ShaderPtr_t shader) {
+void OGLShaderProgram::attach(typedefs::ShaderPtr_t shader) {
   // glIsShader
   shaders_.insert(std::make_pair(shader->getType(), shader));
-  helper_->attachShader(getUid(), shader->getUid());
+  helper_->attachShader(getUniqueId(), shader->getUniqueId());
 }
 
-void OGLShaderProgram::detach(std::pair<ShaderType::Enum, ShaderPtr_t> pair, bool erasing) {
-  helper_->detachShader(getUid(), pair.second->getUid());
+void OGLShaderProgram::detach(std::pair<ShaderType::Enum, typedefs::ShaderPtr_t> pair, bool erasing) {
+  helper_->detachShader(getUniqueId(), pair.second->getUniqueId());
   if (erasing) {
     shaders_.erase(pair.first);
   }
 }
 
-auto OGLShaderProgram::getShader(ShaderType::Enum type) -> ShaderPtr_t {
+auto OGLShaderProgram::getShader(ShaderType::Enum type) -> typedefs::ShaderPtr_t {
   auto iter = shaders_.find(type);
   if (iter != shaders_.end()) {
     return iter->second;
@@ -59,57 +58,57 @@ auto OGLShaderProgram::getShader(ShaderType::Enum type) -> ShaderPtr_t {
 
 void OGLShaderProgram::link() {
   int status;  // Состояние шагов линковки.
-  helper_->linkProgram(getUid(), &status);
+  helper_->linkProgram(getUniqueId(), &status);
   linked_ = (status == GL_TRUE);
   if (!linked_) {
 #ifdef EMSCRIPTEN_PLATFORM
-    EM_ASM({ console.error("Error: " + UTF8ToString($0)); }, getUid().value());
+    EM_ASM({ console.error("Error: " + UTF8ToString($0)); }, getUniqueId().value());
 #else
-    throw OGLShaderProgramLinkageException(getUid().value());
+    throw OGLShaderProgramLinkageException(getUniqueId().value());
 #endif
   }
 }
 
 void OGLShaderProgram::validate() {
   int status;
-  helper_->validateProgram(getUid(), &status);
+  helper_->validateProgram(getUniqueId(), &status);
   validated_ = (status == GL_TRUE);
   if (!validated_) {
 #ifdef EMSCRIPTEN_PLATFORM
-    EM_ASM({ console.error("Error: " + UTF8ToString($0)); }, getUid().value());
+    EM_ASM({ console.error("Error: " + UTF8ToString($0)); }, getUniqueId().value());
 #else
-    throw OGLShaderProgramValidationException(getUid().value());
+    throw OGLShaderProgramValidationException(getUniqueId().value());
 #endif
   }
 }
 
 void OGLShaderProgram::use() {
-  if (getUid().value() > 0 && !isUsed()) {
-    helper_->useProgram(getUid());
+  if (getUniqueId().value() > 0 && !isUsed()) {
+    helper_->useProgram(getUniqueId());
 
     for (auto iter : uniformVec4fSet_) {
-      auto location = helper_->getUniformLocation(getUid(), iter.first.c_str());
+      auto location = helper_->getUniformLocation(getUniqueId(), iter.first.c_str());
       if (location != -1) {
         helper_->setUniformVec4f(location, iter.second);
       }
     }
 
     for (auto iter : uniformMat4fSet_) {
-      auto location = helper_->getUniformLocation(getUid(), iter.first.c_str());
+      auto location = helper_->getUniformLocation(getUniqueId(), iter.first.c_str());
       if (location != -1) {
         helper_->setUniformMatrix4f(location, 1, false, (float *)&iter.second);
       }
     }
 
     for (auto iter : uniform1iSet_) {
-      auto location = helper_->getUniformLocation(getUid(), iter.first.c_str());
+      auto location = helper_->getUniformLocation(getUniqueId(), iter.first.c_str());
       if (location != -1) {
         helper_->setUniform1i(location, iter.second);
       }
     }
 
     for (auto iter : uniform1fSet_) {
-      auto location = helper_->getUniformLocation(getUid(), iter.first.c_str());
+      auto location = helper_->getUniformLocation(getUniqueId(), iter.first.c_str());
       if (location != -1) {
         helper_->setUniform1f(location, iter.second);
       }
@@ -118,7 +117,7 @@ void OGLShaderProgram::use() {
 }
 
 void OGLShaderProgram::unuse() {
-  if (getUid().value() > 0 && isUsed()) {
+  if (getUniqueId().value() > 0 && isUsed()) {
     helper_->useProgram(0);
   }
 }
@@ -127,7 +126,7 @@ auto OGLShaderProgram::isUsed() const -> bool {
   i32_t current = 0;
   glGetIntegerv(GL_CURRENT_PROGRAM, &current);
 
-  return (current == (i32_t)getUid().value());
+  return (current == (i32_t)getUniqueId().value());
 }
 
 void OGLShaderProgram::setUniformVec4f(const std::string &uniform, const math::vec4f_t &vec) {
@@ -147,5 +146,4 @@ void OGLShaderProgram::setUniform1i(const std::string &uniform, i32_t val) { uni
 
 void OGLShaderProgram::setUniform1f(const std::string &uniform, f32_t val) { uniform1fSet_[uniform] = val; }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

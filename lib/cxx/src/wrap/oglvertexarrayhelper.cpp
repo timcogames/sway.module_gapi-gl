@@ -2,8 +2,7 @@
 #include <sway/gapi/gl/wrap/oglvertexarrayextension.hpp>
 #include <sway/gapi/gl/wrap/oglvertexarrayhelper.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLVertexArrayHelper::OGLVertexArrayHelper() {
 #ifdef _STUB
@@ -63,5 +62,4 @@ auto OGLVertexArrayHelper::APPLE_IsVertexArray(u32_t array) -> bool {
   return true;
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

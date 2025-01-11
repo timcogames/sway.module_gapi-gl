@@ -6,8 +6,7 @@
 #include <sway/gapi/gl/wrap/oglstatehelper.hpp>
 #include <sway/gapi/stateenableable.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 template <typename CONCRETE_DATA>
 struct OGLStateEnableable : public StateEnableable<CONCRETE_DATA> {
@@ -25,7 +24,6 @@ protected:
   OGLStateHelper *helper_;
 };
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
 
 #endif  // SWAY_GAPI_GL_OGLSTATEENABLEABLE_HPP

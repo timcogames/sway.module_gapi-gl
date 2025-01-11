@@ -7,8 +7,7 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
 OGLGenericBufferHelper::OGLGenericBufferHelper() {
 #ifdef _STUB
@@ -141,13 +140,13 @@ void OGLGenericBufferHelper::STD_FlushMappedBufferRange(BufferTarget::Enum targe
   glFlushMappedBufferRange(OGLBufferTargetConvertor::toGLenum(target), offset, length);
 }
 
-auto OGLGenericBufferHelper::EMU_MapBuffer(
-    [[maybe_unused]] BufferTarget::Enum target, [[maybe_unused]] u32_t access) -> void * {
+auto OGLGenericBufferHelper::EMU_MapBuffer([[maybe_unused]] BufferTarget::Enum target, [[maybe_unused]] u32_t access)
+    -> void * {
   return nullptr;
 }
 
-auto OGLGenericBufferHelper::STD_MapBuffer(
-    [[maybe_unused]] BufferTarget::Enum target, [[maybe_unused]] u32_t access) -> void * {
+auto OGLGenericBufferHelper::STD_MapBuffer([[maybe_unused]] BufferTarget::Enum target, [[maybe_unused]] u32_t access)
+    -> void * {
   // return glMapBuffer(OGLBufferTargetConvertor::toGLenum(target), access);
   std::cout << "[WARN] STD_MapBuffer" << std::endl;
   return nullptr;
@@ -171,8 +170,8 @@ auto OGLGenericBufferHelper::STD_MapBufferRange([[maybe_unused]] BufferTarget::E
   return glMapBufferRange(OGLBufferTargetConvertor::toGLenum(target), offset, length, access);
 }
 
-auto OGLGenericBufferHelper::EXT_MapBufferRange(
-    BufferTarget::Enum target, i32_t offset, i32_t length, u32_t access) -> void * {
+auto OGLGenericBufferHelper::EXT_MapBufferRange(BufferTarget::Enum target, i32_t offset, i32_t length, u32_t access)
+    -> void * {
   return OGLBufferExtension::glMapBufferRangeEXT(OGLBufferTargetConvertor::toGLenum(target), offset, length, access);
 }
 
@@ -209,5 +208,4 @@ void OGLGenericBufferHelper::ARB_GetBufferParam(BufferTarget::Enum target, u32_t
   OGLBufferExtension::glGetBufferParameterivARB(OGLBufferTargetConvertor::toGLenum(target), pname, params);
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi

@@ -1,10 +1,9 @@
 #include <sway/gapi/gl/oglclearflagconvertor.hpp>
 #include <sway/gapi/gl/oglviewport.hpp>
 
-NS_BEGIN_SWAY()
-NS_BEGIN(gapi)
+namespace sway::gapi {
 
-auto OGLViewport::createInstance() -> ViewportPtr_t {
+auto OGLViewport::createInstance() -> typedefs::ViewportPtr_t {
   auto instance = new OGLViewport();
   return instance;
 }
@@ -37,5 +36,4 @@ void OGLViewport::clear(ClearFlag flags) {
   glClear(OGLClearFlagConvertor::toGLbitfield(flags));
 }
 
-NS_END()  // namespace gapi
-NS_END()  // namespace sway
+}  // namespace sway::gapi
