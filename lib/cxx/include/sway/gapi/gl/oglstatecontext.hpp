@@ -29,7 +29,7 @@ public:
 
   OGLStateContext();
 
-  DTOR_VIRTUAL_DEFAULT(OGLStateContext);
+  virtual ~OGLStateContext() = default;
 
 #pragma endregion
 

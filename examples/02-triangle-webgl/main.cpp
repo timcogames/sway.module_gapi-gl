@@ -19,7 +19,7 @@ std::shared_ptr<pltf::EMSLooper> looper = nullptr;
 
 gapi::BufferSet bufset;
 gapi::ShaderProgram *program = nullptr;
-gapi::IdGenerator::Ptr_t bufIdgen = nullptr;
+gapi::typedefs::IdGeneratorPtr_t bufIdgen = nullptr;
 gapi::VertexAttribLayout *vlayout = nullptr;
 gapi::DrawCall *drawCall = nullptr;
 

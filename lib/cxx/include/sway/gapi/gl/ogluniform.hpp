@@ -37,15 +37,15 @@ public:
 #pragma region "Ctors/Dtor"
 
   /**
-   * \~russian @brief Конструктор класса.
-   *                  Выполняет инициализацию нового экземпляра класса.
+   * @brief \~english Constructor class. Performs initialization of a new instance of the class. \~russian Конструктор
+   * класса. Выполняет инициализацию нового экземпляра класса.
    */
   OGLUniform(std::optional<u32_t> programId, const std::string &name) {
     // glGetActiveUniform
     auto location = helper_.getUniformLocation(programId.value(), name.c_str());
   }
 
-  DTOR_VIRTUAL_DEFAULT(OGLUniform);
+  virtual ~OGLUniform() = default;
 
 #pragma endregion
 

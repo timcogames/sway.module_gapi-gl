@@ -64,7 +64,7 @@ public:
 
   OGLShaderPreprocessor(const core::Version &version);
 
-  DTOR_VIRTUAL_DEFAULT(OGLShaderPreprocessor);
+  virtual ~OGLShaderPreprocessor() = default;
 
 #pragma endregion
 

@@ -34,7 +34,7 @@ public:
 
   OGLTexture(typedefs::IdGeneratorPtr_t idgen, TextureTarget::Enum target);
 
-  DTOR_VIRTUAL_DEFAULT(OGLTexture);
+  virtual ~OGLTexture() = default;
 
 #pragma endregion
 
