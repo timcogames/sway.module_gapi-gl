@@ -9,7 +9,7 @@
 
 using namespace sway;
 
-std::shared_ptr<gapi::ConcreatePluginFunctionSet> functions = nullptr;
+std::shared_ptr<gapi::ConcretePluginFunctionSet> functions = nullptr;
 std::shared_ptr<gapi::Capability> capability = nullptr;
 std::shared_ptr<gapi::ShaderProgram> program = nullptr;
 gapi::IdGenerator::SharedPtr_t bufIdgen = nullptr;
@@ -29,7 +29,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   canvas->show();
   canvas->getContext()->makeCurrent();
 
-  functions = std::make_shared<gapi::ConcreatePluginFunctionSet>();
+  functions = std::make_shared<gapi::ConcretePluginFunctionSet>();
   gapi::pluginInitialize(functions.get());
   capability = functions->createCapability();
 

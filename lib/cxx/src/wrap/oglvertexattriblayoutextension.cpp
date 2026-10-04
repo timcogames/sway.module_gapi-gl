@@ -2,9 +2,9 @@
 
 namespace sway::gapi {
 
-core::TFunction<void(u32_t)> OGLVertexAttribLayoutExtension::glEnableVertexAttribArrayARB = nullptr;
-core::TFunction<void(u32_t)> OGLVertexAttribLayoutExtension::glDisableVertexAttribArrayARB = nullptr;
-core::TFunction<void(u32_t, i32_t, u32_t, u8_t, i32_t, const void *)>
+core::TFunctionPointer<void(u32_t)> OGLVertexAttribLayoutExtension::glEnableVertexAttribArrayARB = nullptr;
+core::TFunctionPointer<void(u32_t)> OGLVertexAttribLayoutExtension::glDisableVertexAttribArrayARB = nullptr;
+core::TFunctionPointer<void(u32_t, i32_t, u32_t, u8_t, i32_t, const void *)>
     OGLVertexAttribLayoutExtension::glVertexAttribPointerARB = nullptr;
 
 void OGLVertexAttribLayoutExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {

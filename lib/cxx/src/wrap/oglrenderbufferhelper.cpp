@@ -52,7 +52,7 @@ auto OGLRenderBufferHelper::STD_GenerateRenderBuffers([[maybe_unused]] i32_t num
     out.push_back(bufs[i]);
   }
 
-  SAFE_DELETE_ARRAY(bufs);
+  core::safeDeleteArray<u32_t>(bufs);
   return out;
 }
 
@@ -65,7 +65,7 @@ auto OGLRenderBufferHelper::EXT_GenerateRenderBuffers(i32_t num) -> std::vector<
     out.push_back(bufs[i]);
   }
 
-  SAFE_DELETE_ARRAY(bufs);
+  core::safeDeleteArray<u32_t>(bufs);
   return out;
 }
 

@@ -2,15 +2,15 @@
 
 namespace sway::gapi {
 
-core::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glGenTexturesEXT = nullptr;
-core::TFunction<void(i32_t, u32_t *)> OGLTextureExtension::glDeleteTexturesEXT = nullptr;
-core::TFunction<void(u32_t, u32_t)> OGLTextureExtension::glBindTextureEXT = nullptr;
-core::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, const void *)>
+core::TFunctionPointer<void(i32_t, u32_t *)> OGLTextureExtension::glGenTexturesEXT = nullptr;
+core::TFunctionPointer<void(i32_t, u32_t *)> OGLTextureExtension::glDeleteTexturesEXT = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t)> OGLTextureExtension::glBindTextureEXT = nullptr;
+core::TFunctionPointer<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, const void *)>
     OGLTextureExtension::glTextureImage2DEXT = nullptr;
-core::TFunction<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t, const void *)>
+core::TFunctionPointer<void(u32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t, const void *)>
     OGLTextureExtension::glTexSubImage2DEXT = nullptr;
-core::TFunction<void(u32_t)> OGLTextureExtension::glActiveTextureARB = nullptr;
-core::TFunction<void(u32_t, u32_t, const i32_t *)> OGLTextureExtension::glTexParameterIivEXT = nullptr;
+core::TFunctionPointer<void(u32_t)> OGLTextureExtension::glActiveTextureARB = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t, const i32_t *)> OGLTextureExtension::glTexParameterIivEXT = nullptr;
 
 void OGLTextureExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glGenTexturesEXT = exts({{"GL_EXT_texture_object", "glGenTexturesEXT"}});

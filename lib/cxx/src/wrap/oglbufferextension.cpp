@@ -2,19 +2,21 @@
 
 namespace sway::gapi {
 
-core::TFunction<void(i32_t, u32_t *)> OGLBufferExtension::glGenBuffersARB = nullptr;
-core::TFunction<void(i32_t, const u32_t *)> OGLBufferExtension::glDeleteBuffersARB = nullptr;
-core::TFunction<void(u32_t, u32_t)> OGLBufferExtension::glBindBufferARB = nullptr;
-core::TFunction<void(u32_t, u32_t, u32_t, ptrdiff_t, ptrdiff_t)> OGLBufferExtension::glBindBufferRangeEXT = nullptr;
-core::TFunction<void(u32_t, ptrdiff_t, const void *, u32_t)> OGLBufferExtension::glBufferDataARB = nullptr;
-core::TFunction<void(u32_t, ptrdiff_t, ptrdiff_t, const void *)> OGLBufferExtension::glBufferSubDataARB = nullptr;
-core::TFunction<void *(u32_t, i32_t, i32_t, u32_t)> OGLBufferExtension::glMapBufferRangeEXT = nullptr;
-core::TFunction<void *(u32_t, u32_t)> OGLBufferExtension::glMapBufferARB = nullptr;
-core::TFunction<void *(u32_t, u32_t)> OGLBufferExtension::glMapBufferOES = nullptr;
-core::TFunction<u8_t(u32_t)> OGLBufferExtension::glUnmapBufferARB = nullptr;
-core::TFunction<u8_t(u32_t)> OGLBufferExtension::glUnmapBufferOES = nullptr;
-core::TFunction<u8_t(u32_t)> OGLBufferExtension::glIsBufferARB = nullptr;
-core::TFunction<void(u32_t, u32_t, i32_t *)> OGLBufferExtension::glGetBufferParameterivARB = nullptr;
+core::TFunctionPointer<void(i32_t, u32_t *)> OGLBufferExtension::glGenBuffersARB = nullptr;
+core::TFunctionPointer<void(i32_t, const u32_t *)> OGLBufferExtension::glDeleteBuffersARB = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t)> OGLBufferExtension::glBindBufferARB = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t, u32_t, ptrdiff_t, ptrdiff_t)> OGLBufferExtension::glBindBufferRangeEXT =
+    nullptr;
+core::TFunctionPointer<void(u32_t, ptrdiff_t, const void *, u32_t)> OGLBufferExtension::glBufferDataARB = nullptr;
+core::TFunctionPointer<void(u32_t, ptrdiff_t, ptrdiff_t, const void *)> OGLBufferExtension::glBufferSubDataARB =
+    nullptr;
+core::TFunctionPointer<void *(u32_t, i32_t, i32_t, u32_t)> OGLBufferExtension::glMapBufferRangeEXT = nullptr;
+core::TFunctionPointer<void *(u32_t, u32_t)> OGLBufferExtension::glMapBufferARB = nullptr;
+core::TFunctionPointer<void *(u32_t, u32_t)> OGLBufferExtension::glMapBufferOES = nullptr;
+core::TFunctionPointer<u8_t(u32_t)> OGLBufferExtension::glUnmapBufferARB = nullptr;
+core::TFunctionPointer<u8_t(u32_t)> OGLBufferExtension::glUnmapBufferOES = nullptr;
+core::TFunctionPointer<u8_t(u32_t)> OGLBufferExtension::glIsBufferARB = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t, i32_t *)> OGLBufferExtension::glGetBufferParameterivARB = nullptr;
 
 void OGLBufferExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glGenBuffersARB = exts({{"GL_ARB_vertex_buffer_object", "glGenBuffersARB"}});

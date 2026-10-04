@@ -108,7 +108,7 @@ set_output_dir(${MODULE_GAPI_GL_BIN_DIR})
 include_directories("${X11_INC_DIRS}")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/lib/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_math/lib/cxx/include")
+include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_math/lib/cpp/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_gapi/api/cxx/include")
 include_directories("${MODULE_GAPI_GL_LIST_DIR}/submodules/sway.module_platform-glx11/lib/cxx/include")
 
@@ -234,8 +234,8 @@ endif()
 if(MODULE_GAPI_GL_ENABLE_EXAMPLES AND GLOB_EMSCRIPTEN_PLATFORM)
   message(STATUS "Examples have been enabled")
 
-  # add_subdirectory(examples/01-dyn-webgl)
-  add_subdirectory(examples/02-triangle-webgl)
+  add_subdirectory(examples/01-dyn-webgl)
+  # add_subdirectory(examples/02-triangle-webgl)
 endif()
 
 # ---------------------------------------------------------------------------------

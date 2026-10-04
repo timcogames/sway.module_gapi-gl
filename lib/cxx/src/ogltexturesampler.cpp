@@ -41,7 +41,7 @@ OGLTextureSampler::OGLTextureSampler(typedefs::TexturePtr_t texture)
     : helper_(new OGLTextureHelper())
     , texture_(texture) {}
 
-OGLTextureSampler::~OGLTextureSampler() { SAFE_DELETE_OBJECT(helper_); }
+OGLTextureSampler::~OGLTextureSampler() { core::safeDelete<OGLTextureHelper>(helper_); }
 
 void OGLTextureSampler::setWrapMode(TextureWrap::Enum wrapS, TextureWrap::Enum wrapT, TextureWrap::Enum wrapR) {
   texture_->bind();

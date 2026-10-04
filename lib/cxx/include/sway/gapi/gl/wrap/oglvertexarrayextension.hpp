@@ -8,16 +8,16 @@ namespace sway::gapi {
 
 class OGLVertexArrayExtension {
 public:
-  static core::TFunction<void(i32_t, u32_t *)> glGenVertexArraysAPPLE;
-  static core::TFunction<void(i32_t, const u32_t *)> glDeleteVertexArraysAPPLE;
-  static core::TFunction<void(u32_t)> glBindVertexArrayAPPLE;
-  static core::TFunction<bool(u32_t)> glIsVertexArrayAPPLE;
+  static core::TFunctionPointer<void(i32_t, u32_t *)> glGenVertexArraysAPPLE;
+  static core::TFunctionPointer<void(i32_t, const u32_t *)> glDeleteVertexArraysAPPLE;
+  static core::TFunctionPointer<void(u32_t)> glBindVertexArrayAPPLE;
+  static core::TFunctionPointer<bool(u32_t)> glIsVertexArrayAPPLE;
 
   // Vertex arrays are an extension on OpenGL ES 2.0
-  static core::TFunction<void(i32_t, u32_t *)> glGenVertexArraysOES;
-  static core::TFunction<void(i32_t, const u32_t *)> glDeleteVertexArraysOES;
-  static core::TFunction<void(u32_t)> glBindVertexArrayOES;
-  static core::TFunction<bool(u32_t)> glIsVertexArrayOES;
+  static core::TFunctionPointer<void(i32_t, u32_t *)> glGenVertexArraysOES;
+  static core::TFunctionPointer<void(i32_t, const u32_t *)> glDeleteVertexArraysOES;
+  static core::TFunctionPointer<void(u32_t)> glBindVertexArrayOES;
+  static core::TFunctionPointer<bool(u32_t)> glIsVertexArrayOES;
 
   static void define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &);
 };

@@ -8,19 +8,19 @@ namespace sway::gapi {
 
 class OGLShaderProgramExtension {
 public:
-  static core::TFunction<u32_t()> glCreateProgramObjectARB;
-  static core::TFunction<void(i32_t, const u32_t *)> glDeleteProgramsARB;
-  static core::TFunction<void(u32_t, u32_t)> glAttachObjectARB;
-  static core::TFunction<void(u32_t, u32_t)> glDetachObjectARB;
-  static core::TFunction<void(u32_t)> glLinkProgramARB;
-  static core::TFunction<void(u32_t)> glValidateProgramARB;
-  static core::TFunction<void(u32_t)> glUseProgramObjectARB;
-  static core::TFunction<i32_t(u32_t, lpcstr_t)> glGetUniformLocationARB;
-  static core::TFunction<void(i32_t, i32_t)> glUniform1iARB;
-  static core::TFunction<void(i32_t, f32_t)> glUniform1fARB;
-  static core::TFunction<void(i32_t, f32_t, f32_t, f32_t, f32_t)> glUniform4fARB;
-  static core::TFunction<void(i32_t, i32_t, f32_t *)> glUniform4fvARB;
-  static core::TFunction<void(i32_t, i32_t, bool, const f32_t *)> glUniformMatrix4fvARB;
+  static core::TFunctionPointer<u32_t()> glCreateProgramObjectARB;
+  static core::TFunctionPointer<void(i32_t, const u32_t *)> glDeleteProgramsARB;
+  static core::TFunctionPointer<void(u32_t, u32_t)> glAttachObjectARB;
+  static core::TFunctionPointer<void(u32_t, u32_t)> glDetachObjectARB;
+  static core::TFunctionPointer<void(u32_t)> glLinkProgramARB;
+  static core::TFunctionPointer<void(u32_t)> glValidateProgramARB;
+  static core::TFunctionPointer<void(u32_t)> glUseProgramObjectARB;
+  static core::TFunctionPointer<i32_t(u32_t, lpcstr_t)> glGetUniformLocationARB;
+  static core::TFunctionPointer<void(i32_t, i32_t)> glUniform1iARB;
+  static core::TFunctionPointer<void(i32_t, f32_t)> glUniform1fARB;
+  static core::TFunctionPointer<void(i32_t, f32_t, f32_t, f32_t, f32_t)> glUniform4fARB;
+  static core::TFunctionPointer<void(i32_t, i32_t, f32_t *)> glUniform4fvARB;
+  static core::TFunctionPointer<void(i32_t, i32_t, bool, const f32_t *)> glUniformMatrix4fvARB;
 
   static void define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &);
 };

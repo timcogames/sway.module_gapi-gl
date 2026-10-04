@@ -2,16 +2,16 @@
 
 namespace sway::gapi {
 
-core::TFunction<void(i32_t, u32_t *)> OGLRenderBufferExtension::glGenRenderbuffersEXT = nullptr;
-core::TFunction<void(i32_t, const u32_t *)> OGLRenderBufferExtension::glDeleteRenderbuffersEXT = nullptr;
-core::TFunction<void(u32_t, u32_t)> OGLRenderBufferExtension::glBindRenderbufferEXT = nullptr;
-core::TFunction<bool(u32_t)> OGLRenderBufferExtension::glIsRenderbufferEXT = nullptr;
-core::TFunction<void(u32_t, u32_t, i32_t, i32_t)> OGLRenderBufferExtension::glRenderbufferStorageEXT = nullptr;
-core::TFunction<void(u32_t, i32_t, u32_t, i32_t, i32_t)> OGLRenderBufferExtension::glRenderbufferStorageMultisampleEXT =
-    nullptr;
-core::TFunction<void(i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t)>
+core::TFunctionPointer<void(i32_t, u32_t *)> OGLRenderBufferExtension::glGenRenderbuffersEXT = nullptr;
+core::TFunctionPointer<void(i32_t, const u32_t *)> OGLRenderBufferExtension::glDeleteRenderbuffersEXT = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t)> OGLRenderBufferExtension::glBindRenderbufferEXT = nullptr;
+core::TFunctionPointer<bool(u32_t)> OGLRenderBufferExtension::glIsRenderbufferEXT = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t, i32_t, i32_t)> OGLRenderBufferExtension::glRenderbufferStorageEXT = nullptr;
+core::TFunctionPointer<void(u32_t, i32_t, u32_t, i32_t, i32_t)>
+    OGLRenderBufferExtension::glRenderbufferStorageMultisampleEXT = nullptr;
+core::TFunctionPointer<void(i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, i32_t, u32_t, u32_t)>
     OGLRenderBufferExtension::glBlitFramebufferEXT = nullptr;
-core::TFunction<void(u32_t, u32_t, i32_t *)> OGLRenderBufferExtension::glGetRenderbufferParameterivEXT = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t, i32_t *)> OGLRenderBufferExtension::glGetRenderbufferParameterivEXT = nullptr;
 
 void OGLRenderBufferExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glGenRenderbuffersEXT = exts({{"GL_EXT_direct_state_access", "glGenRenderbuffersEXT"}});

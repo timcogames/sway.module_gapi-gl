@@ -4,6 +4,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
+#include <sway/gapiplugin.hpp>
 #include <sway/math.hpp>
 #include <sway/pltf.hpp>
 #include <sway/pltf/timer.hpp>

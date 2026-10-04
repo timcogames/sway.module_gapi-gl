@@ -27,7 +27,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
   canvas->show();
   canvas->getContext()->makeCurrent();
 
-  auto *functions = new gapi::ConcreatePluginFunctionSet();
+  auto *functions = new gapi::ConcretePluginFunctionSet();
   gapi::pluginInitialize(functions);
   auto capability = functions->createCapability();
 

@@ -3,6 +3,7 @@
 #include <sway/core.hpp>
 #include <sway/gapi.hpp>
 #include <sway/gapi/gl.hpp>
+#include <sway/gapiplugin.hpp>
 #include <sway/math.hpp>
 #include <sway/pltf/web/emslooper.hpp>
 
@@ -53,7 +54,7 @@ auto main() -> int {
   glClearColor(1, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  auto *functions = new gapi::ConcreatePluginFunctionSet();
+  auto *functions = new gapi::ConcretePluginFunctionSet();
   gapi::pluginInitialize(functions);
   auto capability = functions->createCapability();
 

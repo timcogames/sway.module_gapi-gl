@@ -3,18 +3,17 @@
 NS_BEGIN_SWAY()
 
 void loadGapiPlugin(lpcstr_t plugname) {
-  auto *plug = new core::Plugin(core::generic::io::Path(plugname), RTLD_NOW);
-  auto *plugFuncset = new gapi::ConcreatePluginFunctionSet();
+  auto *plug = new core::Plugin(core::Path(plugname), RTLD_NOW);
+  auto *plugFuncset = new gapi::ConcretePluginFunctionSet();
 
   plug->initialize(plugFuncset);
 
   auto capability = plugFuncset->createCapability();
-  auto capabilityPtr = capability.get();
 
   // clang-format off
   EM_ASM({
     console.log(UTF8ToString($0));
-  }, ((gapi::OGLCapability *)capabilityPtr)->toStr().c_str());  // clang-format on
+  }, ((gapi::OGLCapability *)capability)->toStr().c_str());  // clang-format on
 }
 
 void createContext(const std::string &canvasId) {

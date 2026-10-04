@@ -35,7 +35,7 @@ auto OGLIdGenerator<TYPE>::getNextUid() -> ObjectUid_t {
       this->push(uids[i]);
     }
 
-    SAFE_DELETE_ARRAY(uids);
+    core::safeDeleteArray<ObjectUid_t>(uids);
   }
 
   used_.push_back(this->front());

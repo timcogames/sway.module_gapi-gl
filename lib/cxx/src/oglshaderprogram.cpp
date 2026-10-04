@@ -31,7 +31,7 @@ OGLShaderProgram::~OGLShaderProgram() {
   auto programId = getUniqueId().value();
   helper_->deleteProgram(1, &programId);
 
-  SAFE_DELETE_OBJECT(helper_);
+  core::safeDelete<OGLShaderProgramHelper>(helper_);
 }
 
 void OGLShaderProgram::attach(typedefs::ShaderPtr_t shader) {

@@ -2,19 +2,20 @@
 
 namespace sway::gapi {
 
-core::TFunction<u32_t()> OGLShaderProgramExtension::glCreateProgramObjectARB = nullptr;
-core::TFunction<void(i32_t, const u32_t *)> OGLShaderProgramExtension::glDeleteProgramsARB = nullptr;
-core::TFunction<void(u32_t, u32_t)> OGLShaderProgramExtension::glAttachObjectARB = nullptr;
-core::TFunction<void(u32_t, u32_t)> OGLShaderProgramExtension::glDetachObjectARB = nullptr;
-core::TFunction<void(u32_t)> OGLShaderProgramExtension::glLinkProgramARB = nullptr;
-core::TFunction<void(u32_t)> OGLShaderProgramExtension::glValidateProgramARB = nullptr;
-core::TFunction<void(u32_t)> OGLShaderProgramExtension::glUseProgramObjectARB = nullptr;
-core::TFunction<i32_t(u32_t, lpcstr_t)> OGLShaderProgramExtension::glGetUniformLocationARB = nullptr;
-core::TFunction<void(i32_t, i32_t)> OGLShaderProgramExtension::glUniform1iARB = nullptr;
-core::TFunction<void(i32_t, f32_t)> OGLShaderProgramExtension::glUniform1fARB = nullptr;
-core::TFunction<void(i32_t, f32_t, f32_t, f32_t, f32_t)> OGLShaderProgramExtension::glUniform4fARB = nullptr;
-core::TFunction<void(i32_t, i32_t, f32_t *)> OGLShaderProgramExtension::glUniform4fvARB = nullptr;
-core::TFunction<void(i32_t, i32_t, bool, const f32_t *)> OGLShaderProgramExtension::glUniformMatrix4fvARB = nullptr;
+core::TFunctionPointer<u32_t()> OGLShaderProgramExtension::glCreateProgramObjectARB = nullptr;
+core::TFunctionPointer<void(i32_t, const u32_t *)> OGLShaderProgramExtension::glDeleteProgramsARB = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t)> OGLShaderProgramExtension::glAttachObjectARB = nullptr;
+core::TFunctionPointer<void(u32_t, u32_t)> OGLShaderProgramExtension::glDetachObjectARB = nullptr;
+core::TFunctionPointer<void(u32_t)> OGLShaderProgramExtension::glLinkProgramARB = nullptr;
+core::TFunctionPointer<void(u32_t)> OGLShaderProgramExtension::glValidateProgramARB = nullptr;
+core::TFunctionPointer<void(u32_t)> OGLShaderProgramExtension::glUseProgramObjectARB = nullptr;
+core::TFunctionPointer<i32_t(u32_t, lpcstr_t)> OGLShaderProgramExtension::glGetUniformLocationARB = nullptr;
+core::TFunctionPointer<void(i32_t, i32_t)> OGLShaderProgramExtension::glUniform1iARB = nullptr;
+core::TFunctionPointer<void(i32_t, f32_t)> OGLShaderProgramExtension::glUniform1fARB = nullptr;
+core::TFunctionPointer<void(i32_t, f32_t, f32_t, f32_t, f32_t)> OGLShaderProgramExtension::glUniform4fARB = nullptr;
+core::TFunctionPointer<void(i32_t, i32_t, f32_t *)> OGLShaderProgramExtension::glUniform4fvARB = nullptr;
+core::TFunctionPointer<void(i32_t, i32_t, bool, const f32_t *)> OGLShaderProgramExtension::glUniformMatrix4fvARB =
+    nullptr;
 
 void OGLShaderProgramExtension::define(const std::function<core::ProcAddress_t(ExtensionInitList_t)> &exts) {
   glCreateProgramObjectARB = exts({{"GL_ARB_shader_objects", "glCreateProgramObjectARB"}});
