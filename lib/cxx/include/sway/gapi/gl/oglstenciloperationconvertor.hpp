@@ -51,7 +51,7 @@ public:
       case GL_INVERT:
         return StencilOp::Enum::INVERT;
       default:
-        return StencilOp::Enum::NONE;
+        return StencilOp::Enum::INITIAL;
     }
   }
 };

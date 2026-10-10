@@ -33,7 +33,7 @@ struct OGLTextureTargetConvertor final {
       case GL_TEXTURE_CUBE_MAP:
         return TextureTarget::Enum::CUBE_MAP;
       default:
-        return TextureTarget::Enum::NONE;
+        return TextureTarget::Enum::INITIAL;
     }
   }
 };

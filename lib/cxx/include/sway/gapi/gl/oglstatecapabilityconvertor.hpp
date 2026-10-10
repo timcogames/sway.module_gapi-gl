@@ -41,7 +41,7 @@ public:
       case GL_STENCIL_TEST:
         return StateCapability::Enum::STENCIL_TEST;
       default:
-        return StateCapability::Enum::NONE;
+        return StateCapability::Enum::INITIAL;
     }
   }
 };

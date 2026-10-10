@@ -62,7 +62,7 @@ public:
       case GL_SRC_ALPHA_SATURATE:
         return BlendFn::Enum::SRC_ALPHA_SATURATE;
       default:
-        return BlendFn::Enum::NONE;
+        return BlendFn::Enum::INITIAL;
     }
   }
 };

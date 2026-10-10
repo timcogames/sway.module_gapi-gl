@@ -67,7 +67,7 @@ void OGLStateContext::setPolygonMode(PolygonMode::Enum mode) {
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
       break;
 
-    case PolygonMode::Enum::NONE:
+    case PolygonMode::Enum::INITIAL:
     case PolygonMode::Enum::FILL:
     default:
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

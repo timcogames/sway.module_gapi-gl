@@ -51,7 +51,7 @@ public:
       case GL_GREATER:
         return CompareFn::Enum::GREATER;
       default:
-        return CompareFn::Enum::NONE;
+        return CompareFn::Enum::INITIAL;
     }
   }
 };

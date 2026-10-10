@@ -28,7 +28,7 @@ struct OGLFrontFaceConvertor final {
       case GL_CCW:
         return FrontFace::Enum::COUNTER_CLOCK_WISE;
       default:
-        return FrontFace::Enum::NONE;
+        return FrontFace::Enum::INITIAL;
     }
   }
 };
